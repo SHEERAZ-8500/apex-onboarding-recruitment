@@ -1,0 +1,140 @@
+<section class="container-fluid">
+<div class="button-groups">
+    <div class="first-button-group">
+        <button style="background: var(--purple-1) !important; color: white;">Jobs</button>
+        <button routerLink="/panel/employes">Candidates</button>
+        <button>Messages</button>
+
+    </div>
+    <div class="job-post-button">
+        <button>Post A Job</button>
+
+    </div>
+</div>
+
+<div class="row  wraper ">
+    <!-- Left Side -->
+    <div class="col-lg-8 col-12 mb-3">
+        <div class="colloms">
+            <a class="back-all-jobs">&lt; Back to all jobs</a>
+            <div class="dev-sections">
+                <div>
+                    <h3 class="mt-2 mb-1 web-developer">Web Developer</h3>
+                    <p class="location ">Globel Inc. - Miami, Florida</p>
+                </div>
+                <div>
+                    <button>Sponsor this job</button>
+                </div>
+            </div>
+
+            <!-- Clicks Section -->
+            <h5 class="text-lg font-medium mb-3" style="color: var(--gray-color-1);">Clicks</h5>
+            <div class="flex flex-wrap items-center justify-between">
+                <div class="week-click text-end">
+                    <p>Click This Week</p>
+                    <h2>122</h2>
+                </div>
+                <div class="w-full lg:w-7/12 ">
+                    <canvas id="clickChart" style="width:100%!important;"></canvas>
+                </div>
+                <div class="w-full text-start my-4 week-click pt-5">
+
+                    <button class="first">
+                        Sponsor Job for More Clicks
+                    </button>
+                    <button class="second">
+                        Improve Job Description
+                    </button>
+                </div>
+            </div>
+
+            <!-- Candidates Section -->
+            <div class="mt-5 candidates-main-div">
+                <h5 class="candidates my-3">Candidates</h5>
+                <div class="row  candidates-box-main-div">
+                    <div class="col-md-5 col-12 candidates-box text-center">
+                        <p class="text-[#9ca3af] mb-1">Awaiting Review</p>
+                        <h3 class="text-3xl font-bold text-white">41</h3>
+                    </div>
+                    <div class="col-md-5 col-12 candidates-box text-center">
+                        <p class="text-[#9ca3af] mb-1">Total (Excluding Rejected)</p>
+                        <h3 class="text-3xl font-bold text-white">51</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="rejected">
+                <p>0 Rejected</p>
+            </div>
+            <div class="row job-disc">
+                <div class="col-12">
+                    <h4>Job Description</h4>
+                    <ul>
+                        <li>Perform day to day tasks. </li>
+                        <li>Office daily work. </li>
+                        <li>Maintain records of the office.</li>
+                        <li>Other office activity </li>
+                        <li>Manage Client </li>
+                    </ul>
+                    <p>Expected Stan Date: 23/11/2020 </p>
+                    <p>Job Types: Full-time, Fresher </p>
+                    <p>Salary: From $8,000.00 per month</p>
+                    <h5 class="fw-500">Speak with the employer</h5>
+                    <p>+1 123 456 7890 </p>
+                </div>
+            </div>
+            <div class="row questions">
+                <div class="col-12">
+                    <h4 class="mb-25">Application Questions </h4>
+
+                    <h5>You have requested that Indeed ask candidates the following questions:</h5>
+                    <ul>
+                        <li>What is the highest level of education you have completed? </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Side -->
+    <div class="col-lg-4 col-12 ">
+        <div class="colloms">
+            <button class="edit-job-button">Edit Job</button>
+
+            <div class="job-status mb-3">
+                <div class=" flex justify-between items-center cursor-pointer py-3">
+                    <span>Close Job</span> <i class="fa-regular fa-circle-right"></i>
+                </div>
+                <div class=" flex justify-between items-center cursor-pointer py-3"
+                    style="border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+                    <span>View Cost & Performance</span><i class="fa-regular fa-circle-right"></i>
+                </div>
+                <div class="flex justify-between items-center cursor-pointer py-3">
+                    <span>Find Candidates for this Job</span> <i class="fa-regular fa-circle-right"></i>
+                </div>
+            </div>
+
+            <button class="add-candidate-button">Add
+                Candidate</button>
+
+            <div class="text-sm mb-4 views">
+                <p>Views: <span>251</span></p>
+                <p style="color: var( --purple-1);">Candidates: <span style="color: var( --purple-1);">251</span></p>
+                <p>Status: <span>Open</span> - <span class="pause">Pause</span></p>
+                <p>Created: 18-Nov</p>
+            </div>
+
+            <button class="view-job">
+                View Public Job Page
+            </button>
+            <div class="promote">
+                <p>Promote this job for more candidates:</p>
+            </div>
+            <div class="social-media-button">
+                <button style="background-color: #3b5998;"><i class="fa-brands fa-facebook-f"></i> Share</button>
+                <button style="background-color: #1da1f2;"> <i class="fa-brands fa-twitter"></i>Tweet</button>
+                <button style="background-color: #0077b5;"><i class="fa-brands fa-linkedin"></i>In Share</button>
+            </div>
+        </div>
+    </div>
+</div>
+</section>

@@ -1,0 +1,31 @@
+.builder-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.builder {
+  flex: 1;
+  overflow: auto;
+  border: 1px solid #ddd;
+}
+
+.actions {
+  padding: 10px;
+  text-align: right;
+  border-top: 1px solid #eee;
+  background: #fafafa;
+
+  .save-btn {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+
+    &:hover {
+      background: #0056b3;
+    }
+  }
+}

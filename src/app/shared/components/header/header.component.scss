@@ -1,0 +1,187 @@
+.header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    ;
+    padding-inline: 10px;
+
+    .button-group {
+        display: flex;
+        align-items: center;
+        justify-content: end;
+        gap: 8px;
+
+        button {
+            width: 45px;
+            height: 45px;
+            // padding: 10px;
+            align-items: center;
+            line-height: 28px;
+            font-size: 17px;
+            box-shadow: 0 3px 5px 1px rgba(0, 0, 0, 0);
+            border-radius: 10px;
+            outline: none;
+            border: none;
+            background-color: var(--second-primary-color);
+            color: var(--purple-1);
+        }
+
+        button:hover {
+            background-color: #7047ee !important;
+            color: #ffffff !important;
+        }
+    }
+
+    input {
+        height: 45px;
+        width: 250px;
+        border-radius: 10px;
+        background-color: var(--second-primary-color);
+        color: #b5b5c3;
+        border: none;
+        outline: none;
+        padding-inline-start: 10px;
+    }
+
+    .search-box {
+        position: relative;
+        display: inline-block;
+    }
+
+    .search-box i {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        /* center vertically */
+        color: #b5b5c3;
+        cursor: pointer;
+        font-size: 16px;
+    }
+}
+
+.menu-btn {
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* vertically center */
+    align-items: center;
+    /* horizontally center */
+    width: 45px;
+    height: 45px;
+    padding: 0;
+    background-color: var(--second-primary-color);
+    box-shadow: 0 3px 5px 1px rgba(0, 0, 0, 0);
+    border-radius: 10px;
+}
+
+.menu-btn:hover {
+    background-color: #7047ee !important;
+
+    span:nth-child(1) {
+        background-color: #ffffff !important;
+
+
+    }
+
+    span:nth-child(2),
+    span:nth-child(3) {
+        background-color: #ffffff44 !important;
+    }
+}
+
+.menu-btn span {
+    display: block;
+    width: 17px;
+    height: 3px;
+    border-radius: 3px;
+    margin: 1.5px 0;
+    /* space between bars */
+}
+
+/* First bar */
+.menu-btn span:nth-child(1) {
+    background-color: var(--purple-1);
+}
+
+/* Second & third bars */
+.menu-btn span:nth-child(2),
+.menu-btn span:nth-child(3) {
+    background-color: #0080ff5e;
+}
+
+.bell-btn {
+    position: relative;
+    width: 45px;
+    height: 45px;
+    border: none;
+    border-radius: 50%;
+    background-color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.bell-btn:hover {
+    i {
+        color: #ffffff !important;
+    }
+
+    .wave {
+        border: 2px solid #ffffff !important;
+    }
+}
+
+.bell-btn i {
+    font-size: 17px;
+    color: var(--purple-1);
+    position: relative;
+    z-index: 2;
+}
+
+/* Wave effect */
+.bell-btn .wave {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 36px;
+    height: 36px;
+    border: 2px solid var(--purple-1);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    animation: waveEffect 2s infinite ease-out;
+}
+
+@keyframes waveEffect {
+    0% {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(2.2);
+        opacity: 0;
+    }
+}
+
+.botstrap.nav {
+    display: none;
+}
+
+@media (max-width: 1000px) {
+    .display-none-style {
+        display: none;
+    }
+
+    .search-box{
+        display: none!important;
+    }
+}

@@ -1,0 +1,49 @@
+.btn-groups-main-div {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 0;
+    flex-wrap: wrap;
+    width: 100%;
+    background-color: var(--second-primary-color);
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 15px;
+
+    button {
+        background: transparent;
+        outline: none;
+        border: 1px solid #566f9e;
+        height: 60px;
+        width: 170px;
+        color: var(--gray-color-1);
+
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        span {
+            display: block;
+        }
+
+        /* Hover optional */
+        &:hover {
+            background: rgba(86, 111, 158, 0.2);
+        }
+    }
+
+    /* ✅ Active Button Style */
+    button.active {
+        background: var(--purple-1);
+        color: #fff;
+        border-color: var(--purple-1);
+    }
+
+}
+
+
+@media (max-width: 850px) {
+    .btn-groups-main-div{
+        justify-content: center!important;
+    }
+}

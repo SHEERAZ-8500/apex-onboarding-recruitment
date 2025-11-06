@@ -1,0 +1,119 @@
+
+
+/* Centering the Login Card */
+.login-wrapper {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.wellcom-back{
+  color: var(--gray-color-1);
+}
+/* Login Card */
+.login-card {
+  background-color: var(--second-primary-color);
+  padding: 2rem;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0px 4px 15px rgba(82, 75, 75, 0.3);
+}
+label{
+    color: var(--gray-color-1);
+}
+
+/* Input Fields */
+.input-field {
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--white-color-1);
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.input-field::placeholder {
+  color: var(--gray-color-2);
+}
+
+/* Eye Icon */
+.toggle-eye {
+  position: absolute;
+  right: 15px;
+  top: 65%;
+  transform: translateY(-30%);
+  cursor: pointer;
+  color: var(--gray-color-1);
+  font-size: 18px;
+
+}
+
+/* Button */
+.login-btn {
+  background-color: var(--purple-1);
+  color: white;
+  font-weight: 600;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  height: 45px;
+  transition: 0.3s ease;
+  display: flex;
+//   align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.login-btn:hover {
+  background-color: var( --primary-color);
+  color: var(--white-color-1);
+}
+
+
+
+
+// loader
+
+.lds-hourglass,
+.lds-hourglass:after {
+  box-sizing: border-box;
+}
+
+.lds-hourglass {
+  display: inline-block;
+  position: relative;
+  width: 14px;   
+  height: 14px;
+  color: #fff;   
+  vertical-align: middle;
+}
+
+.lds-hourglass:after {
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  width: 0;
+  height: 0;
+  box-sizing: border-box;
+  border: 15px solid currentColor; /* 👈 smaller border */
+  border-color: currentColor transparent currentColor transparent;
+  animation: lds-hourglass 2s infinite;
+}
+
+@keyframes lds-hourglass {
+  0% {
+    transform: rotate(0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  50% {
+    transform: rotate(900deg);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  100% {
+    transform: rotate(1800deg);
+  }
+}
+
+
+
+

@@ -1,1 +1,75 @@
 /* You can add global styles to this file, and also import other style files */
+* {
+    box-sizing: border-box;
+    padding: 0%;
+    margin: 0%;
+
+}
+
+:root {
+    --primary-color: #15243e;
+    --second-primary-color: #0c1a32;
+    --gray-color-1:#b5b5c3;
+    --gray-color-2:#8daac6 ;
+    --purple-1:#7047ee;
+    --border-color:#5C607B;
+    --white-color-1:#ffffffd9;
+    --light-purple:#e8e1ff;
+    --red-color:#ee3158 ;
+    
+}
+
+body{
+    background-color: var(--primary-color);
+    overflow: hidden;
+}
+
+.page-title{
+  color: var(--gray-color-1);
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: 10px;
+  
+}
+
+
+
+// padination
+
+
+
+.page-link {
+  background-color: var(--second-primary-color) !important;
+  color: #fff !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+.page-link:hover {
+  background-color: var(--second-primary-color) !important;
+  color: var(--purple-1) !important;
+  cursor: pointer;
+}
+
+.page-item.active .page-link {
+  background-color: var(--purple-1) !important;
+  /* Active color */
+}
+
+
+:host ::ng-deep {
+  .pagination {
+    .page-item {
+        &.active .page-link {
+        background-color: var(--purple-1);
+        color: #fff;
+      }
+
+      &.disabled .page-link {
+        opacity: 0.4;
+        pointer-events: none;
+      }
+    }
+  }
+}
