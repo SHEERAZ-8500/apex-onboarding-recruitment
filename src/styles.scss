@@ -1,37 +1,37 @@
 /* You can add global styles to this file, and also import other style files */
 * {
-    box-sizing: border-box;
-    padding: 0%;
-    margin: 0%;
+  box-sizing: border-box;
+  padding: 0%;
+  margin: 0%;
 
 }
 
 :root {
-    --primary-color: #15243e;
-    --second-primary-color: #0c1a32;
-    --gray-color-1:#b5b5c3;
-    --gray-color-2:#8daac6 ;
-    --purple-1:#7047ee;
-    --border-color:#5C607B;
-    --white-color-1:#ffffffd9;
-    --light-purple:#e8e1ff;
-    --red-color:#ee3158 ;
-    
+  --primary-color: #15243e;
+  --second-primary-color: #0c1a32;
+  --gray-color-1: #b5b5c3;
+  --gray-color-2: #8daac6;
+  --purple-1: #7047ee;
+  --border-color: #5C607B;
+  --white-color-1: #ffffffd9;
+  --light-purple: #e8e1ff;
+  --red-color: #ee3158;
+
 }
 
-body{
-    background-color: var(--primary-color);
-    overflow: hidden;
+body {
+  background-color: var(--primary-color);
+  overflow: hidden;
 }
 
-.page-title{
+.page-title {
   color: var(--gray-color-1);
   font-size: 15px;
   display: flex;
   align-items: center;
   justify-content: start;
   gap: 10px;
-  
+
 }
 
 
@@ -61,7 +61,7 @@ body{
 :host ::ng-deep {
   .pagination {
     .page-item {
-        &.active .page-link {
+      &.active .page-link {
         background-color: var(--purple-1);
         color: #fff;
       }
@@ -72,4 +72,136 @@ body{
       }
     }
   }
+}
+
+
+
+
+// form io styling
+
+
+
+.builder,
+.formio.builder.row.formbuilder {
+  overflow-x: hidden !important;
+}
+
+/* Optional — inner area me thoda spacing handle karne ke liye */
+.formarea {
+  overflow-x: hidden !important;
+}
+
+.formarea label,
+.formarea .form-check-label,
+.formarea .formio-component label,
+.formarea .formio-component span {
+  color: white !important;
+}
+
+/* File selector ke text aur links */
+.fileSelector,
+.fileSelector a,
+.fileSelector span,
+.fileSelector i {
+  color: white !important;
+}
+
+/* Sidebar panels ke liye custom background aur border color */
+.form-builder-panel {
+  background-color: var(--second-primary-color, #0c1a32) !important;
+  border: 1px solid var(--border-color, #5C607B) !important;
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+
+/* Header ka color thoda distinct banane ke liye */
+.form-builder-panel .card-header {
+  background-color: var(--second-primary-color, #0c1a32) !important;
+  border-bottom: 1px solid var(--border-color, #5C607B) !important;
+  color: #fff;
+  /* text readable rahe */
+}
+
+/* Buttons aur text ke liye thoda spacing aur color contrast */
+.builder-group-button {
+  color: #fff !important;
+  font-weight: 500;
+  text-align: left;
+}
+
+/* Optional: hover pe halka highlight effect */
+.form-builder-panel:hover {
+  box-shadow: 0 0 6px rgba(92, 96, 123, 0.5);
+}
+
+.formarea input,
+.formarea textarea,
+.formarea .dropdown,
+.formarea select {
+  border-radius: 6px !important;
+  background-color: var(--second-primary-color) !important;
+  color: #b5b5c3 !important;
+  border: 1px solid var(--border-color) !important;
+  outline: none !important;
+  padding-inline-start: 10px !important;
+  margin: 10px auto !important;
+  display: block !important;
+}
+
+.formarea .choices__list {
+  background-color: var(--second-primary-color) !important;
+  color: #b5b5c3 !important;
+}
+
+.formarea .choices__list ul li {
+  background-color: var(--second-primary-color) !important;
+  color: #b5b5c3 !important;
+}
+
+/* Default list items */
+.formarea .formio-component-select .choices__item {
+    background-color: var(--second-primary-color) !important;
+    color: #b5b5c3 !important;
+}
+
+/* Hover items */
+.formarea .formio-component-select .choices__item:hover {
+    background-color: var(--second-primary-color) !important;
+    color: #b5b5c3 !important;
+}
+
+/* Highlighted / currently focused item in dropdown */
+.formarea .formio-component-select .choices__item.is-highlighted {
+    background-color: var(--second-primary-color) !important;
+    color: #b5b5c3 !important;
+}
+
+/* Selected item */
+.formarea .formio-component-select .choices__item.is-selected {
+    background-color: var(--second-primary-color) !important;
+    color: #b5b5c3 !important;
+}
+
+
+.builder-sidebar_search {
+
+  border-radius: 6px !important;
+  background-color: var(--second-primary-color) !important;
+  color: #b5b5c3 !important;
+  border: 1px solid var(--border-color) !important;
+  outline: none !important;
+  padding-inline-start: 10px !important;
+  margin: 10px auto !important;
+  display: block !important;
+}
+
+/* Placeholder color thoda halka karne ke liye */
+.builder-sidebar_search::placeholder {
+  color: #888 !important;
+  opacity: 1 !important;
+}
+
+/* Focus pe border ya glow chahiye to ye add kar lo */
+.builder-sidebar_search:focus {
+  box-shadow: 0 0 4px #5c607b;
 }

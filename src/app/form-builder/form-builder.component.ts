@@ -9,12 +9,61 @@ import { FormBuilder } from 'formiojs';
 export class FormBuilderComponent implements OnInit {
   @ViewChild('builder', { static: true }) builderRef!: ElementRef;
   builder: any;
-
+  defaultFormJson = {
+    display: 'form',
+    components: [
+      {
+        type: 'textfield',
+        key: 'firstName',
+        label: 'First Name',
+        placeholder: 'Enter first name',
+        input: true
+      },
+      {
+        type: 'textfield',
+        key: 'lastName',
+        label: 'Last Name',
+        placeholder: 'Enter last name',
+        input: true
+      },
+      {
+        type: 'email',
+        key: 'email',
+        label: 'Email',
+        placeholder: 'Enter email',
+        input: true
+      },
+      {
+        type: 'password',
+        key: 'password',
+        label: 'Password',
+        placeholder: 'Enter password',
+        input: true
+      },
+      {
+        type: 'checkbox',
+        key: 'subscribe',
+        label: 'Subscribe to newsletter',
+        input: true
+      },
+      {
+        type: 'radio',
+        key: 'gender',
+        label: 'Gender',
+        values: [
+          { label: 'Male', value: 'male' },
+          { label: 'Female', value: 'female' }
+        ],
+        input: true
+      }
+    ]
+  };
   ngOnInit() {
 
     this.builder = new FormBuilder(
       this.builderRef.nativeElement,
-      { display: 'form' },  
+      // { display: 'form' },  
+      this.defaultFormJson, 
       {}                   
     );
 

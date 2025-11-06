@@ -7,7 +7,9 @@
 .builder {
   flex: 1;
   overflow: auto;
-  border: 1px solid #ddd;
+  .formarea{
+    width: 70%!important;
+  }
 }
 
 .actions {
@@ -29,3 +31,6 @@
     }
   }
 }
+
+
+

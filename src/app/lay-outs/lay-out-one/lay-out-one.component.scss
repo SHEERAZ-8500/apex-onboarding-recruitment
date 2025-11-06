@@ -17,6 +17,7 @@
   .landig-pages {
     height: 98vh;
     overflow-y: auto;
+    padding-inline-end: 8px;
   }
 
   .landig-pages::after {
@@ -30,7 +31,18 @@
 
   }
 }
+.landig-pages::-webkit-scrollbar {
+    width: 6px; /* barik scrollbar */
+}
 
+.landig-pages::-webkit-scrollbar-track {
+    background: transparent; /* track ko none jesa dikhana */
+}
+
+.landig-pages::-webkit-scrollbar-thumb {
+    background-color: #8daac6; /* scrollbar ka color */
+    border-radius: 10px;
+}
 @media (max-width: 1000px) {
   .sid-navbar {
     display: none;
