@@ -1,8 +1,4 @@
-.builder-container {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-}
+
 
 .builder {
   flex: 1;
@@ -15,8 +11,8 @@
 .actions {
   padding: 10px;
   text-align: right;
-  border-top: 1px solid #eee;
-  background: #fafafa;
+  // border-top: 1px solid #eee;
+  // background: #fafafa;
 
   .save-btn {
     background: #007bff;
@@ -34,3 +30,19 @@
 
 
 
+ .first {
+        background: transparent;
+        outline: none;
+        border: 1px solid #7047ee;
+        color: var(--gray-color-1);
+        border-radius: 4px;
+        width: 170px;
+        height: 40px;
+        margin-bottom: 10px;
+        transition: background-color 0.5s ease, color 0.5s ease;
+    }
+
+    .first:hover {
+        background: #7047ee !important;
+        color: white;
+    }

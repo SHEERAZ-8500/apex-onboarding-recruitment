@@ -1,7 +1,12 @@
 <div class="builder-container">
+  <div style="display: flex; justify-content: space-between;">
+    <button (click)="addSection()" class="first">Add Section</button>
+    <div class="actions">
+      <button (click)="onSubmit()" class="save-btn">Save Form</button>
+    </div>
+  </div>
+
   <div #builder class="builder"></div>
 
-  <div class="actions">
-    <button (click)="onSubmit()" class="save-btn">Console JSON</button>
-  </div>
+
 </div>

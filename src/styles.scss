@@ -89,7 +89,18 @@ body {
 /* Optional — inner area me thoda spacing handle karne ke liye */
 .formarea {
   overflow-x: hidden !important;
+  overflow-y: auto !important;
+  height: 70vh !important;
+  position: relative; 
 }
+
+.formarea::after {
+  content: '';
+  display: block;      
+  height: 50px;         
+  width: 100%;         
+}
+// labels
 
 .formarea label,
 .formarea .form-check-label,
@@ -148,7 +159,10 @@ body {
   display: block !important;
 }
 
-.formarea .choices__list {
+.formarea input,
+.formarea textarea,
+.formarea .dropdown,
+.formarea select .formarea .choices__list {
   background-color: var(--second-primary-color) !important;
   color: #b5b5c3 !important;
 }
@@ -160,26 +174,26 @@ body {
 
 /* Default list items */
 .formarea .formio-component-select .choices__item {
-    background-color: var(--second-primary-color) !important;
-    color: #b5b5c3 !important;
+  background-color: var(--second-primary-color) !important;
+  color: #b5b5c3 !important;
 }
 
 /* Hover items */
 .formarea .formio-component-select .choices__item:hover {
-    background-color: var(--second-primary-color) !important;
-    color: #b5b5c3 !important;
+  background-color: var(--second-primary-color) !important;
+  color: #b5b5c3 !important;
 }
 
 /* Highlighted / currently focused item in dropdown */
 .formarea .formio-component-select .choices__item.is-highlighted {
-    background-color: var(--second-primary-color) !important;
-    color: #b5b5c3 !important;
+  background-color: var(--second-primary-color) !important;
+  color: #b5b5c3 !important;
 }
 
 /* Selected item */
 .formarea .formio-component-select .choices__item.is-selected {
-    background-color: var(--second-primary-color) !important;
-    color: #b5b5c3 !important;
+  background-color: var(--second-primary-color) !important;
+  color: #b5b5c3 !important;
 }
 
 
@@ -205,3 +219,45 @@ body {
 .builder-sidebar_search:focus {
   box-shadow: 0 0 4px #5c607b;
 }
+
+
+// placeholder
+.formarea input::placeholder,
+.formarea textarea::placeholder,
+.formarea .dropdown::placeholder,
+.formarea select::placeholder {
+  color: #ffffff !important;
+  /* White placeholder */
+  opacity: 1;
+  /* Firefox me placeholder dim na ho */
+}
+
+
+
+
+/* Section container */
+.formio-component-panel {
+  background-color: transparent !important;  /* Transparent background */
+  border: none !important;                   /* Remove border if needed */
+  box-shadow: none !important;               /* Remove shadow */
+}
+/* Card inside section */
+.formio-component-panel .card {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Card header */
+.formio-component-panel .card-header {
+  background-color: transparent !important;
+  border: none !important;
+}
+
+/* Card body */
+.formio-component-panel .card-body {
+  background-color: transparent !important;
+  border: none !important;
+}
+
+
