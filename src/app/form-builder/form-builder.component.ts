@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder } from 'formiojs';
-
+import { Components } from 'formiojs';
 @Component({
   selector: 'app-form-builder',
   templateUrl: './form-builder.component.html',
@@ -73,8 +73,59 @@ export class FormBuilderComponent implements OnInit {
         resource: false
       }
     };
+    Components.components.textfield.editForm = () => {
+      return {
+        components: [
+          {
+            key: 'display',
+            components: [
+              { key: 'label', type: 'textfield', label: 'Label', input: true },
+              { key: 'key', type: 'textfield', label: 'Key', input: true },
+              { key: 'placeholder', type: 'textfield', label: 'Placeholder', input: true },
+              { key: 'hidden', type: 'checkbox', label: 'Hidden Field', input: true },
+            ]
+          },
+          {
+            key: 'validation',
+            components: [
+              { key: 'validate.required', type: 'checkbox', label: 'Required', input: true },
+              { key: 'validate.minLength', type: 'number', label: 'Min Length', input: true },
+              { key: 'validate.maxLength', type: 'number', label: 'Max Length', input: true },
+            ]
+          }
+        ]
+      };
+    };
 
-    this.builder = new FormBuilder(this.builderRef.nativeElement, this.defaultFormJson, builderOptions);
+//     Object.keys(Components.components).forEach((key) => {
+//   const comp = (Components.components as any)[key]; // ✅ type assertion
+
+//   if (comp && comp.editForm) {
+//     comp.editForm = () => ({
+//       components: [
+//         {
+//           key: 'display',
+//           components: [
+//             { key: 'label', type: 'textfield', label: 'title', input: true },
+//             { key: 'key', type: 'textfield', label: 'Key', input: true },
+//             { key: 'placeholder', type: 'textfield', label: 'Placeholder', input: true },
+//             { key: 'hidden', type: 'checkbox', label: 'Hidden Field', input: true },
+//           ]
+//         },
+//         {
+//           key: 'validation',
+//           components: [
+//             { key: 'validate.required', type: 'checkbox', label: 'Required', input: true },
+//             { key: 'validate.minLength', type: 'number', label: 'Min Length', input: true },
+//             { key: 'validate.maxLength', type: 'number', label: 'Max Length', input: true },
+//           ]
+//         }
+//       ]
+//     });
+//   }
+// });
+
+    this.builder = new FormBuilder(this.builderRef.nativeElement, { display: 'form', components: this.defaultFormJson.components }, builderOptions);
     this.builder.ready.then(() => {
       console.log('✅ Builder loaded');
 
