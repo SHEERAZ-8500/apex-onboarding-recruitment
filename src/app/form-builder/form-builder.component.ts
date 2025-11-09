@@ -17,8 +17,64 @@ export class FormBuilderComponent implements OnInit {
   // };
   defaultFormJson = { display: 'form', components: [{ type: 'textfield', key: 'firstName', label: 'First Name', placeholder: 'Enter first name', input: true }, { type: 'textfield', key: 'lastName', label: 'Last Name', placeholder: 'Enter last name', input: true }, { type: 'email', key: 'email', label: 'Email', placeholder: 'Enter email', input: true }, { type: 'password', key: 'password', label: 'Password', placeholder: 'Enter password', input: true }, { type: 'checkbox', key: 'subscribe', label: 'Subscribe to newsletter', input: true }, { type: 'radio', key: 'gender', label: 'Gender', values: [{ label: 'Male', value: 'male' }, { label: 'Female', value: 'female' }], input: true }] };
   ngOnInit() {
-    this.builder = new FormBuilder(this.builderRef.nativeElement, this.defaultFormJson, {});
+    const builderOptions = {
+      builder: {
+        basic: {
+          title: 'Basic',
+          default: true,
+          weight: 0,
+          components: {
+            textfield: true,
+            number: true,
+            email: true,
+            password: true,
+            textarea: true,
+            checkbox: true,
+            select: true,
+            radio: true,
+            file: true,
+            selectboxes: true,
+            button: true,
+          }
+        },
 
+        advanced: {
+          title: 'Advanced',
+          weight: 20,
+          components: {
+            email: false,
+            url: false,
+            phoneNumber: true,
+            tags: true,
+            address: true,
+            datetime: true,
+            day: true,
+            time: true,
+            currency: true,
+            survey: false,
+            signature: true,
+          }
+        },
+        // layout: {
+        //   title: 'Layout',
+        //   weight: 10,
+        //   components: {
+        //     panel: true,
+        //     table: true,
+        //     columns: true,
+        //     fieldset: true,
+        //     tabs: true
+        //   }
+        // },
+        // 👇 Disable other tabs completely
+        layout: false,
+        data: false,
+        premium: false,
+        resource: false
+      }
+    };
+
+    this.builder = new FormBuilder(this.builderRef.nativeElement, this.defaultFormJson, builderOptions);
     this.builder.ready.then(() => {
       console.log('✅ Builder loaded');
 
