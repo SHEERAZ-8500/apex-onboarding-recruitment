@@ -1,1 +1,222 @@
-<p>chat works!</p>
+<!-- chat.component.html -->
+<div class="chat-container">
+  <!-- First Card - Inbox (Narrow) -->
+  <div class="card inbox-card">
+    <div class="card-header">
+      <div class="tab-buttons">
+        <button 
+          class="tab-button" 
+          [class.active]="activeTab === 'chat'"
+          (click)="switchTab('chat')">
+          Chat
+        </button>
+        <button 
+          class="tab-button" 
+          [class.active]="activeTab === 'new'"
+          (click)="switchTab('new')">
+          New
+        </button>
+      </div>
+      <div class="header-line"></div>
+    </div>
+    
+    <div class="chat-list">
+      <!-- Chat Tab Content -->
+      <div *ngIf="activeTab === 'chat'">
+        <div 
+          *ngFor="let chat of chats" 
+          class="chat-item" 
+          [class.active]="activeChat?.id === chat.id"
+          (click)="selectChat(chat)">
+          <div class="profile-image-container">
+            <img 
+              [src]="chat.profilePic" 
+              [alt]="chat.name" 
+              class="profile-image"
+              (error)="handleImageError($event, chat)"
+              (load)="handleImageLoad($event)">
+          </div>
+          <div class="chat-content">
+            <div class="chat-header">
+              <span class="chat-name">{{ chat.name }}</span>
+              <span class="chat-time">{{ chat.time }}</span>
+            </div>
+            <p class="chat-message">{{ chat.message }}</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- New Tab Content -->
+      <div *ngIf="activeTab === 'new'">
+        <div 
+          *ngFor="let chat of newChats" 
+          class="chat-item" 
+          [class.active]="activeChat?.id === chat.id"
+          (click)="selectChat(chat)">
+          <div class="profile-image-container">
+            <img 
+              [src]="chat.profilePic" 
+              [alt]="chat.name" 
+              class="profile-image1"
+              (error)="handleImageError($event, chat)"
+              (load)="handleImageLoad($event)">
+            <div class="online-indicator" [class.online]="chat.online"></div>
+          </div>
+          <div class="chat-content">
+            <div class="chat-header">
+              <span class="chat-name">{{ chat.name }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Second Card - Chat Box (Wide) -->
+  <div class="card chat-box-card">
+    <div *ngIf="activeChat" class="chat-header">
+      <div class="user-info">
+        <div class="profile-image-container">
+          <img 
+            [src]="activeChat.profilePic" 
+            [alt]="activeChat.name" 
+            class="profile-image1"
+            (error)="handleImageError($event, activeChat)"
+            (load)="handleImageLoad($event)">
+          <div class="online-indicator" [class.online]="activeChat.online"></div>
+        </div>
+        <div class="user-details">
+          <h4>{{ activeChat.name }}</h4>
+          <span class="last-seen">{{ activeChat.lastSeen }}</span>
+        </div>
+      </div>
+      <div class="chat-actions">
+        <button class="icon-btn">
+          <i class="fas fa-phone"></i>
+        </button>
+        <button class="icon-btn">
+          <i class="fas fa-video"></i>
+        </button>
+        <button class="icon-btn">
+          <i class="fas fa-ellipsis-v"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="messages-container">
+      <div *ngFor="let msg of getActiveMessages()" class="message" [class.my-message]="msg.isMe">
+        <div class="message-content">
+          <div class="message-header">
+            <span class="sender-name">{{ msg.sender }}</span>
+            <span class="message-time">{{ msg.time }}</span>
+          </div>
+          <div class="message-text">{{ msg.message }}</div>
+        </div>
+        
+      </div>
+      
+      <div *ngIf="!activeChat" class="no-chat-selected">
+        <p>Select a chat to start messaging</p>
+      </div>
+    </div>
+
+    <div *ngIf="activeChat" class="message-input-container">
+      <div class="input-wrapper">
+        <input 
+          type="text" 
+          placeholder="Say something..." 
+          [(ngModel)]="newMessage"
+          (keyup.enter)="sendMessage()">
+      </div>
+       <button class="icon-btn attachment-btn">
+      <i class="fas fa-paperclip"></i>
+    </button>
+    
+    <button class="icon-btn emoji-btn">
+      <i class="far fa-smile"></i>
+    </button>
+     <button class="icon-btn mic-btn">
+      <i class="fas fa-microphone"></i>
+    </button>
+      <button class="send-btn" (click)="sendMessage()">
+        <i class="fas fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Third Card - My Events (Normal) -->
+  <div class="card events-card">
+    <div class="events-header">
+      <h3>My Events</h3>
+      <div class="dropdown-container">
+        <button class="dropdown-btn" (click)="toggleDropdown()">
+          <i class="fas fa-ellipsis-v"></i>
+        </button>
+        <div class="dropdown-menu" [class.show]="showDropdown">
+          <button class="dropdown-item">
+            <i class="fas fa-download"></i> Import
+          </button>
+          <button class="dropdown-item">
+            <i class="fas fa-print"></i> Print
+          </button>
+          <button class="dropdown-item">
+            <i class="fas fa-external-link-alt"></i> Export
+          </button>
+          <div class="dropdown-divider"></div>
+          <button class="dropdown-item">
+            <i class="fas fa-cog"></i> Settings
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="calendar-header">
+      <span class="current-month">{{ currentMonth }} {{ currentYear }}</span>
+      <div class="calendar-nav">
+        <button class="nav-btn" (click)="previousMonth()"><i class="fas fa-chevron-left"></i></button>
+        <button class="nav-btn" (click)="nextMonth()"><i class="fas fa-chevron-right"></i></button>
+      </div>
+    </div>
+
+    <div class="calendar">
+      <div class="calendar-weekdays">
+        <div class="weekday">Sun</div>
+        <div class="weekday">Mon</div>
+        <div class="weekday">Tue</div>
+        <div class="weekday">Wed</div>
+        <div class="weekday">Thu</div>
+        <div class="weekday">Fri</div>
+        <div class="weekday">Sat</div>
+      </div>
+      <div class="calendar-days">
+        <div 
+          *ngFor="let day of calendarDays; let i = index" 
+          class="calendar-day"
+          [class.other-month]="!day.currentMonth">
+          <span class="day-number">{{ day.day }}</span>
+          <div class="day-events">
+            <div 
+              *ngFor="let event of day.events" 
+              class="event-tag"
+              [class.red]="event.color === 'red'"
+              [class.green]="event.color === 'green'">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="events-list-container">
+      <div class="events-list">
+        <div *ngFor="let event of events" class="event-item">
+          <div class="event-date">{{ event.date }}</div>
+          <div class="event-title">{{ event.title }}</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="add-event-btn">
+      ADD EVENTS
+    </button>
+  </div>
+</div>
