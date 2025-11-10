@@ -17,6 +17,8 @@ export class FormBuilderComponent implements OnInit {
   // };
   defaultFormJson = { display: 'form', components: [{ type: 'textfield', key: 'firstName', label: 'First Name', placeholder: 'Enter first name', input: true }, { type: 'textfield', key: 'lastName', label: 'Last Name', placeholder: 'Enter last name', input: true }, { type: 'email', key: 'email', label: 'Email', placeholder: 'Enter email', input: true }, { type: 'password', key: 'password', label: 'Password', placeholder: 'Enter password', input: true }, { type: 'checkbox', key: 'subscribe', label: 'Subscribe to newsletter', input: true }, { type: 'radio', key: 'gender', label: 'Gender', values: [{ label: 'Male', value: 'male' }, { label: 'Female', value: 'female' }], input: true }] };
   ngOnInit() {
+    // left side inputs options customization
+
     const builderOptions = {
       builder: {
         basic: {
@@ -73,61 +75,67 @@ export class FormBuilderComponent implements OnInit {
         resource: false
       }
     };
-    Components.components.textfield.editForm = () => {
-      return {
-        components: [
-          {
-            key: 'display',
-            components: [
-              { key: 'label', type: 'textfield', label: 'Label', input: true },
-              { key: 'key', type: 'textfield', label: 'Key', input: true },
-              { key: 'placeholder', type: 'textfield', label: 'Placeholder', input: true },
-              { key: 'hidden', type: 'checkbox', label: 'Hidden Field', input: true },
-            ]
-          },
-          {
-            key: 'validation',
-            components: [
-              { key: 'validate.required', type: 'checkbox', label: 'Required', input: true },
-              { key: 'validate.minLength', type: 'number', label: 'Min Length', input: true },
-              { key: 'validate.maxLength', type: 'number', label: 'Max Length', input: true },
-            ]
-          }
-        ]
-      };
-    };
 
-//     Object.keys(Components.components).forEach((key) => {
-//   const comp = (Components.components as any)[key]; // ✅ type assertion
 
-//   if (comp && comp.editForm) {
-//     comp.editForm = () => ({
-//       components: [
-//         {
-//           key: 'display',
-//           components: [
-//             { key: 'label', type: 'textfield', label: 'title', input: true },
-//             { key: 'key', type: 'textfield', label: 'Key', input: true },
-//             { key: 'placeholder', type: 'textfield', label: 'Placeholder', input: true },
-//             { key: 'hidden', type: 'checkbox', label: 'Hidden Field', input: true },
-//           ]
-//         },
-//         {
-//           key: 'validation',
-//           components: [
-//             { key: 'validate.required', type: 'checkbox', label: 'Required', input: true },
-//             { key: 'validate.minLength', type: 'number', label: 'Min Length', input: true },
-//             { key: 'validate.maxLength', type: 'number', label: 'Max Length', input: true },
-//           ]
-//         }
-//       ]
-//     });
-//   }
-// });
+    // Customize edit form for textfield component by single component
+
+    // Components.components.textfield.editForm = () => {
+    //   return {
+    //     components: [
+    //       {
+    //         key: 'display',
+    //         components: [
+    //           { key: 'label', type: 'textfield', label: 'Label', input: true },
+    //           { key: 'key', type: 'textfield', label: 'Key', input: true },
+    //           { key: 'placeholder', type: 'textfield', label: 'Placeholder', input: true },
+    //           { key: 'hidden', type: 'checkbox', label: 'Hidden Field', input: true },
+    //         ]
+    //       },
+    //       {
+    //         key: 'validation',
+    //         components: [
+    //           { key: 'validate.required', type: 'checkbox', label: 'Required', input: true },
+    //           { key: 'validate.minLength', type: 'number', label: 'Min Length', input: true },
+    //           { key: 'validate.maxLength', type: 'number', label: 'Max Length', input: true },
+    //         ]
+    //       }
+    //     ]
+    //   };
+    // };
+
+
+    // Customize edit form for all components dynamically
+
+    //     Object.keys(Components.components).forEach((key) => {
+    //   const comp = (Components.components as any)[key]; // ✅ type assertion
+
+    //   if (comp && comp.editForm) {
+    //     comp.editForm = () => ({
+    //       components: [
+    //         {
+    //           key: 'display',
+    //           components: [
+    //             { key: 'label', type: 'textfield', label: 'title', input: true },
+    //             { key: 'key', type: 'textfield', label: 'Key', input: true },
+    //             { key: 'placeholder', type: 'textfield', label: 'Placeholder', input: true },
+    //             { key: 'hidden', type: 'checkbox', label: 'Hidden Field', input: true },
+    //           ]
+    //         },
+    //         {
+    //           key: 'validation',
+    //           components: [
+    //             { key: 'validate.required', type: 'checkbox', label: 'Required', input: true },
+    //             { key: 'validate.minLength', type: 'number', label: 'Min Length', input: true },
+    //             { key: 'validate.maxLength', type: 'number', label: 'Max Length', input: true },
+    //           ]
+    //         }
+    //       ]
+    //     });
+    //   }
+    // });
 
     this.builder = new FormBuilder(this.builderRef.nativeElement, { display: 'form', components: this.defaultFormJson.components }, builderOptions);
     this.builder.ready.then(() => {
-      console.log('✅ Builder loaded');
 
       // Existing listeners
       this.builder.instance.on('saveComponent', (component: any) => {
@@ -156,13 +164,13 @@ export class FormBuilderComponent implements OnInit {
             const compInstance = formio.webform?.getComponent(component.key);
             let stringActualvalue = String(actualValue)
             if (compInstance && compInstance.element) {
-              // 👇 Decide visibility based on condition
+              //  Decide visibility based on condition
               const conditionMatched = String(stringActualvalue) === String(expectedValue);
 
               // Agar "show" true hai aur condition match hui → visible, else hidden
               const shouldShow = showWhenTrue ? conditionMatched : !conditionMatched;
 
-              // ✅ Apply visibility directly on the field wrapper
+              //  Apply visibility directly on the field wrapper
               compInstance.element.style.display = shouldShow ? '' : 'none';
               // compInstance.visible = shouldShow;
             }
@@ -199,7 +207,7 @@ export class FormBuilderComponent implements OnInit {
 
     schema.components.push(newSection);
     this.builder.instance.setForm(schema);
-    console.log('✅ Section added', newSection);
+    console.log(' Section added', newSection);
 
     setTimeout(() => {
       const formArea = document.querySelector('.formarea') as HTMLElement;
