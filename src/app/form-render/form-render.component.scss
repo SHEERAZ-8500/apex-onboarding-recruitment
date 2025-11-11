@@ -118,6 +118,7 @@ formio .formio-error-wrapper.has-message .formio-errors.invalid-feedback .form-t
     font-weight: 500;
     margin-top: 4px;
     display: block;
+    align-items: center!important;
 }
 
 /* Optional: focus effect on invalid input */
@@ -125,4 +126,13 @@ formio .formio-error-wrapper.has-message input.is-invalid:focus,
 formio .formio-error-wrapper.has-message textarea.is-invalid:focus,
 formio .formio-error-wrapper.has-message select.is-invalid:focus {
     box-shadow: 0 0 5px #ff4d4d !important;
+}
+
+
+
+.formio-form.single-column {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
 }

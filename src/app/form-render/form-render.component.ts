@@ -1,16 +1,18 @@
-import { Component , ViewEncapsulation} from '@angular/core';
+import { Component, ViewEncapsulation, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-form-render',
   templateUrl: './form-render.component.html',
   styleUrl: './form-render.component.scss',
-  encapsulation: ViewEncapsulation.None 
+  encapsulation: ViewEncapsulation.None
 })
 export class FormRenderComponent {
   formJson = null;
-ngOnInit() {
-    const savedForm = localStorage.getItem('savedForm');  
-  
+  @ViewChild('formioComp', { read: ElementRef }) formioComp!: ElementRef;
+
+  ngOnInit() {
+    const savedForm = localStorage.getItem('savedForm');
+
     if (savedForm) {
       this.formJson = JSON.parse(savedForm);
     }
@@ -18,6 +20,40 @@ ngOnInit() {
 
   onSubmit(event: any) {
     console.log('submission', event);
-  
+
+  }
+  currentColumns = 1;
+
+  setLayout(columns: number) {
+    this.currentColumns = columns;
+
+    // Formio ke andar dynamically update karna
+    const groups = this.formioComp.nativeElement.querySelectorAll('.formio-form-group');
+
+    groups.forEach((group: HTMLElement) => {
+      const isSubmit = group.classList.contains('formio-component-submit');
+      const isSignature = group.classList.contains('formio-component-signature');
+      if (isSubmit) {
+        // submit button hamesha full width
+        group.style.width = '100%';
+        // group.style.display = 'block';
+        group.style.marginRight = '0';
+      } else {
+        if (columns === 1) {
+          const form = document.querySelector('.formio-form');
+          if (form) {
+            form.classList.add('single-column'); 
+          }
+          group.style.width = '100%';
+
+        } else if (columns === 2) {
+          group.style.width = 'calc(45% - 0.5rem)';
+        } else if (columns === 3) {
+          group.style.width = 'calc(30.333% - 0.66rem)';
+        }
+        group.style.display = 'inline-block';
+        group.style.marginRight = '1rem';
+      }
+    });
   }
 }
