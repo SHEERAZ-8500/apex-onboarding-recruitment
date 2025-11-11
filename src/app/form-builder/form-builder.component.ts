@@ -153,7 +153,7 @@ export class FormBuilderComponent implements OnInit {
 
         const checkConditional = (component: any) => {
           if (!component) return;
-          debugger
+          
           // Conditional logic available?
           if (component.conditional && component.conditional.when) {
             const whenKey = component.conditional.when;
@@ -224,6 +224,7 @@ export class FormBuilderComponent implements OnInit {
   }
 
   onSubmit() {
+    localStorage.setItem('savedForm', JSON.stringify(this.builder.instance.schema));
     console.log('🚀 Final Form JSON:', this.builder.instance.schema);
   }
 

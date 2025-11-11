@@ -155,7 +155,7 @@ body {
   border: 1px solid var(--border-color) !important;
   outline: none !important;
   padding-inline-start: 10px !important;
-  margin: 10px auto !important;
+  // margin: 10px auto !important;
   display: block !important;
 }
 
@@ -259,5 +259,13 @@ body {
   background-color: transparent !important;
   border: none !important;
 }
+
+
+
+.formio-component .formio-form.formio-form-group label{
+  color: white !important;
+}
+
+
 
 

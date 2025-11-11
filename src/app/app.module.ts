@@ -21,7 +21,9 @@ import { LayOutTwoComponent } from './lay-outs/lay-out-two/lay-out-two.component
 import { LogInComponent } from './features/Auth/log-in/log-in.component';
 import { FormsModule } from '@angular/forms';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
-import { ChatComponent } from './features/chat/chat.component'; 
+import { ChatComponent } from './features/chat/chat.component';
+import { FormRenderComponent } from './form-render/form-render.component'; 
+import { FormioModule } from '@formio/angular';  // 👈 yeh important hai
 
 @NgModule({
   declarations: [
@@ -42,13 +44,15 @@ import { ChatComponent } from './features/chat/chat.component';
     LayOutTwoComponent,
     LogInComponent,
     DashboardComponent,
-    ChatComponent
+    ChatComponent,
+    FormRenderComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     CommonModule,
-    FormsModule 
+    FormsModule ,
+    FormioModule  
   ],
   providers: [],
   bootstrap: [AppComponent]

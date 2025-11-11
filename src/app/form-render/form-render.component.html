@@ -1,0 +1,6 @@
+<!-- form-renderer.component.html -->
+<div *ngIf="formJson">
+  <formio [form]="formJson" (submit)="onSubmit($event)"></formio>
+
+</div>
+<div *ngIf="!formJson">Loading form...</div>

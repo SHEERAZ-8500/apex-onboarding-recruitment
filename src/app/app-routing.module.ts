@@ -11,6 +11,7 @@ import { LogInComponent } from './features/Auth/log-in/log-in.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { ChatComponent } from './features/chat/chat.component';
 import { FormBuilderComponent } from './form-builder/form-builder.component';
+import { FormRenderComponent } from './form-render/form-render.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'log-in', pathMatch: 'full' },
@@ -26,6 +27,7 @@ const routes: Routes = [
       { path: 'jobs-details', component: JobsComponent },
       { path: 'chat', component: ChatComponent },
       { path: 'form', component: FormBuilderComponent },
+      { path: 'form-render', component: FormRenderComponent },
 
 
     ]
