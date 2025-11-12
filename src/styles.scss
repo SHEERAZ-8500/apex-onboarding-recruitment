@@ -6,6 +6,8 @@
 
 }
 
+@import 'ngx-toastr/toastr';
+
 :root {
   --primary-color: #15243e;
   --second-primary-color: #0c1a32;
@@ -316,3 +318,4 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     margin-top: 15px !important;
   }
 }
+

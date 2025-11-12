@@ -22,9 +22,10 @@ import { LogInComponent } from './features/Auth/log-in/log-in.component';
 import { FormsModule } from '@angular/forms';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { ChatComponent } from './features/chat/chat.component';
-import { FormRenderComponent } from './form-render/form-render.component'; 
-import { FormioModule } from '@formio/angular';  // 👈 yeh important hai
-
+import { FormRenderComponent } from './form-render/form-render.component';
+import { FormioModule } from '@formio/angular';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,8 +52,15 @@ import { FormioModule } from '@formio/angular';  // 👈 yeh important hai
     BrowserModule,
     AppRoutingModule,
     CommonModule,
-    FormsModule ,
-    FormioModule  
+    FormsModule,
+    FormioModule,
+    BrowserAnimationsModule, 
+    ToastrModule.forRoot({
+      timeOut: 3000, 
+      positionClass: 'toast-top-right', 
+      preventDuplicates: true, // duplicate messages avoid karega
+    }),
+
   ],
   providers: [],
   bootstrap: [AppComponent]

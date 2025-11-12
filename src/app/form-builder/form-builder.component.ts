@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder } from 'formiojs';
 import { Components } from 'formiojs';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-form-builder',
   templateUrl: './form-builder.component.html',
@@ -10,7 +11,7 @@ export class FormBuilderComponent implements OnInit {
   @ViewChild('builder', { static: true }) builderRef!: ElementRef;
   builder: any;
   sectionCount = 1;
-
+  constructor(private toastr: ToastrService) { }
   // defaultFormJson = {
   //   display: 'form',
   //   components: [] 
@@ -153,7 +154,7 @@ export class FormBuilderComponent implements OnInit {
 
         const checkConditional = (component: any) => {
           if (!component) return;
-          
+
           // Conditional logic available?
           if (component.conditional && component.conditional.when) {
             const whenKey = component.conditional.when;
@@ -224,8 +225,10 @@ export class FormBuilderComponent implements OnInit {
   }
 
   onSubmit() {
+    
     localStorage.setItem('savedForm', JSON.stringify(this.builder.instance.schema));
     console.log('🚀 Final Form JSON:', this.builder.instance.schema);
+    this.toastr.success('Data saved successfully!', 'Success');
   }
 
 
