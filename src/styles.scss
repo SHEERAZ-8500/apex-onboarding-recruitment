@@ -91,15 +91,16 @@ body {
   overflow-x: hidden !important;
   overflow-y: auto !important;
   height: 70vh !important;
-  position: relative; 
+  position: relative;
 }
 
 .formarea::after {
   content: '';
-  display: block;      
-  height: 50px;         
-  width: 100%;         
+  display: block;
+  height: 50px;
+  width: 100%;
 }
+
 // labels
 
 .formarea label,
@@ -115,6 +116,16 @@ body {
 .fileSelector span,
 .fileSelector i {
   color: white !important;
+}
+
+.formarea .input-group .input-group-append {
+  position: absolute !important;
+  right: 1% !important;
+  top: 4px !important;
+
+  span {
+    background: transparent !important;
+  }
 }
 
 /* Sidebar panels ke liye custom background aur border color */
@@ -140,9 +151,28 @@ body {
   text-align: left;
 }
 
+.choices[data-type*="select-one"] .choices__button {
+  color: white !important;
+  background-color: white !important;
+  border: none !important;
+}
+
 /* Optional: hover pe halka highlight effect */
 .form-builder-panel:hover {
   box-shadow: 0 0 6px rgba(92, 96, 123, 0.5);
+}
+input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(1) brightness(2); /* icon ko white jesa banata hai */
+  opacity: 1; /* ensure visible */
+}
+.choices[data-type*="select-one"]::after {
+  .choices__button {
+    color: white !important;
+    background-color: white !important;
+  }
+
+  border-color: white transparent transparent transparent !important;
+  /* arrow ka color white */
 }
 
 .formarea input,
@@ -237,10 +267,14 @@ body {
 
 /* Section container */
 .formio-component-panel {
-  background-color: transparent !important;  /* Transparent background */
-  border: none !important;                   /* Remove border if needed */
-  box-shadow: none !important;               /* Remove shadow */
+  background-color: transparent !important;
+  /* Transparent background */
+  border: none !important;
+  /* Remove border if needed */
+  box-shadow: none !important;
+  /* Remove shadow */
 }
+
 /* Card inside section */
 .formio-component-panel .card {
   background-color: transparent !important;
@@ -258,14 +292,27 @@ body {
 .formio-component-panel .card-body {
   background-color: transparent !important;
   border: none !important;
+
 }
 
 
 
-.formio-component .formio-form.formio-form-group label{
+.formio-component .formio-form.formio-form-group label {
   color: white !important;
 }
 
 
+// tags
 
-
+.formarea .formio-component-tags .choices__inner {
+  background-color: var(--second-primary-color) !important; /* dark background */
+  color: white !important;            /* text color */
+  border: 1px solid var(--border-color) !important;  /* border color */
+  border-radius: 8px !important;      /* rounded corners */
+  min-height: 40px !important;
+  padding: 6px 8px !important;
+  .choices__input{
+    width: 300px !important;
+    margin-top: 15px !important;
+  }
+}
