@@ -19,9 +19,11 @@ import { JobsComponent } from './features/jobs/jobs.component';
 import { LayOutOneComponent } from './lay-outs/lay-out-one/lay-out-one.component';
 import { LayOutTwoComponent } from './lay-outs/lay-out-two/lay-out-two.component';
 import { LogInComponent } from './features/Auth/log-in/log-in.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
-import { ChatComponent } from './features/chat/chat.component'; 
+import { ChatComponent } from './features/chat/chat.component';
+import { EmailComponent } from './features/email/email.component';
+
 
 @NgModule({
   declarations: [
@@ -42,13 +44,16 @@ import { ChatComponent } from './features/chat/chat.component';
     LayOutTwoComponent,
     LogInComponent,
     DashboardComponent,
-    ChatComponent
+    ChatComponent,
+    EmailComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     CommonModule,
-    FormsModule 
+    ReactiveFormsModule,
+    FormsModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent]
