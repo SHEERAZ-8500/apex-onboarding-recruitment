@@ -11,7 +11,7 @@ constructor(private http: HttpClient) {  }
 saveFormDefinition(formDefinition: any) {
     return this.http.post('v1/forms/definitions', formDefinition);
   }
-  getFormDefinition() {
-    return this.http.get('v1/forms/definitions');
+  getFormDefinition(publicId:any) {
+    return this.http.get(`v1/forms/definitions/${publicId}`);
   }
 }

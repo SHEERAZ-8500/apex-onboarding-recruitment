@@ -233,7 +233,7 @@ export class FormBuilderComponent implements OnInit {
 
     let payload = {
       ...this.builder.instance.schema,
-      formName: 'apex'
+      formName: 'apex1'
     };
     this.apiService.saveFormDefinition(payload).subscribe({
       next: (response) => {

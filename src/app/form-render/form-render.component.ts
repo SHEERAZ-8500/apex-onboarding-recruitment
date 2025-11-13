@@ -1,4 +1,5 @@
 import { Component, ViewEncapsulation, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
+import { ApiService } from '../shared/services/apis/api.service';
 
 @Component({
   selector: 'app-form-render',
@@ -9,13 +10,17 @@ import { Component, ViewEncapsulation, ViewChild, AfterViewInit, ElementRef } fr
 export class FormRenderComponent {
   formJson = null;
   @ViewChild('formioComp', { read: ElementRef }) formioComp!: ElementRef;
-
+  constructor(private apiService: ApiService) { }
   ngOnInit() {
-    const savedForm = localStorage.getItem('savedForm');
-
-    if (savedForm) {
-      this.formJson = JSON.parse(savedForm);
-    }
+    // const savedForm = localStorage.getItem('savedForm');
+    this.apiService.getFormDefinition("95a27209-913e-4c3f-a4cf-99d52b2a5756").subscribe((response: any) => {
+      // this.formJson = response;
+      console.log(response);
+      this.formJson = response.data.formDefinition;
+    });
+    // if (savedForm) {
+    //   this.formJson = JSON.parse(savedForm);
+    // }
   }
 
   onSubmit(event: any) {
@@ -42,7 +47,7 @@ export class FormRenderComponent {
         if (columns === 1) {
           const form = document.querySelector('.formio-form');
           if (form) {
-            form.classList.add('single-column'); 
+            form.classList.add('single-column');
           }
           group.style.width = '100%';
 
