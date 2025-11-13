@@ -19,13 +19,16 @@ import { JobsComponent } from './features/jobs/jobs.component';
 import { LayOutOneComponent } from './lay-outs/lay-out-one/lay-out-one.component';
 import { LayOutTwoComponent } from './lay-outs/lay-out-two/lay-out-two.component';
 import { LogInComponent } from './features/Auth/log-in/log-in.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { ChatComponent } from './features/chat/chat.component';
 import { FormRenderComponent } from './form-render/form-render.component';
 import { FormioModule } from '@formio/angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { EmailComponent } from './features/email/email.component';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,7 +49,8 @@ import { ToastrModule } from 'ngx-toastr';
     LogInComponent,
     DashboardComponent,
     ChatComponent,
-    FormRenderComponent
+    FormRenderComponent,
+    EmailComponent
   ],
   imports: [
     BrowserModule,
@@ -61,6 +65,9 @@ import { ToastrModule } from 'ngx-toastr';
       preventDuplicates: true, // duplicate messages avoid karega
     }),
 
+    ReactiveFormsModule,
+    FormsModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

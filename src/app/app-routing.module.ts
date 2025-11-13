@@ -12,6 +12,7 @@ import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { ChatComponent } from './features/chat/chat.component';
 import { FormBuilderComponent } from './form-builder/form-builder.component';
 import { FormRenderComponent } from './form-render/form-render.component';
+import { EmailComponent } from './features/email/email.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'log-in', pathMatch: 'full' },
@@ -28,6 +29,7 @@ const routes: Routes = [
       { path: 'chat', component: ChatComponent },
       { path: 'form', component: FormBuilderComponent },
       { path: 'form-render', component: FormRenderComponent },
+      { path: 'email', component: EmailComponent },
 
 
     ]

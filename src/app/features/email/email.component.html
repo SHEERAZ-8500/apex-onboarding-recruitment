@@ -1,0 +1,460 @@
+<!-- email.component.html -->
+<div class="email-container">
+  <div class="row g-0 h-100">
+    <!-- Left Sidebar -->
+    <div class="col-md-3 col-lg-2 email-sidebar" [class.show]="sidebarVisible">
+      <div class="d-flex flex-column h-100">
+        <!-- Compose Button -->
+        <button class="btn btn-compose mb-2" (click)="openComposeModal()">
+          <i class="fas fa-edit me-2"></i>Compose
+        </button>
+
+        <!-- Mobile menu close button -->
+        <button class="btn btn-icon d-md-none mb-2 align-self-end" (click)="toggleSidebar()">
+          <i class="fas fa-times"></i>
+        </button>
+
+        <!-- Folders Section -->
+        <div class="folder-section mb-2">
+          <div class="folder-header d-flex justify-content-between align-items-center" (click)="toggleFolders()">
+            <h6 class="mb-0">Folders</h6>
+            <i class="fas fa-chevron-{{foldersCollapsed ? 'down' : 'up'}}"></i>
+          </div>
+          <div class="folder-list" [class.collapsed]="foldersCollapsed">
+            <ul class="list-unstyled mb-0">
+              <li class="folder-item" [class.active]="activeFolder === 'inbox'" (click)="setActiveFolder('inbox')">
+                <i class="fas fa-inbox me-2"></i>Inbox
+                <span class="badge">{{getFolderCount('inbox')}}</span>
+              </li>
+              <li class="folder-item" [class.active]="activeFolder === 'sent'" (click)="setActiveFolder('sent')">
+                <i class="fas fa-paper-plane me-2"></i>Sent
+              </li>
+              <li class="folder-item" [class.active]="activeFolder === 'drafts'" (click)="setActiveFolder('drafts')">
+                <i class="fas fa-file-alt me-2"></i>Drafts
+              </li>
+              <li class="folder-item" [class.active]="activeFolder === 'starred'" (click)="setActiveFolder('starred')">
+                <i class="fas fa-star me-2"></i>Starred
+              </li>
+              <li class="folder-item" [class.active]="activeFolder === 'trash'" (click)="setActiveFolder('trash')">
+                <i class="fas fa-trash me-2"></i>Trash
+            </ul>
+          </div>
+        </div>
+
+        <!-- Labels Section -->
+        <div class="labels-section mb-2">
+          <div class="labels-header d-flex justify-content-between align-items-center" (click)="toggleLabels()">
+            <h6 class="mb-0">Labels</h6>
+            <i class="fas fa-chevron-{{labelsCollapsed ? 'down' : 'up'}}"></i>
+          </div>
+          <div class="labels-list" [class.collapsed]="labelsCollapsed">
+            <ul class="list-unstyled mb-0">
+              <li class="label-item">
+                <span class="label-color important"></span>Important
+              </li>
+              <li class="label-item">
+                <span class="label-color promotions"></span>Promotions
+              </li>
+              <li class="label-item">
+                <span class="label-color social"></span>Social
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Contacts List -->
+        <div class="contacts-section">
+          <div class="contacts-header" (click)="toggleContacts()">
+            <h6 class="mb-0">Contacts</h6>
+          </div>
+          <div class="contacts-list scrollable" [class.collapsed]="contactsCollapsed">
+            <div class="contact-item" *ngFor="let contact of contacts">
+              <div class="contact-avatar">
+                <img [src]="contact.avatar" [alt]="contact.name" class="avatar-img" (error)="contact.avatar = 'assets/images/avatars/default.jpg'">
+                <span class="status-dot" [class.online]="contact.online"></span>
+              </div>
+              <span class="contact-name">{{contact.name}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Middle Section - Email List -->
+    <div class="col-md-5 col-lg-6 email-list-section">
+      <div class="d-flex flex-column h-100">
+        <!-- Header Card -->
+        <div class="email-list-card">
+          <!-- Card Header -->
+          <div class="card-header">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div class="d-flex align-items-center">
+                <button class="btn mobile-menu-btn me-2 d-md-none" (click)="toggleSidebar()">
+                  <i class="fas fa-bars"></i>
+                </button>
+                <h4 class="mb-0 text-capitalize">{{activeFolder}}</h4>
+              </div>
+              <div class="search-box">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="form-control" placeholder="Search emails..." 
+                       [(ngModel)]="searchQuery" (input)="filterEmails()">
+              </div>
+            </div>
+          </div>
+          
+          <!-- Action Icons -->
+          <div class="action-icons-bar">
+            <div class="action-icons-group">
+              <!-- Select Group -->
+              <div class="icon-group select-group">
+                <div class="form-check me-2">
+                  <input class="form-check-input" type="checkbox" 
+                         [checked]="isAllSelected()" (change)="toggleSelectAll()">
+                </div>
+              </div>
+              
+              <!-- Delete, Reply, Forward Group -->
+              <div class="icon-group action-group">
+                <button class="btn btn-icon" (click)="deleteSelected()">
+                  <i class="fas fa-trash"></i>
+                </button>
+                <button class="btn btn-icon" (click)="replyToSelected()">
+                  <i class="fas fa-reply"></i>
+                </button>
+                <button class="btn btn-icon" (click)="forwardSelected()">
+                  <i class="fas fa-share"></i>
+                </button>
+              </div>
+              
+              <!-- Flag & File Group -->
+              <div class="icon-group flag-group">
+                <div class="dropdown">
+                  <button class="btn btn-icon dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    <i class="fas fa-flag"></i>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Mark as Important</a></li>
+                    <li><a class="dropdown-item" href="#">Mark as Read</a></li>
+                    <li><a class="dropdown-item" href="#">Mark as Unread</a></li>
+                  </ul>
+                </div>
+                
+                <div class="dropdown">
+                  <button class="btn btn-icon dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    <i class="fas fa-file"></i>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Move to Folder</a></li>
+                    <li><a class="dropdown-item" href="#">Apply Label</a></li>
+                    <li><a class="dropdown-item" href="#">Archive</a></li>
+                  </ul>
+                </div>
+              </div>
+              
+              <!-- Refresh Group -->
+              <div class="icon-group refresh-group">
+                <button class="btn btn-icon" (click)="refreshEmails()">
+                  <i class="fas fa-sync-alt"></i>
+                </button>
+              </div>
+              
+              <!-- Navigation Group -->
+              <div class="icon-group nav-group">
+                <button class="btn btn-icon" (click)="previousPage()">
+                  <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="btn btn-icon" (click)="nextPage()">
+                  <i class="fas fa-chevron-right"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Email List -->
+          <div class="email-list scrollable">
+            <div class="email-item" *ngFor="let email of paginatedEmails" 
+                 [class.selected]="email.selected" 
+                 [class.active]="activeEmail?.id === email.id"
+                 (click)="selectEmail(email)">
+              <div class="email-item-content">
+                <div class="d-flex align-items-center email-main-info">
+                  <div class="form-check me-2">
+                    <input class="form-check-input" type="checkbox" 
+                           [checked]="email.selected" (change)="toggleEmailSelection(email); $event.stopPropagation()">
+                  </div>
+                  <button class="btn btn-icon me-2" (click)="toggleStar(email); $event.stopPropagation()">
+                    <i class="fas fa-star" [class.starred]="email.starred"></i>
+                  </button>
+                  <div class="email-sender">{{email.sender}}</div>
+                </div>
+                <div class="email-preview">
+                  <span class="email-subject">{{email.subject}}</span>
+                  <span class="email-content"> - {{email.preview}}</span>
+                </div>
+                <div class="email-time">{{email.time}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Section - Email Detail -->
+    <div class="col-md-4 col-lg-4 email-detail-section" *ngIf="activeEmail" [class.show]="emailDetailVisible">
+      <div class="d-flex flex-column h-100">
+        <!-- Email Detail Card -->
+        <div class="email-detail-card">
+          <!-- Email Header -->
+          <div class="card-header">
+            <div class="d-flex align-items-center mb-2">
+              <button class="btn back-to-list me-2 d-md-none" (click)="hideEmailDetail()">
+                <i class="fas fa-arrow-left"></i>
+              </button>
+              <h5 class="email-subject mb-0">{{activeEmail.subject}}</h5>
+            </div>
+          </div>
+
+          <!-- Sender Details -->
+          <div class="sender-section">
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="d-flex align-items-center">
+                <div class="sender-avatar me-2">
+                  <img [src]="activeEmail.avatar" [alt]="activeEmail.sender" class="avatar-img" (error)="activeEmail.avatar = 'assets/images/avatars/default.jpg'">
+                </div>
+                <div>
+                  <div class="sender-name">{{activeEmail.sender}}</div>
+                  <div class="sender-email">from {{activeEmail.senderEmail}}</div>
+                </div>
+              </div>
+              <div class="email-time">{{activeEmail.date}}</div>
+            </div>
+          </div>
+
+          <!-- Action Icons -->
+          <div class="email-actions-bar">
+            <div class="d-flex justify-content-between align-items-center">
+              <button class="btn btn-icon print-btn" (click)="printEmail()">
+                <i class="fas fa-print"></i>
+              </button>
+              <div class="action-icons-group">
+                <button class="btn btn-icon" (click)="deleteEmail(activeEmail)">
+                  <i class="fas fa-trash"></i>
+                </button>
+                <button class="btn btn-icon" (click)="replyToEmail(activeEmail)">
+                  <i class="fas fa-reply"></i>
+                </button>
+                <button class="btn btn-icon" (click)="forwardEmail(activeEmail)">
+                  <i class="fas fa-share"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Email Body -->
+          <div class="email-body scrollable">
+            <div [innerHTML]="activeEmail.body"></div>
+          </div>
+
+          <!-- Attachments -->
+          <div class="email-attachments" *ngIf="activeEmail.attachments && activeEmail.attachments.length > 0">
+            <h6>Attachments ({{activeEmail.attachments.length}})</h6>
+            <div class="attachments-grid">
+              <div class="attachment-box" *ngFor="let attachment of activeEmail.attachments">
+                <div class="attachment-icon">
+                  <i class="fas fa-file"></i>
+                </div>
+                <div class="attachment-info">
+                  <div class="attachment-name">{{attachment.name}}</div>
+                  <div class="attachment-size">{{attachment.size}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Reply/Forward Buttons -->
+          <div class="email-action-buttons">
+            <div class="d-flex justify-content-end">
+              <button class="btn btn-reply me-2" (click)="replyToEmail(activeEmail)">
+                <i class="fas fa-reply me-1"></i>Reply
+              </button>
+              <button class="btn btn-forward" (click)="forwardEmail(activeEmail)">
+                <i class="fas fa-share me-1"></i>Forward
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Compose Email Modal -->
+<div class="modal fade" id="composeModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="composeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="composeModalLabel">Compose New Message</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="composeForm" (ngSubmit)="sendEmail()">
+          <!-- To Field -->
+          <div class="mb-3">
+            <input type="email" class="form-control" id="toEmail" formControlName="to" 
+                   placeholder="Enter recipient email" multiple>
+            <div class="invalid-feedback" *ngIf="composeForm.get('to')?.invalid && composeForm.get('to')?.touched">
+              Please enter valid email addresses
+            </div>
+          </div>
+
+          <!-- Subject Field -->
+          <div class="mb-3">
+            <input type="text" class="form-control" id="subject" formControlName="subject" 
+                   placeholder="Enter email subject">
+          </div>
+
+          <!-- Formatting Toolbar -->
+          <div class="formatting-toolbar mb-3">
+            <div class="d-flex flex-wrap">
+              <button type="button" class="btn btn-icon" (click)="formatText('bold')" title="Bold">
+                <i class="fas fa-bold"></i>
+              </button>
+              <button type="button" class="btn btn-icon" (click)="formatText('italic')" title="Italic">
+                <i class="fas fa-italic"></i>
+              </button>
+              <button type="button" class="btn btn-icon" (click)="formatText('underline')" title="Underline">
+                <i class="fas fa-underline"></i>
+              </button>
+              <button type="button" class="btn btn-icon" (click)="formatText('strikeThrough')" title="Strikethrough">
+                <i class="fas fa-strikethrough"></i>
+              </button>
+              <div class="vr mx-1"></div>
+              <button type="button" class="btn btn-icon" (click)="formatText('justifyLeft')" title="Align Left">
+                <i class="fas fa-align-left"></i>
+              </button>
+              <button type="button" class="btn btn-icon" (click)="formatText('justifyCenter')" title="Align Center">
+                <i class="fas fa-align-center"></i>
+              </button>
+              <button type="button" class="btn btn-icon" (click)="formatText('justifyRight')" title="Align Right">
+                <i class="fas fa-align-right"></i>
+              </button>
+              <div class="vr mx-1"></div>
+              <button type="button" class="btn btn-icon" (click)="formatText('insertUnorderedList')" title="Bullet List">
+                <i class="fas fa-list-ul"></i>
+              </button>
+              <button type="button" class="btn btn-icon" (click)="formatText('insertOrderedList')" title="Numbered List">
+                <i class="fas fa-list-ol"></i>
+              </button>
+              <button type="button" class="btn btn-icon" (click)="insertLink()" title="Insert Link">
+                <i class="fas fa-link"></i>
+              </button>
+              <button type="button" class="btn btn-icon" (click)="triggerImageUpload()" title="Insert Image">
+                <i class="fas fa-image"></i>
+              </button>
+              <input type="file" #imageInput class="d-none" accept="image/*" (change)="handleImageUpload($event)">
+            </div>
+          </div>
+
+          <!-- Message Body -->
+          <div class="mb-3">
+            <label for="messageBody" class="form-label">Message</label>
+            <div class="message-editor" 
+                 contenteditable="true" 
+                 id="messageBody"
+                 (input)="onMessageInput($event)"
+                 (focus)="saveSelection()"
+                 (mouseup)="saveSelection()"
+                 (keyup)="saveSelection()">
+
+            </div>
+          </div>
+
+          <!-- Uploaded Images -->
+          <div class="uploaded-images" *ngIf="uploadedImages.length > 0">
+            <h6>Uploaded Images</h6>
+            <div class="images-grid">
+              <div class="image-item" *ngFor="let image of uploadedImages; let i = index">
+                <div class="image-preview">
+                  <img [src]="image.url" [alt]="image.name">
+                  <button type="button" class="btn-remove" (click)="removeImage(i)">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+                <div class="image-name">{{image.name}}</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Attachments -->
+          <div class="attachments-section" *ngIf="attachments.length > 0">
+            <h6>Attachments</h6>
+            <div class="attachments-list">
+              <div class="attachment-item" *ngFor="let attachment of attachments; let i = index">
+                <div class="attachment-preview">
+                  <i class="fas fa-paperclip"></i>
+                  <span class="attachment-name">{{attachment.name}}</span>
+                  <button type="button" class="btn-remove" (click)="removeAttachment(i)">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+                <div class="attachment-size">{{attachment.size}}</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="action-buttons">
+            <button type="button" class="btn btn-attachment" (click)="triggerFileUpload()">
+              <i class="fas fa-paperclip me-1"></i>
+              {{attachments.length > 0 ? 'Add More Attachments' : 'Add Attachments'}}
+            </button>
+            <input type="file" #fileInput class="d-none" multiple (change)="handleFileUpload($event)">
+          </div>
+
+          <!-- Modal Footer -->
+          <div class="modal-footer">
+            <div class="left-buttons">
+              <button type="button" class="btn btn-discard" (click)="discardEmail()">
+                <i class="fas fa-trash me-1"></i>Discard
+              </button>
+              <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal">
+                Close
+              </button>
+            </div>
+            <div class="right-buttons">
+              <button type="button" class="btn btn-draft me-2" (click)="saveDraft()">
+                <i class="fas fa-save me-1"></i>Draft
+              </button>
+              <button type="submit" class="btn btn-send" [disabled]="!composeForm.valid">
+                <i class="fas fa-paper-plane me-1"></i>Send
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Insert Link Modal -->
+<div class="modal fade" id="insertLinkModal" tabindex="-1" aria-labelledby="insertLinkModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="insertLinkModalLabel">Insert Link</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="linkUrl" class="form-label">URL</label>
+          <input type="url" class="form-control" id="linkUrl" [(ngModel)]="linkUrl" 
+                 placeholder="https://example.com">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="insertLinkToText()">Insert</button>
+      </div>
+    </div>
+  </div>
+</div>
