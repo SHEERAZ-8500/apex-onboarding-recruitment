@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder } from 'formiojs';
 import { Components } from 'formiojs';
 import { ToastrService } from 'ngx-toastr';
+import { ApiService } from '../shared/services/apis/api.service';
 @Component({
   selector: 'app-form-builder',
   templateUrl: './form-builder.component.html',
@@ -11,7 +12,7 @@ export class FormBuilderComponent implements OnInit {
   @ViewChild('builder', { static: true }) builderRef!: ElementRef;
   builder: any;
   sectionCount = 1;
-  constructor(private toastr: ToastrService) { }
+  constructor(private toastr: ToastrService, private apiService: ApiService) { }
   // defaultFormJson = {
   //   display: 'form',
   //   components: [] 
@@ -225,10 +226,25 @@ export class FormBuilderComponent implements OnInit {
   }
 
   onSubmit() {
-    
+
     localStorage.setItem('savedForm', JSON.stringify(this.builder.instance.schema));
     console.log('🚀 Final Form JSON:', this.builder.instance.schema);
     this.toastr.success('Data saved successfully!', 'Success');
+
+    let payload = {
+      ...this.builder.instance.schema,
+      formName: 'apex'
+    };
+    this.apiService.saveFormDefinition(payload).subscribe({
+      next: (response) => {
+        console.log('Form definition saved successfully:', response);
+        this.toastr.success('Form definition saved successfully!', 'Success');
+      },
+      error: (error) => {
+        console.error('Error saving form definition:', error);
+        this.toastr.error('Failed to save form definition.', 'Error');
+      }
+    });
   }
 
 
