@@ -1,0 +1,24 @@
+ :root {
+ --primary-color: #15243e;
+  --second-primary-color: #0c1a32;
+  --gray-color-1: #b5b5c3;
+  --gray-color-2: #8daac6;
+  --purple-1: #7047ee;
+  --border-color: #5C607B;
+  --white-color-1: #ffffffd9;
+  --light-purple: #e8e1ff;
+  --red-color: #ee3158;}
+
+
+
+  .offcanvas-end {
+    width: 300px;
+    background-color: var(--primary-color);
+  }
+  .offcanvas-title {
+    color: var(--white-color-1);
+  }
+  .btn-close {
+    color: var(--red-color);
+    background-color: var(#f58ea2);
+  }
