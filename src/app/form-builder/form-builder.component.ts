@@ -12,6 +12,7 @@ export class FormBuilderComponent implements OnInit {
   @ViewChild('builder', { static: true }) builderRef!: ElementRef;
   builder: any;
   sectionCount = 1;
+  @ViewChild('formnameModalBtn') formnameModalBtn!: ElementRef;
   constructor(private toastr: ToastrService, private apiService: ApiService) { }
   // defaultFormJson = {
   //   display: 'form',
@@ -226,7 +227,13 @@ export class FormBuilderComponent implements OnInit {
   }
 
   onSubmit() {
+    if (this.formnameModalBtn) {
+      this.formnameModalBtn.nativeElement.click();
+    }
 
+  }
+
+  saveFormData() {
     localStorage.setItem('savedForm', JSON.stringify(this.builder.instance.schema));
     console.log('🚀 Final Form JSON:', this.builder.instance.schema);
     this.toastr.success('Data saved successfully!', 'Success');
@@ -246,7 +253,5 @@ export class FormBuilderComponent implements OnInit {
       }
     });
   }
-
-
 
 }
