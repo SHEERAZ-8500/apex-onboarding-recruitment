@@ -13,6 +13,9 @@ export class FormBuilderComponent implements OnInit {
   builder: any;
   sectionCount = 1;
   @ViewChild('formnameModalBtn') formnameModalBtn!: ElementRef;
+  @ViewChild('closeFormnameModal') closeFormnameModal!: ElementRef;
+  formName = ''
+
   constructor(private toastr: ToastrService, private apiService: ApiService) { }
   // defaultFormJson = {
   //   display: 'form',
@@ -227,6 +230,7 @@ export class FormBuilderComponent implements OnInit {
   }
 
   onSubmit() {
+    this.formName = ''
     if (this.formnameModalBtn) {
       this.formnameModalBtn.nativeElement.click();
     }
@@ -234,17 +238,24 @@ export class FormBuilderComponent implements OnInit {
   }
 
   saveFormData() {
+    if (this.formName === '') {
+      this.toastr.error('Form name is required!', 'Error');
+      return
+    }
     localStorage.setItem('savedForm', JSON.stringify(this.builder.instance.schema));
     console.log('🚀 Final Form JSON:', this.builder.instance.schema);
     this.toastr.success('Data saved successfully!', 'Success');
 
     let payload = {
       ...this.builder.instance.schema,
-      formName: 'apex1'
+      formName: this.formName
     };
     this.apiService.saveFormDefinition(payload).subscribe({
       next: (response) => {
         console.log('Form definition saved successfully:', response);
+        if (this.closeFormnameModal) {
+          this.closeFormnameModal.nativeElement.click();
+        }
         this.toastr.success('Form definition saved successfully!', 'Success');
       },
       error: (error) => {

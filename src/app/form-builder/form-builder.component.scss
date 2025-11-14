@@ -1,10 +1,9 @@
-
-
 .builder {
   flex: 1;
   overflow: auto;
-  .formarea{
-    width: 70%!important;
+
+  .formarea {
+    width: 70% !important;
   }
 }
 
@@ -30,19 +29,78 @@
 
 
 
- .first {
-        background: transparent;
-        outline: none;
-        border: 1px solid #7047ee;
-        color: var(--gray-color-1);
-        border-radius: 4px;
-        width: 170px;
-        height: 40px;
-        margin-bottom: 10px;
-        transition: background-color 0.5s ease, color 0.5s ease;
-    }
+.first {
+  background: transparent;
+  outline: none;
+  border: 1px solid #7047ee;
+  color: var(--gray-color-1);
+  border-radius: 4px;
+  width: 170px;
+  height: 40px;
+  margin-bottom: 10px;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
 
-    .first:hover {
-        background: #7047ee !important;
-        color: white;
-    }
+.first:hover {
+  background: #7047ee !important;
+  color: white;
+}
+
+.custom-modal {
+  background-color: var(--primary-color);
+  color: var(--white-color-1);
+  border-radius: 10px;
+  padding: 5px 5px 10px 5px;
+  border: 1px solid var(--border-color);
+}
+
+/* Input Styling */
+.custom-input {
+  border-radius: 6px !important;
+  background-color: var(--second-primary-color) !important;
+  color: var(--gray-color-1) !important;
+  border: 1px solid var(--border-color) !important;
+  outline: none !important;
+  padding-inline-start: 10px !important;
+  display: block !important;
+}
+
+.custom-input::placeholder {
+  color: var(--gray-color-2);
+}
+
+/* Close Button */
+.btn-close-white {
+  filter: invert(1);
+}
+
+/* Buttons */
+.cancel-btn {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--gray-color-1);
+  padding: 8px 16px;
+  border-radius: 6px;
+  width: 120px;
+  transition: 0.2s;
+}
+
+.cancel-btn:hover {
+  background: var(--second-primary-color);
+}
+
+/* Save Button */
+.save-btn {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+  width: 120px;
+}
+
+.save-btn:hover {
+  background: #0056b3;
+}
