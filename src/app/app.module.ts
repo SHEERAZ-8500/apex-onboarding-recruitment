@@ -30,6 +30,7 @@ import { EmailComponent } from './features/email/email.component';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { AuthInterceptor } from '../app/shared/interceptor/auth.interceptor';
 import { HttpClientModule } from '@angular/common/http';
+import { HeaderModalComponent } from './shared/components/bootstrap-modals/header-modal/header-modal.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,7 +52,8 @@ import { HttpClientModule } from '@angular/common/http';
     DashboardComponent,
     ChatComponent,
     FormRenderComponent,
-    EmailComponent
+    EmailComponent,
+    HeaderModalComponent
   ],
   imports: [
     BrowserModule,

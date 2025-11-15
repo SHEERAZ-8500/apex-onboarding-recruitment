@@ -4,17 +4,17 @@
     <!-- Left Sidebar -->
     <div class="col-md-3 col-lg-2 email-sidebar" [class.show]="sidebarVisible">
       <div class="d-flex flex-column h-100">
-        <!-- Compose Button -->
-        <button class="btn btn-compose mb-2" (click)="openComposeModal()">
-          <i class="fas fa-edit me-2"></i>Compose
-        </button>
-
         <!-- Mobile menu close button -->
         <button
-          class="btn btn-icon d-md-none mb-2 align-self-end"
+          class="btn btn-icon d-md-none mb-2 align-self-end close-sidebar-btn"
           (click)="toggleSidebar()"
         >
           <i class="fas fa-times"></i>
+        </button>
+
+        <!-- Compose Button -->
+        <button class="btn btn-compose mb-2" (click)="openComposeModal()">
+          <i class="fas fa-edit me-2"></i>Compose
         </button>
 
         <!-- Folders Section -->
@@ -95,9 +95,13 @@
         </div>
 
         <!-- Contacts List -->
-        <div class="contacts-section">
-          <div class="contacts-header" (click)="toggleContacts()">
+        <div class="contacts-section mb-2">
+          <div
+            class="contacts-header d-flex justify-content-between align-items-center"
+            (click)="toggleContacts()"
+          >
             <h6 class="mb-0">Contacts</h6>
+            <i class="fas fa-chevron-{{ contactsCollapsed ? 'down' : 'up' }}"></i>
           </div>
           <div
             class="contacts-list scrollable"
@@ -121,13 +125,13 @@
     </div>
 
     <!-- Middle Section - Email List -->
-    <div class="col-md-5 col-lg-6 email-list-section">
+    <div class="col-md-9 col-lg-10 email-list-section">
       <div class="d-flex flex-column h-100">
         <!-- Header Card -->
         <div class="email-list-card">
           <!-- Card Header -->
           <div class="card-header">
-            <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="d-flex justify-content-between align-items-center">
               <div class="d-flex align-items-center">
                 <button
                   class="btn mobile-menu-btn me-2 d-md-none"
@@ -135,7 +139,7 @@
                 >
                   <i class="fas fa-bars"></i>
                 </button>
-                <h4 class="mb-0 text-capitalize">{{ activeFolder }}</h4>
+                <h4 class="mb-0 text-capitalize folder-title">{{ activeFolder }}</h4>
               </div>
               <div class="search-box">
                 <i class="fas fa-search search-icon"></i>
@@ -151,70 +155,10 @@
           </div>
 
           <!-- Action Icons -->
-          <!-- <div class="action-icons-bar">
-            <div class="action-icons-group">
-              <div class="icon-group select-group">
-                <div class="form-check me-2">
-                  <input class="form-check-input" type="checkbox" 
-                         [checked]="isAllSelected()" (change)="toggleSelectAll()">
-                </div>
-              </div>
-              <div class="icon-group action-group">
-                <button class="btn btn-icon" (click)="deleteSelected()">
-                  <i class="fas fa-trash"></i>
-                </button>
-                <button class="btn btn-icon" (click)="replyToSelected()">
-                  <i class="fas fa-reply"></i>
-                </button>
-                <button class="btn btn-icon" (click)="forwardSelected()">
-                  <i class="fas fa-share"></i>
-                </button>
-              </div>
-              
-              <div class="icon-group flag-group">
-                <div class="dropdown">
-                  <button class="btn btn-icon dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                    <i class="fas fa-flag"></i>
-                  </button>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Mark as Important</a></li>
-                    <li><a class="dropdown-item" href="#">Mark as Read</a></li>
-                    <li><a class="dropdown-item" href="#">Mark as Unread</a></li>
-                  </ul>
-                </div>
-                
-                <div class="dropdown">
-                  <button class="btn btn-icon dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                    <i class="fas fa-file"></i>
-                  </button>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Move to Folder</a></li>
-                    <li><a class="dropdown-item" href="#">Apply Label</a></li>
-                    <li><a class="dropdown-item" href="#">Archive</a></li>
-                  </ul>
-                </div>
-              </div>
-              
-              <div class="icon-group refresh-group">
-                <button class="btn btn-icon" (click)="refreshEmails()">
-                  <i class="fas fa-sync-alt"></i>
-                </button>
-              </div>
-              
-              <div class="icon-group nav-group">
-                <button class="btn btn-icon" (click)="previousPage()">
-                  <i class="fas fa-chevron-left"></i>
-                </button>
-                <button class="btn btn-icon" (click)="nextPage()">
-                  <i class="fas fa-chevron-right"></i>
-                </button>
-              </div>
-            </div>
-          </div> -->
-          <div class="action-icons-bar bg-card border-bottom">
-            <div class="container">
+          <div class="action-icons-bar">
+            <div class="container-fluid">
               <div class="row g-2 align-items-center">
-                <!-- Select Group - Auto width -->
+                <!-- Select Group -->
                 <div class="col-auto">
                   <div class="icon-group select-group bg-purple rounded">
                     <div class="form-check m-0 p-1 px-1">
@@ -228,57 +172,31 @@
                   </div>
                 </div>
 
-                <!-- Action Buttons - Auto width -->
-                <!-- <div class="col-auto">
-                  <div class="icon-group action-group bg-purple rounded">
-                    <button
-                      class="btn btn-icon text-white"
-                      (click)="deleteSelected()"
-                    >
-                      <i class="fas fa-trash"></i>
-                    </button>
-                    <button
-                      class="btn btn-icon text-white"
-                      (click)="replyToSelected()"
-                    >
-                      <i class="fas fa-reply"></i>
-                    </button>
-                    <button
-                      class="btn btn-icon text-white"
-                      (click)="forwardSelected()"
-                    >
-                      <i class="fas fa-share"></i>
-                    </button>
-                  </div>
-                </div> -->
+                <!-- Action Buttons -->
                 <div class="col-auto">
                   <div class="icon-group action-group bg-purple rounded d-flex">
-                    <!-- Delete - Always visible -->
                     <button
                       class="btn btn-icon text-white px-2 px-md-3 py-1 py-md-2"
                       (click)="deleteSelected()"
                     >
                       <i class="fas fa-trash fa-sm"></i>
                     </button>
-
-                    <!-- Reply - Hidden on extra small, visible on sm+ -->
                     <button
-                      class="btn btn-icon text-white px-2 px-md-3 py-1 py-md-2 d-none d-sm-inline-block"
+                      class="btn btn-icon text-white px-2 px-md-3 py-1 py-md-2"
                       (click)="replyToSelected()"
                     >
                       <i class="fas fa-reply fa-sm"></i>
                     </button>
-
-                    <!-- Forward - Hidden on small, visible on md+ -->
                     <button
-                      class="btn btn-icon text-white px-2 px-md-3 py-1 py-md-2 d-none d-md-inline-block"
+                      class="btn btn-icon text-white px-2 px-md-3 py-1 py-md-2"
                       (click)="forwardSelected()"
                     >
                       <i class="fas fa-share fa-sm"></i>
                     </button>
                   </div>
                 </div>
-                <!-- Flag & File Group - Auto width -->
+
+                <!-- Flag & File Group -->
                 <div class="col-auto">
                   <div class="icon-group flag-group bg-purple rounded">
                     <div class="dropdown d-inline-block">
@@ -325,7 +243,7 @@
                   </div>
                 </div>
 
-                <!-- Refresh Button - Auto width -->
+                <!-- Refresh Button -->
                 <div class="col-auto">
                   <div class="icon-group refresh-group bg-purple rounded">
                     <button
@@ -337,8 +255,8 @@
                   </div>
                 </div>
 
-                <!-- Navigation - Auto width -->
-                <div class="col-auto">
+                <!-- Navigation - Pushed to right -->
+                <div class="col-auto ms-auto">
                   <div class="icon-group nav-group bg-purple rounded">
                     <button
                       class="btn btn-icon text-white"
@@ -354,12 +272,10 @@
                     </button>
                   </div>
                 </div>
-
-                <!-- Spacer to push content (optional) -->
-                <div class="col"></div>
               </div>
             </div>
           </div>
+
           <!-- Email List -->
           <div class="email-list scrollable">
             <div
@@ -367,11 +283,11 @@
               *ngFor="let email of paginatedEmails"
               [class.selected]="email.selected"
               [class.active]="activeEmail?.id === email.id"
-              (click)="selectEmail(email)"
+              (click)="openEmailModal(email)"
             >
               <div class="email-item-content">
                 <div class="d-flex align-items-center email-main-info">
-                  <div class="form-check me-2">
+                  <div class="form-check me-2 email-checkbox">
                     <input
                       class="form-check-input"
                       type="checkbox"
@@ -382,7 +298,7 @@
                     />
                   </div>
                   <button
-                    class="btn btn-icon me-2"
+                    class="btn btn-icon me-2 star-btn"
                     (click)="toggleStar(email); $event.stopPropagation()"
                   >
                     <i class="fas fa-star" [class.starred]="email.starred"></i>
@@ -400,131 +316,119 @@
         </div>
       </div>
     </div>
+  </div>
+</div>
 
-    <!-- Right Section - Email Detail -->
-    <div
-      class="col-md-4 col-lg-4 email-detail-section"
-      *ngIf="activeEmail"
-      [class.show]="emailDetailVisible"
-    >
-      <div class="d-flex flex-column h-100">
-        <!-- Email Detail Card -->
-        <div class="email-detail-card">
-          <!-- Email Header -->
-          <div class="card-header">
-            <div class="d-flex align-items-center mb-2">
-              <button
-                class="btn back-to-list me-2 d-md-none"
-                (click)="hideEmailDetail()"
-              >
-                <i class="fas fa-arrow-left"></i>
-              </button>
-              <h5 class="email-subject mb-0">{{ activeEmail.subject }}</h5>
-            </div>
-          </div>
+<!-- Email Detail Modal -->
+<div
+  class="modal fade email-detail-modal"
+  id="emailDetailModal"
+  tabindex="-1"
+  aria-labelledby="emailDetailModalLabel"
+  aria-hidden="true"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+>
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"  style="margin: 1.5rem auto;"> >
+    <div class="modal-content">
 
-          <!-- Sender Details -->
-          <div class="sender-section">
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="d-flex align-items-center">
-                <div class="sender-avatar me-2">
-                  <img
-                    [src]="activeEmail.avatar"
-                    [alt]="activeEmail.sender"
-                    class="avatar-img"
-                    (error)="
-                      activeEmail.avatar = 'assets/images/avatars/default.jpg'
-                    "
-                  />
-                </div>
-                <div>
-                  <div class="sender-name">{{ activeEmail.sender }}</div>
-                  <div class="sender-email">
-                    from {{ activeEmail.senderEmail }}
-                  </div>
-                </div>
+      <!-- HEADER (fixed) -->
+      <div class="modal-header">
+        <h5 class="modal-title w-100 text-center" id="emailDetailModalLabel">
+          {{ activeEmail?.subject }}
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="closeEmailModal()"
+        ></button>
+      </div>
+
+      <!-- BODY (scrollable part ONLY) -->
+      <div class="modal-body email-scroll-body">
+
+        <!-- Sender Section -->
+        <div class="sender-section mb-3">
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+              <div class="sender-avatar me-3">
+                <img
+                  [src]="activeEmail?.avatar"
+                  class="avatar-img"
+                  [alt]="activeEmail?.sender"
+                  (error)="activeEmail.avatar='assets/images/avatars/default.jpg'"
+                />
               </div>
-              <div class="email-time">{{ activeEmail.date }}</div>
-            </div>
-          </div>
-
-          <!-- Action Icons -->
-          <div class="email-actions-bar">
-            <div class="d-flex justify-content-between align-items-center">
-              <button class="btn btn-icon print-btn" (click)="printEmail()">
-                <i class="fas fa-print"></i>
-              </button>
-              <div class="action-icons-group">
-                <button class="btn btn-icon" (click)="deleteEmail(activeEmail)">
-                  <i class="fas fa-trash"></i>
-                </button>
-                <button
-                  class="btn btn-icon"
-                  (click)="replyToEmail(activeEmail)"
-                >
-                  <i class="fas fa-reply"></i>
-                </button>
-                <button
-                  class="btn btn-icon"
-                  (click)="forwardEmail(activeEmail)"
-                >
-                  <i class="fas fa-share"></i>
-                </button>
+              <div>
+                <div class="sender-name">{{ activeEmail?.sender }}</div>
+                <div class="sender-email">from {{ activeEmail?.senderEmail }}</div>
               </div>
             </div>
+            <div class="email-time">{{ activeEmail?.date }}</div>
           </div>
+        </div>
 
-          <!-- Email Body -->
-          <div class="email-body scrollable">
-            <div [innerHTML]="activeEmail.body"></div>
-          </div>
+        <!-- Action Icons -->
+        <div class="email-actions-bar mb-3">
+          <div class="d-flex justify-content-between align-items-center">
+            <button class="btn btn-icon print-btn" (click)="printEmail()">
+              <i class="fas fa-print"></i>
+            </button>
 
-          <!-- Attachments -->
-          <div
-            class="email-attachments"
-            *ngIf="
-              activeEmail.attachments && activeEmail.attachments.length > 0
-            "
-          >
-            <h6>Attachments ({{ activeEmail.attachments.length }})</h6>
-            <div class="attachments-grid">
-              <div
-                class="attachment-box"
-                *ngFor="let attachment of activeEmail.attachments"
-              >
-                <div class="attachment-icon">
-                  <i class="fas fa-file"></i>
-                </div>
-                <div class="attachment-info">
-                  <div class="attachment-name">{{ attachment.name }}</div>
-                  <div class="attachment-size">{{ attachment.size }}</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Reply/Forward Buttons -->
-          <div class="email-action-buttons">
-            <div class="d-flex justify-content-end">
-              <button
-                class="btn btn-reply me-2"
-                (click)="replyToEmail(activeEmail)"
-              >
-                <i class="fas fa-reply me-1"></i>Reply
+            <div class="action-icons-group">
+              <button class="btn btn-icon" (click)="deleteEmail(activeEmail)">
+                <i class="fas fa-trash"></i>
               </button>
-              <button
-                class="btn btn-forward"
-                (click)="forwardEmail(activeEmail)"
-              >
-                <i class="fas fa-share me-1"></i>Forward
+              <button class="btn btn-icon" (click)="replyToEmail(activeEmail)">
+                <i class="fas fa-reply"></i>
+              </button>
+              <button class="btn btn-icon" (click)="forwardEmail(activeEmail)">
+                <i class="fas fa-share"></i>
               </button>
             </div>
           </div>
         </div>
+
+        <!-- Email Body -->
+        <div class="email-body-container mb-3">
+          <div class="email-body" [innerHTML]="activeEmail?.body"></div>
+        </div>
+
+        <!-- Attachments -->
+        <div
+          class="email-attachments mb-3"
+          *ngIf="activeEmail?.attachments?.length > 0"
+        >
+          <h6>Attachments ({{ activeEmail?.attachments.length }})</h6>
+          <div class="attachments-grid">
+            <div class="attachment-box" *ngFor="let attachment of activeEmail?.attachments">
+              <div class="attachment-icon"><i class="fas fa-file"></i></div>
+              <div class="attachment-info">
+                <div class="attachment-name">{{ attachment.name }}</div>
+                <div class="attachment-size">{{ attachment.size }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
+
+      <!-- FOOTER (fixed) -->
+      <div class="modal-footer justify-content-end">
+        <button class="btn btn-reply me-2" (click)="replyToEmail(activeEmail)">
+          <i class="fas fa-reply me-1"></i>Reply
+        </button>
+        <button class="btn btn-forward" (click)="forwardEmail(activeEmail)">
+          <i class="fas fa-share me-1"></i>Forward
+        </button>
+      </div>
+
     </div>
   </div>
 </div>
+
 
 <!-- Compose Email Modal -->
 <div
@@ -536,8 +440,10 @@
   aria-labelledby="composeModalLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable modal-fixed" style="margin: 1.5rem auto;">
     <div class="modal-content">
+
+      <!-- HEADER -->
       <div class="modal-header">
         <h5 class="modal-title" id="composeModalLabel">Compose New Message</h5>
         <button
@@ -547,8 +453,11 @@
           aria-label="Close"
         ></button>
       </div>
-      <div class="modal-body">
+
+      <!-- BODY (scrollable correctly) -->
+      <div class="modal-body compose-modal-body">
         <form [formGroup]="composeForm" (ngSubmit)="sendEmail()">
+
           <!-- To Field -->
           <div class="mb-3">
             <input
@@ -569,7 +478,7 @@
             </div>
           </div>
 
-          <!-- Subject Field -->
+          <!-- Subject -->
           <div class="mb-3">
             <input
               type="text"
@@ -583,111 +492,57 @@
           <!-- Formatting Toolbar -->
           <div class="formatting-toolbar mb-3">
             <div class="d-flex flex-wrap">
-              <button
-                type="button"
-                class="btn btn-icon"
-                (click)="formatText('bold')"
-                title="Bold"
-              >
+              <button type="button" class="btn btn-icon" (click)="formatText('bold')" title="Bold">
                 <i class="fas fa-bold"></i>
               </button>
-              <button
-                type="button"
-                class="btn btn-icon"
-                (click)="formatText('italic')"
-                title="Italic"
-              >
+              <button type="button" class="btn btn-icon" (click)="formatText('italic')" title="Italic">
                 <i class="fas fa-italic"></i>
               </button>
-              <button
-                type="button"
-                class="btn btn-icon"
-                (click)="formatText('underline')"
-                title="Underline"
-              >
+              <button type="button" class="btn btn-icon" (click)="formatText('underline')" title="Underline">
                 <i class="fas fa-underline"></i>
               </button>
-              <button
-                type="button"
-                class="btn btn-icon"
-                (click)="formatText('strikeThrough')"
-                title="Strikethrough"
-              >
+              <button type="button" class="btn btn-icon" (click)="formatText('strikeThrough')" title="Strikethrough">
                 <i class="fas fa-strikethrough"></i>
               </button>
+
               <div class="vr mx-1"></div>
-              <button
-                type="button"
-                class="btn btn-icon"
-                (click)="formatText('justifyLeft')"
-                title="Align Left"
-              >
+
+              <button type="button" class="btn btn-icon" (click)="formatText('justifyLeft')" title="Align Left">
                 <i class="fas fa-align-left"></i>
               </button>
-              <button
-                type="button"
-                class="btn btn-icon"
-                (click)="formatText('justifyCenter')"
-                title="Align Center"
-              >
+              <button type="button" class="btn btn-icon" (click)="formatText('justifyCenter')" title="Align Center">
                 <i class="fas fa-align-center"></i>
               </button>
-              <button
-                type="button"
-                class="btn btn-icon"
-                (click)="formatText('justifyRight')"
-                title="Align Right"
-              >
+              <button type="button" class="btn btn-icon" (click)="formatText('justifyRight')" title="Align Right">
                 <i class="fas fa-align-right"></i>
               </button>
+
               <div class="vr mx-1"></div>
-              <button
-                type="button"
-                class="btn btn-icon"
-                (click)="formatText('insertUnorderedList')"
-                title="Bullet List"
-              >
+
+              <button type="button" class="btn btn-icon" (click)="formatText('insertUnorderedList')" title="Bullet List">
                 <i class="fas fa-list-ul"></i>
               </button>
-              <button
-                type="button"
-                class="btn btn-icon"
-                (click)="formatText('insertOrderedList')"
-                title="Numbered List"
-              >
+              <button type="button" class="btn btn-icon" (click)="formatText('insertOrderedList')" title="Numbered List">
                 <i class="fas fa-list-ol"></i>
               </button>
-              <button
-                type="button"
-                class="btn btn-icon"
-                (click)="insertLink()"
-                title="Insert Link"
-              >
+
+              <button type="button" class="btn btn-icon" (click)="insertLink()" title="Insert Link">
                 <i class="fas fa-link"></i>
               </button>
-              <button
-                type="button"
-                class="btn btn-icon"
-                (click)="triggerImageUpload()"
-                title="Insert Image"
-              >
+
+              <button type="button" class="btn btn-icon" (click)="triggerImageUpload()" title="Insert Image">
                 <i class="fas fa-image"></i>
               </button>
-              <input
-                type="file"
-                #imageInput
-                class="d-none"
-                accept="image/*"
-                (change)="handleImageUpload($event)"
-              />
+
+              <input type="file" #imageInput class="d-none" accept="image/*" (change)="handleImageUpload($event)" />
             </div>
           </div>
 
           <!-- Message Body -->
-          <div class="mb-3">
+          <div class="mb-1">
             <label for="messageBody" class="form-label">Message</label>
             <div
-              class="message-editor"
+              class="message-editor scrollable-thin"
               contenteditable="true"
               id="messageBody"
               (input)="onMessageInput($event)"
@@ -697,118 +552,90 @@
             ></div>
           </div>
 
-          <!-- Uploaded Images -->
-          <div class="uploaded-images" *ngIf="uploadedImages.length > 0">
-            <h6>Uploaded Images</h6>
-            <div class="images-grid">
-              <div
-                class="image-item"
-                *ngFor="let image of uploadedImages; let i = index"
-              >
-                <div class="image-preview">
-                  <img [src]="image.url" [alt]="image.name" />
-                  <button
-                    type="button"
-                    class="btn-remove"
-                    (click)="removeImage(i)"
-                  >
-                    <i class="fas fa-times"></i>
-                  </button>
-                </div>
-                <div class="image-name">{{ image.name }}</div>
-              </div>
-            </div>
-          </div>
-
           <!-- Attachments -->
-          <div class="attachments-section" *ngIf="attachments.length > 0">
-            <h6>Attachments</h6>
-            <div class="attachments-list">
-              <div
-                class="attachment-item"
-                *ngFor="let attachment of attachments; let i = index"
-              >
-                <div class="attachment-preview">
-                  <i class="fas fa-paperclip"></i>
-                  <span class="attachment-name">{{ attachment.name }}</span>
-                  <button
-                    type="button"
-                    class="btn-remove"
-                    (click)="removeAttachment(i)"
-                  >
-                    <i class="fas fa-times"></i>
-                  </button>
+          <div
+            class="attachments-container"
+            *ngIf="uploadedImages.length > 0 || attachments.length > 0"
+          >
+            <div class="attachments-popup">
+
+              <!-- Images -->
+              <div class="uploaded-images-section" *ngIf="uploadedImages.length > 0">
+                <div class="d-flex align-items-center flex-wrap gap-2">
+                  <span class="attachments-label">Images:</span>
+                  <div class="images-list">
+                    <div class="image-attachment-item" *ngFor="let image of uploadedImages; let i = index">
+                      <div class="image-preview-small">
+                        <img [src]="image.url" [alt]="image.name" />
+                        <button type="button" class="btn-remove-small" (click)="removeImage(i)">
+                          <i class="fas fa-times"></i>
+                        </button>
+                      </div>
+                      <div class="image-name-small">{{ image.name }}</div>
+                    </div>
+                  </div>
                 </div>
-                <div class="attachment-size">{{ attachment.size }}</div>
               </div>
+
+              <!-- Files -->
+              <div class="file-attachments-section" *ngIf="attachments.length > 0">
+                <div class="d-flex align-items-center flex-wrap gap-2">
+                  <span class="attachments-label">Files:</span>
+                  <div class="files-list">
+                    <div class="file-attachment-item" *ngFor="let attachment of attachments; let i = index">
+                      <div class="file-preview">
+                        <i class="fas fa-paperclip"></i>
+                        <span class="file-name">{{ attachment.name }}</span>
+                        <button type="button" class="btn-remove-small" (click)="removeAttachment(i)">
+                          <i class="fas fa-times"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
             </div>
           </div>
 
-          <!-- Action Buttons -->
-          <div class="action-buttons">
-            <button
-              type="button"
-              class="btn btn-attachment"
-              (click)="triggerFileUpload()"
-            >
+          <!-- Attach More -->
+          <div class="action-buttons mt-3">
+            <button type="button" class="btn btn-attachment" (click)="triggerFileUpload()">
               <i class="fas fa-paperclip me-1"></i>
-              {{
-                attachments.length > 0
-                  ? "Add More Attachments"
-                  : "Add Attachments"
-              }}
+              {{ attachments.length > 0 ? "Add More Attachments" : "Add Attachments" }}
             </button>
-            <input
-              type="file"
-              #fileInput
-              class="d-none"
-              multiple
-              (change)="handleFileUpload($event)"
-            />
+            <input type="file" #fileInput class="d-none" multiple (change)="handleFileUpload($event)" />
           </div>
 
-          <!-- Modal Footer -->
-          <div class="modal-footer">
-            <div class="left-buttons">
-              <button
-                type="button"
-                class="btn btn-discard"
-                (click)="discardEmail()"
-              >
-                <i class="fas fa-trash me-1"></i>Discard
-              </button>
-              <button
-                type="button"
-                class="btn btn-close-modal"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-            </div>
-            <div class="right-buttons">
-              <button
-                type="button"
-                class="btn btn-draft me-2"
-                (click)="saveDraft()"
-              >
-                <i class="fas fa-save me-1"></i>Draft
-              </button>
-              <button
-                type="submit"
-                class="btn btn-send"
-                [disabled]="!composeForm.valid"
-              >
-                <i class="fas fa-paper-plane me-1"></i>Send
-              </button>
-            </div>
-          </div>
         </form>
       </div>
+
+      <!-- FOOTER (always visible) -->
+      <div class="modal-footer compose-footer">
+        <div class="left-buttons">
+          <button type="button" class="btn btn-discard" (click)="discardEmail()">
+            <i class="fas fa-trash me-1"></i>Discard
+          </button>
+          <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal">
+            Close
+          </button>
+        </div>
+
+        <div class="right-buttons">
+          <button type="button" class="btn btn-draft me-2" (click)="saveDraft()">
+            <i class="fas fa-save me-1"></i>Draft
+          </button>
+          <button type="submit" class="btn btn-send" [disabled]="!composeForm.valid">
+            <i class="fas fa-paper-plane me-1"></i>Send
+          </button>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
 
-<!-- Insert Link Modal -->
+
 <div
   class="modal fade"
   id="insertLinkModal"
@@ -854,28 +681,3 @@
     </div>
   </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
