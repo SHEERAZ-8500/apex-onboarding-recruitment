@@ -5,13 +5,19 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 
-export class ApiService {    
-constructor(private http: HttpClient) {  }
+export class ApiService {
+  constructor(private http: HttpClient) { }
 
-saveFormDefinition(formDefinition: any) {
+  saveFormDefinition(formDefinition: any) {
     return this.http.post('v1/forms/definitions', formDefinition);
   }
-  getFormDefinition(publicId:any) {
+  getFormDefinition(publicId: any) {
     return this.http.get(`v1/forms/definitions/${publicId}`);
+  }
+  logIn(userCredentials: any) {
+    return this.http.post('auth/login', userCredentials);
+  }
+  refreshToken(refreshToken: any) {
+    return this.http.post('auth/refresh', { refreshToken });
   }
 }

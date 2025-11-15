@@ -12,11 +12,14 @@ export class FormRenderComponent {
   @ViewChild('formioComp', { read: ElementRef }) formioComp!: ElementRef;
   constructor(private apiService: ApiService) { }
   ngOnInit() {
-    // const savedForm = localStorage.getItem('savedForm');
+    const userId = localStorage.getItem('userId');
     this.apiService.getFormDefinition("95a27209-913e-4c3f-a4cf-99d52b2a5756").subscribe((response: any) => {
       // this.formJson = response;
       console.log(response);
       this.formJson = response.data.formDefinition;
+    }, error => {
+      debugger
+
     });
     // if (savedForm) {
     //   this.formJson = JSON.parse(savedForm);

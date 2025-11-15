@@ -242,25 +242,18 @@ export class FormBuilderComponent implements OnInit {
       this.toastr.error('Form name is required!', 'Error');
       return
     }
-    localStorage.setItem('savedForm', JSON.stringify(this.builder.instance.schema));
-    console.log('🚀 Final Form JSON:', this.builder.instance.schema);
-    this.toastr.success('Data saved successfully!', 'Success');
-
     let payload = {
       ...this.builder.instance.schema,
       formName: this.formName
     };
     this.apiService.saveFormDefinition(payload).subscribe({
       next: (response) => {
-        console.log('Form definition saved successfully:', response);
         if (this.closeFormnameModal) {
           this.closeFormnameModal.nativeElement.click();
         }
         this.toastr.success('Form definition saved successfully!', 'Success');
       },
       error: (error) => {
-        console.error('Error saving form definition:', error);
-        this.toastr.error('Failed to save form definition.', 'Error');
       }
     });
   }

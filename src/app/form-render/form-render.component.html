@@ -7,4 +7,4 @@
 
     <formio [form]="formJson" (submit)="onSubmit($event)" #formioComp></formio>
 </div>
-<div *ngIf="!formJson">Loading form...</div>
+<div *ngIf="!formJson" class="w-full h-100 text-center text-white font-bold"><h1>Data not found</h1></div>

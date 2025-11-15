@@ -3,17 +3,17 @@
         <div class="login-card p-4 rounded shadow-lg">
             <h2 class="text-center mb-4 wellcom-back">Welcome Back</h2>
 
-            <form #loginForm="ngForm">
+            <form >
                 <div class="mb-3">
                     <label class="form-label ">Email</label>
-                    <input type="email" name="email" ngModel required placeholder="Enter your email"
+                    <input type="email" name="email" [(ngModel)]="email" required placeholder="Enter your email"
                         class="form-control input-field" />
                 </div>
 
                 <!-- Password Field -->
                 <div class="mb-3 position-relative">
                     <label class="form-label ">Password</label>
-                    <input [type]="showPassword ? 'text' : 'password'" name="password" ngModel required
+                    <input [type]="showPassword ? 'password' : 'text'" name="password"  [(ngModel)]="password" required
                         placeholder="Enter your password" class="form-control input-field" />
                     <i [ngClass]="showPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'" (click)="togglePassword()"
                         class="toggle-eye"></i>
