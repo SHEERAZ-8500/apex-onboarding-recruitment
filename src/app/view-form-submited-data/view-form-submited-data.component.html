@@ -1,0 +1,10 @@
+<div *ngIf="formJson">
+    <div class="mb-4">
+        <button class="btn btn-primary me-2" (click)="setLayout(1)">Single Column</button>
+        <button class="btn btn-primary me-2" (click)="setLayout(2)">Two Columns</button>
+        <button class="btn btn-primary" (click)="setLayout(3)">Three Columns</button>
+    </div>
+<formio [form]="formJson" [submission]="savedData" (submit)="onSubmit($event)" #formioComp></formio>
+
+</div>
+<div *ngIf="!formJson" class="w-full h-100 text-center text-white font-bold"><h1>Data not found</h1></div>

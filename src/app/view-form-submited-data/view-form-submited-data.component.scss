@@ -1,0 +1,184 @@
+/* Wrapper for Form.io renderer */
+formio {
+    overflow-x: hidden;
+
+    /* Inputs, textarea, select */
+    input,
+    textarea,
+    select,
+    .dropdown {
+        border-radius: 6px !important;
+        background-color: var(--second-primary-color, #0c1a32) !important;
+        color: #b5b5c3 !important;
+        border: 1px solid var(--border-color, #5C607B) !important;
+        outline: none !important;
+        padding-inline-start: 10px !important;
+        display: block !important;
+    }
+
+    .choices__list--dropdown .choices__item {
+        border-radius: 6px !important;
+        background-color: var(--second-primary-color, #0c1a32) !important;
+        color: #b5b5c3 !important;
+        outline: none !important;
+        display: block !important;
+    }
+
+    .formio-choices {
+        .ui {
+            height: 38px !important;
+
+        }
+    }
+
+    .alert {
+        display: none !important;
+    }
+
+    .input-group .input-group-text {
+        position: absolute !important;
+        right: 0% !important;
+        top: 1px !important;
+        height: 35px !important;
+
+        span {
+            padding-top: 15px !important;
+            background: transparent !important;
+        }
+    }
+
+    .formio-component-tags .choices__inner {
+        background-color: var(--second-primary-color) !important;
+        /* dark background */
+        color: white !important;
+        /* text color */
+        border: 1px solid var(--border-color) !important;
+        /* border color */
+        border-radius: 8px !important;
+        /* rounded corners */
+        min-height: 40px !important;
+        padding: 6px 8px !important;
+
+        .choices__input {
+            width: 300px !important;
+            margin-top: 15px !important;
+        }
+    }
+
+    /* Labels */
+    label,
+    .form-check-label,
+    span {
+        color: white !important;
+        font-weight: 500;
+    }
+
+    /* Checkbox & Radio */
+    .form-check-input {
+        background-color: #0c1a32 !important;
+        border: 1px solid #5C607B !important;
+    }
+
+    /* Buttons */
+
+
+    /* Panel / Section */
+    .formio-component-panel {
+        background-color: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+    .formio-component-panel .card,
+    .formio-component-panel .card-body,
+    .formio-component-panel .card-header {
+        background-color: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+    /* Placeholder color */
+    input::placeholder,
+    textarea::placeholder,
+    select::placeholder {
+        color: #ffffff !important;
+        opacity: 1 !important;
+    }
+
+    /* File selector */
+    .fileSelector,
+    .fileSelector a,
+    .fileSelector span,
+    .fileSelector i {
+        color: white !important;
+    }
+
+    /* Hover / Highlight */
+    .formio-component-select .choices__item:hover,
+    .formio-component-select .choices__item.is-highlighted,
+    .formio-component-select .choices__item.is-selected {
+        background-color: var(--second-primary-color, #0c1a32) !important;
+        color: #b5b5c3 !important;
+    }
+
+
+
+
+
+
+
+    .checkbox .form-check {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+
+        input {
+            margin: 0% !important;
+        }
+    }
+}
+
+formio .formio-error-wrapper.has-message {
+    background-color: var(--second-primary-color) !important;
+    /* Dark red background */
+    border-radius: 6px;
+    padding: 6px 10px;
+    /* optional padding */
+}
+
+/* Only when validation fails (invalid input) */
+formio .formio-error-wrapper.has-message input.is-invalid,
+formio .formio-error-wrapper.has-message textarea.is-invalid,
+formio .formio-error-wrapper.has-message select.is-invalid {
+    /* Dark red background */
+    border-color: #ff4d4d !important;
+    /* Bright red border */
+    color: #fff !important;
+}
+
+
+/* Error message text */
+formio .formio-error-wrapper.has-message .formio-errors.invalid-feedback .form-text.error {
+    color: #ff4d4d !important;
+    /* Bright red text */
+    font-weight: 500;
+    margin-top: 4px;
+    display: block;
+    align-items: center !important;
+}
+
+/* Optional: focus effect on invalid input */
+formio .formio-error-wrapper.has-message input.is-invalid:focus,
+formio .formio-error-wrapper.has-message textarea.is-invalid:focus,
+formio .formio-error-wrapper.has-message select.is-invalid:focus {
+    box-shadow: 0 0 5px #ff4d4d !important;
+}
+
+
+
+.formio-form.single-column {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+}

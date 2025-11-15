@@ -1,0 +1,50 @@
+<div class="builder-container">
+  <div style="display: flex; justify-content: space-between;">
+    <button (click)="addSection()" class="first">Add Section</button>
+    <div class="actions">
+      <button (click)="onSubmit()" class="save-btn">Save Form</button>
+    </div>
+  </div>
+
+  <div #builder class="builder"></div>
+
+
+</div>
+
+
+<button type="button" hidden #formnameModalBtn class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#formnameModal">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="formnameModal" tabindex="-1" aria-labelledby="formnameModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content custom-modal">
+
+      <div class="modal-header border-0">
+        <h1 class="modal-title fs-5" id="formnameModalLabel">Add Form Name</h1>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <label class="form-label text-light mb-2">Form Name</label>
+        <input 
+          type="text" 
+          [(ngModel)]="formName" 
+          class="form-control custom-input"
+          placeholder="Enter Form Name"
+        />
+      </div>
+
+      <div class="modal-footer border-0 d-flex justify-content-end gap-2">
+        <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" #closeFormnameModal>
+          Close
+        </button>
+        <button type="button" class="save-btn" (click)="saveFormData()">
+          Save
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>

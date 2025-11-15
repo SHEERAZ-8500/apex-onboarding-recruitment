@@ -31,6 +31,10 @@ import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors } from '@angular
 import { AuthInterceptor } from '../app/shared/interceptor/auth.interceptor';
 import { HttpClientModule } from '@angular/common/http';
 import { HeaderModalComponent } from './shared/components/bootstrap-modals/header-modal/header-modal.component';
+import { ViewAllFormsComponent } from './view-all-forms/view-all-forms.component';
+import { ViewAllFormSubmissionsComponent } from './view-all-form-submissions/view-all-form-submissions.component';
+import { ViewFormSubmitedDataComponent } from './view-form-submited-data/view-form-submited-data.component';
+import { FormDefinationUpdateComponent } from './form-defination-update/form-defination-update.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -53,7 +57,11 @@ import { HeaderModalComponent } from './shared/components/bootstrap-modals/heade
     ChatComponent,
     FormRenderComponent,
     EmailComponent,
-    HeaderModalComponent
+    HeaderModalComponent,
+    ViewAllFormsComponent,
+    ViewAllFormSubmissionsComponent,
+    ViewFormSubmitedDataComponent,
+    FormDefinationUpdateComponent
   ],
   imports: [
     BrowserModule,

@@ -2,14 +2,17 @@ import { Component, ViewEncapsulation, ViewChild, AfterViewInit, ElementRef } fr
 import { ApiService } from '../shared/services/apis/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute } from '@angular/router';
+
 @Component({
-  selector: 'app-form-render',
-  templateUrl: './form-render.component.html',
-  styleUrl: './form-render.component.scss',
+  selector: 'app-view-form-submited-data',
+  templateUrl: './view-form-submited-data.component.html',
+  styleUrl: './view-form-submited-data.component.scss',
   encapsulation: ViewEncapsulation.None
+
 })
-export class FormRenderComponent {
+export class ViewFormSubmitedDataComponent {
   formJson = null;
+  savedData: any = null;
   publicId = ''
   @ViewChild('formioComp', { read: ElementRef }) formioComp!: ElementRef;
   constructor(private apiService: ApiService, private toastr: ToastrService, private route: ActivatedRoute) { }
@@ -22,11 +25,13 @@ export class FormRenderComponent {
 
 
   getFormStructure() {
-    
-    this.apiService.getFormDefinitionById(this.publicId).subscribe((response: any) => {
+    this.apiService.getUserFormData(this.publicId).subscribe((response: any) => {
       // this.formJson = response;
       console.log(response);
-      let data = response.data.formDefinition;
+      let data = response.data.formDefinition.formDefinition;
+      let savedData = response.data.submission.data;
+      console.log(savedData);
+
       const hasSubmitButton = data.components.some(
         (comp: any) => comp.type === 'button' && comp.key === 'submit'
       );
@@ -43,11 +48,16 @@ export class FormRenderComponent {
         });
         this.formJson = data;
         this.publicId = response.data.publicId;
+        this.savedData = { data: savedData };
 
       } else {
         this.formJson = data;
+        this.savedData = { data: savedData };
+
+
 
       }
+
     }, error => {
 
 
@@ -57,9 +67,7 @@ export class FormRenderComponent {
 
   onSubmit(event: any) {
     console.log('submission', event);
-
-    
-    this.apiService.saveUserFormData(this.publicId, { data: event.data }).subscribe((response: any) => {
+    this.apiService.saveUserFormData(this.publicId, {data:event.data}).subscribe((response: any) => {
       this.toastr.success('data saved successfully!');
     }, error => {
     }
@@ -104,6 +112,7 @@ export class FormRenderComponent {
   fetchFormIdFromRoute() {
     this.route.paramMap.subscribe(params => {
       this.publicId = params.get('id') || '';
+      console.log('Route ID:', this.publicId);
     });
   }
 }
