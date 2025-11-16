@@ -14,6 +14,7 @@ export class ViewFormSubmitedDataComponent {
   formJson = null;
   savedData: any = null;
   publicId = ''
+  formPublicId = ''
   @ViewChild('formioComp', { read: ElementRef }) formioComp!: ElementRef;
   constructor(private apiService: ApiService, private toastr: ToastrService, private route: ActivatedRoute) { }
   ngOnInit() {
@@ -46,8 +47,9 @@ export class ViewFormSubmitedDataComponent {
           type: "button",
           input: true
         });
+        
         this.formJson = data;
-        this.publicId = response.data.publicId;
+        this.formPublicId = response.data.submission.publicId;
         this.savedData = { data: savedData };
 
       } else {
@@ -66,9 +68,10 @@ export class ViewFormSubmitedDataComponent {
 
 
   onSubmit(event: any) {
+    
     console.log('submission', event);
-    this.apiService.saveUserFormData(this.publicId, {data:event.data}).subscribe((response: any) => {
-      this.toastr.success('data saved successfully!');
+    this.apiService.updateUserFormData(this.formPublicId, {data:event.data}).subscribe((response: any) => {
+      this.toastr.success('data updated successfully!');
     }, error => {
     }
     );

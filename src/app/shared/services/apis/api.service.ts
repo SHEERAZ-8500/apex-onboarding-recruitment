@@ -32,6 +32,9 @@ export class ApiService {
   getUserFormData(publicId: any) {
     return this.http.get(`v1/forms/submissions/${publicId}`);
   }
+  updateUserFormData(publicId: any , userFormData: any) {
+    return this.http.put(`v1/forms/submissions/${publicId}`, userFormData);
+  }
   getAllFormSubmissionsById(formDefinitionPublicId: string) {
     return this.http.get(`v1/forms/submissions`, {
       params: { formDefinitionPublicId: formDefinitionPublicId }
