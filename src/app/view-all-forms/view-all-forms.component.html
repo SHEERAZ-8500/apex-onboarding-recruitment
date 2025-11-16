@@ -1,10 +1,14 @@
 <section class="container-fluid">
-    <div class="page-title mb-3">
-        <i class="fa-solid fa-house"></i>
-        <span style="font-weight: 700; color: #566f9e;">-</span>
-        <span>View All Forms List</span>
+    <div class="d-flex justify-content-between mb-3">
+        <div class="page-title ">
+            <i class="fa-solid fa-house"></i>
+            <span style="font-weight: 700; color: #566f9e;">-</span>
+            <span>View All Forms List</span>
+        </div>
+        <div>
+            <button routerLink="/panel/create-form" class="creat-btn">Create Form</button>
+        </div>
     </div>
-
     <section class="table-main-div ">
         <div class="rounded-2xl text-gray-200 overflow-x-auto  pt-4">
             <table class="min-w-full text-sm border-separate border-spacing-y-2 ">
@@ -26,7 +30,7 @@
 
                             <div class="dropdown" *ngIf="routeNUmber === 1">
                                 <span class="cursor-pointer" data-bs-toggle="dropdown" aria-expanded="false"
-                                    style="cursor: pointer;"><i class="fa-solid fa-ellipsis"></i></span>
+                                    style="cursor: pointer;"><i class="fa-solid fa-ellipsis-vertical"></i></span>
 
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item"
@@ -34,7 +38,8 @@
                                             Submissions</a></li>
                                     <li><a class="dropdown-item" [routerLink]="['/panel/form-render', c.publicId]">View
                                             Form</a></li>
-                                    <li><a class="dropdown-item" [routerLink]="['/panel/update-form', c.publicId]">Update
+                                    <li><a class="dropdown-item"
+                                            [routerLink]="['/panel/update-form', c.publicId]">Update
                                             Form</a></li>
                                     <!-- <li><a class="dropdown-item" href="#">Something else here</a></li> -->
                                 </ul>

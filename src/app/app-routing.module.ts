@@ -31,7 +31,7 @@ const routes: Routes = [
       { path: 'employes', component: EmployesComponent },
       { path: 'jobs-details', component: JobsComponent },
       { path: 'chat', component: ChatComponent },
-      { path: 'form', component: FormBuilderComponent },
+      { path: 'create-form', component: FormBuilderComponent },
       { path: 'form-render/:id', component: FormRenderComponent },
       { path: 'email', component: EmailComponent },
       { path: 'view-all-forms', component: ViewAllFormsComponent },
