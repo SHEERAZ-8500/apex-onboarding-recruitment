@@ -32,12 +32,22 @@ export class ApiService {
   getUserFormData(publicId: any) {
     return this.http.get(`v1/forms/submissions/${publicId}`);
   }
-  updateUserFormData(publicId: any , userFormData: any) {
+  updateUserFormData(publicId: any, userFormData: any) {
     return this.http.put(`v1/forms/submissions/${publicId}`, userFormData);
   }
   getAllFormSubmissionsById(formDefinitionPublicId: string) {
     return this.http.get(`v1/forms/submissions`, {
       params: { formDefinitionPublicId: formDefinitionPublicId }
     });
+  }
+  getAllTables(companyId: any) {
+     return this.http.get(`v1/md/tables`, 
+    //   {
+    //   params: { companyId: companyId }
+    // }
+  );
+  }
+  createTable(tableSchema: any) {
+    return this.http.post(`v1/md/tables`, tableSchema);
   }
 }

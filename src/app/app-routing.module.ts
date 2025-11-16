@@ -22,7 +22,7 @@ const routes: Routes = [
   { path: '', redirectTo: 'log-in', pathMatch: 'full' },
   {
     path: 'panel', component: LayOutOneComponent, children: [
-       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: DashboardComponent },
 
       { path: 'offers', component: OffersComponent },
@@ -38,6 +38,8 @@ const routes: Routes = [
       { path: 'view-all-submissions/:id', component: ViewAllFormSubmissionsComponent },
       { path: 'view-form-submitted-data/:id', component: ViewFormSubmitedDataComponent },
       { path: 'update-form/:id', component: FormDefinationUpdateComponent },
+      { path: 'table', loadChildren: () => import('./table-builder/table-build.module').then(m => m.TableBuildModule) },
+
 
 
 

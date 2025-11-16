@@ -1,0 +1,162 @@
+<div class="container mt-4">
+
+  <!-- Form Heading -->
+  <h3 class="mb-4 table-title">Create Table Schema</h3>
+
+  <form [formGroup]="schemaForm">
+
+    <!-- Table Info -->
+    <div class="row mb-3">
+      <div class="col-md-6 col-12 mb-3">
+        <label>Table Name</label>
+        <input type="text" formControlName="tableName" (keyup)="checkSpace($event)"/>
+      </div>
+
+      <div class="col-md-6 col-12 mb-3">
+        <label>Display Name</label>
+        <input type="text" formControlName="displayName" />
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- COLUMNS SECTION -->
+    <h5 class="table-title">Columns</h5>
+    <div formArrayName="columns">
+      <div
+        class="column-box mb-4 p-3"
+        *ngFor="let col of columns.controls; let i = index"
+        [formGroupName]="i"
+      >
+        <div class="row">
+          <div class="col-md-6 col-12 mb-3">
+            <label>Column Name</label>
+            <input type="text" formControlName="columnName" />
+          </div>
+
+          <div class="col-md-6 col-12 mb-3">
+            <label>Display Label</label>
+            <input type="text" formControlName="displayLabel" />
+          </div>
+
+          <div class="col-md-6 col-12 mb-3">
+            <label>Data Type</label>
+            <input type="text" formControlName="dataType" />
+          </div>
+
+          <div class="col-md-6 col-12 mb-3">
+            <label>Length</label>
+            <input type="number" formControlName="length" />
+          </div>
+
+          <div class="col-md-6 col-12 mb-3">
+            <label>Precision</label>
+            <input type="number" formControlName="precision" />
+          </div>
+
+          <div class="col-md-6 col-12 mb-3">
+            <label>Scale</label>
+            <input type="number" formControlName="scale" />
+          </div>
+
+          <div class="col-md-6 col-12 mb-3">
+            <label>Nullable</label>
+            <input type="checkbox" formControlName="nullable" />
+          </div>
+
+          <div class="col-md-6 col-12 mb-3">
+            <label>Primary Key</label>
+            <input type="checkbox" formControlName="primaryKey" />
+          </div>
+
+          <div class="col-md-6 col-12 mb-3">
+            <label>Unique</label>
+            <input type="checkbox" formControlName="unique" />
+          </div>
+
+          <div class="col-md-6 col-12 mb-3">
+            <label>Indexed</label>
+            <input type="checkbox" formControlName="indexed" />
+          </div>
+
+          <div class="col-md-6 col-12 mb-3">
+            <label>Default Value</label>
+            <input type="text" formControlName="defaultValue" />
+          </div>
+        </div>
+
+        <button class="btn btn-danger btn-sm" (click)="removeColumn(i)">Remove Column</button>
+      </div>
+    </div>
+
+    <button class="btn btn-primary mb-4" (click)="addColumn()">Add Column</button>
+
+    <hr>
+
+    <!-- RELATIONSHIPS SECTION -->
+    <h5 class="table-title">Relationships</h5>
+
+    <div formArrayName="relationships">
+      <div
+        class="relation-box mb-4 p-3"
+        *ngFor="let r of relationships.controls; let i = index"
+        [formGroupName]="i"
+      >
+        <div class="row">
+          <div class="col-md-6 col-12 mb-3">
+            <label>Source Table</label>
+            <select name="sourceTableName"  formControlName="sourceTableName" ></select>
+          </div>
+
+          <div class="col-md-6 col-12 mb-3">
+            <label>Source Column</label>
+            <select name="sourceColumnName"  formControlName="sourceColumnName" ></select>
+
+          </div>
+
+          <div class="col-md-6 col-12 mb-3">
+            <label>Target Table</label>
+            <select name="targetTableName"  formControlName="targetTableName" ></select>
+
+          </div>
+
+          <div class="col-md-6 col-12 mb-3">
+            <label>Target Column</label>
+            <select name="targetColumnName"  formControlName="targetColumnName" ></select>
+
+          </div>
+
+          <div class="col-md-6 col-12 mb-3">
+            <label>Relation Type</label>
+            <select name="relationType"  formControlName="relationType" >
+                <option value="ONE_TO_MANY">ONE_TO_MANY</option>
+            </select>
+
+          </div>
+
+          <div class="col-md-6 col-12 mb-3">
+            <label>On Delete</label>
+            <input type="checkbox" formControlName="onDelete" />
+          </div>
+
+          <div class="col-md-6 col-12 mb-3">
+            <label>On Update</label>
+            <input type="checkbox" formControlName="onUpdate" />
+          </div>
+        </div>
+
+        <button class="btn btn-danger btn-sm" (click)="removeRelationship(i)">Remove Relation</button>
+      </div>
+    </div>
+
+    <button class="btn btn-primary mb-4" (click)="addRelationship()">Add Relationship</button>
+
+    <hr>
+
+    <!-- Submit -->
+   <div class="text-end">
+     <button class="submit-btn" (click)="submitForm()">Submit</button>
+   </div>
+
+  </form>
+</div>

@@ -35,6 +35,7 @@ import { ViewAllFormsComponent } from './view-all-forms/view-all-forms.component
 import { ViewAllFormSubmissionsComponent } from './view-all-form-submissions/view-all-form-submissions.component';
 import { ViewFormSubmitedDataComponent } from './view-form-submited-data/view-form-submited-data.component';
 import { FormDefinationUpdateComponent } from './form-defination-update/form-defination-update.component';
+import { SahringModule } from './shared/modules/sahring.module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -66,18 +67,17 @@ import { FormDefinationUpdateComponent } from './form-defination-update/form-def
   imports: [
     BrowserModule,
     AppRoutingModule,
-    CommonModule,
-    FormsModule,
+   
+    SahringModule,
     FormioModule,
-    BrowserAnimationsModule, 
+    BrowserAnimationsModule,
     ToastrModule.forRoot({
-      timeOut: 3000, 
-      positionClass: 'toast-top-right', 
+      timeOut: 3000,
+      positionClass: 'toast-top-right',
       preventDuplicates: true, // duplicate messages avoid karega
     }),
 
-    ReactiveFormsModule,
-    FormsModule,
+
     HttpClientModule
   ],
   providers: [
