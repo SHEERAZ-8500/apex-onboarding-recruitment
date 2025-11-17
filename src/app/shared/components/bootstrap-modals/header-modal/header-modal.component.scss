@@ -1,24 +1,68 @@
- :root {
- --primary-color: #15243e;
-  --second-primary-color: #0c1a32;
-  --gray-color-1: #b5b5c3;
-  --gray-color-2: #8daac6;
-  --purple-1: #7047ee;
-  --border-color: #5C607B;
-  --white-color-1: #ffffffd9;
-  --light-purple: #e8e1ff;
-  --red-color: #ee3158;}
+.offcanvas-end {
+  width: 340px;
+  background-color: var(--primary-color);
+}
+
+/* Title */
+.offcanvas-title {
+  color: var(--white-color-1);
+}
+
+.offcanvas-header {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* Compact badge */
+.badge.bg-primary {
+  background-color: var(--purple-1) !important;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  display: inline-flex;
+  width: auto !important; 
+}
+
+
+/* Cards – bigger size like picture */
+.qa-card {
+  background-color: var(--second-primary-color);
+  color: var(--purple-1);
+  border: none !important;
+  border-radius: 10px;
+  padding: 30px 15px;     /* bigger card height */
+  min-height: 110px;      /* exact picture appearance */
+  transition: 0.2s ease;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.qa-card:hover {
+  background-color: var(--purple-1);
+  color: var(--white-color-1);
+  transform: translateY(-2px);
+}
+
+/* Close Button (no change) */
+.btn-close {
+  background-color: #f2bac6 !important;   /* REAL COLOR */
+  opacity: 1 !important;                  /* FIX COLOR FADING */
+  filter: none !important;                /* STOP BOOTSTRAP FILTER OVERRIDE */
+
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' fill='%23ee3158'%3e%3cpath d='M.293.293a1 1 0 0 1 1.414 0L4 2.586 6.293.293a1 1 0 1 1 1.414 1.414L5.414 4l2.293 2.293a1 1 0 0 1-1.414 1.414L4 5.414 1.707 7.707a1 1 0 0 1-1.414-1.414L2.586 4 .293 1.707a1 1 0 0 1 0-1.414z'/%3e%3c/svg%3e") !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  background-size: 0.5em !important;
+
+  border-radius: 4px;
+  width: 4px;
+  height: 4px;
+  padding: 8px;
+}
 
 
 
-  .offcanvas-end {
-    width: 300px;
-    background-color: var(--primary-color);
-  }
-  .offcanvas-title {
-    color: var(--white-color-1);
-  }
-  .btn-close {
-    color: var(--red-color);
-    background-color: var(#f58ea2);
-  }
+.btn-close:hover {
+  background-color: #ee3158 !important;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' fill='%23ffffff'%3e%3cpath d='M.293.293a1 1 0 0 1 1.414 0L4 2.586 6.293.293a1 1 0 1 1 1.414 1.414L5.414 4l2.293 2.293a1 1 0 0 1-1.414 1.414L4 5.414 1.707 7.707a1 1 0 0 1-1.414-1.414L2.586 4 .293 1.707a1 1 0 0 1 0-1.414z'/%3e%3c/svg%3e") !important;
+}
