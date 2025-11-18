@@ -1,0 +1,31 @@
+:root {
+  --primary-color: #15243e;
+  --second-primary-color: #0c1a32;
+  --gray-color-1: #b5b5c3;
+  --gray-color-2: #8daac6;
+  --purple-1: #7047ee;
+  --border-color: #5C607B;
+  --white-color-1: #ffffffd9;
+  --light-purple: #e8e1ff;
+  --red-color: #ee3158;
+
+}
+ .card {
+    background-color: var(--second-primary-color);
+    border:1px solid var(--border-color);
+    color: var(--white-color-1);
+
+}
+.card {
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.text-success {
+  color: green;
+}
+
+.text-danger {
+  color: red;
+}

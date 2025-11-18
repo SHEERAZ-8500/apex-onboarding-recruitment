@@ -1,1 +1,44 @@
-<p style="background-color: aquamarine;">dashboard works!</p>
+<div class="container">
+
+  <!-- Row 1: 4 cards -->
+  <div class="row mb-3">
+    <div class="col-md-3 mb-3" *ngFor="let card of cards">
+      <div class="card p-3">
+        <!-- Title Top -->
+        <h5 class="mb-3" style="font-size: 18px;">{{ card.title }}</h5>
+
+        <!-- Number + Percentage in same row -->
+        <div class="d-flex justify-content-between align-items-center">
+          <h2 class="mb-0" style="font-size: 21px; font-weight: 700;">{{ card.number }}</h2>
+          <span [ngClass]="getPercentColor(card.percent)">
+            {{ getPercentDisplay(card.percent) }}% {{ getArrow(card.percent) }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 2: 3 cards (3 + 6 + 3) -->
+  <div class="row mb-3">
+    <div class="col-md-3 mb-3">
+      <div class="card p-3">Card 1</div>
+    </div>
+    <div class="col-md-6 mb-3">
+      <div class="card p-3">Card 2</div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="card p-3">Card 3</div>
+    </div>
+  </div>
+
+  <!-- Row 3: 2 cards (6 + 6) -->
+  <div class="row mb-3">
+    <div class="col-md-6 mb-3">
+      <div class="card p-3">Card 1</div>
+    </div>
+    <div class="col-md-6 mb-3">
+      <div class="card p-3">Card 2</div>
+    </div>
+  </div>
+
+</div>
