@@ -1,10 +1,15 @@
 <section class="container-fluid">
-    <div class="page-title mb-3">
+    <div class="d-flex justify-content-between mb-3">
+         <div class="page-title mb-3">
         <i class="fa-solid fa-house"></i>
         <span style="font-weight: 700; color: #566f9e;">-</span>
         <span>People</span>
     </div>
-
+    <div>
+        <button class="creat-btn" [routerLink]="['/panel/form-render',formId]">Create New Submission</button>
+    </div>
+    </div>
+   
     <section class="table-main-div ">
         <div class="rounded-2xl text-gray-200 overflow-x-auto  pt-4">
             <table class="min-w-full text-sm border-separate border-spacing-y-2 ">
@@ -32,7 +37,8 @@
                                     <!-- <li><a class="dropdown-item"
                                             [routerLink]="['/panel/view-all-submissions', c.formDefinitionPublicId]">View All
                                             Submissions</a></li> -->
-                                    <li><a class="dropdown-item" [routerLink]="['/panel/view-form-submitted-data', c.publicId]">View
+                                    <li><a class="dropdown-item"
+                                            [routerLink]="['/panel/view-form-submitted-data', c.publicId]">View
                                             Form Submissions Data</a></li>
                                 </ul>
                             </div>
