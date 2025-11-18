@@ -4,6 +4,7 @@ import { Components } from 'formiojs';
 import { ToastrService } from 'ngx-toastr';
 import { ApiService } from '../shared/services/apis/api.service';
 import { ActivatedRoute } from '@angular/router';
+import { LoaderService } from '../shared/services/loader.service';
 
 @Component({
   selector: 'app-form-defination-update',
@@ -19,7 +20,7 @@ export class FormDefinationUpdateComponent {
   formName = ''
   publicId = ''
 
-  constructor(private toastr: ToastrService, private apiService: ApiService, private route: ActivatedRoute) { }
+  constructor(private toastr: ToastrService, private apiService: ApiService, private route: ActivatedRoute,private loader: LoaderService) { }
   defaultFormJson = {
     display: 'form',
     components: []
@@ -75,14 +76,17 @@ export class FormDefinationUpdateComponent {
       ...this.builder.instance.schema,
       formName: this.formName
     };
+    this.loader.show();
     this.apiService.updateFormDefinitionById(this.publicId, payload).subscribe({
       next: (response) => {
         if (this.closeFormnameModal) {
           this.closeFormnameModal.nativeElement.click();
         }
         this.toastr.success('Form definition saved successfully!', 'Success');
+        this.loader.hide();
       },
       error: (error) => {
+        this.loader.hide();
       }
     });
   }

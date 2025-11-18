@@ -2,6 +2,7 @@ import { Component, ViewEncapsulation, ViewChild, AfterViewInit, ElementRef } fr
 import { ApiService } from '../shared/services/apis/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute } from '@angular/router';
+import { LoaderService } from '../shared/services/loader.service';
 
 @Component({
   selector: 'app-view-form-submited-data',
@@ -16,7 +17,7 @@ export class ViewFormSubmitedDataComponent {
   publicId = ''
   formPublicId = ''
   @ViewChild('formioComp', { read: ElementRef }) formioComp!: ElementRef;
-  constructor(private apiService: ApiService, private toastr: ToastrService, private route: ActivatedRoute) { }
+  constructor(private apiService: ApiService, private toastr: ToastrService, private route: ActivatedRoute, private loader: LoaderService) { }
   ngOnInit() {
     const userId = localStorage.getItem('userId');
     this.fetchFormIdFromRoute()
@@ -26,6 +27,7 @@ export class ViewFormSubmitedDataComponent {
 
 
   getFormStructure() {
+    this.loader.show();
     this.apiService.getUserFormData(this.publicId).subscribe((response: any) => {
       // this.formJson = response;
       console.log(response);
@@ -47,30 +49,30 @@ export class ViewFormSubmitedDataComponent {
           type: "button",
           input: true
         });
-        
+
         this.formJson = data;
         this.formPublicId = response.data.submission.publicId;
         this.savedData = { data: savedData };
-
+        this.loader.hide();
       } else {
         this.formJson = data;
         this.savedData = { data: savedData };
-
+        this.loader.hide();
 
 
       }
 
     }, error => {
-
+      this.loader.hide();
 
     });
   }
 
 
   onSubmit(event: any) {
-    
+
     console.log('submission', event);
-    this.apiService.updateUserFormData(this.formPublicId, {data:event.data}).subscribe((response: any) => {
+    this.apiService.updateUserFormData(this.formPublicId, { data: event.data }).subscribe((response: any) => {
       this.toastr.success('data updated successfully!');
     }, error => {
     }

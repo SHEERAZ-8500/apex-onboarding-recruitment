@@ -2,6 +2,7 @@ import { Component, ViewEncapsulation, ViewChild, AfterViewInit, ElementRef } fr
 import { ApiService } from '../shared/services/apis/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute } from '@angular/router';
+import { LoaderService } from '../shared/services/loader.service';
 @Component({
   selector: 'app-form-render',
   templateUrl: './form-render.component.html',
@@ -12,7 +13,7 @@ export class FormRenderComponent {
   formJson = null;
   publicId = ''
   @ViewChild('formioComp', { read: ElementRef }) formioComp!: ElementRef;
-  constructor(private apiService: ApiService, private toastr: ToastrService, private route: ActivatedRoute) { }
+  constructor(private apiService: ApiService, private toastr: ToastrService, private route: ActivatedRoute, private loader: LoaderService) { }
   ngOnInit() {
     const userId = localStorage.getItem('userId');
     this.fetchFormIdFromRoute()
@@ -22,7 +23,7 @@ export class FormRenderComponent {
 
 
   getFormStructure() {
-    
+    this.loader.show();
     this.apiService.getFormDefinitionById(this.publicId).subscribe((response: any) => {
       // this.formJson = response;
       console.log(response);
@@ -43,13 +44,15 @@ export class FormRenderComponent {
         });
         this.formJson = data;
         this.publicId = response.data.publicId;
+        this.loader.hide();
 
       } else {
         this.formJson = data;
+        this.loader.hide();
 
       }
     }, error => {
-
+      
 
     });
   }
