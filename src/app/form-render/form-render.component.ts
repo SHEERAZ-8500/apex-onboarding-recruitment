@@ -52,8 +52,8 @@ export class FormRenderComponent {
 
       }
     }, error => {
-      
 
+      this.loader.hide();
     });
   }
 
@@ -61,7 +61,7 @@ export class FormRenderComponent {
   onSubmit(event: any) {
     console.log('submission', event);
 
-    
+
     this.apiService.saveUserFormData(this.publicId, { data: event.data }).subscribe((response: any) => {
       this.toastr.success('data saved successfully!');
     }, error => {
