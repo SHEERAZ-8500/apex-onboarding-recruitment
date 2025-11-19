@@ -35,6 +35,14 @@
     <a routerLink="/panel/table/table-listing" routerLinkActive="active"><i class="fa-solid fa-table"></i>
       <span>Tables</span></a>
 
+    <a (click)="collapse.toggle()" [attr.aria-expanded]="!assesment" aria-controls="collapseExample"><i
+        class="fa-solid fa-table"></i>
+      <span>Assesment</span></a>
 
+
+    <div #collapse="ngbCollapse" [(ngbCollapse)]="assesment" c>
+      <a routerLink="/panel/table/table-listing" routerLinkActive="active"><i class="fa-solid fa-table"></i>
+        <span>Tables</span></a>
+    </div>
   </div>
 </nav>

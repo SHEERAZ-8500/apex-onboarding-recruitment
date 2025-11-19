@@ -9,6 +9,7 @@ import { ToggleService } from '../../services/ToggleService';
 export class SideNavBarComponent {
  isOpen = true;
   constructor(private toggleService: ToggleService) {}
+	assesment = true;
 
   ngOnInit() {
     this.toggleService.sidebarOpen$.subscribe(open => this.isOpen = open);
