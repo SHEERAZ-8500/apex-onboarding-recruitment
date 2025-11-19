@@ -38,12 +38,13 @@
   span {
     color: var(--purple-1);
 
-   
-  }
-   i {
-      color: var(--purple-1) !important;
 
-    }
+  }
+
+  i {
+    color: var(--purple-1) !important;
+
+  }
 }
 
 .sidebar a i {
@@ -54,9 +55,11 @@
 .sidebar.closed a i {
   margin-right: 0;
 }
+
 .sidebar.closed a {
   margin-bottom: 15px;
 }
+
 .sidebar.closed a span {
   opacity: 0;
   width: 0;
@@ -150,3 +153,32 @@
     font-size: 17px;
   }
 }
+
+.tabslist {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.tabslist::-webkit-scrollbar {
+  width: 6px;
+  /* barik scrollbar */
+}
+
+.tabslist::-webkit-scrollbar-track {
+  background: transparent;
+  /* track ko none jesa dikhana */
+}
+
+.tabslist::-webkit-scrollbar-thumb {
+  background-color: #8daac6;
+  /* scrollbar ka color */
+  border-radius: 10px;
+}
+
+.tabslist::after {
+  content: "";
+  display: block;
+  height: 250px;
+  padding-bottom: 20px;
+}
+
