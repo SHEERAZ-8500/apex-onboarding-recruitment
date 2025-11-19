@@ -1,28 +1,14 @@
-:root {
-  --primary-color: #15243e;
-  --second-primary-color: #0c1a32;
-  --gray-color-1: #b5b5c3;
-  --gray-color-2: #8daac6;
-  --purple-1: #7047ee;
-  --border-color: #5C607B;
-  --white-color-1: #ffffffd9;
-  --light-purple: #e8e1ff;
-  --red-color: #ee3158;
 
-}
 $card-border-radius: 8px;
 $header-font-size: 18px;
 $header-font-weight: 600;
 
-.container {
-  padding: 20px;
-}
 
 .card0, .card1, .card2, .card3, .card4, .card5 {
   border-radius: $card-border-radius;
   border: none;
   height: 100%;
-  min-height: 150px;
+  min-height: 105px;
 }
 
 .card-header1, .card-header2, .card-header3, .card-header4, .card-header5 {
@@ -48,7 +34,9 @@ card-header0, .card-header1, .card-header2, .card-header3, .card-header4, .card-
 }
 .card0 {
   background: var(--second-primary-color);
-  border-left: 4px solid #7a42ff;
+  border: 1px solid var(--border-color);
+  border-left: 4px solid #7a42ff!important;
+
   
   h5 {
     color: var(--white-color-1);
