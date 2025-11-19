@@ -28,8 +28,17 @@
         </div>
         <div class="card-body">
           <!-- Chart -->
-          <div>
+          <div class="chart-wrapper" style="position: relative">
             <canvas id="workingFormatChart"></canvas>
+            <span style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+  ">108</span>
           </div>
 
           <!-- Legend -->
@@ -111,64 +120,64 @@
     </div>
   </div>
 
-<!-- Row 3: 2 cards (6 + 6) -->
-<div class="row mb-3">
-  <div class="col-md-6 mb-3">
-    <div class="card3 p-3">
+  <!-- Row 3: 2 cards (6 + 6) -->
+  <div class="row mb-3">
+    <div class="col-md-6 mb-3">
+      <div class="card3 p-3">
 
-      <div class="card-header4">
-        Staff turnover
+        <div class="card-header4">
+          Staff turnover
+        </div>
+
+        <div class="card-body">
+          <canvas id="staffTurnoverChart"></canvas>
+        </div>
+
       </div>
+    </div>
 
-      <div class="card-body">
-        <canvas id="staffTurnoverChart"></canvas>
+    <div class="col-md-6 mb-3">
+      <div class="card5 p-3">
+        <div class="card-header5 ">
+          {{ cardTitle1 }}
+        </div>
+        <div class="card-body">
+
+          <table class="table custom-table">
+            <thead>
+              <tr>
+                <th>Full Name</th>
+                <th>Department</th>
+                <th>Type</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of recruitmentData">
+                <!-- Avatar + Name -->
+                <td>
+                  <div class="d-flex align-items-center">
+                    <img [src]="item.avatar" class="avatar me-2" />
+                    <span>{{ item.name }}</span>
+                  </div>
+                </td>
+
+                <!-- Department -->
+                <td>{{ item.department }}</td>
+
+                <!-- Status -->
+                <td>
+                  <div class="d-flex align-items-center">
+                    <span class="status-dot" [ngStyle]="{ 'background-color': item.color }"></span>
+                    {{ item.type }}
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
       </div>
 
     </div>
   </div>
-
-  <div class="col-md-6 mb-3">
-    <div class="card5 p-3">
-      <div class="card-header5 ">
-        {{ cardTitle1 }}
-      </div>
-      <div class="card-body">
-
-        <table class="table custom-table">
-          <thead>
-            <tr>
-              <th>Full Name</th>
-              <th>Department</th>
-              <th>Type</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of recruitmentData">
-              <!-- Avatar + Name -->
-              <td>
-                <div class="d-flex align-items-center">
-                  <img [src]="item.avatar" class="avatar me-2" />
-                  <span>{{ item.name }}</span>
-                </div>
-              </td>
-
-              <!-- Department -->
-              <td>{{ item.department }}</td>
-
-              <!-- Status -->
-              <td>
-                <div class="d-flex align-items-center">
-                  <span class="status-dot" [ngStyle]="{ 'background-color': item.color }"></span>
-                  {{ item.type }}
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-    </div>
-
-  </div>
-</div>
 </section>
