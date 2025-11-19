@@ -141,11 +141,11 @@ export class DashboardComponent implements AfterViewInit {
         maintainAspectRatio: false, // height adjust ho sake
         scales: {
           x: {
-            ticks: { color: '#fff' },
+            ticks: { color: '#b8c4e9' },
             grid: { display: false }
           },
           y: {
-            ticks: { color: '#fff' },
+            ticks: { color: '#b8c4e9' },
             grid: { color: 'rgba(255,255,255,0.1)' }
           }
         },
