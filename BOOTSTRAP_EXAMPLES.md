@@ -12,19 +12,19 @@ Ab aapke project mein `ng-bootstrap` install ho chuki hai. Aap niche diye gaye e
 <ngb-accordion>
   <ngb-panel title="First Panel">
     <ng-template ngbPanelContent>
-      Yeh first panel ka content hai. Click karein collapse karne ke liye.
+      
     </ng-template>
   </ngb-panel>
   
   <ngb-panel title="Second Panel">
     <ng-template ngbPanelContent>
-      Yeh second panel ka content hai. Automatically pehla close ho jayega.
+    
     </ng-template>
   </ngb-panel>
   
   <ngb-panel title="Third Panel">
     <ng-template ngbPanelContent>
-      Yeh third panel ka content hai. Accordion smoothly kaam karega!
+      
     </ng-template>
   </ngb-panel>
 </ngb-accordion>
@@ -60,7 +60,7 @@ Ab aapke project mein `ng-bootstrap` install ho chuki hai. Aap niche diye gaye e
 
 <div [ngbCollapse]="isCollapsed" class="mt-3">
   <div class="card card-body">
-    Yeh collapsed content hai! Button click karne par show/hide hoga.
+    
   </div>
 </div>
 ```
@@ -219,4 +219,4 @@ export class YourComponent {
 ng serve
 ```
 
-Server restart karne ke baad sab kuch properly kaam karega! 🎉
+
