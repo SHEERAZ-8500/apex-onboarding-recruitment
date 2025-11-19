@@ -107,7 +107,7 @@ ngAfterViewInit(): void {
       ]
     },
     options: {
-      cutout: '70%',
+      cutout: '75%',
       plugins: {
         legend: { display: false }
       }
@@ -124,13 +124,13 @@ ngAfterViewInit(): void {
           label: 'Project',
           data: [70, 85, 140, 200, 130, 220, 300],
           backgroundColor: '#3596f7',
-          borderRadius: 6
+          borderRadius: 4
         },
         {
           label: 'Bench',
           data: [40, 60, 120, 170, 85, 170, 260],
           backgroundColor: '#aad7ff',
-          borderRadius: 6
+          borderRadius: 4
         }
       ]
     },
@@ -142,7 +142,7 @@ ngAfterViewInit(): void {
           grid: { display: false }
         },
         y: {
-          ticks: { color: '#fff' },
+          ticks: { color: '#fff' , stepSize: 100},
           grid: { color: 'rgba(255,255,255,0.1)' }
         }
       },
@@ -164,8 +164,8 @@ ngAfterViewInit(): void {
           label: 'Employees',
           data: [80, 90, 150, 200, 130, 220, 300, 270, 120],
           backgroundColor: '#7a42ff',
-          borderRadius: 6,
-          barThickness: 28
+          borderRadius: 0,
+          barThickness: 22
         }
       ]
     },
@@ -173,13 +173,13 @@ ngAfterViewInit(): void {
       scales: {
         x: {
           ticks: {
-            color: '#b8c4e9'
+            color: '#fff'
           },
           grid: { display: false }
         },
         y: {
           ticks: {
-            color: '#b8c4e9'
+            color: '#fff'
           },
           grid: {
             color: 'rgba(255,255,255,0.15)'
