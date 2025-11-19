@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { ApiService } from '../../shared/services/apis/api.service';
 import { ToastrService } from 'ngx-toastr';
+import { LoaderService } from '../../shared/services/loader.service';
 
 @Component({
   selector: 'app-build-table',
@@ -12,7 +13,7 @@ export class BuildTableComponent {
 
   schemaForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private apiService: ApiService, private toastrService: ToastrService) {
+  constructor(private fb: FormBuilder, private apiService: ApiService, private toastrService: ToastrService,private loader: LoaderService) {
     this.schemaForm = this.fb.group({
       tableName: [''],
       displayName: [''],
@@ -98,12 +99,15 @@ export class BuildTableComponent {
       this.toastrService.error('Please fill all the fields before submitting the form.');
       return;
     }
+    this.loader.show();
     this.schemaForm.get('companyId')?.setValue(''); 
     this.apiService.createTable(this.schemaForm.value).subscribe(response => {
       console.log('Table created successfully', response);
       this.toastrService.success('Table created successfully');
+      this.loader.hide();
     }, error => {
       console.error('Error creating table', error);
+      this.loader.hide();
     });
   }
 

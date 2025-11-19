@@ -54,11 +54,14 @@
 .sidebar.closed a i {
   margin-right: 0;
 }
-
+.sidebar.closed a {
+  margin-bottom: 15px;
+}
 .sidebar.closed a span {
   opacity: 0;
   width: 0;
   transition: opacity 0.2s ease;
+  display: none;
 }
 
 .logo {

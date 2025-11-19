@@ -146,7 +146,7 @@ export class AuthInterceptor implements HttpInterceptor {
               localStorage.setItem('refreshToken', response.data.refreshToken);
               let userId = this.encryptionService.encrypt(response.data.userId)
               localStorage.setItem('userId', userId);
-              location.reload();
+              // location.reload();
             }, error => {
 
               this.toastr.error('Session expired. Please login again.', 'Unauthorized');

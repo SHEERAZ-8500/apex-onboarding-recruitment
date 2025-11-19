@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormSubmissionDto } from '../shared/dtos/Dto';
 import { ApiService } from '../shared/services/apis/api.service';
 import { ActivatedRoute } from '@angular/router';
+import { LoaderService } from '../shared/services/loader.service';
 
 @Component({
   selector: 'app-view-all-form-submissions',
@@ -12,16 +13,20 @@ export class ViewAllFormSubmissionsComponent {
   routeNUmber: number = 1;
   FormList: FormSubmissionDto[] = []
   formId: string = '';
-  constructor(private apiService: ApiService, private route: ActivatedRoute) {
+  constructor(private apiService: ApiService, private route: ActivatedRoute,private loader: LoaderService) {
 
   }
 
 
   getAllFormSubmissionById(id: string) {
     this.routeNUmber = 2;
+    this.loader.show();
     this.apiService.getAllFormSubmissionsById(id).subscribe((res: any) => {
       this.FormList = res.data;
       this.updatePagination();
+      this.loader.hide();
+    }, error => {
+      this.loader.hide();
     });
   }
 
