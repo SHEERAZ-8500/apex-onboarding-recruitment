@@ -39,6 +39,7 @@ const routes: Routes = [
       { path: 'view-form-submitted-data/:id', component: ViewFormSubmitedDataComponent },
       { path: 'update-form/:id', component: FormDefinationUpdateComponent },
       { path: 'table', loadChildren: () => import('./table-builder/table-build.module').then(m => m.TableBuildModule) },
+      { path: 'assesment', loadChildren: () => import('./assessments/assesment.module').then(m => m.AssesmentModule) },
 
 
 

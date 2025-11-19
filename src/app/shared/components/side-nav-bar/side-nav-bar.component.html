@@ -35,14 +35,19 @@
     <a routerLink="/panel/table/table-listing" routerLinkActive="active"><i class="fa-solid fa-table"></i>
       <span>Tables</span></a>
 
-    <a (click)="collapse.toggle()" [attr.aria-expanded]="!assesment" aria-controls="collapseExample"><i
-        class="fa-solid fa-table"></i>
+    <a (click)="collapse.toggle()" [attr.aria-expanded]="!assesment" aria-controls="collapseExample"><i class="fa-solid fa-chart-bar"></i>
       <span>Assesment</span></a>
 
 
-    <div #collapse="ngbCollapse" [(ngbCollapse)]="assesment" c>
-      <a routerLink="/panel/table/table-listing" routerLinkActive="active"><i class="fa-solid fa-table"></i>
-        <span>Tables</span></a>
+    <div #collapse="ngbCollapse" [(ngbCollapse)]="assesment" class="ps-4">
+      <div class="collapseDiv">
+        <a><i class="fa-solid fa-table"></i>
+          <span>Design Assesment</span></a>
+        <a><i class="fa-solid fa-table"></i>
+          <span>Stored Assesment</span></a>
+        <a><i class="fa-solid fa-table"></i>
+          <span>Received Assesment</span></a>
+      </div>
     </div>
   </div>
 </nav>
