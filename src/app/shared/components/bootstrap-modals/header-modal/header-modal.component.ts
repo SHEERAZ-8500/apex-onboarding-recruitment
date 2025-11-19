@@ -66,9 +66,9 @@ export class HeaderModalComponent {
   ];
 
   // Colors for different sections
-  systemMessageColors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7'];
-  taskOverviewColors = ['#DDA0DD', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E9'];
-  notificationTimelineColors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#98D8C8', '#F7DC6F'];
+  systemMessageColors = ['#6610f2', '#dc3545', '#198754', '#0080ff', '#ffc107'];
+  taskOverviewColors =  ['#6610f2', '#dc3545', '#198754', '#0080ff', '#ffc107'];
+  notificationTimelineColors =  ['#6610f2', '#dc3545', '#198754', '#0080ff', '#ffc107', '#6610f2', '#dc3545', '#198754', '#0080ff', '#ffc107'];
 
   setActiveTab(tab: string) {
     this.activeTab = tab;
@@ -94,8 +94,8 @@ export class HeaderModalComponent {
   getToggleColor(section: string): string {
     switch(section) {
       case 'Customer Care': return '#7047ee'; // Purple
-      case 'Reports': return '#ee3158'; // Red
-      case 'Members': return '#FFD700'; // Yellow
+      case 'Reports': return '#da123b'; // Red
+      case 'Members': return '#ffc107'; // Yellow
       default: return '#7047ee';
     }
   }
