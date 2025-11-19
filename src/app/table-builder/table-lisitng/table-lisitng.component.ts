@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../shared/services/apis/api.service';
 import { AllFormsLisitngDto } from '../../shared/dtos/Dto';
+import { LoaderService } from '../../shared/services/loader.service';
 
 @Component({
   selector: 'app-table-lisitng',
@@ -13,18 +14,21 @@ export class TableLisitngComponent {
   routeNUmber: number = 1;
   FormList: any[] = []
   formId: string = '';
-  constructor(private apiService: ApiService, private route: ActivatedRoute) {
+  constructor(private apiService: ApiService, private route: ActivatedRoute, private loader: LoaderService) {
 
   }
 
   getAllTablesList() {
     this.routeNUmber = 1;
+    this.loader.show();
     this.apiService.getAllTables('').subscribe((res: any) => {
       this.FormList = res.data;
       console.log(this.FormList);
       this.updatePagination();
+      this.loader.hide();
 
-
+    }, error => {
+      this.loader.hide();
     });
   }
 
