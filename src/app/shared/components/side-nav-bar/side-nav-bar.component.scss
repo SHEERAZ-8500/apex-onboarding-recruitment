@@ -19,6 +19,10 @@
   .menu-title {
     display: none;
   }
+
+  .collapseStyling {
+    padding-inline-start: 0px !important;
+  }
 }
 
 .sidebar a {
@@ -152,6 +156,10 @@
     font-weight: 400;
     font-size: 17px;
   }
+}
+
+.collapseStyling {
+  padding-inline-start: 20px;
 }
 
 .tabslist {
