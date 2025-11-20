@@ -3,7 +3,7 @@ import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { ApiService } from '../../shared/services/apis/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { LoaderService } from '../../shared/services/loader.service';
-
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-build-table',
   templateUrl: './build-table.component.html',
@@ -13,7 +13,7 @@ export class BuildTableComponent {
 
   schemaForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private apiService: ApiService, private toastrService: ToastrService,private loader: LoaderService) {
+  constructor(private fb: FormBuilder, private apiService: ApiService, private toastrService: ToastrService,private loader: LoaderService,private location: Location) {
     this.schemaForm = this.fb.group({
       tableName: [''],
       displayName: [''],
@@ -105,6 +105,7 @@ export class BuildTableComponent {
       console.log('Table created successfully', response);
       this.toastrService.success('Table created successfully');
       this.loader.hide();
+      this.location.back();
     }, error => {
       console.error('Error creating table', error);
       this.loader.hide();

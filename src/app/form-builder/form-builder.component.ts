@@ -4,6 +4,7 @@ import { Components } from 'formiojs';
 import { ToastrService } from 'ngx-toastr';
 import { ApiService } from '../shared/services/apis/api.service';
 import { LoaderService } from '../shared/services/loader.service';
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-form-builder',
   templateUrl: './form-builder.component.html',
@@ -17,7 +18,7 @@ export class FormBuilderComponent implements OnInit {
   @ViewChild('closeFormnameModal') closeFormnameModal!: ElementRef;
   formName = ''
 
-  constructor(private toastr: ToastrService, private apiService: ApiService,private loader: LoaderService) { }
+  constructor(private toastr: ToastrService, private apiService: ApiService,private loader: LoaderService,private location: Location) { }
   // defaultFormJson = {
   //   display: 'form',
   //   components: [] 
@@ -255,6 +256,7 @@ export class FormBuilderComponent implements OnInit {
         }
         this.toastr.success('Form definition saved successfully!', 'Success');
         this.loader.hide();
+        this.location.back();
       },
       error: (error) => {
         this.loader.hide();

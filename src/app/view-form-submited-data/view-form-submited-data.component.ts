@@ -3,7 +3,7 @@ import { ApiService } from '../shared/services/apis/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute } from '@angular/router';
 import { LoaderService } from '../shared/services/loader.service';
-
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-view-form-submited-data',
   templateUrl: './view-form-submited-data.component.html',
@@ -17,7 +17,7 @@ export class ViewFormSubmitedDataComponent {
   publicId = ''
   formPublicId = ''
   @ViewChild('formioComp', { read: ElementRef }) formioComp!: ElementRef;
-  constructor(private apiService: ApiService, private toastr: ToastrService, private route: ActivatedRoute, private loader: LoaderService) { }
+  constructor(private apiService: ApiService, private toastr: ToastrService, private route: ActivatedRoute, private loader: LoaderService,private location: Location) { }
   ngOnInit() {
     const userId = localStorage.getItem('userId');
     this.fetchFormIdFromRoute()
@@ -70,11 +70,15 @@ export class ViewFormSubmitedDataComponent {
 
 
   onSubmit(event: any) {
-
+    this.loader.show();
     console.log('submission', event);
     this.apiService.updateUserFormData(this.formPublicId, { data: event.data }).subscribe((response: any) => {
       this.toastr.success('data updated successfully!');
+      this.loader.hide();
+      this.location.back();
     }, error => {
+      this.toastr.error('Failed to update data. Please try again.');
+      this.loader.hide();
     }
     );
   }

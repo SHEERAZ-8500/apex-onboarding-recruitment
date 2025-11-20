@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ApiService } from '../shared/services/apis/api.service';
 import { ActivatedRoute } from '@angular/router';
 import { LoaderService } from '../shared/services/loader.service';
-
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-form-defination-update',
   templateUrl: './form-defination-update.component.html',
@@ -20,7 +20,7 @@ export class FormDefinationUpdateComponent {
   formName = ''
   publicId = ''
 
-  constructor(private toastr: ToastrService, private apiService: ApiService, private route: ActivatedRoute,private loader: LoaderService) { }
+  constructor(private toastr: ToastrService, private apiService: ApiService, private route: ActivatedRoute,private loader: LoaderService,private location: Location) { }
   defaultFormJson = {
     display: 'form',
     components: []
@@ -84,6 +84,7 @@ export class FormDefinationUpdateComponent {
         }
         this.toastr.success('Form definition saved successfully!', 'Success');
         this.loader.hide();
+        this.location.back();
       },
       error: (error) => {
         this.loader.hide();

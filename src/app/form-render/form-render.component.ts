@@ -3,6 +3,7 @@ import { ApiService } from '../shared/services/apis/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute } from '@angular/router';
 import { LoaderService } from '../shared/services/loader.service';
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-form-render',
   templateUrl: './form-render.component.html',
@@ -13,7 +14,7 @@ export class FormRenderComponent {
   formJson = null;
   publicId = ''
   @ViewChild('formioComp', { read: ElementRef }) formioComp!: ElementRef;
-  constructor(private apiService: ApiService, private toastr: ToastrService, private route: ActivatedRoute, private loader: LoaderService) { }
+  constructor(private apiService: ApiService, private toastr: ToastrService, private route: ActivatedRoute, private loader: LoaderService,private location: Location) { }
   ngOnInit() {
     const userId = localStorage.getItem('userId');
     this.fetchFormIdFromRoute()
@@ -61,10 +62,14 @@ export class FormRenderComponent {
   onSubmit(event: any) {
     console.log('submission', event);
 
-
+    this.loader.show();
     this.apiService.saveUserFormData(this.publicId, { data: event.data }).subscribe((response: any) => {
       this.toastr.success('data saved successfully!');
+      this.loader.hide();
+      
     }, error => {
+      this.toastr.error('Failed to save data. Please try again.');
+      this.loader.hide();
     }
     );
   }
