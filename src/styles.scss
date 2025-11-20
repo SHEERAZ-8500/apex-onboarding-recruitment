@@ -20,7 +20,20 @@
   --red-color: #ee3158;
 
 }
+.light-theme {
+  --primary-color: #ffffff;
+  --second-primary-color: #f0f0f0;
+  --gray-color-1: #d1d1d1;
+  --gray-color-2: #a0a0a0;
+  --purple-1: #a16eff;
+  --border-color: #c0c0c0;
+  --white-color-1: #ffffff;
+  --light-purple: #f8f5ff;
+  --red-color: #ff4d6d;
+}
 
+// document.documentElement.style.setProperty('--primary-color', '#ffffff');
+// document.documentElement.style.setProperty('--purple-1', '#a16eff');
 body {
   background-color: var(--primary-color);
   overflow: hidden;

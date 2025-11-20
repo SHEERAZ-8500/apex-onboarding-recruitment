@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ToggleService } from '../../services/ToggleService';
+import { ThemeService } from '../../services/Theme.service';
 
 @Component({
   selector: 'app-header',
@@ -7,8 +8,15 @@ import { ToggleService } from '../../services/ToggleService';
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
-  constructor(private toggleService: ToggleService) { }
-
+  isDarkMode = false;
+  constructor(private toggleService: ToggleService, public themeService: ThemeService) {
+   
+  }
+  ngOnInit() {
+  this.themeService.isLightTheme$.subscribe(value => {
+    this.isDarkMode = !value; 
+  });
+}
   toggleSidebar() {
     if (window.innerWidth > 1000) {
       this.toggleService.toggleSidebar();
@@ -17,8 +25,8 @@ export class HeaderComponent {
       if (offcanvasElement) {
         const bootstrapOffcanvas = new (window as any).bootstrap.Offcanvas(offcanvasElement);
         bootstrapOffcanvas.show();
-      
+
+      }
     }
   }
-}
 }

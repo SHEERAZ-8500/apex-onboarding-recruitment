@@ -16,11 +16,10 @@
     </button>
     <button data-bs-toggle="offcanvas" data-bs-target="#quickactions" aria-controls="quickactions"> <i class="fa-solid fa-radiation " > </i></button>
     <button class="display-none-style" data-bs-toggle="offcanvas" data-bs-target="#setting" aria-controls="setting"><i class="fa-solid fa-file" ></i></button>
-    <button class="display-none-style"><i class="fa-solid fa-cart-plus"></i></button>
+    <button  class="display-none-style" (click)="themeService.toggleLightTheme()"><img [src]="isDarkMode ? '../../../../assets/moon.svg' : '../../../../assets/sun.svg'" alt=""  [style.filter]="isDarkMode ? 'invert(62%) sepia(84%) saturate(513%) hue-rotate(248deg) brightness(95%) contrast(90%)' : 'invert(0%) sepia(0%) saturate(100%) hue-rotate(0deg) brightness(100%) contrast(100%)'"></button>
     <button class="display-none-style"><i class="fa-solid fa-comment-dots"></i></button>
     <button><i class="fa-solid fa-earth-americas"></i></button>
     <button class="display-none-style"><i class="fa-solid fa-expand"></i></button>
-
   </div>
 </header>
 

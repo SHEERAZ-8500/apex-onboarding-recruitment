@@ -1,4 +1,4 @@
-<div class="container mt-4">
+<div class="container-fluid mt-4" #scrollContainer>
 
   <!-- Form Heading -->
   <h3 class="mb-4 table-title">Create Table Schema</h3>
@@ -9,7 +9,7 @@
     <div class="row mb-3">
       <div class="col-md-6 col-12 mb-3">
         <label>Table Name</label>
-        <input type="text" formControlName="tableName" (keyup)="checkSpace($event)"/>
+        <input type="text" formControlName="tableName" (keyup)="checkSpace($event)" />
       </div>
 
       <div class="col-md-6 col-12 mb-3">
@@ -23,11 +23,12 @@
     <!-- COLUMNS SECTION -->
     <h5 class="table-title">Columns</h5>
     <div formArrayName="columns">
-      <div
-        class="column-box mb-4 p-3"
-        *ngFor="let col of columns.controls; let i = index"
-        [formGroupName]="i"
-      >
+      <div class="column-box mb-4 p-3" *ngFor="let col of columns.controls; let i = index" [formGroupName]="i">
+        <div class="acction-btn">
+          <button class="btn btn-danger btn-sm" (click)="removeColumn(i)">Remove Column</button>
+
+          <button class="btn btn-primary " (click)="addColumn()">Add Column</button>
+        </div>
         <div class="row">
           <div class="col-md-6 col-12 mb-3">
             <label>Column Name</label>
@@ -85,11 +86,9 @@
           </div>
         </div>
 
-        <button class="btn btn-danger btn-sm" (click)="removeColumn(i)">Remove Column</button>
       </div>
     </div>
 
-    <button class="btn btn-primary mb-4" (click)="addColumn()">Add Column</button>
 
     <hr>
 
@@ -97,42 +96,43 @@
     <h5 class="table-title">Relationships</h5>
 
     <div formArrayName="relationships">
-      <div
-        class="relation-box mb-4 p-3"
-        *ngFor="let r of relationships.controls; let i = index"
-        [formGroupName]="i"
-      >
+      <div class="relation-box mb-4 p-3" *ngFor="let r of relationships.controls; let i = index" [formGroupName]="i" #relationshipItem>
+        <div class="acction-btn">
+          <button class="btn btn-danger btn-sm" (click)="removeRelationship(i)">Remove Relationship</button>
+
+          <button class="btn btn-primary " (click)="addRelationship()">Add Relationship</button>
+        </div>
         <div class="row">
           <div class="col-md-6 col-12 mb-3">
             <label>Source Table</label>
-            <select name="sourceTableName"  formControlName="sourceTableName" ></select>
+            <select name="sourceTableName" formControlName="sourceTableName"></select>
           </div>
 
           <div class="col-md-6 col-12 mb-3">
             <label>Source Column</label>
-            <select name="sourceColumnName"  formControlName="sourceColumnName" ></select>
+            <select name="sourceColumnName" formControlName="sourceColumnName"></select>
 
           </div>
 
           <div class="col-md-6 col-12 mb-3">
             <label>Target Table</label>
-            <select name="targetTableName"  formControlName="targetTableName" ></select>
+            <select name="targetTableName" formControlName="targetTableName"></select>
 
           </div>
 
           <div class="col-md-6 col-12 mb-3">
             <label>Target Column</label>
-            <select name="targetColumnName"  formControlName="targetColumnName" ></select>
+            <select name="targetColumnName" formControlName="targetColumnName"></select>
 
           </div>
 
           <div class="col-md-6 col-12 mb-3">
             <label>Relation Type</label>
-            <select name="relationType"  formControlName="relationType" >
-                <option value="ONE_TO_MANY">ONE_TO_MANY</option>
-                <option value="MANY_TO_ONE">MANY_TO_ONE</option>
-                <option value="ONE_TO_ONE">ONE_TO_ONE</option>
-                <option value="MANY_TO_MANY">MANY_TO_MANY</option>
+            <select name="relationType" formControlName="relationType">
+              <option value="ONE_TO_MANY">ONE_TO_MANY</option>
+              <option value="MANY_TO_ONE">MANY_TO_ONE</option>
+              <option value="ONE_TO_ONE">ONE_TO_ONE</option>
+              <option value="MANY_TO_MANY">MANY_TO_MANY</option>
 
             </select>
 
@@ -149,18 +149,15 @@
           </div>
         </div>
 
-        <button class="btn btn-danger btn-sm" (click)="removeRelationship(i)">Remove Relation</button>
       </div>
     </div>
-
-    <button class="btn btn-primary mb-4" (click)="addRelationship()">Add Relationship</button>
 
     <hr>
 
     <!-- Submit -->
-   <div class="text-end">
-     <button class="submit-btn" (click)="submitForm()">Submit</button>
-   </div>
+    <div class="text-end">
+      <button class="submit-btn" (click)="submitForm()">Submit</button>
+    </div>
 
   </form>
 </div>
