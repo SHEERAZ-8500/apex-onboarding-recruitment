@@ -18,18 +18,22 @@
   --white-color-1: #ffffffd9;
   --light-purple: #e8e1ff;
   --red-color: #ee3158;
-
+  --text-primary: #ffffff;
+  --text-secondary: #b5b5c3;
 }
+
 .light-theme {
-  --primary-color: #f6f6f6;
+  --primary-color: #f0f4f8;
   --second-primary-color: #ffffff;
-  --gray-color-1: #d1d1d1;
-  --gray-color-2: #a0a0a0;
-  --purple-1: #a16eff;
-  --border-color: #c0c0c0;
-  --white-color-1: black;
-  --light-purple: #f8f5ff;
-  --red-color: #ff4d6d;
+  --gray-color-1: #2d3748;
+  --gray-color-2: #4a5568;
+  --purple-1: #6c5ce7;
+  --border-color: #cbd5e0;
+  --white-color-1: #1a202c;
+  --light-purple: #edf2f7;
+  --red-color: #dc2626;
+  --text-primary: #1a202c;
+  --text-secondary: #4a5568;
 }
 
 // document.documentElement.style.setProperty('--primary-color', '#ffffff');
@@ -37,6 +41,81 @@
 body {
   background-color: var(--primary-color);
   overflow: hidden;
+  color: var(--text-primary);
+}
+
+/* Light Theme Enhancements */
+.light-theme {
+  /* Cards with better shadows */
+  .card, 
+  .table-main-div, 
+  .colloms,
+  .btn-groups-main-div,
+  .email-list-card,
+  .inbox-card,
+  .chat-box-card,
+  .events-card {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+    border: 1px solid var(--border-color);
+  }
+  
+  /* Inputs with better contrast */
+  input:not([type="checkbox"]):not([type="radio"]), 
+  textarea, 
+  select {
+    background-color: #ffffff !important;
+    border: 1.5px solid var(--border-color) !important;
+    color: var(--text-primary) !important;
+    
+    &:focus {
+      border-color: var(--purple-1) !important;
+      box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.15) !important;
+      background-color: #ffffff !important;
+    }
+    
+    &::placeholder {
+      color: #a0aec0 !important;
+    }
+  }
+  
+  /* Sidebar improvements */
+  .sidebar {
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.06);
+    
+    a:hover {
+      background: rgba(108, 92, 231, 0.1) !important;
+    }
+    
+    a.active {
+      background: rgba(108, 92, 231, 0.15) !important;
+    }
+  }
+  
+  /* Table improvements */
+  table {
+    thead tr th {
+      background-color: #f7fafc !important;
+      color: var(--text-primary) !important;
+      font-weight: 600 !important;
+    }
+    
+    tbody tr {
+      &:hover {
+        background-color: #f7fafc !important;
+      }
+    }
+  }
+  
+  /* Button hover enhancements */
+  button:not(.btn-close):not(.login-btn):hover {
+    box-shadow: 0 4px 12px rgba(108, 92, 231, 0.15) !important;
+  }
+  
+  /* Page title better contrast */
+  .page-title {
+    color: var(--text-primary) !important;
+    font-weight: 600 !important;
+  }
 }
 
 .page-title {
@@ -57,7 +136,7 @@ body {
 
 .page-link {
   background-color: var(--second-primary-color) !important;
-  color: #fff !important;
+  color: var(--white-color-1) !important;
   border: 1px solid var(--border-color) !important;
 }
 
@@ -78,7 +157,7 @@ body {
     .page-item {
       &.active .page-link {
         background-color: var(--purple-1);
-        color: #fff;
+        color: #ffffff;
       }
 
       &.disabled .page-link {
@@ -122,7 +201,7 @@ body {
 .formarea .form-check-label,
 .formarea .formio-component label,
 .formarea .formio-component span {
-  color: white !important;
+  color: var(--white-color-1) !important;
 }
 
 /* File selector ke text aur links */
@@ -130,7 +209,7 @@ body {
 .fileSelector a,
 .fileSelector span,
 .fileSelector i {
-  color: white !important;
+  color: var(--white-color-1) !important;
 }
 
 .formarea .input-group .input-group-append {
@@ -155,20 +234,19 @@ body {
 .form-builder-panel .card-header {
   background-color: var(--second-primary-color, #0c1a32) !important;
   border-bottom: 1px solid var(--border-color, #5C607B) !important;
-  color: #fff;
-  /* text readable rahe */
+  color: var(--white-color-1);
 }
 
 /* Buttons aur text ke liye thoda spacing aur color contrast */
 .builder-group-button {
-  color: #fff !important;
+  color: var(--white-color-1) !important;
   font-weight: 500;
   text-align: left;
 }
 
 .choices[data-type*="select-one"] .choices__button {
-  color: white !important;
-  background-color: white !important;
+  color: var(--white-color-1) !important;
+  background-color: var(--white-color-1) !important;
   border: none !important;
 }
 
@@ -182,12 +260,11 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 }
 .choices[data-type*="select-one"]::after {
   .choices__button {
-    color: white !important;
-    background-color: white !important;
+    color: var(--white-color-1) !important;
+    background-color: var(--white-color-1) !important;
   }
 
-  border-color: white transparent transparent transparent !important;
-  /* arrow ka color white */
+  border-color: var(--white-color-1) transparent transparent transparent !important;
 }
 
 .formarea input,
@@ -271,10 +348,8 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 .formarea textarea::placeholder,
 .formarea .dropdown::placeholder,
 .formarea select::placeholder {
-  color: #ffffff !important;
-  /* White placeholder */
-  opacity: 1;
-  /* Firefox me placeholder dim na ho */
+  color: var(--white-color-1) !important;
+  opacity: 0.5;
 }
 
 
@@ -313,17 +388,17 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 
 
 .formio-component .formio-form.formio-form-group label {
-  color: white !important;
+  color: var(--white-color-1) !important;
 }
 
 
 // tags
 
 .formarea .formio-component-tags .choices__inner {
-  background-color: var(--second-primary-color) !important; /* dark background */
-  color: white !important;            /* text color */
-  border: 1px solid var(--border-color) !important;  /* border color */
-  border-radius: 8px !important;      /* rounded corners */
+  background-color: var(--second-primary-color) !important;
+  color: var(--white-color-1) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 8px !important;
   min-height: 40px !important;
   padding: 6px 8px !important;
   .choices__input{

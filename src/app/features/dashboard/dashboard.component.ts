@@ -1,14 +1,21 @@
 // dashboard.component.ts
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import Chart from 'chart.js/auto';
 import { AfterViewInit } from '@angular/core';
+import { ThemeService } from '../../shared/services/Theme.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements AfterViewInit {
+export class DashboardComponent implements AfterViewInit, OnDestroy {
+  private charts: Chart[] = [];
+  private themeSubscription?: Subscription;
+
+  constructor(public themeService: ThemeService) {}
+
   cards = [
     { title: 'Total employees', number: 352, percent: 5 },
     { title: 'Number of leave', number: 22, percent: -3 },
@@ -90,10 +97,36 @@ export class DashboardComponent implements AfterViewInit {
       avatar: 'assets/k.avif'
     }
   ];
+  
   ngAfterViewInit(): void {
+    this.initCharts();
+    
+    // Subscribe to theme changes
+    this.themeSubscription = this.themeService.isLightTheme$.subscribe(() => {
+      // Destroy old charts
+      this.charts.forEach(chart => chart.destroy());
+      this.charts = [];
+      
+      // Recreate charts with new colors
+      setTimeout(() => this.initCharts(), 100);
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.themeSubscription?.unsubscribe();
+    this.charts.forEach(chart => chart.destroy());
+  }
+
+  private initCharts(): void {
+    let isLight = false;
+    this.themeService.isLightTheme$.subscribe(value => isLight = value).unsubscribe();
+    
+    const tickColor = isLight ? '#2d3748' : '#b8c4e9';
+    const gridColor = isLight ? 'rgba(0,0,0,0.08)' : 'rgba(255,255,255,0.1)';
+
     const ctx: any = document.getElementById('workingFormatChart');
 
-    new Chart(ctx, {
+    this.charts.push(new Chart(ctx, {
       type: 'doughnut',
       data: {
         labels: ['Remote', 'On Site'],
@@ -108,16 +141,16 @@ export class DashboardComponent implements AfterViewInit {
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        cutout: '70%',
+        cutout: '80%',
         plugins: {
           legend: { display: false }
         }
       }
-    });
+    }));
 
     const ctxBar: any = document.getElementById('projectEmploymentChart');
 
-    new Chart(ctxBar, {
+    this.charts.push(new Chart(ctxBar, {
       type: 'bar',
       data: {
         labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
@@ -141,23 +174,23 @@ export class DashboardComponent implements AfterViewInit {
         maintainAspectRatio: false, // height adjust ho sake
         scales: {
           x: {
-            ticks: { color: '#b8c4e9' },
+            ticks: { color: tickColor },
             grid: { display: false }
           },
           y: {
-            ticks: { color: '#b8c4e9' },
-            grid: { color: 'rgba(255,255,255,0.1)' }
+            ticks: { color: tickColor },
+            grid: { color: gridColor }
           }
         },
         plugins: {
           legend: { display: false }
         }
       }
-    });
+    }));
 
     const bar: any = document.getElementById('staffTurnoverChart');
 
-    new Chart(bar, {
+    this.charts.push(new Chart(bar, {
       type: 'bar',
       data: {
         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
@@ -176,20 +209,19 @@ export class DashboardComponent implements AfterViewInit {
         maintainAspectRatio: false, // height adjust ho sake
         scales: {
           x: {
-            ticks: { color: '#b8c4e9' },
+            ticks: { color: tickColor },
             grid: { display: false }
           },
           y: {
-            ticks: { color: '#b8c4e9' },
-            grid: { color: 'rgba(255,255,255,0.15)' }
+            ticks: { color: tickColor },
+            grid: { color: gridColor }
           }
         },
         plugins: {
           legend: { display: false }
         }
       }
-    });
-
+    }));
   }
 
 }

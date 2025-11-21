@@ -1,4 +1,4 @@
-<div class="builder-container">
+<div class="builder-container p-0">
   <div style="display: flex; justify-content: space-between;">
     <button (click)="addSection()" class="first">Add Section</button>
     <div class="actions">
@@ -27,7 +27,7 @@
       </div>
 
       <div class="modal-body">
-        <label class="form-label text-light mb-2">Form Name</label>
+        <label class="form-label mb-2" style="color: var(--white-color-1);">Form Name</label>
         <input 
           type="text" 
           [(ngModel)]="formName" 

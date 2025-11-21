@@ -1,14 +1,4 @@
-:root {
-  --primary-color: #15243e;
-  --second-primary-color: #0c1a32;
-  --gray-color-1: #b5b5c3;
-  --gray-color-2: #8daac6;
-  --purple-1: #7047ee;
-  --border-color: #5C607B;
-  --white-color-1: #ffffffd9;
-  --light-purple: #e8e1ff;
-  --red-color: #ee3158;
-}
+
 
 .email-container {
   height: 100vh;
@@ -72,7 +62,7 @@
   background: var(--red-color);
   border: none;
   border-radius: 5px;
-  color: white;
+  color: #ffffff;
   font-weight: 400;
   font-size: 14px;
   margin-bottom: 1px;
@@ -97,14 +87,14 @@
 
 .close-sidebar-btn {
   background: var(--red-color);
-  color: white;
+  color: #ffffff;
   padding: 6px 10px;
   border-radius: 5px;
 }
 
 .close-sidebar-btn:hover {
   background: #d42a4d;
-  color: white;
+  color: #ffffff;
 }
 
 /* Folders Section */
@@ -173,12 +163,16 @@
 }
 
 .folder-item.active {
-  background: var(--hover-blue);
-  color: white;
+   background: var(--purple-1);
+      color: #ffffff;
+      
+      i {
+        color: #ffffff!important;
+      }
 }
 
 .folder-item.active i {
-  color: white;
+  color: var(--second-primary-color);
 }
 
 .folder-item.active .badge {
@@ -369,7 +363,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: #ffffff;
   font-size: 12px;
   font-weight: 500;
 }
@@ -522,7 +516,7 @@
 }
 
 .icon-group .btn-icon {
-  color: white;
+  color: #ffffff;
   font-size: 12px;
   transition: all 0.3s ease;
   padding: 6px 8px;
@@ -533,7 +527,7 @@
 }
 
 .icon-group .btn-icon i {
-  color: white;
+  color: #ffffff;
 }
 
 /* Select checkbox group */
@@ -545,14 +539,14 @@
 
 .select-group .form-check-input {
   background-color: transparent;
-  border: 0.23px solid white;
+  border: 0.23px solid #ffffff;
   cursor: pointer;
   margin: 0;
 }
 
 .select-group .form-check-input:checked {
-  background-color: white;
-  border-color: white;
+  background-color: #ffffff;
+  border-color: #ffffff;
 }
 
 /* Dropdown group */
@@ -591,7 +585,7 @@
 }
 
 .nav-group .btn-icon {
-  color: white;
+  color: #ffffff;
   padding: 6px 10px;
 }
 
@@ -636,16 +630,18 @@
 }
 
 .email-item:hover {
-  background: rgba(112, 71, 238, 0.05);
+  background: rgba(112, 71, 238, 0.08);
 }
 
 .email-item.active {
-  background: rgba(112, 71, 238, 0.1);
-  border-left: 3px solid var(--purple-1);
+  background: rgba(112, 71, 238, 0.15);
+  border-left: 4px solid var(--purple-1);
 }
 
 .email-item.selected {
-  background: rgba(112, 71, 238, 0.05);
+  background: rgba(112, 71, 238, 0.25);
+  border-left: 3px solid var(--purple-1);
+  box-shadow: inset 0 1px 3px rgba(112, 71, 238, 0.4);
 }
 
 .email-item-content {
@@ -817,7 +813,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: #ffffff;
   font-weight: 400;
   font-size: 16px;
 }
@@ -846,7 +842,7 @@
 }
 
 .print-btn .btn-icon, .action-icons-group .btn-icon {
-  color: white;
+  color: #ffffff;
   padding: 8px 12px;
 }
 
@@ -985,12 +981,12 @@
 
 .btn-reply:hover {
   background: #157347;
-  color: white;
+  color: #ffffff;
 }
 
 .btn-forward {
   background: #0080ff;
-  color: white;
+  color: #ffffff;
 }
 
 .btn-forward:hover {
@@ -1152,7 +1148,7 @@
   background: var(--red-color);
   border: none;
   border-radius: 50%;
-  color: white;
+  color: #ffffff;
   font-size: 8px;
   display: flex;
   align-items: center;
@@ -1254,7 +1250,7 @@
 
 .btn-discard:hover {
   background: #d42a4d;
-  color: white;
+  color: #ffffff;
 }
 
 .btn-close-modal {
@@ -1265,7 +1261,7 @@
 
 .btn-close-modal:hover {
   background: #d42a4d;
-  color: white;
+  color: #ffffff;
 }
 
 .btn-draft {
@@ -1276,7 +1272,7 @@
 
 .btn-send {
   background: #18d26b;
-  color: white;
+  color: #ffffff;
 }
 
 .btn-send:hover {
@@ -1303,7 +1299,7 @@
 
 .modal-footer .btn-primary {
   background: #0080ff;
-  color: white;
+  color: #ffffff;
 }
 
 .modal-footer .btn-primary:hover {
@@ -1496,3 +1492,288 @@
   border-radius: 10px;
 }
 
+/* Light Mode Styles */
+::ng-deep .light-theme {
+  .email-container {
+    background: var(--primary-color);
+  }
+
+  .email-sidebar {
+    background: var(--second-primary-color);
+    border-right: 1px solid var(--border-color);
+  }
+
+  .folder-section {
+    background: var(--second-primary-color);
+    border: 1px solid var(--border-color);
+  }
+
+  .folder-header {
+    background: var(--second-primary-color);
+    color: var(--white-color-1);
+    border-bottom: 1px solid var(--border-color);
+    
+    h6 {
+      color: var(--white-color-1);
+    }
+  }
+
+  .folder-list {
+    background: var(--second-primary-color);
+  }
+
+  .folder-item {
+    color: var(--gray-color-1);
+    border-bottom: 1px solid var(--border-color);
+    
+    i {
+      color: var(--gray-color-1);
+    }
+    
+    &:hover {
+      background: var(--primary-color);
+      color: var(--purple-1);
+      
+      i {
+        color: var(--purple-1);
+      }
+    }
+    
+    &.active {
+      background: var(--purple-1);
+      color: #ffffff;
+      
+      i {
+        color: #ffffff;
+      }
+    }
+  }
+
+  .labels-section {
+    background: var(--second-primary-color);
+    border: 1px solid var(--border-color);
+  }
+
+  .labels-header {
+    background: var(--second-primary-color);
+    color: var(--white-color-1);
+    border-bottom: 1px solid var(--border-color);
+    
+    h6 {
+      color: var(--white-color-1);
+    }
+  }
+
+  .labels-list {
+    background: var(--second-primary-color);
+  }
+
+  .label-item {
+    color: var(--gray-color-1);
+    border-bottom: 1px solid var(--border-color);
+    
+    &:hover {
+      background: var(--primary-color);
+    }
+  }
+
+  .contacts-section {
+    background: var(--second-primary-color);
+    border: 1px solid var(--border-color);
+  }
+
+  .contacts-header {
+    background: var(--second-primary-color);
+    color: var(--white-color-1);
+    border-bottom: 1px solid var(--border-color);
+    
+    h6 {
+      color: var(--white-color-1);
+    }
+  }
+
+  .contacts-list {
+    background: var(--second-primary-color);
+  }
+
+  .contact-item {
+    color: var(--gray-color-1);
+    border-bottom: 1px solid var(--border-color);
+    
+    &:hover {
+      background: var(--primary-color);
+    }
+  }
+
+  .contact-name {
+    color: var(--white-color-1);
+  }
+
+  .contact-status {
+    color: var(--gray-color-2);
+  }
+
+  .email-list-section,
+  .email-list-card {
+    background: var(--second-primary-color);
+  }
+
+  .email-list {
+    background: var(--second-primary-color);
+  }
+
+  .email-detail-modal .modal-content,
+  .compose-modal .modal-content {
+    background: var(--second-primary-color);
+    color: var(--white-color-1);
+  }
+
+  .modal-content {
+    background: var(--second-primary-color);
+  }
+
+  .modal-header {
+    border-bottom: 1px solid var(--border-color);
+    
+    .modal-title {
+      color: var(--white-color-1);
+    }
+
+    .btn-close {
+      filter: brightness(0) !important;
+      opacity: 0.7 !important;
+      
+      &:hover {
+        opacity: 1 !important;
+      }
+    }
+  }
+
+  .modal-footer {
+    border-top: 1px solid var(--border-color);
+  }
+
+  .form-label {
+    color: var(--white-color-1);
+  }
+
+  .form-control {
+    background: var(--primary-color);
+    border: 1px solid var(--border-color);
+    color: var(--white-color-1);
+    
+    &::placeholder {
+      color: var(--gray-color-2);
+    }
+
+    &:focus {
+      background: var(--primary-color);
+      border-color: var(--purple-1);
+      color: var(--white-color-1);
+    }
+  }
+
+  .formatting-toolbar {
+    background: var(--primary-color);
+    border: 1px solid var(--border-color);
+  }
+
+  .message-editor {
+    background: var(--primary-color);
+    border: 1px solid var(--border-color);
+    color: var(--white-color-1);
+    
+    &:focus {
+      border-color: var(--purple-1);
+    }
+  }
+
+  .attachments-popup {
+    background: var(--primary-color);
+    border: 1px solid var(--border-color);
+  }
+
+  .file-preview {
+    background: var(--second-primary-color);
+    border: 1px solid var(--border-color);
+  }
+
+  .image-preview-small img {
+    border: 1px solid var(--border-color);
+  }
+
+  .email-item {
+    background: var(--second-primary-color);
+    border-bottom: 1px solid var(--border-color);
+    
+    &:hover {
+      background: var(--primary-color);
+    }
+    
+    &.active {
+      background: rgba(108, 92, 231, 0.15);
+      border-left: 4px solid var(--purple-1);
+    }
+
+    &.selected {
+      background: rgba(108, 92, 231, 0.08);
+      border-left: 2px solid var(--purple-1);
+    }
+  }
+
+  .contact-item {
+    &:hover {
+      background: var(--primary-color);
+    }
+  }
+
+  .modal-header {
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .modal-footer {
+    border-top: 1px solid var(--border-color);
+  }
+
+  .compose-input,
+  .compose-textarea,
+  input[type="text"],
+  input[type="email"],
+  textarea {
+    background: var(--primary-color);
+    border: 1px solid var(--border-color);
+    color: var(--white-color-1);
+  }
+
+  .btn-icon {
+    color: var(--gray-color-1);
+    
+    &:hover {
+      background: var(--primary-color);
+      color: var(--purple-1);
+    }
+  }
+
+  .email-detail-header,
+  .email-detail-body {
+    background: var(--second-primary-color);
+  }
+
+  .badge {
+    background: var(--border-color);
+    color: var(--gray-color-1);
+  }
+
+  .label-item {
+    color: var(--gray-color-1);
+    
+    &:hover {
+      background: var(--primary-color);
+    }
+  }
+
+  .contact-avatar {
+    background: var(--primary-color);
+    color: var(--gray-color-1);
+  }
+}

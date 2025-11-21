@@ -3,7 +3,7 @@
   grid-template-columns: 280px 1fr 280px;
   gap: 15px;
 
-  padding: 8px;
+  // padding: 8px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -43,7 +43,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: #ffffff;
     font-weight: 600;
     font-size: 14px;
     border: 2px solid var(--border-color);
@@ -84,7 +84,7 @@
       .tab-button {
         background: none;
         border: none;
-        color: var(--light-purple);
+        color: var(--gray-color-1);
         padding: 10px 20px;
         cursor: pointer;
         font-weight: 500;
@@ -95,14 +95,14 @@
         text-align: center;
 
         &.active {
-          color: var(--white-color-1);
+          color: var(--second-primary-color);
           border-bottom-color: var(--purple-1);
           background: var(--purple-1);
         }
 
         &:hover:not(.active) {
-          background: var(--white-color-1);
-          color: var(--border-color);
+          background: var(--primary-color);
+          color: var(--purple-1);
         }
       }
     }
@@ -133,7 +133,7 @@
       }
 
       &.active {
-        background: #15243e;
+        background: var(--primary-color);
 
         .chat-name {
           color: var(--purple-1);
@@ -141,10 +141,10 @@
       }
 
       &:hover:not(.active) {
-        background: #15243e;
+        background: var(--primary-color);
 
         .chat-name {
-          color: var(#7047ee);
+          color: var(--purple-1);
         }
       }
 
@@ -159,7 +159,7 @@
           margin-bottom: 4px;
 
           .chat-name {
-            color: var(--light-purple);
+            color: var(--white-color-1);
             font-weight: 600;
             font-size: 16px;
             line-height: 1.2;
@@ -178,7 +178,7 @@
         }
 
         .chat-message {
-          color: #ffffffd9;
+          color: var(--gray-color-2);
           font-size: 14px;
           margin: 0;
           line-height: 1.3;
@@ -223,14 +223,14 @@
 
       .user-details {
         h4 {
-          color: #ffffffd9;
+          color: var(--white-color-1);
           margin: 0 0 2px 0;
           font-size: 16px;
           font-weight: 600;
         }
 
         .last-seen {
-          color: #ffffffd9;
+          color: var(--gray-color-2);
           font-size: 12px;
         }
       }
@@ -275,7 +275,7 @@
       align-items: center;
       justify-content: center;
       height: 100%;
-      color: #ffffffd9;
+      color: var(--gray-color-1);
       font-size: 16px;
     }
 
@@ -338,7 +338,7 @@
             margin-bottom: 5px;
 
             .sender-name {
-              color: #ffffffd9;
+              color: var(--second-primary-color);
             }
 
             .message-time {
@@ -349,7 +349,7 @@
           }
 
           .message-text {
-            color: white;
+            color: #ffffff;
             font-size: 14px;
             line-height: 1.4;
             margin: 0;
@@ -412,7 +412,7 @@
     .send-btn {
       background: var(--purple-1);
       border: none;
-      color: white;
+      color: #ffffff;
       width: 40px;
       height: 40px;
       border-radius: 50%;
@@ -467,7 +467,7 @@
         font-size: 12px;
 
         &:hover {
-          background: rgba(255, 255, 255, 0.1);
+          background: var(--primary-color);
         }
       }
 
@@ -535,7 +535,7 @@
       .nav-btn {
         background: var(--purple-1);
         border: none;
-        color: white;
+        color: var(--second-primary-color);
         width: 22px;
         height: 22px;
         border-radius: 4px;
@@ -546,7 +546,7 @@
         font-size: 9px;
 
         &:hover {
-          background: #5a36d0;
+          opacity: 0.85;
         }
       }
     }
@@ -593,7 +593,7 @@
         }
 
         &:hover {
-          background: rgba(255, 255, 255, 0.05);
+          background: var(--primary-color);
         }
 
         .day-number {
@@ -649,7 +649,7 @@
         }
 
         .event-title {
-          color: #ffffffd9;
+          color: var(--gray-color-2);
           font-size: 12px;
           line-height: 1.3;
         }
@@ -751,7 +751,7 @@
   outline: none;
   height: 45px;
   width: 120px;
-  color: #fff;
+  color: var(--white-color-1);
   border-color: var(--purple-1);
   border-radius: 5px;
   cursor: pointer;
@@ -764,7 +764,7 @@
   /* Hover optional */
   &:hover {
 
-    color: #fff;
+    color: var(--white-color-1);
     border-color: var(--purple-1);
   }
 }
@@ -773,10 +773,10 @@
   background-color: var(--second-primary-color);
   border-bottom: 1px solid var(--border-color);
   .modal-header{
-    color: white;
+    color: var(--white-color-1);
     .btn-close{
       background-color: var(--gray-color-1);
-      color: white;
+      color: #ffffff;
     }
   }
 }

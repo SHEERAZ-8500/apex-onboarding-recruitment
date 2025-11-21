@@ -16,13 +16,13 @@ td {
 }
 
 table thead tr th {
-  color: #b5b5c3;
+  color: var(--gray-color-1);
   border-bottom: 1px solid #d8d3d3b1;
 
 }
 
 table tbody tr td {
-  color: #babacf;
+  color: var(--gray-color-2);
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 
 }
@@ -55,7 +55,7 @@ table tbody tr td {
 
 .checkbox-style:checked::after {
   content: "✓";
-  color: white;
+  color: #ffffff;
   font-size: 14px;
   position: absolute;
   top: -2px;
@@ -118,17 +118,17 @@ table tbody tr td {
 
 .btn-1:hover {
   background-color: #05825f !important;
-  color: white !important;
+  color: #ffffff !important;
 }
 
 .btn-2:hover {
   background-color: var(--purple-1) !important;
-  color: white !important;
+  color: #ffffff !important;
 }
 
 .btn-3:hover {
   background-color: #ee3158 !important;
-  color: white !important;
+  color: #ffffff !important;
 }
 
 .dropdown .dropdown-menu{

@@ -50,7 +50,7 @@ formio {
     .formio-component-tags .choices__inner {
         background-color: var(--second-primary-color) !important;
         /* dark background */
-        color: white !important;
+        color: var(--white-color-1) !important;
         /* text color */
         border: 1px solid var(--border-color) !important;
         /* border color */
@@ -69,7 +69,7 @@ formio {
     label,
     .form-check-label,
     span {
-        color: white !important;
+        color: var(--white-color-1) !important;
         font-weight: 500;
     }
 
@@ -110,7 +110,7 @@ formio {
     .fileSelector a,
     .fileSelector span,
     .fileSelector i {
-        color: white !important;
+        color: var(--white-color-1) !important;
     }
 
     /* Hover / Highlight */
@@ -153,7 +153,7 @@ formio .formio-error-wrapper.has-message select.is-invalid {
     /* Dark red background */
     border-color: #ff4d4d !important;
     /* Bright red border */
-    color: #fff !important;
+    color: var(--white-color-1) !important;
 }
 
 

@@ -102,7 +102,7 @@
 
   &:hover {
     background-color: var(--purple-1);
-    color: var(--white-color-1);
+    color: var(--second-primary-color);
     transform: translateY(-2px);
   }
 }
@@ -129,16 +129,6 @@
 
 /* Main Container */
 .off-canvas-container {
-  --primary-color: #15243e;
-  --second-primary-color: #0c1a32;
-  --gray-color-1: #b5b5c3;
-  --gray-color-2: #8daac6;
-  --purple-1: #7047ee;
-  --border-color: #5C607B;
-  --white-color-1: #ffffffd9;
-  --light-purple: #e8e1ff;
-  --red-color: #ee3158;
-
   background-color: var(--primary-color);
   color: var(--white-color-1);
   height: 100vh;
@@ -248,7 +238,7 @@
       transition: color 0.3s ease;
 
       &:hover {
-        color: var(--hover-color);
+        color: var(--purple-1);
       }
     }
 
@@ -281,7 +271,7 @@
     transition: color 0.3s ease;
 
     &:hover {
-      color: var(--hover-color);
+      color: var(--purple-1);
     }
   }
 
@@ -350,7 +340,7 @@
 
 .settings-section {
   padding-bottom: 0.4rem;
-  border-bottom: 1px solid #b2b7bd;
+  border-bottom: 1px solid var(--border-color);
    &:last-child {
       border-bottom: none;
     }
@@ -423,7 +413,7 @@
       width: 14px;
       left: 2px;
       bottom: 2px;
-      background-color: white;
+      background-color: var(--second-primary-color);
       transition: .4s;
       border-radius: 2px;
     }

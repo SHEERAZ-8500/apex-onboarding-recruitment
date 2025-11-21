@@ -15,7 +15,7 @@
 
   .save-btn {
     background: #007bff;
-    color: white;
+    color: #ffffff;
     border: none;
     padding: 8px 16px;
     border-radius: 6px;
@@ -43,7 +43,7 @@
 
 .first:hover {
   background: #7047ee !important;
-  color: white;
+  color: #ffffff;
 }
 
 .custom-modal {
@@ -71,7 +71,23 @@
 
 /* Close Button */
 .btn-close-white {
-  filter: invert(1);
+  filter: invert(1) grayscale(100%) brightness(200%);
+  opacity: 0.8;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+:host-context(.light-theme) .btn-close-white {
+  filter: none;
+  opacity: 0.6;
+  
+  &:hover {
+    opacity: 0.9;
+  }
 }
 
 /* Buttons */
@@ -92,7 +108,7 @@
 /* Save Button */
 .save-btn {
   background: #007bff;
-  color: white;
+  color: #ffffff;
   border: none;
   padding: 8px 20px;
   border-radius: 6px;

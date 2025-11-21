@@ -31,17 +31,15 @@ select {
 }
 
 .submit-btn {
-
     width: 150px;
     height: 40px;
     border-radius: 4px;
     border: 1px solid #05825f;
     outline: none;
-    color: white;
+    color: #ffffff;
     background-color: #05825f;
     cursor: pointer;
     transition: background-color 0.5s ease, color 0.5s ease;
-    /* 👈 smooth animation */
 }
 
 input[type=number]::-webkit-outer-spin-button,
