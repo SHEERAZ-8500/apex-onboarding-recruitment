@@ -10,13 +10,13 @@ import { ThemeService } from '../../services/Theme.service';
 export class HeaderComponent {
   isDarkMode = false;
   constructor(private toggleService: ToggleService, public themeService: ThemeService) {
-   
+
   }
   ngOnInit() {
-  this.themeService.isLightTheme$.subscribe(value => {
-    this.isDarkMode = !value; 
-  });
-}
+    this.themeService.isLightTheme$.subscribe(value => {
+      this.isDarkMode = !value;
+    });
+  }
   toggleSidebar() {
     if (window.innerWidth > 1000) {
       this.toggleService.toggleSidebar();

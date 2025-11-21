@@ -4,13 +4,22 @@ import { ApiService } from '../../../shared/services/apis/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { EncryptionService } from '../../../shared/services/encryption.service';
 import { LoaderService } from '../../../shared/services/loader.service';
+import { ThemeService } from '../../../shared/services/Theme.service';
 @Component({
   selector: 'app-log-in',
   templateUrl: './log-in.component.html',
   styleUrl: './log-in.component.scss'
 })
 export class LogInComponent {
-  constructor(private router: Router, private apiService: ApiService, private toaster: ToastrService, private encryptionService: EncryptionService, private loader: LoaderService) { }
+  isDarkMode = false;
+  constructor(private router: Router, private apiService: ApiService, private toaster: ToastrService, private encryptionService: EncryptionService, private loader: LoaderService, private themeService: ThemeService) {
+
+  }
+  ngOnInit() {
+    this.themeService.isLightTheme$.subscribe(value => {
+      this.isDarkMode = !value;
+    });
+  }
   email: string = '';
   password: string = '';
   onLogin() {
