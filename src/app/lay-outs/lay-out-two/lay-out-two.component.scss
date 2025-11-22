@@ -15,3 +15,12 @@
     background-color: #8daac6; /* scrollbar ka color */
     border-radius: 10px;
 }
+
+
+@media (max-width: 800px){
+    .lay-out-two {
+content: '';
+
+height: 150px;
+    }   
+}
