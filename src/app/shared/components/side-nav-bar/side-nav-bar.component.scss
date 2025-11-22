@@ -168,6 +168,7 @@
 .tabslist {
   height: 100%;
   overflow-y: auto;
+  padding-bottom: 150px;
 }
 
 .tabslist::-webkit-scrollbar {
@@ -186,12 +187,12 @@
   border-radius: 10px;
 }
 
-.tabslist::after {
-  content: "";
-  display: block;
-  height: 250px;
-  padding-bottom: 20px;
-}
+// .tabslist::after {
+//   content: "";
+//   display: block;
+//   height: 250px;
+//   padding-bottom: 20px;
+// }
 
 .collapseDiv {
   border-left: 2px dashed var(--gray-color-2);
