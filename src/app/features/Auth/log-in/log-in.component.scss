@@ -29,7 +29,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  // padding: 40px;
   padding-inline: 40px;
   position: relative;
   z-index: 2;
@@ -65,7 +64,6 @@
     opacity: 0;
     transform: translateX(-30px);
   }
-
   to {
     opacity: 1;
     transform: translateX(0);
@@ -92,72 +90,11 @@
   animation: fadeInScale 0.8s ease-out;
 }
 
-/* Image Overlay */
-.image-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  transition: background 0.3s ease;
-}
-
-/* Dark Mode Overlay */
-// .dark-mode .image-overlay {
-//   background: linear-gradient(135deg, rgba(112, 71, 238, 0.7), rgba(157, 78, 221, 0.6));
-// }
-
-/* Light Mode Overlay */
-// .light-mode .image-overlay {
-//   background: linear-gradient(135deg, rgba(166, 153, 202, 0.177), rgba(115, 102, 141, 0.16));
-// }
-
-/* Image Content Text */
-.image-content {
-  position: relative;
-  z-index: 2;
-  color: white;
-  text-align: center;
-  padding: 40px;
-  max-width: 500px;
-  animation: fadeIn 1s ease-out 0.3s both;
-
-  h2 {
-    font-size: 42px;
-    font-weight: 800;
-    margin-bottom: 16px;
-    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
-    line-height: 1.2;
-  }
-
-  p {
-    font-size: 18px;
-    font-weight: 400;
-    opacity: 0.95;
-    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.2);
-    line-height: 1.6;
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 @keyframes fadeInScale {
   from {
     opacity: 0;
     transform: scale(0.9);
   }
-
   to {
     opacity: 1;
     transform: scale(1);
@@ -168,30 +105,6 @@
 .logo-section {
   text-align: center;
   margin-bottom: 40px;
-}
-
-.logo-circle {
-  width: 70px;
-  height: 70px;
-  background: linear-gradient(135deg, var(--purple-1), #9d4edd);
-  border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 20px;
-  box-shadow: 0 8px 24px rgba(112, 71, 238, 0.3);
-  transition: all 0.3s ease;
-
-  i {
-    font-size: 32px;
-    color: white;
-  }
-}
-
-/* Light Mode Logo */
-.light-mode .logo-circle {
-  background: linear-gradient(135deg, #7047ee, #a16eff);
-  box-shadow: 0 12px 32px rgba(112, 71, 238, 0.25);
 }
 
 .welcome-title {
@@ -397,6 +310,12 @@
   background-color: #ffffff;
   border: 1.5px solid #d1d5db;
 
+  &:checked {
+    background-color: var(--purple-1);
+    border-color: var(--purple-1);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e");
+  }
+
   &:focus {
     box-shadow: 0 0 0 4px rgba(112, 71, 238, 0.12);
   }
@@ -506,35 +425,6 @@
     border-color: var(--purple-1);
     box-shadow: 0 6px 16px rgba(112, 71, 238, 0.15);
   }
-}
-
-/* Sign Up Link */
-.signup-link {
-  text-align: center;
-  font-size: 14px;
-  transition: color 0.3s ease;
-
-  a {
-    color: var(--purple-1);
-    text-decoration: none;
-    font-weight: 600;
-    transition: color 0.3s ease;
-
-    &:hover {
-      color: #9d4edd;
-      text-decoration: underline;
-    }
-  }
-}
-
-/* Dark Mode Sign Up Link */
-.dark-mode .signup-link {
-  color: var(--gray-color-1);
-}
-
-/* Light Mode Sign Up Link */
-.light-mode .signup-link {
-  color: #6b7280;
 }
 
 /* Responsive Design */
