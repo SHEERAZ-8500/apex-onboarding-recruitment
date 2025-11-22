@@ -65,6 +65,7 @@
     opacity: 0;
     transform: translateX(-30px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -144,6 +145,7 @@
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -155,6 +157,7 @@
     opacity: 0;
     transform: scale(0.9);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -289,7 +292,7 @@
     outline: none;
     border-color: var(--purple-1) !important;
 
-    ~ .input-icon {
+    ~.input-icon {
       color: var(--purple-1);
     }
   }
@@ -300,7 +303,7 @@
   background-color: rgba(255, 255, 255, 0.05);
   border: 1.5px solid rgba(255, 255, 255, 0.1);
   color: #ffffff;
-  
+
   &:focus {
     background-color: rgba(255, 255, 255, 0.08);
     box-shadow: 0 0 0 4px rgba(112, 71, 238, 0.1);
@@ -317,7 +320,7 @@
   background-color: #ffffff;
   border: 1.5px solid #e5e7eb;
   color: #1f2937;
-  
+
   &:focus {
     background-color: #ffffff;
     box-shadow: 0 0 0 4px rgba(112, 71, 238, 0.12);
@@ -393,7 +396,7 @@
 .light-mode .form-check-input {
   background-color: #ffffff;
   border: 1.5px solid #d1d5db;
-  
+
   &:focus {
     box-shadow: 0 0 0 4px rgba(112, 71, 238, 0.12);
   }
@@ -567,8 +570,12 @@
     min-height: auto;
     height: auto;
     padding: 40px 30px;
-  border-radius: 24px;
+    border-radius: 24px;
 
+  }
+  .login-content::after{
+    content: '';
+    height: 150px;
   }
 }
 
@@ -610,9 +617,9 @@
 .lds-hourglass {
   display: inline-block;
   position: relative;
-  width: 14px;   
+  width: 14px;
   height: 14px;
-  color: #fff;   
+  color: #fff;
   vertical-align: middle;
 }
 
@@ -633,15 +640,13 @@
     transform: rotate(0);
     animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
   }
+
   50% {
     transform: rotate(900deg);
     animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
   }
+
   100% {
     transform: rotate(1800deg);
   }
 }
-
-
-
-
