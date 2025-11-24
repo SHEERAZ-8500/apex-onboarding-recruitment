@@ -2,7 +2,7 @@
 
 .email-container {
   height: 100vh;
-  background: var(--primary-color);
+  // background: var(--primary-color);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   overflow-x: hidden;
 }
@@ -399,7 +399,7 @@
 
 /* Middle Section - Email List Card */
 .email-list-section {
-  background: var(--primary-color);
+  // background: var(--primary-color);
   padding: 20px;
   height: 100vh;
   overflow: hidden;
@@ -1495,7 +1495,7 @@
 /* Light Mode Styles */
 ::ng-deep .light-theme {
   .email-container {
-    background: var(--primary-color);
+    background: transparent!important;
   }
 
   .email-sidebar {
@@ -1613,7 +1613,7 @@
     color: var(--gray-color-2);
   }
 
-  .email-list-section,
+  
   .email-list-card {
     background: var(--second-primary-color);
   }
