@@ -5,6 +5,8 @@ import { ToastrService } from 'ngx-toastr';
 import { ApiService } from '../shared/services/apis/api.service';
 import { LoaderService } from '../shared/services/loader.service';
 import { Location } from '@angular/common';
+import { TemplateDataService } from '../shared/services/template-data.service';
+
 @Component({
   selector: 'app-form-builder',
   templateUrl: './form-builder.component.html',
@@ -17,13 +19,18 @@ export class FormBuilderComponent implements OnInit {
   @ViewChild('formnameModalBtn') formnameModalBtn!: ElementRef;
   @ViewChild('closeFormnameModal') closeFormnameModal!: ElementRef;
   formName = ''
+  defaultFormJson: any;
 
-  constructor(private toastr: ToastrService, private apiService: ApiService,private loader: LoaderService,private location: Location) { }
-  // defaultFormJson = {
-  //   display: 'form',
-  //   components: [] 
-  // };
-  defaultFormJson = { display: 'form', components: [{ type: 'textfield', key: 'firstName', label: 'First Name', placeholder: 'Enter first name', input: true }, { type: 'textfield', key: 'lastName', label: 'Last Name', placeholder: 'Enter last name', input: true }, { type: 'email', key: 'email', label: 'Email', placeholder: 'Enter email', input: true }, { type: 'password', key: 'password', label: 'Password', placeholder: 'Enter password', input: true }, { type: 'checkbox', key: 'subscribe', label: 'Subscribe to newsletter', input: true }, { type: 'radio', key: 'gender', label: 'Gender', values: [{ label: 'Male', value: 'male' }, { label: 'Female', value: 'female' }], input: true }] };
+  constructor(
+    private toastr: ToastrService, 
+    private apiService: ApiService,
+    private loader: LoaderService,
+    private location: Location,
+    private templateDataService: TemplateDataService
+  ) { 
+    // Get employee form template from service
+    this.defaultFormJson = this.templateDataService.getEmployeeFormTemplate();
+  }
   ngOnInit() {
     // left side inputs options customization
 
@@ -65,19 +72,19 @@ export class FormBuilderComponent implements OnInit {
             signature: true,
           }
         },
-        // layout: {
-        //   title: 'Layout',
-        //   weight: 10,
-        //   components: {
-        //     panel: true,
-        //     table: true,
-        //     columns: true,
-        //     fieldset: true,
-        //     tabs: true
-        //   }
-        // },
-        // 👇 Disable other tabs completely
-        layout: false,
+        layout: {
+          title: 'Layout',
+          weight: 10,
+          components: {
+            panel: true,
+            table: false,
+            columns: true,
+            fieldset: false,
+            tabs: true,
+            well: false,
+            content: false
+          }
+        },
         data: false,
         premium: false,
         resource: false
@@ -142,7 +149,7 @@ export class FormBuilderComponent implements OnInit {
     //   }
     // });
 
-    this.builder = new FormBuilder(this.builderRef.nativeElement, { display: 'form', components: this.defaultFormJson.components }, builderOptions);
+    this.builder = new FormBuilder(this.builderRef.nativeElement, this.defaultFormJson, builderOptions);
     this.builder.ready.then(() => {
 
       // Existing listeners
@@ -245,10 +252,15 @@ export class FormBuilderComponent implements OnInit {
       return
     }
     this.loader.show();
+    
     let payload = {
       ...this.builder.instance.schema,
       formName: this.formName
     };
+    
+    // Log the complete payload being sent
+    console.log('📤 Complete Payload being sent to backend:', JSON.stringify(payload, null, 2));
+    
     this.apiService.saveFormDefinition(payload).subscribe({
       next: (response) => {
         if (this.closeFormnameModal) {
