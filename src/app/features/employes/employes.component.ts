@@ -10,28 +10,28 @@ export class EmployesComponent {
   myCandidates = [
     {
       name: 'John Doe',
-      status: 'Awaiting Review',
+      status:'Reviewed',
       screener: '1/1 Preferred Question met',
       applyDate: '19 Nov',
       interested: null
     },
     {
       name: 'Aditi Row',
-      status: 'Awaiting Review',
+      status: 'Reviewed',
       screener: '1/1 Preferred Question met',
       applyDate: '19 Nov',
       interested: null
     },
     {
       name: 'Mical Doe',
-      status: 'Awaiting Review',
+      status: 'Reviewed',
       screener: '0/1 Preferred Question met',
       applyDate: '19 Nov',
       interested: null
     },
     {
       name: 'Shone Marsh',
-      status: 'Awaiting Review',
+      status: 'Reviewed',
       screener: '0/1 Preferred Question met',
       applyDate: '19 Nov',
       interested: null
@@ -51,7 +51,7 @@ export class EmployesComponent {
       interested: null
     }
   ];
-  statusList = ['Active', 'Awaiting Review', 'Reviewed', 'Contacting', 'Hired', 'Rejected'];
+  statusList = ['Active', 'Reviewed', 'Contacting', 'Hired', 'Rejected', 'Archived'];
   activeIndex = 0;
   constructor(private loader: LoaderService) { }
 
