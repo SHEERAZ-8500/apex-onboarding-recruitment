@@ -22,14 +22,17 @@ export class FormBuilderComponent implements OnInit {
   defaultFormJson: any;
 
   constructor(
-    private toastr: ToastrService, 
+    private toastr: ToastrService,
     private apiService: ApiService,
     private loader: LoaderService,
     private location: Location,
     private templateDataService: TemplateDataService
-  ) { 
+  ) {
     // Get employee form template from service
-    this.defaultFormJson = this.templateDataService.getEmployeeFormTemplate();
+    // this.defaultFormJson = this.templateDataService.getEmployeeFormTemplate();
+    this.defaultFormJson = JSON.parse(JSON.stringify(
+      this.templateDataService.getEmployeeFormTemplate()
+    ));
   }
   ngOnInit() {
     // left side inputs options customization
@@ -252,14 +255,14 @@ export class FormBuilderComponent implements OnInit {
       return
     }
     this.loader.show();
-    
+
     let payload = {
-      ...this.builder.instance.schema,
+      ...this.builder.instance.form,
       formName: this.formName
     };
-    
+
     // Log the complete payload being sent
-    console.log('📤 Complete Payload being sent to backend:', JSON.stringify(payload, null, 2));
+    console.log('📤 Complete Payload being sent to backend:', JSON.stringify(this.builder.instance.form, null, 2));
     
     this.apiService.saveFormDefinition(payload).subscribe({
       next: (response) => {
