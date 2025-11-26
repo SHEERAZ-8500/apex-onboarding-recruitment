@@ -29,7 +29,7 @@
         }
 
         button:hover {
-            background-color: #7047ee !important;
+            background-color: #1274ac !important;
             color: #ffffff !important;
         }
     }
@@ -80,7 +80,7 @@
 }
 
 .menu-btn:hover {
-    background-color: #7047ee !important;
+    background-color: #518cae !important;
 
     span:nth-child(1) {
         background-color: var(--second-primary-color) !important;
@@ -135,11 +135,11 @@
 
 .bell-btn:hover {
     i {
-        color: var(--white-color-1) !important;
+        color:#fff !important;
     }
 
     .wave {
-        border: 2px solid var(--white-color-1) !important;
+        border: 2px solid #fff !important;
     }
 }
 
