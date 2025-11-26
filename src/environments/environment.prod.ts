@@ -1,6 +1,6 @@
 
 export const environment = {
   production: true,
-  apiBaseUrl: 'https://api.myapp.com/api', // live backend
+  apiBaseUrl: 'http://213.199.62.174:8085/api/', // live backend
   enableDebug: false,
 };

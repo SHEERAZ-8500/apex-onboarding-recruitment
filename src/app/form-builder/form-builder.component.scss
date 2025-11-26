@@ -120,3 +120,76 @@
 .save-btn:hover {
   background: #0056b3;
 }
+
+/* Tabs Styling for Form Builder */
+::ng-deep .formio-component-employeeTabs .card {
+  background: transparent !important;
+}
+
+::ng-deep .nav-tabs {
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+::ng-deep .nav-tabs .nav-link {
+  background-color: transparent !important;
+  border: 1px solid transparent !important;
+  color: var(--white-color-1) !important;
+  border-radius: 6px 6px 0 0 !important;
+  padding: 10px 16px !important;
+  transition: all 0.3s ease !important;
+}
+
+::ng-deep .nav-tabs .nav-link:hover {
+  background-color: var(--second-primary-color) !important;
+  border-color: var(--border-color) !important;
+}
+
+::ng-deep .nav-tabs .nav-link.active {
+  background-color: transparent !important;
+  border: 1px solid transparent !important;
+  border-bottom: 2px solid var(--white-color-1) !important;
+  color: var(--white-color-1) !important;
+}
+
+::ng-deep .tab-content {
+  background-color: transparent !important;
+  border: none !important;
+}
+
+::ng-deep .tab-pane {
+  background-color: transparent !important;
+  padding: 20px  !important;
+}
+
+/* Clear button styling in form builder */
+::ng-deep .formarea .input-group-append button,
+::ng-deep .formarea .input-group-append .btn {
+  background-color: transparent !important;
+  border: none !important;
+  color: var(--white-color-1) !important;
+  cursor: pointer !important;
+  padding: 4px 8px !important;
+  
+  &:hover {
+    color: #ff4d4d !important;
+  }
+}
+
+::ng-deep .formarea .input-group-text {
+  background-color: transparent !important;
+  border: none !important;
+  color: var(--white-color-1) !important;
+}
+
+/* Choices.js clear button */
+::ng-deep .choices__button {
+  background-color: transparent !important;
+  border: none !important;
+  color: var(--white-color-1) !important;
+  opacity: 1 !important;
+  filter: invert(1) brightness(2) !important;
+  background-size: 12px !important;
+  &:hover {
+    filter: invert(0.5) sepia(1) saturate(5) hue-rotate(320deg) brightness(1.2) !important;
+  }
+}
