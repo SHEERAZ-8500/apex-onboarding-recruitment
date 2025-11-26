@@ -34,7 +34,7 @@ export class TemplateDataService {
                                             }
                                         }
                                     ],
-                                    width: 6
+                                    width: 4
                                 },
                                 {
                                     components: [
@@ -46,13 +46,8 @@ export class TemplateDataService {
                                             input: true
                                         }
                                     ],
-                                    width: 6
-                                }
-                            ]
-                        },
-                        {
-                            type: 'columns',
-                            columns: [
+                                    width: 4
+                                },
                                 {
                                     components: [
                                         {
@@ -66,8 +61,13 @@ export class TemplateDataService {
                                             }
                                         }
                                     ],
-                                    width: 6
-                                },
+                                    width: 4
+                                }
+                            ]
+                        },
+                        {
+                            type: 'columns',
+                            columns: [
                                 {
                                     components: [
                                         {
@@ -78,13 +78,8 @@ export class TemplateDataService {
                                             input: true
                                         }
                                     ],
-                                    width: 6
-                                }
-                            ]
-                        },
-                        {
-                            type: 'columns',
-                            columns: [
+                                    width: 4
+                                },
                                 {
                                     components: [
                                         {
@@ -105,7 +100,7 @@ export class TemplateDataService {
                                             }
                                         }
                                     ],
-                                    width: 6
+                                    width: 4
                                 },
                                 {
                                     components: [
@@ -127,7 +122,7 @@ export class TemplateDataService {
                                             }
                                         }
                                     ],
-                                    width: 6
+                                    width: 4
                                 }
                             ]
                         },
@@ -155,7 +150,7 @@ export class TemplateDataService {
                                             }
                                         }
                                     ],
-                                    width: 6
+                                    width: 4
                                 },
                                 {
                                     components: [
@@ -176,7 +171,11 @@ export class TemplateDataService {
                                             }
                                         }
                                     ],
-                                    width: 6
+                                    width: 4
+                                },
+                                {
+                                    components: [],
+                                    width: 4
                                 }
                             ]
                         }
