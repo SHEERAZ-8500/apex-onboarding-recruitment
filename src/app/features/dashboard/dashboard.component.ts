@@ -133,7 +133,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
         datasets: [
           {
             data: [82, 26],
-            backgroundColor: ['#7a42ff', '#e2d8ff'],
+            backgroundColor: ['#4a90e2', '#dfe4e6ff'],
             borderWidth: 0
           }
         ]
@@ -198,7 +198,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
           {
             label: 'Employees',
             data: [80, 90, 150, 200, 130, 220, 300, 270, 120],
-            backgroundColor: '#7a42ff',
+            backgroundColor: '#4a90e2',
             borderRadius: 0,
             barThickness: 28
           }

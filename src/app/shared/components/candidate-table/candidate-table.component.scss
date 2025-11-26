@@ -18,6 +18,8 @@ td {
 table thead tr th {
   color: var(--gray-color-1);
   border-bottom: 1px solid #d8d3d3b1;
+  font-size: 13px;
+  font-weight: 300;
 
 }
 
@@ -29,7 +31,7 @@ table tbody tr td {
 
 .table-main-div {
   border: 1px solid var(--border-color);
-  border-radius: 8px;
+  border-radius: 5px;
   background-color: var(--second-primary-color);
 }
 
@@ -56,7 +58,7 @@ table tbody tr td {
 .checkbox-style:checked::after {
   content: "✓";
   color: #ffffff;
-  font-size: 14px;
+  font-size: 12px;
   position: absolute;
   top: -2px;
   left: 4px;
@@ -81,10 +83,10 @@ table tbody tr td {
     }
 
     .btn-1 {
-      border-left-color: green !important;
-      border-top-color: green !important;
-      border-bottom-color: green !important;
-      border-right-color: purple !important;
+      border-left-color: #198754 !important;
+      border-top-color: #198754 !important;
+      border-bottom-color: #198754 !important;
+      border-right-color: #893689 !important;
       border-top-left-radius: 6px;
       border-bottom-left-radius: 6px;
       color: #b5b5c3 !important;
@@ -92,18 +94,18 @@ table tbody tr td {
 
 
     .btn-2 {
-      border-top-color: purple !important;
-      border-bottom-color: purple !important;
-      border-right-color: purple !important;
+      border-top-color: #893689 !important;
+      border-bottom-color: #893689 !important;
+      border-right-color: #893689 !important;
       border-left: none !important;
       color: #b5b5c3 !important;
 
     }
 
     .btn-3 {
-      border-top-color: red !important;
-      border-bottom-color: red !important;
-      border-right-color: red !important;
+      border-top-color: #dc3545 !important;
+      border-bottom-color: #dc3545 !important;
+      border-right-color: #dc3545 !important;
       border-left: none !important;
       border-top-right-radius: 6px;
       border-bottom-right-radius: 6px;
