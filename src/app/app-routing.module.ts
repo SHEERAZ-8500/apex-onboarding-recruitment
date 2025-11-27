@@ -9,14 +9,13 @@ import { LayOutOneComponent } from './lay-outs/lay-out-one/lay-out-one.component
 import { LayOutTwoComponent } from './lay-outs/lay-out-two/lay-out-two.component';
 import { LogInComponent } from './features/Auth/log-in/log-in.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
-import { ChatComponent } from './features/chat/chat.component';
 import { FormBuilderComponent } from './form-builder/form-builder.component';
 import { FormRenderComponent } from './form-render/form-render.component';
-import { EmailComponent } from './features/email/email.component';
 import { ViewAllFormsComponent } from './view-all-forms/view-all-forms.component';
 import { ViewAllFormSubmissionsComponent } from './view-all-form-submissions/view-all-form-submissions.component';
 import { ViewFormSubmitedDataComponent } from './view-form-submited-data/view-form-submited-data.component';
 import { FormDefinationUpdateComponent } from './form-defination-update/form-defination-update.component';
+import { ChatModule } from './features/chatting/chat.module';
 
 const routes: Routes = [
   { path: '', redirectTo: 'log-in', pathMatch: 'full' },
@@ -30,17 +29,17 @@ const routes: Routes = [
 
       { path: 'employes', component: EmployesComponent },
       { path: 'jobs-details', component: JobsComponent },
-      { path: 'chat', component: ChatComponent },
       { path: 'create-form', component: FormBuilderComponent },
       { path: 'form-render/:id', component: FormRenderComponent },
-      { path: 'email', component: EmailComponent },
       { path: 'view-all-forms', component: ViewAllFormsComponent },
       { path: 'view-all-submissions/:id', component: ViewAllFormSubmissionsComponent },
       { path: 'view-form-submitted-data/:id', component: ViewFormSubmitedDataComponent },
       { path: 'update-form/:id', component: FormDefinationUpdateComponent },
       { path: 'table', loadChildren: () => import('./table-builder/table-build.module').then(m => m.TableBuildModule) },
       { path: 'assesment', loadChildren: () => import('./assessments/assesment.module').then(m => m.AssesmentModule) },
+      { path: 'chat', loadChildren: () => import('./features/chatting/chat.module').then(m => m.ChatModule) },
 
+      { path: 'email', loadChildren: () => import('./features/emails/email.module').then(m => m.EmailModule) },
 
 
 

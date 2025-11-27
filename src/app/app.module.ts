@@ -22,12 +22,10 @@ import { LayOutTwoComponent } from './lay-outs/lay-out-two/lay-out-two.component
 import { LogInComponent } from './features/Auth/log-in/log-in.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
-import { ChatComponent } from './features/chat/chat.component';
 import { FormRenderComponent } from './form-render/form-render.component';
 import { FormioModule } from '@formio/angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
-import { EmailComponent } from './features/email/email.component';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { AuthInterceptor } from '../app/shared/interceptor/auth.interceptor';
 import { HttpClientModule } from '@angular/common/http';
@@ -56,9 +54,8 @@ import { SahringModule } from './shared/modules/sahring.module';
     LayOutTwoComponent,
     LogInComponent,
     DashboardComponent,
-    ChatComponent,
+    
     FormRenderComponent,
-    EmailComponent,
     HeaderModalComponent,
     ViewAllFormsComponent,
     ViewAllFormSubmissionsComponent,
