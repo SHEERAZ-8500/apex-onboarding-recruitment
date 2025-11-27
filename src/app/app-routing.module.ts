@@ -17,6 +17,7 @@ import { ViewAllFormsComponent } from './view-all-forms/view-all-forms.component
 import { ViewAllFormSubmissionsComponent } from './view-all-form-submissions/view-all-form-submissions.component';
 import { ViewFormSubmitedDataComponent } from './view-form-submited-data/view-form-submited-data.component';
 import { FormDefinationUpdateComponent } from './form-defination-update/form-defination-update.component';
+import { ViewAllNotificationsComponent } from './view-all-notifications/view-all-notifications.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'log-in', pathMatch: 'full' },
@@ -38,6 +39,7 @@ const routes: Routes = [
       { path: 'view-all-submissions/:id', component: ViewAllFormSubmissionsComponent },
       { path: 'view-form-submitted-data/:id', component: ViewFormSubmitedDataComponent },
       { path: 'update-form/:id', component: FormDefinationUpdateComponent },
+      { path: 'view-all-notifications', component:ViewAllNotificationsComponent  },
       { path: 'table', loadChildren: () => import('./table-builder/table-build.module').then(m => m.TableBuildModule) },
       { path: 'assesment', loadChildren: () => import('./assessments/assesment.module').then(m => m.AssesmentModule) },
 

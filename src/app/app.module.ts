@@ -37,6 +37,7 @@ import { ViewAllFormSubmissionsComponent } from './view-all-form-submissions/vie
 import { ViewFormSubmitedDataComponent } from './view-form-submited-data/view-form-submited-data.component';
 import { FormDefinationUpdateComponent } from './form-defination-update/form-defination-update.component';
 import { SahringModule } from './shared/modules/sahring.module';
+import { ViewAllNotificationsComponent } from './view-all-notifications/view-all-notifications.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -64,6 +65,7 @@ import { SahringModule } from './shared/modules/sahring.module';
     ViewAllFormSubmissionsComponent,
     ViewFormSubmitedDataComponent,
     FormDefinationUpdateComponent,
+    ViewAllNotificationsComponent,
     
   ],
   imports: [
