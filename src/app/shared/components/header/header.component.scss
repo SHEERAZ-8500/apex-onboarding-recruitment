@@ -376,3 +376,51 @@
     }
   }
 }
+
+/* Responsive for tablets */
+@media (max-width: 991px) {
+  .notify-card {
+    right: 100px;
+    width: 280px;
+    max-height: 70vh;
+  }
+}
+
+/* Responsive for mobile screens */
+@media (max-width: 576px) {
+  .notify-card {
+    position: fixed;
+    top: 60px;             
+    right: 0;
+    left: 0;
+    margin: 0 auto;
+    width: 80vw;           
+    max-height: 75vh;      
+    border-radius: 8px;
+    padding: 12px;
+  }
+
+  .notify-header h6 {
+    font-size: 14px;
+  }
+
+  .notify-item {
+    font-size: 13px;
+  }
+
+  .view-all {
+    font-size: 14px !important;
+  }
+}
+
+/* Small phones */
+@media (max-width: 375px) {
+  .notify-card {
+    width: 80vw;
+    padding: 10px;
+  }
+
+  .notify-item span {
+    font-size: 12px;
+  }
+}

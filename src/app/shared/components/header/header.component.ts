@@ -52,6 +52,10 @@ export class HeaderComponent {
     console.log('Clear all notifications clicked');
     this.notifications = [];
   }
+  closeNotifications() {
+  this.showNotifications = false;
+}
+
 
   // **Click outside listener**
   @HostListener('document:click', ['$event'])
