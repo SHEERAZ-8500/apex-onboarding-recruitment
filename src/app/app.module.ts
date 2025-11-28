@@ -38,7 +38,7 @@ import { ViewFormSubmitedDataComponent } from './view-form-submited-data/view-fo
 import { FormDefinationUpdateComponent } from './form-defination-update/form-defination-update.component';
 import { SahringModule } from './shared/modules/sahring.module';
 import { ViewAllNotificationsComponent } from './view-all-notifications/view-all-notifications.component';
-import { ChatBoxCardComponent } from './shared/components/header/chat-box-card/chat-box-card.component';
+import { ChatBoxCardComponent } from './shared/components/chat-box-card/chat-box-card.component';
 @NgModule({
   declarations: [
     AppComponent,

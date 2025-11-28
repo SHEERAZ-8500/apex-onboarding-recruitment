@@ -15,7 +15,6 @@ export class HeaderModalComponent {
     { icon: 'fa-solid fa-user-tie', label: 'Customers' },
     { icon: 'fa-solid fa-envelope', label: 'Email' },
     { icon: 'fa-solid fa-gear', label: 'Settings' },
-    { icon: 'fa-solid fa-shopping-cart', label: 'Orders' }
   ];
   // Dummy data for audit logs
   systemMessages = [
