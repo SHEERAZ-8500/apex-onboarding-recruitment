@@ -88,9 +88,11 @@ background-color: #0770ad;
     background-color: var(--second-primary-color);
     border-bottom: 1px solid var(--border-color);
     transition: background 0.2s ease;
+    cursor: pointer;
 
     &:hover {
-      background-color: var(--second-primary-color);
+      background-color: var(--border-color);
+      
       /* same as background */
     }
   }

@@ -7,7 +7,16 @@ import { Component } from '@angular/core';
 })
 export class HeaderModalComponent {
   activeTab: string = 'audit-logs';
-
+  // Dummy data for quick actions
+    quickActions = [
+    { icon: 'fa-solid fa-euro-sign', label: 'Accounting' },
+    { icon: 'fa-solid fa-users', label: 'Members' },
+    { icon: 'fa-solid fa-briefcase', label: 'Projects' },
+    { icon: 'fa-solid fa-user-tie', label: 'Customers' },
+    { icon: 'fa-solid fa-envelope', label: 'Email' },
+    { icon: 'fa-solid fa-gear', label: 'Settings' },
+    { icon: 'fa-solid fa-shopping-cart', label: 'Orders' }
+  ];
   // Dummy data for audit logs
   systemMessages = [
     { title: 'Duis faucibus lorem', subtitle: 'Pharetra, Nulla', amount: '+125$' },

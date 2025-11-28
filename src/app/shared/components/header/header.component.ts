@@ -65,4 +65,14 @@ export class HeaderComponent {
       this.showNotifications = false;
     }
   }
+
+  showChat = false;
+
+openChat() {
+  this.showChat = true;
+}
+
+closeChat() {
+  this.showChat = false;
+}
 }
