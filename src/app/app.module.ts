@@ -19,7 +19,6 @@ import { LoaderComponent } from './shared/components/loader/loader.component';
 import { JobsComponent } from './features/jobs/jobs.component';
 import { LayOutOneComponent } from './lay-outs/lay-out-one/lay-out-one.component';
 import { LayOutTwoComponent } from './lay-outs/lay-out-two/lay-out-two.component';
-import { LogInComponent } from './features/Auth/log-in/log-in.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { FormRenderComponent } from './form-render/form-render.component';
@@ -54,7 +53,7 @@ import { ChatBoxCardComponent } from './shared/components/chat-box-card/chat-box
     JobsComponent,
     LayOutOneComponent,
     LayOutTwoComponent,
-    LogInComponent,
+    
     DashboardComponent,
     
     FormRenderComponent,
