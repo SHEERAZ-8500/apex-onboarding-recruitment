@@ -1,0 +1,56 @@
+<div class="container py-2">
+  <div class="row">
+    <div class="col-md-12">
+
+      <div class="card">
+
+        <!-- FIXED HEADER -->
+        <div class="card-header custom-header">
+          <span>Notifications</span>
+          <button class="clear-btn" (click)="clearAll()">Clear All</button>
+        </div>
+
+        <div class="scroll-area">
+
+          <!-- NO NOTIFICATIONS -->
+          <div class="no-data" *ngIf="notifications.length === 0">
+            No Notifications
+          </div>
+
+          <!-- LIST -->
+          <ul class="list-group list-group-flush" *ngIf="notifications.length !== 0">
+            <li class="list-group-item" *ngFor="let item of notifications; let i = index">
+              
+              <!-- Left section -->
+              <div class="left-section">
+                <i class="{{ item.icon }} notif-icon" [ngStyle]="{ color: item.iconColor }"></i>
+                <div>
+                  <div class="notification-title">{{ item.title }}</div>
+                  <div class="notification-msg">{{ item.message }}</div>
+                </div>
+              </div>
+
+              <!-- Right section -->
+              <div class="right-section">
+                <div class="dropdown">
+                  <i class="fa-solid fa-ellipsis-vertical menu-icon white-icon" data-bs-toggle="dropdown"></i>
+                  <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                      <a class="dropdown-item delete-option" (click)="deleteNotification(i)">
+                        <i class="fa-solid fa-trash"></i> Delete
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="time-text">{{ item.time }}</div>
+              </div>
+
+            </li>
+          </ul>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

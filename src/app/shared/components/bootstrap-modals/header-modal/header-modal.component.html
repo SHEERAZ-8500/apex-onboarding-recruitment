@@ -12,43 +12,20 @@
   </div>
 
 
-  <div class="offcanvas-body">
-
-    <div class="row g-3">
-
-      <div class="col-6">
-        <div class="card qa-card text-center p-4">Accounting</div>
+<div class="offcanvas-body">
+  <div class="row g-3">
+    <div class="col-6" *ngFor="let action of quickActions">
+      <div class="card qa-card d-flex flex-column align-items-center justify-content-center p-4">
+        <i [class]="action.icon"></i>
+        <div class="label">{{ action.label }}</div>
       </div>
-
-      <div class="col-6">
-        <div class="card qa-card text-center p-4">Members</div>
-      </div>
-
-      <div class="col-6">
-        <div class="card qa-card text-center p-4">Projects</div>
-      </div>
-
-      <div class="col-6">
-        <div class="card qa-card text-center p-4">Customers</div>
-      </div>
-
-      <div class="col-6">
-        <div class="card qa-card text-center p-4">Email</div>
-      </div>
-
-      <div class="col-6">
-        <div class="card qa-card text-center p-4">Settings</div>
-      </div>
-
-      <div class="col-6">
-        <div class="card qa-card text-center p-4">Orders</div>
-      </div>
-
     </div>
+  </div>
+</div>
+
 
 
   </div>
-</div>
 
 
 
