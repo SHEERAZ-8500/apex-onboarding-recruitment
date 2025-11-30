@@ -1,0 +1,23 @@
+<div class="otp-container" [class.light-theme]="isLightTheme">
+  <div class="otp-card">
+    <div class="otp-header">
+      <h2 class="otp-title">Enter Verification Code</h2>
+      <p class="otp-subtitle">We've sent a 5-digit code to your email</p>
+    </div>
+
+    <div class="otp-body">
+      <ng-otp-input 
+        (onInputChange)="onOtpChange($event)" 
+        [config]="otpConfig">
+      </ng-otp-input>
+    </div>
+
+    <div class="otp-footer">
+      <button class="verify-btn" (click)="verifyOtp()">Verify</button>
+      <p class="resend-text">
+        Didn't receive code? 
+        <a href="javascript:void(0)" (click)="resendOtp()" class="resend-link">Resend</a>
+      </p>
+    </div>
+  </div>
+</div>
