@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { ThemeService } from '../../../shared/services/Theme.service';
 
@@ -11,6 +12,10 @@ export class ResetPagesComponent implements OnInit, OnDestroy {
   
   private destroy$ = new Subject<void>();
   isLightTheme: boolean = false;
+  currentView: 'email' | 'otp' | 'create-password' = 'email';
+  email: string = '';
+  password: string = '';
+  confirmPassword: string = '';
   
   otpConfig = {
     length: 5,
@@ -21,7 +26,11 @@ export class ResetPagesComponent implements OnInit, OnDestroy {
 
   otp: string = '';
 
-  constructor(private themeService: ThemeService) {}
+  constructor(
+    private themeService: ThemeService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     // Subscribe to theme changes
@@ -30,6 +39,18 @@ export class ResetPagesComponent implements OnInit, OnDestroy {
       .subscribe(isLight => {
         this.isLightTheme = isLight;
       });
+
+    // Check route to determine view
+    this.route.url.pipe(takeUntil(this.destroy$)).subscribe(segments => {
+      const path = segments[0]?.path;
+      if (path === 'otp-reset') {
+        this.currentView = 'otp';
+      } else if (path === 'create-password') {
+        this.currentView = 'create-password';
+      } else {
+        this.currentView = 'email';
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -54,5 +75,38 @@ export class ResetPagesComponent implements OnInit, OnDestroy {
   resendOtp() {
     console.log('Resending OTP...');
     // Add your resend logic here
+  }
+
+  sendResetEmail() {
+    if (this.email) {
+      console.log('Sending reset email to:', this.email);
+      // Add your email sending logic here
+      // After successful email send, navigate to OTP page
+      // this.router.navigate(['/auth/otp-reset']);
+    } else {
+      console.log('Please enter email');
+    }
+  }
+
+  createNewPassword() {
+    if (!this.password) {
+      console.log('Please enter password');
+      return;
+    }
+    
+    if (this.password !== this.confirmPassword) {
+      console.log('Passwords do not match');
+      return;
+    }
+
+    if (this.password.length < 8) {
+      console.log('Password must be at least 8 characters');
+      return;
+    }
+
+    console.log('Creating new password...');
+    // Add your password reset logic here
+    // After successful password reset, navigate to login
+    // this.router.navigate(['/auth']);
   }
 }

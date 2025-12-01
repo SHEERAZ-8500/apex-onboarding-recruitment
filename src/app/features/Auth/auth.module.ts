@@ -9,8 +9,16 @@ const routes: Routes = [
     path: '',
     component: LogInComponent
   },
-    {
+  {
     path: 'otp-reset',
+    component: ResetPagesComponent
+  },
+  {
+    path: 'reset-password',
+    component: ResetPagesComponent
+  },
+  {
+    path: 'create-password',
     component: ResetPagesComponent
   }
 ];

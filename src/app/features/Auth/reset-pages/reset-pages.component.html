@@ -1,5 +1,36 @@
 <div class="otp-container" [class.light-theme]="isLightTheme">
-  <div class="otp-card">
+  
+  <!-- Email Reset Card -->
+  <div class="otp-card" *ngIf="currentView === 'email'">
+    <div class="otp-header">
+      <h2 class="otp-title">Reset Password</h2>
+      <p class="otp-subtitle">Enter your email address to receive a verification code</p>
+    </div>
+
+    <div class="otp-body email-body">
+      <div class="form-group">
+        <label class="input-label">Email Address</label>
+        <input 
+          type="email" 
+          class="email-input" 
+          [(ngModel)]="email"
+          placeholder="Enter your email"
+          autocomplete="email"
+        />
+      </div>
+    </div>
+
+    <div class="otp-footer">
+      <button class="verify-btn" (click)="sendResetEmail()">Send Verification Code</button>
+      <p class="resend-text">
+        Remember your password? 
+        <a routerLink="/auth" class="resend-link">Back to Login</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- OTP Verification Card -->
+  <div class="otp-card" *ngIf="currentView === 'otp'">
     <div class="otp-header">
       <h2 class="otp-title">Enter Verification Code</h2>
       <p class="otp-subtitle">We've sent a 5-digit code to your email</p>
@@ -20,4 +51,45 @@
       </p>
     </div>
   </div>
+
+  <!-- Create New Password Card -->
+  <div class="otp-card" *ngIf="currentView === 'create-password'">
+    <div class="otp-header">
+      <h2 class="otp-title">Create New Password</h2>
+      <p class="otp-subtitle">Please enter your new password</p>
+    </div>
+
+    <div class="otp-body email-body">
+      <div class="form-group">
+        <label class="input-label">New Password</label>
+        <input 
+          type="password" 
+          class="email-input" 
+          [(ngModel)]="password"
+          placeholder="Enter new password"
+          autocomplete="new-password"
+        />
+      </div>
+      
+      <div class="form-group" style="margin-top: 20px;">
+        <label class="input-label">Confirm Password</label>
+        <input 
+          type="password" 
+          class="email-input" 
+          [(ngModel)]="confirmPassword"
+          placeholder="Confirm your password"
+          autocomplete="new-password"
+        />
+      </div>
+    </div>
+
+    <div class="otp-footer">
+      <button class="verify-btn" (click)="createNewPassword()">Reset Password</button>
+      <p class="resend-text">
+        Remember your password? 
+        <a routerLink="/auth" class="resend-link">Back to Login</a>
+      </p>
+    </div>
+  </div>
+
 </div>
