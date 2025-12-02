@@ -8,6 +8,31 @@ import { Injectable } from '@angular/core';
 export class ApiService {
   constructor(private http: HttpClient) { }
 
+
+  // auth apis 
+  logIn(userCredentials: any) {
+    return this.http.post('auth/login', userCredentials);
+  }
+  refreshToken(refreshToken: any) {
+    return this.http.post('auth/refresh', { refreshToken });
+  }
+  verifyOtp(otp: any) {
+    return this.http.post('auth/otp/verify', otp);
+  }
+  resendOtp(preAuthToken: any) {
+    return this.http.post('auth/otp/resend', { preAuthToken });
+  }
+  verifyInvitMemberAddNewPassword(data: any) {
+    return this.http.post('auth/invite/complete', data);
+  }
+
+
+
+
+
+
+
+
   saveFormDefinition(formDefinition: any) {
     return this.http.post('v1/forms/definitions', formDefinition);
   }
@@ -20,12 +45,7 @@ export class ApiService {
   updateFormDefinitionById(id: any, formDefinition: any) {
     return this.http.put(`v1/forms/definitions/${id}`, formDefinition);
   }
-  logIn(userCredentials: any) {
-    return this.http.post('auth/login', userCredentials);
-  }
-  refreshToken(refreshToken: any) {
-    return this.http.post('auth/refresh', { refreshToken });
-  }
+
   saveUserFormData(formDefinitionPublicId: any, userFormData: any) {
     return this.http.post(`v1/forms/submissions/${formDefinitionPublicId}`, userFormData);
   }
@@ -41,11 +61,11 @@ export class ApiService {
     });
   }
   getAllTables(companyId: any) {
-     return this.http.get(`v1/md/tables`, 
-    //   {
-    //   params: { companyId: companyId }
-    // }
-  );
+    return this.http.get(`v1/md/tables`,
+      //   {
+      //   params: { companyId: companyId }
+      // }
+    );
   }
   createTable(tableSchema: any) {
     return this.http.post(`v1/md/tables`, tableSchema);

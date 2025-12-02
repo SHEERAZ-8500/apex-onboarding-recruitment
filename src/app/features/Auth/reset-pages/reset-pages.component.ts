@@ -2,6 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { ThemeService } from '../../../shared/services/Theme.service';
+import { ApiService } from '../../../shared/services/apis/api.service';
+import { ToastrService } from 'ngx-toastr';
+import { EncryptionService } from '../../../shared/services/encryption.service';
 
 @Component({
   selector: 'app-reset-pages',
@@ -9,16 +12,16 @@ import { ThemeService } from '../../../shared/services/Theme.service';
   styleUrl: './reset-pages.component.scss'
 })
 export class ResetPagesComponent implements OnInit, OnDestroy {
-  
+
   private destroy$ = new Subject<void>();
   isLightTheme: boolean = false;
-  currentView: 'email' | 'otp' | 'create-password' = 'email';
+  currentView: 'email' | 'otp' | 'create-password' | 'verify-otp' = 'email';
   email: string = '';
   password: string = '';
   confirmPassword: string = '';
-  
+  token: string | null = ''
   otpConfig = {
-    length: 5,
+    length: 6,
     allowNumbersOnly: true,
     inputClass: 'otp-input',
     containerClass: 'otp-input-wrapper'
@@ -29,8 +32,11 @@ export class ResetPagesComponent implements OnInit, OnDestroy {
   constructor(
     private themeService: ThemeService,
     private route: ActivatedRoute,
-    private router: Router
-  ) {}
+    private router: Router,
+    private apiService: ApiService,
+    private toastr: ToastrService,
+    private encryptionService: EncryptionService
+  ) { }
 
   ngOnInit() {
     // Subscribe to theme changes
@@ -47,6 +53,10 @@ export class ResetPagesComponent implements OnInit, OnDestroy {
         this.currentView = 'otp';
       } else if (path === 'create-password') {
         this.currentView = 'create-password';
+      } else if (path === 'verify-otp') {
+        this.currentView = 'verify-otp';
+        this.token = this.route.snapshot.paramMap.get('token');
+
       } else {
         this.currentView = 'email';
       }
@@ -64,6 +74,25 @@ export class ResetPagesComponent implements OnInit, OnDestroy {
   }
 
   verifyOtp() {
+    if (this.currentView === 'verify-otp') {
+      let preAuthToken = this.encryptionService.decrypt(this.token || '');
+      this.apiService.verifyOtp({ preAuthToken: preAuthToken, otp: this.otp }).subscribe({
+        next: (response: any) => {
+          this.toastr.success('OTP verified successfully!');
+          this.toastr.success('Login successful!');
+          let userId = this.encryptionService.encrypt(response.data.userId)
+          localStorage.setItem('userId', userId);
+          localStorage.setItem('token', response.data.accessToken);
+
+          localStorage.setItem('refreshToken', response.data.refreshToken);
+          this.router.navigate(['/panel/dashboard']);
+        },
+        error: (error) => {
+          this.toastr.error(error.error.message || 'OTP verification failed. Please try again.');
+        }
+      });
+      return;
+    }
     if (this.otp.length === 5) {
       console.log('Verifying OTP:', this.otp);
       // Add your verification logic here
@@ -93,7 +122,7 @@ export class ResetPagesComponent implements OnInit, OnDestroy {
       console.log('Please enter password');
       return;
     }
-    
+
     if (this.password !== this.confirmPassword) {
       console.log('Passwords do not match');
       return;

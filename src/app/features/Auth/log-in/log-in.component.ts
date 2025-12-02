@@ -33,19 +33,30 @@ export class LogInComponent {
     this.apiService.logIn({ email: this.email, password: this.password }).subscribe({
       next: (response: any) => {
         this.loading = false;
-        this.toaster.success('Login successful!');
-        let userId = this.encryptionService.encrypt(response.data.userId)
-        localStorage.setItem('userId', userId);
-        localStorage.setItem('token', response.data.accessToken);
 
-        localStorage.setItem('refreshToken', response.data.refreshToken);
-        // this.router.navigate(['/panel/dashboard']);
-        this.router.navigate(['/panel/dashboard']);
+        if (!response.data.preAuthToken) {
+          this.toaster.success('Login successful!');
+          let userId = this.encryptionService.encrypt(response.data.userId)
+          localStorage.setItem('userId', userId);
+          localStorage.setItem('token', response.data.accessToken);
+
+          localStorage.setItem('refreshToken', response.data.refreshToken);
+          // this.router.navigate(['/panel/dashboard']);
+          this.router.navigate(['/panel/dashboard']);
+
+        } else {
+          let preAuthToken = this.encryptionService.encrypt(response.data.preAuthToken)
+          this.toaster.success('A verification code has been sent to your email.');
+          this.router.navigate(['/verify-otp', preAuthToken]);
+
+        }
         this.loader.hide();
+
       },
       error: (error) => {
         this.loading = false;
-        this.toaster.error('Login failed. Please check your credentials and try again.');
+
+        this.toaster.error(error.error.message || 'Login failed. Please try again.');
         this.loader.hide();
       }
     });

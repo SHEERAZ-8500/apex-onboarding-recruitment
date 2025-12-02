@@ -30,10 +30,10 @@
   </div>
 
   <!-- OTP Verification Card -->
-  <div class="otp-card" *ngIf="currentView === 'otp'">
+  <div class="otp-card" *ngIf="currentView === 'otp' || currentView === 'verify-otp'">
     <div class="otp-header">
       <h2 class="otp-title">Enter Verification Code</h2>
-      <p class="otp-subtitle">We've sent a 5-digit code to your email</p>
+      <p class="otp-subtitle">We've sent a 6-digit code to your email</p>
     </div>
 
     <div class="otp-body">
