@@ -34,7 +34,8 @@
     <a routerLink="/panel/table/table-listing" routerLinkActive="active"><i class="fa-solid fa-table"></i>
       <span>Tables</span></a>
 
-    <a (click)="collapse.toggle()" [attr.aria-expanded]="!assesment" aria-controls="collapseExample"><i class="fa-solid fa-chart-bar"></i>
+    <a (click)="collapse.toggle()" [attr.aria-expanded]="!assesment" aria-controls="collapseExample"><i
+        class="fa-solid fa-chart-bar"></i>
       <span>Assesment</span></a>
 
 
@@ -46,6 +47,66 @@
           <span>Stored Assesment</span></a>
         <a><i class="fa-solid fa-table"></i>
           <span>Received Assesment</span></a>
+      </div>
+    </div>
+
+    <a (click)="masterdata.toggle()" [attr.aria-expanded]="!masterdata" aria-controls="masterdataExample"><i
+        class="fa-solid fa-chart-bar"></i>
+      <span>Mater Data</span></a>
+
+
+    <div #masterdata="ngbCollapse" [(ngbCollapse)]="masterdataCollapsed" class="collapseStyling">
+      <div class="collapseDiv">
+        <!-- general master data -->
+        <a (click)="generalMasterdata.toggle()" [attr.aria-expanded]="!generalMasterdataCollapsed"
+          aria-controls="generalMasterdataExample"><i class="fa-solid fa-table"></i>
+          <span style="font-size: 16px;">General Master Data</span></a>
+
+        <div #generalMasterdata="ngbCollapse" [(ngbCollapse)]="generalMasterdataCollapsed" class="collapseStyling">
+          <div class="collapseDiv">
+            <a><i class="fa-solid fa-table"></i>
+              <span>Sub Item 1</span></a>
+            <a><i class="fa-solid fa-table"></i>
+              <span>Sub Item 2</span></a>
+            <a><i class="fa-solid fa-table"></i>
+              <span>Sub Item 3</span></a>
+          </div>
+        </div>
+        <!-- general master data end-->
+
+        <!-- organizational master data -->
+        <a (click)="organizationalMasterdata.toggle()" [attr.aria-expanded]="!organizationalMasterdataCollapsed"
+          aria-controls="organizationalMasterdataExample"><i class="fa-solid fa-table"></i>
+          <span style="font-size: 16px;">Organizational Master Data</span></a>
+
+        <div #organizationalMasterdata="ngbCollapse" [(ngbCollapse)]="organizationalMasterdataCollapsed" class="collapseStyling">
+          <div class="collapseDiv">
+            <a><i class="fa-solid fa-table"></i>
+              <span>Sub Item 1</span></a>
+            <a><i class="fa-solid fa-table"></i>
+              <span>Sub Item 2</span></a>
+            <a><i class="fa-solid fa-table"></i>
+              <span>Sub Item 3</span></a>
+          </div>
+        </div>
+        <!-- organizational master data end-->
+
+        <!-- outsourcing master data -->
+        <a (click)="outsourcinggMasterdata.toggle()" [attr.aria-expanded]="!outsourcinggMasterdataCollapsed"
+          aria-controls="outsourcinggMasterdataExample"><i class="fa-solid fa-table"></i>
+          <span style="font-size: 16px;">Outsourcing Master Data</span></a>
+
+        <div #outsourcinggMasterdata="ngbCollapse" [(ngbCollapse)]="outsourcinggMasterdataCollapsed" class="collapseStyling">
+          <div class="collapseDiv">
+            <a><i class="fa-solid fa-table"></i>
+              <span>Sub Item 1</span></a>
+            <a><i class="fa-solid fa-table"></i>
+              <span>Sub Item 2</span></a>
+            <a><i class="fa-solid fa-table"></i>
+              <span>Sub Item 3</span></a>
+          </div>
+        </div>
+        <!-- outsourcing master data end-->
       </div>
     </div>
   </div>

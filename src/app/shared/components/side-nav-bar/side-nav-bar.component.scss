@@ -7,6 +7,8 @@
   /* smoother animation */
   overflow: hidden;
   border-radius: 10px;
+  display: flex;
+  flex-direction: column;
 }
 
 .sidebar.closed {
@@ -166,9 +168,10 @@
 }
 
 .tabslist {
-  height: 100%;
+  flex: 1;
   overflow-y: auto;
-  padding-bottom: 150px;
+  overflow-x: hidden;
+  min-height: 0;
 }
 
 .tabslist::-webkit-scrollbar {
@@ -194,10 +197,7 @@
 }
 
 @media (max-width: 1000px) {
-  .tabslist::after {
-    content: "";
-    display: block;
-    height: 250px;
-    padding-bottom: 20px;
+  .tabslist {
+    height: calc(100vh - 180px); /* Responsive adjustment */
   }
 }

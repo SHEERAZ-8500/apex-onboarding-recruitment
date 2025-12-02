@@ -10,6 +10,11 @@ export class SideNavBarComponent {
  isOpen = true;
   constructor(private toggleService: ToggleService) {}
 	assesment = true;
+	masterdata = true;
+	masterdataCollapsed = true;
+	generalMasterdataCollapsed = true;
+	organizationalMasterdataCollapsed = true;
+	outsourcinggMasterdataCollapsed = true;
 
   ngOnInit() {
     this.toggleService.sidebarOpen$.subscribe(open => this.isOpen = open);
