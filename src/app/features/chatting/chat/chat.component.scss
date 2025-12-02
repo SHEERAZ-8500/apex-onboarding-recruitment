@@ -107,11 +107,6 @@
       }
     }
 
-    .header-line {
-      height: 0.8px;
-
-      background: var(--border-color);
-    }
   }
 
   .chat-list {
@@ -423,7 +418,7 @@
       transition: all 0.3s ease;
 
       &:hover {
-        background: #5a36d0;
+        background: #5087a6;
       }
     }
   }
@@ -502,7 +497,7 @@
           transition: all 0.3s ease;
 
           &:hover {
-            background: rgba(112, 71, 238, 0.1);
+            background: #ebf5ff;
             color: var(--purple-1);
           }
         }
