@@ -67,6 +67,7 @@ export class AuthInterceptor implements HttpInterceptor {
         localStorage.removeItem('token');
         localStorage.removeItem('refreshToken');
         localStorage.removeItem('userId');
+        localStorage.removeItem('deviceId');
         if (this.router.url !== '/log-in') {
           this.closeAllModals()
           this.router.navigate(['/log-in']);
@@ -140,6 +141,7 @@ export class AuthInterceptor implements HttpInterceptor {
           localStorage.removeItem('token');
           localStorage.removeItem('refreshToken');
           localStorage.removeItem('userId');
+          localStorage.removeItem('deviceId');
           if (refreshToken) {
             this.apiService.refreshToken(refreshToken).subscribe((response: any) => {
               localStorage.setItem('token', response.data.accessToken);

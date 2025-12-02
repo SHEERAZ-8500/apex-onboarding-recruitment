@@ -78,13 +78,16 @@ export class ResetPagesComponent implements OnInit, OnDestroy {
       let preAuthToken = this.encryptionService.decrypt(this.token || '');
       this.apiService.verifyOtp({ preAuthToken: preAuthToken, otp: this.otp }).subscribe({
         next: (response: any) => {
+          
+          let data = response.body.data
           this.toastr.success('OTP verified successfully!');
           this.toastr.success('Login successful!');
-          let userId = this.encryptionService.encrypt(response.data.userId)
+          let userId = this.encryptionService.encrypt(data.userId)
           localStorage.setItem('userId', userId);
-          localStorage.setItem('token', response.data.accessToken);
-
-          localStorage.setItem('refreshToken', response.data.refreshToken);
+          localStorage.setItem('token', data.accessToken);
+          let deviceId = this.encryptionService.encrypt(response.headers.get('x-device-id') || '');
+          localStorage.setItem('deviceId', deviceId);
+          localStorage.setItem('refreshToken', data.refreshToken);
           this.router.navigate(['/panel/dashboard']);
         },
         error: (error) => {
