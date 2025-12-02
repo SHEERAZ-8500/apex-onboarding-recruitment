@@ -9,6 +9,7 @@ import { ThemeService } from '../../services/Theme.service';
 })
 export class HeaderComponent {
   showNotifications = false;
+  animateBounce = false; 
 
   notifications = [
     { icon: 'fa-solid fa-triangle-exclamation', color: '#f5e967ff', text: 'Duis malesuada justo eu sapien elementum varius.' },
@@ -46,6 +47,12 @@ export class HeaderComponent {
 
   toggleNotifications() {
     this.showNotifications = !this.showNotifications;
+     if (this.showNotifications) {
+    this.animateBounce = true;  
+    setTimeout(() => {
+      this.animateBounce = false; 
+    }, 1000); 
+  }
   }
 
   clearAll() {

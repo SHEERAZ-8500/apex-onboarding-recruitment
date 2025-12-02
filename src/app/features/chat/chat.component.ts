@@ -1,5 +1,5 @@
 // chat.component.ts
-import { Component } from '@angular/core';
+import { Component,HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-chat',
@@ -388,4 +388,12 @@ export class ChatComponent {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
+  @HostListener('document:click', ['$event'])
+handleClickOutside(event: Event) {
+  const clickedInside = (event.target as HTMLElement).closest('.dropdown-container');
+  
+  if (!clickedInside) {
+    this.showDropdown = false;
+  }
+}
 }

@@ -394,7 +394,7 @@
     right: 0;
     left: 0;
     margin: 0 auto;
-    width: 80vw;           
+    width: 60vw;           
     max-height: 75vh;      
     border-radius: 8px;
     padding: 12px;
@@ -416,7 +416,7 @@
 /* Small phones */
 @media (max-width: 375px) {
   .notify-card {
-    width: 80vw;
+    width: 60vw;
     padding: 10px;
   }
 
@@ -425,4 +425,17 @@
   }
 }
 
+
+@keyframes bounceEffect {
+  0% { transform: translateY(-20px); }
+  30% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+  70% { transform: translateY(0); }
+  90% { transform: translateY(-5px); }
+  100% { transform: translateY(0); }
+}
+
+.notify-card.bounce {
+  animation: bounceEffect 0.6s ease;
+}
 
