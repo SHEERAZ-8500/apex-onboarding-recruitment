@@ -3,10 +3,9 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-skills',
   templateUrl: './skills.component.html',
-  styleUrls: ['./skills.component.scss']
+  styleUrls: ['./skills.component.scss'],
 })
 export class SkillsComponent {
-
   skills = [
     { code: 'SK008', name: 'IT Professional' },
     { code: 'SK011', name: '1213' },
@@ -85,7 +84,7 @@ export class SkillsComponent {
     { code: 'SK018', name: 'Skill 9' },
     { code: 'SK019', name: 'Skill 10' },
     { code: 'SK020', name: 'Skill 11' },
-    { code: 'SK021', name: 'Skill 12' }
+    { code: 'SK021', name: 'Skill 12' },
   ];
 
   showForm = false;
@@ -97,7 +96,7 @@ export class SkillsComponent {
 
   // Pagination
   currentPage = 1;
-  pageSize = 8;  // show 7 rows per page
+  pageSize = 8; // show 7 rows per page
 
   get currentPageStart() {
     return (this.currentPage - 1) * this.pageSize;
@@ -112,7 +111,10 @@ export class SkillsComponent {
   }
 
   paginatedSkills() {
-    return this.filteredSkills().slice(this.currentPageStart, this.currentPageStart + this.pageSize);
+    return this.filteredSkills().slice(
+      this.currentPageStart,
+      this.currentPageStart + this.pageSize
+    );
   }
 
   prevPage() {
@@ -134,7 +136,11 @@ export class SkillsComponent {
       for (let i = 1; i <= this.totalPages; i++) pages.push(i);
     } else {
       if (this.currentPage === 1) pages = [1, 2];
-      else pages = [this.currentPage, Math.min(this.currentPage + 1, this.totalPages)];
+      else
+        pages = [
+          this.currentPage,
+          Math.min(this.currentPage + 1, this.totalPages),
+        ];
     }
     return pages;
   }
@@ -161,7 +167,10 @@ export class SkillsComponent {
 
   updateSkill() {
     if (this.editIndex === null) return;
-    this.skills[this.editIndex] = { code: this.skillCode, name: this.skillName };
+    this.skills[this.editIndex] = {
+      code: this.skillCode,
+      name: this.skillName,
+    };
     this.hideForm();
   }
 
@@ -189,10 +198,10 @@ export class SkillsComponent {
 
   filteredSkills() {
     if (!this.searchText.trim()) return this.skills;
-    return this.skills.filter(s =>
-      s.code.toLowerCase().includes(this.searchText.toLowerCase()) ||
-      s.name.toLowerCase().includes(this.searchText.toLowerCase())
+    return this.skills.filter(
+      (s) =>
+        s.code.toLowerCase().includes(this.searchText.toLowerCase()) ||
+        s.name.toLowerCase().includes(this.searchText.toLowerCase())
     );
   }
-
 }

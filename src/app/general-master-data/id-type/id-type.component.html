@@ -1,0 +1,138 @@
+<div class="idtype-wrapper col-md-12">
+  <!-- Show either table or form as "page" -->
+  <ng-container *ngIf="!showForm; else formPage">
+    <!-- Top Action Bar -->
+    <div class="top-action-bar">
+      <span class="action-btn" (click)="onNew()">
+        <i class="fa fa-plus"></i> New
+      </span>
+
+      <!-- Search Input -->
+      <div class="search-wrapper ms-auto">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search..."
+          [(ngModel)]="searchText"
+        />
+        <i class="fa fa-search search-icon"></i>
+      </div>
+    </div>
+
+    <!-- ID Types List Section -->
+    <div class="idtype-list-section">
+      <h5 class="section-title mt-3"><i class="fa fa-bars"></i> ID Types List</h5>
+
+      <table class="table table-bordered idtype-table">
+        <thead>
+          <tr>
+            <th>ID Type Code</th>
+            <th>ID Type Name</th>
+            <th>Alert Days</th>
+            <th>Is Active</th>
+            <th class="action-col-header">Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr
+            *ngFor="let item of paginatedIdTypes(); let i = index"
+            [class.edit-row]="editIndex === currentPageStart + i"
+          >
+            <td>{{ item.code }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.alertDays }}</td>
+            <td>{{ item.isActive ? 'Active' : 'Inactive' }}</td>
+            <td class="action-col">
+              <i
+                class="fa fa-edit action-icon"
+                (click)="editIdType(currentPageStart + i)"
+              ></i>
+              <i
+                class="fa fa-trash action-icon"
+                (click)="deleteIdType(currentPageStart + i)"
+              ></i>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="pagination-wrapper">
+        <span
+          class="disabled"
+          [class.disabled]="currentPage === 1"
+          (click)="prevPage()"
+          >..Previous</span
+        >
+
+        <span
+          *ngFor="let p of visiblePages()"
+          [class.active]="currentPage === p"
+          (click)="goToPage(p)"
+        >
+          {{ p }}
+        </span>
+
+        <span
+          class="disabled"
+          [class.disabled]="currentPage === totalPages"
+          (click)="nextPage()"
+          >Next..</span
+        >
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- Form Page -->
+ <!-- Form Page -->
+<ng-template #formPage>
+  <div class="form-page">
+    <h5 class="section-title mb-3">
+      {{ isEdit ? "Edit ID Type" : "New ID Type" }}
+    </h5>
+
+    <div class="row g-3"> <!-- g-3 adds spacing between columns -->
+      <div class="col-md-6">
+        <label>ID Type Code <span class="text-danger">*</span></label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="idTypeCode"
+          [readonly]="isEdit"
+        />
+      </div>
+
+      <div class="col-md-6">
+        <label>ID Type Name <span class="text-danger">*</span></label>
+        <input type="text" class="form-control" [(ngModel)]="idTypeName" />
+      </div>
+
+      <div class="col-md-6">
+        <label>Alert Days <span class="text-danger">*</span></label>
+        <input type="number" class="form-control" [(ngModel)]="alertDays" />
+      </div>
+
+      <div class="col-md-6">
+        <label>Is Active <span class="text-danger">*</span></label>
+        <select class="form-control" [(ngModel)]="isActive">
+          <option [value]="true">Active</option>
+          <option [value]="false">Inactive</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="btn-row mt-3">
+      <button
+        class="btn btn-primary"
+        (click)="isEdit ? updateIdType() : createIdType()"
+      >
+        <i class="fa fa-check-circle"></i> {{ isEdit ? "UPDATE" : "CREATE" }}
+      </button>
+      <button class="btn btn-danger ms-2" (click)="cancelForm()">
+        <i class="fa fa-ban"></i> CANCEL
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+</div>
