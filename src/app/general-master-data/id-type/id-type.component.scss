@@ -1,4 +1,4 @@
-.skills-wrapper {
+.idtype-wrapper {
   background: var(--second-primary-color);
   padding: 20px 25px;
   border: 1px solid var(--border-color);
@@ -6,7 +6,7 @@
   color: var(--white-color-1);
 }
 
-//    TOP ACTION BAR
+// TOP ACTION BAR
 .top-action-bar {
   background: var(--second-primary-color);
   border: 1px solid var(--border-color);
@@ -45,12 +45,8 @@
       border-radius: 6px;
 
       &::placeholder {
-        color: rgb(
-          189,
-          189,
-          189
-        ); // change this to your desired placeholder color
-        opacity: 1; // ensures the color is fully applied
+        color: rgb(189, 189, 189);
+        opacity: 1;
       }
 
       &:focus {
@@ -70,8 +66,7 @@
   }
 }
 
-//    FORM PAGE
-
+// FORM PAGE
 .form-page {
   background: var(--second-primary-color);
   border: 1px solid var(--border-color);
@@ -93,7 +88,8 @@
     margin-bottom: 5px;
   }
 
-  input.form-control {
+  input.form-control,
+  select.form-control {
     background: var(--second-primary-color);
     color: var(--white-color-1);
     border: 1px solid var(--border-color);
@@ -127,7 +123,8 @@
     }
 
     .btn-danger {
-      background: var(--red-color);
+              background: var(--red-color);
+
       border: none;
       padding: 6px 16px;
       font-size: 14px;
@@ -144,8 +141,8 @@
   }
 }
 
-//  SKILLS LIST SECTION
-.skills-list-section {
+// ID TYPES LIST SECTION
+.idtype-list-section {
   color: var(--white-color-1);
 
   .section-title {
@@ -160,8 +157,8 @@
   }
 }
 
-// skills-list-section
-.skill-table {
+// ID Types Table
+.idtype-table {
   width: 100%;
   margin-top: 12px;
   border: 1px solid var(--border-color) !important;
@@ -180,7 +177,6 @@
     font-size: 14px;
     background: var(--second-primary-color) !important;
     color: var(--white-color-1);
-
     vertical-align: middle;
   }
 
@@ -188,10 +184,9 @@
     border-left: 3px solid #1274ac !important;
   }
 
-  /* Action column aligned like other columns */
   .action-col-header,
   .action-col {
-    width: 110px;
+    width: 120px;
     text-align: center;
     vertical-align: middle;
     display: table-cell;
@@ -216,12 +211,7 @@
   }
 }
 
-/* Remove bootstrap hover shadows */
-.table-hover > tbody > tr:hover > * {
-  box-shadow: none !important;
-}
-
-//    PAGINATION
+// PAGINATION
 .pagination-wrapper {
   margin-top: 15px;
   display: flex;
