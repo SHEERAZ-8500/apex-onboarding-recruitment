@@ -70,31 +70,31 @@
               <span>ID Type</span></a>
             <a routerLink="general-master-data/qualification" routerLinkActive="active">
               <span>Qualification</span></a>
-               <a routerLink="general-master-data/employee-cost" routerLinkActive="active">
+            <a routerLink="general-master-data/employee-cost" routerLinkActive="active">
               <span>Employee Cost</span></a>
-               <a routerLink="general-master-data/ramadan-timing" routerLinkActive="active">
+            <a routerLink="general-master-data/ramadan-timing" routerLinkActive="active">
               <span>Ramadan Timings</span></a>
-               <a routerLink="general-master-data/trainings" routerLinkActive="active">
+            <a routerLink="general-master-data/trainings" routerLinkActive="active">
               <span>Trainings</span></a>
-               <a routerLink="general-master-data/job-description" routerLinkActive="active">
+            <a routerLink="general-master-data/job-description" routerLinkActive="active">
               <span>Job Description</span></a>
-               <a routerLink="general-master-data/pre-requisites" routerLinkActive="active">
+            <a routerLink="general-master-data/pre-requisites" routerLinkActive="active">
               <span> Pre Requisites</span></a>
-               <a routerLink="general-master-data/belonging-types" routerLinkActive="active">
+            <a routerLink="general-master-data/belonging-types" routerLinkActive="active">
               <span> Belonging Types</span></a>
-               <a routerLink="general-master-data/cost-center" routerLinkActive="active">
+            <a routerLink="general-master-data/cost-center" routerLinkActive="active">
               <span> Cost Center</span></a>
-               <a routerLink="general-master-data/work-schedule" routerLinkActive="active">
+            <a routerLink="general-master-data/work-schedule" routerLinkActive="active">
               <span>Work Schedule</span></a>
-               <a routerLink="general-master-data/designation " routerLinkActive="active">
+            <a routerLink="general-master-data/designation " routerLinkActive="active">
               <span>Designation </span></a>
-               <a routerLink="general-master-data/job-title" routerLinkActive="active">
+            <a routerLink="general-master-data/job-title" routerLinkActive="active">
               <span>Job Title</span></a>
-               <a routerLink="general-master-data/post-assignment" routerLinkActive="active">
+            <a routerLink="general-master-data/post-assignment" routerLinkActive="active">
               <span> Post Assignment</span></a>
-               <a routerLink="general-master-data/ kpi-questions" routerLinkActive="active">
+            <a routerLink="general-master-data/ kpi-questions" routerLinkActive="active">
               <span>KPI Questions</span></a>
-               <a routerLink="general-master-data/ employees-grade" routerLinkActive="active">
+            <a routerLink="general-master-data/ employees-grade" routerLinkActive="active">
               <span>Employess Grade</span></a>
           </div>
         </div>
@@ -139,16 +139,19 @@
     </div>
 
     <!-- admin  -->
-    <a (click)="admin.toggle()" [attr.aria-expanded]="!adminCollapsed"
-      aria-controls="adminExample"><i class="fa-solid fa-table"></i>
+    <a (click)="admin.toggle()" [attr.aria-expanded]="!adminCollapsed" aria-controls="adminExample"><i
+        class="fa-solid fa-table"></i>
       <span style="font-size: 16px;">Admin</span></a>
 
     <div #admin="ngbCollapse" [(ngbCollapse)]="adminCollapsed" class="collapseStyling">
       <div class="collapseDiv">
-        <a routerLink="admin/create-new-user" routerLinkActive="active"><i class="fa-solid fa-table"></i>
-          <span>Create New User</span></a>
+        <!-- <a routerLink="admin/create-new-user" routerLinkActive="active"><i class="fa-solid fa-table"></i>
+          <span>Create New User</span></a> -->
         <a routerLink="admin/view-all-users" routerLinkActive="active"><i class="fa-solid fa-table"></i>
           <span>View All Users</span></a>
+        <a routerLink="/panel/permissions/view-all-rols" routerLinkActive="active"><i class="fa-solid fa-table"></i>
+          <span>View Role</span></a>
+          
         <!-- <a><i class="fa-solid fa-table"></i>
           <span>Sub Item 3</span></a> -->
       </div>

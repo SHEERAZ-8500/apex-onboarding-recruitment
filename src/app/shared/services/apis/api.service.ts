@@ -55,12 +55,18 @@ export class ApiService {
   getAllRolls() {
     return this.http.get(`admin/roles`);
   }
-  getUserRolePermissions(publicId:any) {
+  getUserRolePermissions(publicId: any) {
     return this.http.get(`admin/roles/${publicId}`);
   }
 
 
-
+  // roles
+  getUserAllroles() {
+    return this.http.get(`admin/roles`);
+  }
+  createNewRole(data: any) {
+    return this.http.post('admin/roles', data);
+  }
 
   getAllUser() {
     return this.http.get('admin/users');

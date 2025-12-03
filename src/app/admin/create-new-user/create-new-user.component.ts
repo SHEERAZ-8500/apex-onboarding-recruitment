@@ -2,6 +2,7 @@ import { Component, HostListener } from '@angular/core';
 import { LoaderService } from '../../shared/services/loader.service';
 import { ApiService } from '../../shared/services/apis/api.service';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-new-user',
@@ -19,7 +20,7 @@ export class CreateNewUserComponent {
   disabled: boolean = false;
   isDropdownOpen: boolean = false;
   selectedRole: string = '';
-  constructor(private loader: LoaderService, private apiService: ApiService, private toastr: ToastrService) {
+  constructor(private loader: LoaderService, private apiService: ApiService, private toastr: ToastrService,private router: Router) {
     this.loader.show()
     this.apiService.getAllRolls().subscribe({
       next: (response: any) => {
@@ -80,6 +81,7 @@ export class CreateNewUserComponent {
         this.address = '';
         this.selectedRole = '';
         this.disabled = false;
+        this.router.navigate(['/panel/admin/view-all-users']);
       },
       error: (error) => {
         this.loader.hide();
