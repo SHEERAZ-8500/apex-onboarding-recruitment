@@ -22,7 +22,7 @@ const routes: Routes = [
     component: ResetPagesComponent
   },
   {
-    path: 'create-password',
+    path: 'password/reset',
     component: ResetPagesComponent
   }
 ];

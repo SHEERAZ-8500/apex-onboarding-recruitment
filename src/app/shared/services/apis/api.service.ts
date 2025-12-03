@@ -36,6 +36,9 @@ export class ApiService {
     return this.http.post('auth/invite/complete', data);
   }
 
+  resetPasswordByEmail(data: any) {
+    return this.http.post('auth/password/forgot', data);
+  }
 
 
 

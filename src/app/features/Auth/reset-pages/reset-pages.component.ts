@@ -51,8 +51,11 @@ export class ResetPagesComponent implements OnInit, OnDestroy {
       const path = segments[0]?.path;
       if (path === 'otp-reset') {
         this.currentView = 'otp';
-      } else if (path === 'create-password') {
+      } else if (path === 'password') {
         this.currentView = 'create-password';
+        this.route.queryParamMap.subscribe(params => {
+          this.token = params.get('token') || '';
+        });
       } else if (path === 'verify-otp') {
         this.currentView = 'verify-otp';
         this.token = this.route.snapshot.paramMap.get('token');
@@ -78,7 +81,7 @@ export class ResetPagesComponent implements OnInit, OnDestroy {
       let preAuthToken = this.encryptionService.decrypt(this.token || '');
       this.apiService.verifyOtp({ preAuthToken: preAuthToken, otp: this.otp }).subscribe({
         next: (response: any) => {
-          
+
           let data = response.body.data
           this.toastr.success('OTP verified successfully!');
           this.toastr.success('Login successful!');
@@ -105,16 +108,32 @@ export class ResetPagesComponent implements OnInit, OnDestroy {
   }
 
   resendOtp() {
-    console.log('Resending OTP...');
-    // Add your resend logic here
+    let preAuthToken = this.encryptionService.decrypt(this.token || '');
+    this.apiService.resendOtp(preAuthToken).subscribe({
+      next: (response: any) => {
+        this.toastr.success('OTP resent successfully Please check your email.');
+      },
+      error: (error) => {
+        this.toastr.error(error.error.message || 'Failed to resend OTP. Please try again.');
+      }
+    });
   }
 
   sendResetEmail() {
+    if (!this.email) {
+      this.toastr.error('Please enter your email address.');
+      return;
+    }
     if (this.email) {
-      console.log('Sending reset email to:', this.email);
-      // Add your email sending logic here
-      // After successful email send, navigate to OTP page
-      // this.router.navigate(['/auth/otp-reset']);
+      this.apiService.resetPasswordByEmail({ email: this.email }).subscribe({
+        next: (response: any) => {
+          this.toastr.success('Verification code sent to your email.');
+          this.router.navigate(['/']);
+        },
+        error: (error) => {
+          this.toastr.error(error.error.message || 'Failed to send verification code. Please try again.');
+        }
+      });
     } else {
       console.log('Please enter email');
     }
@@ -127,18 +146,23 @@ export class ResetPagesComponent implements OnInit, OnDestroy {
     }
 
     if (this.password !== this.confirmPassword) {
-      console.log('Passwords do not match');
+      this.toastr.error('Passwords do not match.');
       return;
     }
 
     if (this.password.length < 8) {
-      console.log('Password must be at least 8 characters');
+      this.toastr.error('Password must be at least 8 characters long.');
       return;
     }
 
-    console.log('Creating new password...');
-    // Add your password reset logic here
-    // After successful password reset, navigate to login
-    // this.router.navigate(['/auth']);
+    this.apiService.resetPasswordByEmail({ resetSessionToken: this.token, newPassword: this.password }).subscribe({
+      next: (response: any) => {
+        this.toastr.success('Password reset successfully. You can now log in with your new password.');
+        this.router.navigate(['/']);
+      },
+      error: (error) => {
+        this.toastr.error(error.error.message || 'Failed to reset password. Please try again.');
+      }
+    });
   }
 }
