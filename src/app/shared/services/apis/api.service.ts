@@ -55,7 +55,16 @@ export class ApiService {
   getAllRolls() {
     return this.http.get(`admin/roles`);
   }
+  getUserRolePermissions(publicId:any) {
+    return this.http.get(`admin/roles/${publicId}`);
+  }
 
+
+
+
+  getAllUser() {
+    return this.http.get('admin/users');
+  }
   saveFormDefinition(formDefinition: any) {
     return this.http.post('v1/forms/definitions', formDefinition);
   }
