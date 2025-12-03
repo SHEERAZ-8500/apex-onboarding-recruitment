@@ -1,4 +1,4 @@
-.skills-wrapper {
+.qualification-wrapper {
   background: var(--second-primary-color);
   padding: 20px 25px;
   border: 1px solid var(--border-color);
@@ -45,12 +45,8 @@
       border-radius: 6px;
 
       &::placeholder {
-        color: rgb(
-          189,
-          189,
-          189
-        ); // change this to your desired placeholder color
-        opacity: 1; // ensures the color is fully applied
+        color: rgb(189, 189, 189);
+        opacity: 1;
       }
 
       &:focus {
@@ -71,7 +67,6 @@
 }
 
 //    FORM PAGE
-
 .form-page {
   background: var(--second-primary-color);
   border: 1px solid var(--border-color);
@@ -144,8 +139,8 @@
   }
 }
 
-//  SKILLS LIST SECTION
-.skills-list-section {
+//  QUALIFICATION LIST SECTION
+.qualification-list-section {
   color: var(--white-color-1);
 
   .section-title {
@@ -160,8 +155,8 @@
   }
 }
 
-// skills-list-section
-.skill-table {
+// qualification-list-section table
+.qualification-table {
   width: 100%;
   margin-top: 12px;
   border: 1px solid var(--border-color) !important;
@@ -180,7 +175,6 @@
     font-size: 14px;
     background: var(--second-primary-color) !important;
     color: var(--white-color-1);
-
     vertical-align: middle;
   }
 
@@ -220,36 +214,3 @@
 .table-hover > tbody > tr:hover > * {
   box-shadow: none !important;
 }
-
-// //    PAGINATION
-// .pagination-wrapper {
-//   margin-top: 15px;
-//   display: flex;
-//   justify-content: flex-end;
-//   gap: 6px;
-
-//   span {
-//     font-size: 12px;
-//     padding: 4px 8px;
-//     border-radius: 4px;
-//     border: 1px solid #d1d1d1;
-//     cursor: pointer;
-//     background: var(--second-primary-color);
-//     color: var(--white-color-1);
-
-//     &.active {
-//       background: #1274ac;
-//       color: white;
-//       border-color: #1274ac;
-//     }
-
-//     &.disabled {
-//       opacity: 0.5;
-//       cursor: not-allowed;
-//     }
-
-//     &:hover:not(.disabled):not(.active) {
-//       background: var(--second-primary-color);
-//     }
-//   }
-// }

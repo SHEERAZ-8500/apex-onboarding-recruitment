@@ -1,4 +1,4 @@
-<div class="skills-wrapper col-md-12">
+<div class="qualification-wrapper col-md-12">
   <!--  Show either table or form as "page" -->
   <ng-container *ngIf="!showForm; else formPage">
 
@@ -20,22 +20,22 @@
       </div>
     </div>
 
-    <!-- Skills List Section -->
-    <div class="skills-list-section">
-      <h5 class="section-title mt-3"><i class="fa fa-bars"></i> Skills List</h5>
+    <!-- qualifications List Section -->
+    <div class="qualifications-list-section">
+      <h5 class="section-title mt-3"><i class="fa fa-bars"></i>Qualification List</h5>
 
-      <table class="table table-bordered skill-table">
+      <table class="table table-bordered qualification-table">
         <thead>
           <tr>
-            <th>Skill Code</th>
-            <th>Skill Name</th>
+            <th>Qualification Code</th>
+            <th>Qualification Name</th>
             <th class="action-col-header">Actions</th>
           </tr>
         </thead>
 
         <tbody>
           <tr
-            *ngFor="let item of paginatedSkills(); let i = index"
+            *ngFor="let item of paginatedQualification(); let i = index"
             [class.edit-row]="editIndex === currentPageStart + i"
           >
             <td>{{ item.code }}</td>
@@ -44,11 +44,11 @@
             <td class="action-col">
               <i
                 class="fa fa-edit action-icon"
-                (click)="editSkill(currentPageStart + i)"
+                (click)="editqualification(currentPageStart + i)"
               ></i>
               <i
                 class="fa fa-trash action-icon"
-                (click)="deleteSkill(currentPageStart + i)"
+                (click)="deletequalification(currentPageStart + i)"
               ></i>
             </td>
           </tr>
@@ -91,30 +91,30 @@
   <ng-template #formPage>
     <div class="form-page">
       <h5 class="section-title mb-3">
-        {{ isEdit ? "Edit Skill" : "New Skill" }}
+        {{ isEdit ? "Edit qualification" : "New qualification" }}
       </h5>
 
       <div class="row">
         <div class="col-md-6 mb-3">
-          <label>Skill Code <span class="text-danger">*</span></label>
+          <label>Qualification Code <span class="text-danger">*</span></label>
           <input
             type="text"
             class="form-control"
-            [(ngModel)]="skillCode"
+            [(ngModel)]="qualificationCode"
             [readonly]="isEdit"
           />
         </div>
 
         <div class="col-md-6 mb-3">
-          <label>Skill Name <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" [(ngModel)]="skillName" />
+          <label>Qualification Name <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" [(ngModel)]="qualificationName" />
         </div>
       </div>
 
       <div class="btn-row mt-2">
         <button
           class="btn btn-primary"
-          (click)="isEdit ? updateSkill() : createSkill()"
+          (click)="isEdit ? updatequalification() : createqualification()"
         >
           <i class="fa fa-check-circle"></i> {{ isEdit ? "UPDATE" : "CREATE" }}
         </button>

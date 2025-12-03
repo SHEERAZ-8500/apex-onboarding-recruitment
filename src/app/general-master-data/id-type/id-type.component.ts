@@ -12,7 +12,7 @@ export class IdTypeComponent {
     { code: 'ID003', name: 'National ID', alertDays: 60, isActive: true },
      { code: 'ID001', name: 'Passport', alertDays: 30, isActive: true },
     { code: 'ID002', name: 'Driver License', alertDays: 15, isActive: false },
-    { code: 'ID003', name: 'National ID', alertDays: 60, isActive: true },
+    { code: 'ID003', name: 'NationpaginatedIdTypesal ID', alertDays: 60, isActive: true },
      { code: 'ID001', name: 'Passport', alertDays: 30, isActive: true },
     { code: 'ID002', name: 'Driver License', alertDays: 15, isActive: false },
     { code: 'ID003', name: 'National ID', alertDays: 60, isActive: true },
@@ -34,46 +34,42 @@ export class IdTypeComponent {
   editIndex: number | null = null;
   searchText = '';
 
-  // Pagination
+    // ⭐ GLOBAL PAGINATION (same as Candidate Table)
   currentPage = 1;
-  pageSize = 8;
+  itemsPerPage = 7;
 
   get currentPageStart() {
-    return (this.currentPage - 1) * this.pageSize;
+    return (this.currentPage - 1) * this.itemsPerPage;
   }
 
   get totalPages() {
-    return Math.ceil(this.filteredIdTypes().length / this.pageSize);
+    return Math.ceil(this.filteredIdTypes().length / this.itemsPerPage);
   }
+
+  get totalPagesArray() {
+  const total = this.totalPages;
+
+  if (total <= 3) {
+    return Array.from({ length: total }, (_, i) => i + 1);
+  }
+
+  // Always show only 3 pages
+   if (this.currentPage === 1) return [1, 2, 3];
+  if (this.currentPage === total) return [total - 2,total - 1, total];
+
+  return [this.currentPage - 1, this.currentPage, this.currentPage + 1];
+}
+
 
   paginatedIdTypes() {
-    return this.filteredIdTypes().slice(
-      this.currentPageStart,
-      this.currentPageStart + this.pageSize
-    );
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    return this.filteredIdTypes().slice(start, end);
   }
 
-  prevPage() {
-    if (this.currentPage > 1) this.currentPage--;
-  }
-
-  nextPage() {
-    if (this.currentPage < this.totalPages) this.currentPage++;
-  }
-
-  goToPage(page: number) {
+  changePage(page: number) {
+    if (page < 1 || page > this.totalPages) return;
     this.currentPage = page;
-  }
-
-  visiblePages() {
-    let pages = [];
-    if (this.totalPages <= 2) {
-      for (let i = 1; i <= this.totalPages; i++) pages.push(i);
-    } else {
-      if (this.currentPage === 1) pages = [1, 2];
-      else pages = [this.currentPage, Math.min(this.currentPage + 1, this.totalPages)];
-    }
-    return pages;
   }
 
   onNew() {

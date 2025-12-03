@@ -1,14 +1,11 @@
-<div class="skills-wrapper col-md-12">
-  <!--  Show either table or form as "page" -->
+<div class="employee-cost-wrapper col-md-12">
   <ng-container *ngIf="!showForm; else formPage">
-
     <!-- Top Action Bar -->
     <div class="top-action-bar">
       <span class="action-btn" (click)="onNew()">
         <i class="fa fa-plus"></i> New
       </span>
 
-      <!-- Search Input -->
       <div class="search-wrapper ms-auto">
         <input
           type="text"
@@ -20,50 +17,49 @@
       </div>
     </div>
 
-    <!-- Skills List Section -->
-    <div class="skills-list-section">
-      <h5 class="section-title mt-3"><i class="fa fa-bars"></i> Skills List</h5>
+    <!-- Employee Cost List Section -->
+    <div class="employee-cost-list-section">
+      <h5 class="section-title mt-3"><i class="fa fa-bars"></i> Employee Cost List</h5>
 
-      <table class="table table-bordered skill-table">
+      <table class="table table-bordered employee-cost-table">
         <thead>
           <tr>
-            <th>Skill Code</th>
-            <th>Skill Name</th>
+            <th>Code</th>
+            <th>Description</th>
+            <th>Fixed</th>
+            <th>Amount</th>
             <th class="action-col-header">Actions</th>
           </tr>
         </thead>
 
         <tbody>
           <tr
-            *ngFor="let item of paginatedSkills(); let i = index"
+            *ngFor="let item of paginatedEmployeeCosts(); let i = index"
             [class.edit-row]="editIndex === currentPageStart + i"
           >
             <td>{{ item.code }}</td>
-            <td>{{ item.name }}</td>
-
+            <td>{{ item.description }}</td>
+            <td>{{ item.fixed ? 'Yes' : 'No' }}</td>
+            <td>{{ item.amount }}</td>
             <td class="action-col">
               <i
                 class="fa fa-edit action-icon"
-                (click)="editSkill(currentPageStart + i)"
+                (click)="editEmployeeCost(currentPageStart + i)"
               ></i>
               <i
                 class="fa fa-trash action-icon"
-                (click)="deleteSkill(currentPageStart + i)"
+                (click)="deleteEmployeeCost(currentPageStart + i)"
               ></i>
             </td>
           </tr>
         </tbody>
       </table>
 
-      <!-- ✅ GLOBAL PAGINATION (Same as Candidate Table) -->
       <div class="d-flex justify-content-end mt-3 me-3">
         <nav aria-label="Page navigation">
           <ul class="pagination">
-
             <li class="page-item" [class.disabled]="currentPage === 1">
-              <a class="page-link" (click)="changePage(currentPage - 1)" aria-label="Previous">
-                &laquo;
-              </a>
+              <a class="page-link" (click)="changePage(currentPage - 1)" aria-label="Previous">&laquo;</a>
             </li>
 
             <li
@@ -75,47 +71,46 @@
             </li>
 
             <li class="page-item" [class.disabled]="currentPage === totalPages">
-              <a class="page-link" (click)="changePage(currentPage + 1)" aria-label="Next">
-                &raquo;
-              </a>
+              <a class="page-link" (click)="changePage(currentPage + 1)" aria-label="Next">&raquo;</a>
             </li>
-
           </ul>
         </nav>
       </div>
-
     </div>
   </ng-container>
 
   <!-- Form Page -->
   <ng-template #formPage>
     <div class="form-page">
-      <h5 class="section-title mb-3">
-        {{ isEdit ? "Edit Skill" : "New Skill" }}
-      </h5>
+      <h5 class="section-title mb-3">{{ isEdit ? "Edit Employee Cost" : "New Employee Cost" }}</h5>
 
-      <div class="row">
-        <div class="col-md-6 mb-3">
-          <label>Skill Code <span class="text-danger">*</span></label>
-          <input
-            type="text"
-            class="form-control"
-            [(ngModel)]="skillCode"
-            [readonly]="isEdit"
-          />
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label>Code <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" [(ngModel)]="code" [readonly]="isEdit" />
         </div>
 
-        <div class="col-md-6 mb-3">
-          <label>Skill Name <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" [(ngModel)]="skillName" />
+        <div class="col-md-6">
+          <label>Description <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" [(ngModel)]="description" />
+        </div>
+
+        <div class="col-md-6">
+          <label>Fixed <span class="text-danger">*</span></label>
+          <select class="form-control" [(ngModel)]="fixed">
+            <option [value]="true">Yes</option>
+            <option [value]="false">No</option>
+          </select>
+        </div>
+
+        <div class="col-md-6">
+          <label>Amount <span class="text-danger">*</span></label>
+          <input type="number" class="form-control" [(ngModel)]="amount" />
         </div>
       </div>
 
-      <div class="btn-row mt-2">
-        <button
-          class="btn btn-primary"
-          (click)="isEdit ? updateSkill() : createSkill()"
-        >
+      <div class="btn-row mt-3">
+        <button class="btn btn-primary" (click)="isEdit ? updateEmployeeCost() : createEmployeeCost()">
           <i class="fa fa-check-circle"></i> {{ isEdit ? "UPDATE" : "CREATE" }}
         </button>
         <button class="btn btn-danger ms-2" (click)="cancelForm()">

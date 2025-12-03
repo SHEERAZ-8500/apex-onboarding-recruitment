@@ -1,68 +1,68 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-skills',
-  templateUrl: './skills.component.html',
-  styleUrls: ['./skills.component.scss'],
+  selector: 'app-qualification',
+  templateUrl: './qualification.component.html',
+  styleUrls: ['./qualification.component.scss'],
 })
-export class SkillsComponent {
-  skills = [
+export class QualificationComponent {
+  qualification = [
     { code: 'SK008', name: 'IT Professional' },
     { code: 'SK011', name: '1213' },
     { code: 'SK012', name: '121' },
-    { code: 'SK013', name: 'Skill 4' },
-    { code: 'SK014', name: 'Skill 5' },
-    { code: 'SK015', name: 'Skill 6' },
+    { code: 'SK013', name: 'qualification 4' },
+    { code: 'SK014', name: 'qualification 5' },
+    { code: 'SK015', name: 'qualification 6' },
      { code: 'SK008', name: 'IT Professional' },
     { code: 'SK011', name: '1213' },
     { code: 'SK012', name: '121' },
-    { code: 'SK013', name: 'Skill 4' },
-    { code: 'SK014', name: 'Skill 5' },
-    { code: 'SK015', name: 'Skill 6' },
+    { code: 'SK013', name: 'qualification 4' },
+    { code: 'SK014', name: 'qualification 5' },
+    { code: 'SK015', name: 'qualification 6' },
      { code: 'SK008', name: 'IT Professional' },
     { code: 'SK011', name: '1213' },
     { code: 'SK012', name: '121' },
-    { code: 'SK013', name: 'Skill 4' },
-    { code: 'SK014', name: 'Skill 5' },
-    { code: 'SK015', name: 'Skill 6' },
+    { code: 'SK013', name: 'qualification 4' },
+    { code: 'SK014', name: 'qualification 5' },
+    { code: 'SK015', name: 'qualification 6' },
      { code: 'SK008', name: 'IT Professional' },
     { code: 'SK011', name: '1213' },
     { code: 'SK012', name: '121' },
-    { code: 'SK013', name: 'Skill 4' },
-    { code: 'SK014', name: 'Skill 5' },
-    { code: 'SK015', name: 'Skill 6' },
+    { code: 'SK013', name: 'qualification 4' },
+    { code: 'SK014', name: 'qualification 5' },
+    { code: 'SK015', name: 'qualification 6' },
      { code: 'SK008', name: 'IT Professional' },
     { code: 'SK011', name: '1213' },
     { code: 'SK012', name: '121' },
-    { code: 'SK013', name: 'Skill 4' },
-    { code: 'SK014', name: 'Skill 5' },
-    { code: 'SK015', name: 'Skill 6' },
+    { code: 'SK013', name: 'qualification 4' },
+    { code: 'SK014', name: 'qualification 5' },
+    { code: 'SK015', name: 'qualification 6' },
      { code: 'SK008', name: 'IT Professional' },
     { code: 'SK011', name: '1213' },
     { code: 'SK012', name: '121' },
-    { code: 'SK013', name: 'Skill 4' },
-    { code: 'SK014', name: 'Skill 5' },
-    { code: 'SK015', name: 'Skill 6' },
-    { code: 'SK016', name: 'Skill 7' }
+    { code: 'SK013', name: 'qualification 4' },
+    { code: 'SK014', name: 'qualification 5' },
+    { code: 'SK015', name: 'qualification 6' },
+    { code: 'SK016', name: 'qualification 7' }
   ];
 
   showForm = false;
-  skillCode: string = '';
-  skillName: string = '';
+  qualificationCode: string = '';
+  qualificationName: string = '';
   isEdit = false;
   editIndex: number | null = null;
   searchText = '';
 
   // ⭐ GLOBAL PAGINATION (same as Candidate Table)
   currentPage = 1;
-  itemsPerPage = 8;
+  itemsPerPage = 7;
 
   get currentPageStart() {
     return (this.currentPage - 1) * this.itemsPerPage;
   }
 
   get totalPages() {
-    return Math.ceil(this.filteredSkills().length / this.itemsPerPage);
+    return Math.ceil(this.filteredQualification().length / this.itemsPerPage);
   }
 
   get totalPagesArray() {
@@ -80,10 +80,10 @@ export class SkillsComponent {
 }
 
 
-  paginatedSkills() {
+  paginatedQualification() {
     const start = (this.currentPage - 1) * this.itemsPerPage;
     const end = start + this.itemsPerPage;
-    return this.filteredSkills().slice(start, end);
+    return this.filteredQualification().slice(start, end);
   }
 
   changePage(page: number) {
@@ -97,31 +97,31 @@ export class SkillsComponent {
     this.showForm = true;
   }
 
-  createSkill() {
-    if (!this.skillCode || !this.skillName) return;
-    this.skills.push({ code: this.skillCode, name: this.skillName });
+  createqualification() {
+    if (!this.qualificationCode || !this.qualificationName) return;
+    this.qualification.push({ code: this.qualificationCode, name: this.qualificationName });
     this.hideForm();
   }
 
-  editSkill(index: number) {
+  editqualification(index: number) {
     this.isEdit = true;
     this.editIndex = index;
     this.showForm = true;
-    this.skillCode = this.skills[index].code;
-    this.skillName = this.skills[index].name;
+    this.qualificationCode = this.qualification[index].code;
+    this.qualificationName = this.qualification[index].name;
   }
 
-  updateSkill() {
+  updatequalification() {
     if (this.editIndex === null) return;
-    this.skills[this.editIndex] = {
-      code: this.skillCode,
-      name: this.skillName,
+    this.qualification[this.editIndex] = {
+      code: this.qualificationCode,
+      name: this.qualificationName,
     };
     this.hideForm();
   }
 
-  deleteSkill(index: number) {
-    this.skills.splice(index, 1);
+  deletequalification(index: number) {
+    this.qualification.splice(index, 1);
     if (this.editIndex === index) this.hideForm();
     if (this.currentPage > this.totalPages) this.currentPage = this.totalPages;
   }
@@ -131,8 +131,8 @@ export class SkillsComponent {
   }
 
   resetForm() {
-    this.skillCode = '';
-    this.skillName = '';
+    this.qualificationCode = '';
+    this.qualificationName = '';
     this.isEdit = false;
     this.editIndex = null;
   }
@@ -142,13 +142,12 @@ export class SkillsComponent {
     this.showForm = false;
   }
 
-  filteredSkills() {
-    if (!this.searchText.trim()) return this.skills;
-    return this.skills.filter(
+  filteredQualification() {
+    if (!this.searchText.trim()) return this.qualification;
+    return this.qualification.filter(
       (s) =>
         s.code.toLowerCase().includes(this.searchText.toLowerCase()) ||
         s.name.toLowerCase().includes(this.searchText.toLowerCase())
     );
   }
-  
 }

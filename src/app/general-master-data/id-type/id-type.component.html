@@ -57,33 +57,36 @@
         </tbody>
       </table>
 
-      <div class="pagination-wrapper">
-        <span
-          class="disabled"
-          [class.disabled]="currentPage === 1"
-          (click)="prevPage()"
-          >..Previous</span
-        >
+           <div class="d-flex justify-content-end mt-3 me-3">
+        <nav aria-label="Page navigation">
+          <ul class="pagination">
 
-        <span
-          *ngFor="let p of visiblePages()"
-          [class.active]="currentPage === p"
-          (click)="goToPage(p)"
-        >
-          {{ p }}
-        </span>
+            <li class="page-item" [class.disabled]="currentPage === 1">
+              <a class="page-link" (click)="changePage(currentPage - 1)" aria-label="Previous">
+                &laquo;
+              </a>
+            </li>
 
-        <span
-          class="disabled"
-          [class.disabled]="currentPage === totalPages"
-          (click)="nextPage()"
-          >Next..</span
-        >
+            <li
+              class="page-item"
+              *ngFor="let page of totalPagesArray"
+              [class.active]="page === currentPage"
+            >
+              <a class="page-link" (click)="changePage(page)">{{ page }}</a>
+            </li>
+
+            <li class="page-item" [class.disabled]="currentPage === totalPages">
+              <a class="page-link" (click)="changePage(currentPage + 1)" aria-label="Next">
+                &raquo;
+              </a>
+            </li>
+
+          </ul>
+        </nav>
       </div>
     </div>
   </ng-container>
 
-  <!-- Form Page -->
  <!-- Form Page -->
 <ng-template #formPage>
   <div class="form-page">
