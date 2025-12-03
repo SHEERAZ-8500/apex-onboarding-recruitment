@@ -1,0 +1,163 @@
+<div class="jobdesc-wrapper col-md-12">
+  <ng-container *ngIf="!showForm; else formPage">
+    <!-- Top Action Bar -->
+    <div class="top-action-bar">
+      <span class="action-btn" (click)="onNew()">
+        <i class="fa fa-plus"></i> New
+      </span>
+
+      <div class="search-wrapper ms-auto">
+        <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="searchText"/>
+        <i class="fa fa-search search-icon"></i>
+      </div>
+    </div>
+
+    <!-- Job Description List -->
+    <div class="jobdesc-list-section">
+      <h5 class="section-title mt-3"><i class="fa fa-bars"></i> Job Descriptions List</h5>
+
+      <table class="table table-bordered jobdesc-table">
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Job Title</th>
+            <th>Skill Code</th>
+            <th>Skill Description</th>
+            <th>Mandatory</th>
+            <th>Qualification Code</th>
+            <th>Qualification Name</th>
+            <th>Department</th>
+            <th>Location</th>
+            <th>Created By</th>
+            <th class="action-col-header">Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let item of paginatedJobDescs(); let i = index" [class.edit-row]="editIndex === currentPageStart + i">
+            <td>{{ item.code }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.jobTitle }}</td>
+            <td>{{ item.skillCode }}</td>
+            <td>{{ item.skillDescription }}</td>
+            <td>{{ item.mandatory ? 'Yes' : 'No' }}</td>
+            <td>{{ item.qualificationCode }}</td>
+            <td>{{ item.qualificationName }}</td>
+            <td>{{ item.department }}</td>
+            <td>{{ item.location }}</td>
+            <td>{{ item.createdBy }}</td>
+            <td class="action-col">
+              <i class="fa fa-edit action-icon" (click)="editJobDesc(currentPageStart + i)"></i>
+              <i class="fa fa-trash action-icon" (click)="deleteJobDesc(currentPageStart + i)"></i>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="d-flex justify-content-end mt-3 me-3">
+        <nav aria-label="Page navigation">
+          <ul class="pagination">
+            <li class="page-item" [class.disabled]="currentPage === 1">
+              <a class="page-link" (click)="changePage(currentPage - 1)">&laquo;</a>
+            </li>
+            <li class="page-item" *ngFor="let page of totalPagesArray" [class.active]="page === currentPage">
+              <a class="page-link" (click)="changePage(page)">{{ page }}</a>
+            </li>
+            <li class="page-item" [class.disabled]="currentPage === totalPages">
+              <a class="page-link" (click)="changePage(currentPage + 1)">&raquo;</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- Form Page -->
+  <ng-template #formPage>
+    <div class="form-page">
+      <h5 class="section-title mb-3">{{ isEdit ? "Edit Job Description" : "New Job Description" }}</h5>
+
+      <div class="row g-3">
+        <div class="col-md-4">
+          <label>Code <span class="text-danger">*</span></label>
+          <select class="form-control" [(ngModel)]="code">
+            <option *ngFor="let opt of dummyValues">{{ opt }}</option>
+          </select>
+        </div>
+
+        <div class="col-md-4">
+          <label>Name <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" [(ngModel)]="name" />
+        </div>
+
+        <div class="col-md-4">
+          <label>Job Title <span class="text-danger">*</span></label>
+          <select class="form-control" [(ngModel)]="jobTitle">
+            <option *ngFor="let opt of dummyValues">{{ opt }}</option>
+          </select>
+        </div>
+
+        <div class="col-md-4">
+          <label>Skill Code <span class="text-danger">*</span></label>
+          <select class="form-control" [(ngModel)]="skillCode">
+            <option *ngFor="let opt of dummyValues">{{ opt }}</option>
+          </select>
+        </div>
+
+        <div class="col-md-4">
+          <label>Skill Description <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" [(ngModel)]="skillDescription" />
+        </div>
+
+        
+
+        <div class="col-md-4">
+          <label>Qualification Code <span class="text-danger">*</span></label>
+          <select class="form-control" [(ngModel)]="qualificationCode">
+            <option *ngFor="let opt of dummyValues">{{ opt }}</option>
+          </select>
+        </div>
+
+        <div class="col-md-4">
+          <label>Qualification Name <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" [(ngModel)]="qualificationName" />
+        </div>
+
+        <div class="col-md-4">
+          <label>Department <span class="text-danger">*</span></label>
+          <select class="form-control" [(ngModel)]="department">
+            <option *ngFor="let opt of dummyValues">{{ opt }}</option>
+          </select>
+        </div>
+
+        <div class="col-md-4">
+          <label>Location <span class="text-danger">*</span></label>
+          <select class="form-control" [(ngModel)]="location">
+            <option *ngFor="let opt of dummyValues">{{ opt }}</option>
+          </select>
+        </div>
+
+        <div class="col-md-4">
+          <label>Created By <span class="text-danger">*</span></label>
+          <select class="form-control" [(ngModel)]="createdBy">
+            <option *ngFor="let opt of dummyValues">{{ opt }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-4 d-flex align-items-center">
+          <label class="me-2">Mandatory</label>
+          <input type="checkbox" [(ngModel)]="mandatory"/>
+        </div>
+
+      <div class="btn-row mt-3">
+        <button class="btn btn-primary" (click)="isEdit ? updateJobDesc() : createJobDesc()">
+          <i class="fa fa-check-circle"></i> {{ isEdit ? "UPDATE" : "CREATE" }}
+        </button>
+        <button class="btn btn-danger ms-2" (click)="cancelForm()">
+          <i class="fa fa-ban"></i> CANCEL
+        </button>
+      </div>
+    </div>
+  </ng-template>
+</div>

@@ -3,7 +3,7 @@
 
   <div class="logo gap-1">
     <img src="../../../../assets/logo-letter.png" alt="not-found"> <span>CRM<span
-        style="color: #7047ee !important;">i</span></span>
+        style="color: #a8a6ac !important;">i</span></span>
   </div>
   <div class="d-flex align-items-center justify-content-center my-3">
     <div class="user-card">
@@ -41,11 +41,11 @@
 
     <div #collapse="ngbCollapse" [(ngbCollapse)]="assesment" class="collapseStyling">
       <div class="collapseDiv">
-        <a><i class="fa-solid fa-table"></i>
+        <a>
           <span>Design Assesment</span></a>
-        <a><i class="fa-solid fa-table"></i>
+        <a>
           <span>Stored Assesment</span></a>
-        <a><i class="fa-solid fa-table"></i>
+        <a>
           <span>Received Assesment</span></a>
       </div>
     </div>
@@ -59,33 +59,59 @@
       <div class="collapseDiv">
         <!-- general master data -->
         <a (click)="generalMasterdata.toggle()" [attr.aria-expanded]="!generalMasterdataCollapsed"
-          aria-controls="generalMasterdataExample"><i class="fa-solid fa-table"></i>
+          aria-controls="generalMasterdataExample">
           <span style="font-size: 16px;">General Master Data</span></a>
 
         <div #generalMasterdata="ngbCollapse" [(ngbCollapse)]="generalMasterdataCollapsed" class="collapseStyling">
           <div class="collapseDiv">
-            <a routerLink="general-master-data/skills" routerLinkActive="active"><i class="fa-solid fa-table"></i>
+            <a routerLink="general-master-data/skills" routerLinkActive="active">
               <span>Skills</span></a>
-            <a routerLink="general-master-data/id-type" routerLinkActive="active"><i class="fa-solid fa-table"></i>
+            <a routerLink="general-master-data/id-type" routerLinkActive="active">
               <span>ID Type</span></a>
-            <a><i class="fa-solid fa-table"></i>
-              <span>Sub Item 3</span></a>
+            <a routerLink="general-master-data/qualification" routerLinkActive="active">
+              <span>Qualification</span></a>
+               <a routerLink="general-master-data/employee-cost" routerLinkActive="active">
+              <span>Employee Cost</span></a>
+               <a routerLink="general-master-data/ramadan-timing" routerLinkActive="active">
+              <span>Ramadan Timings</span></a>
+               <a routerLink="general-master-data/trainings" routerLinkActive="active">
+              <span>Trainings</span></a>
+               <a routerLink="general-master-data/job-description" routerLinkActive="active">
+              <span>Job Description</span></a>
+               <a routerLink="general-master-data/pre-requisites" routerLinkActive="active">
+              <span> Pre Requisites</span></a>
+               <a routerLink="general-master-data/belonging-types" routerLinkActive="active">
+              <span> Belonging Types</span></a>
+               <a routerLink="general-master-data/cost-center" routerLinkActive="active">
+              <span> Cost Center</span></a>
+               <a routerLink="general-master-data/work-schedule" routerLinkActive="active">
+              <span>Work Schedule</span></a>
+               <a routerLink="general-master-data/designation " routerLinkActive="active">
+              <span>Designation </span></a>
+               <a routerLink="general-master-data/job-title" routerLinkActive="active">
+              <span>Job Title</span></a>
+               <a routerLink="general-master-data/post-assignment" routerLinkActive="active">
+              <span> Post Assignment</span></a>
+               <a routerLink="general-master-data/ kpi-questions" routerLinkActive="active">
+              <span>KPI Questions</span></a>
+               <a routerLink="general-master-data/ employees-grade" routerLinkActive="active">
+              <span>Employess Grade</span></a>
           </div>
         </div>
         <!-- general master data end-->
 
         <!-- organizational master data -->
         <a (click)="organizationalMasterdata.toggle()" [attr.aria-expanded]="!organizationalMasterdataCollapsed"
-          aria-controls="organizationalMasterdataExample"><i class="fa-solid fa-table"></i>
+          aria-controls="organizationalMasterdataExample">
           <span style="font-size: 16px;">Organizational Master Data</span></a>
 
         <div #organizationalMasterdata="ngbCollapse" [(ngbCollapse)]="organizationalMasterdataCollapsed" class="collapseStyling">
           <div class="collapseDiv">
-            <a><i class="fa-solid fa-table"></i>
+            <a>
               <span>Sub Item 1</span></a>
-            <a><i class="fa-solid fa-table"></i>
+            <a>
               <span>Sub Item 2</span></a>
-            <a><i class="fa-solid fa-table"></i>
+            <a>
               <span>Sub Item 3</span></a>
           </div>
         </div>
@@ -93,16 +119,16 @@
 
         <!-- outsourcing master data -->
         <a (click)="outsourcinggMasterdata.toggle()" [attr.aria-expanded]="!outsourcinggMasterdataCollapsed"
-          aria-controls="outsourcinggMasterdataExample"><i class="fa-solid fa-table"></i>
+          aria-controls="outsourcinggMasterdataExample">
           <span style="font-size: 16px;">Outsourcing Master Data</span></a>
 
         <div #outsourcinggMasterdata="ngbCollapse" [(ngbCollapse)]="outsourcinggMasterdataCollapsed" class="collapseStyling">
           <div class="collapseDiv">
-            <a><i class="fa-solid fa-table"></i>
+            <a>
               <span>Sub Item 1</span></a>
-            <a><i class="fa-solid fa-table"></i>
+            <a>
               <span>Sub Item 2</span></a>
-            <a><i class="fa-solid fa-table"></i>
+            <a>
               <span>Sub Item 3</span></a>
           </div>
         </div>
