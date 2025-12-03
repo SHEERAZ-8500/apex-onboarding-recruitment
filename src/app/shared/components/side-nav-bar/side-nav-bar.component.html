@@ -79,7 +79,8 @@
           aria-controls="organizationalMasterdataExample"><i class="fa-solid fa-table"></i>
           <span style="font-size: 16px;">Organizational Master Data</span></a>
 
-        <div #organizationalMasterdata="ngbCollapse" [(ngbCollapse)]="organizationalMasterdataCollapsed" class="collapseStyling">
+        <div #organizationalMasterdata="ngbCollapse" [(ngbCollapse)]="organizationalMasterdataCollapsed"
+          class="collapseStyling">
           <div class="collapseDiv">
             <a><i class="fa-solid fa-table"></i>
               <span>Sub Item 1</span></a>
@@ -96,7 +97,8 @@
           aria-controls="outsourcinggMasterdataExample"><i class="fa-solid fa-table"></i>
           <span style="font-size: 16px;">Outsourcing Master Data</span></a>
 
-        <div #outsourcinggMasterdata="ngbCollapse" [(ngbCollapse)]="outsourcinggMasterdataCollapsed" class="collapseStyling">
+        <div #outsourcinggMasterdata="ngbCollapse" [(ngbCollapse)]="outsourcinggMasterdataCollapsed"
+          class="collapseStyling">
           <div class="collapseDiv">
             <a><i class="fa-solid fa-table"></i>
               <span>Sub Item 1</span></a>
@@ -109,5 +111,22 @@
         <!-- outsourcing master data end-->
       </div>
     </div>
+
+    <!-- admin  -->
+    <a (click)="admin.toggle()" [attr.aria-expanded]="!adminCollapsed"
+      aria-controls="adminExample"><i class="fa-solid fa-table"></i>
+      <span style="font-size: 16px;">Admin</span></a>
+
+    <div #admin="ngbCollapse" [(ngbCollapse)]="adminCollapsed" class="collapseStyling">
+      <div class="collapseDiv">
+        <a routerLink="admin/create-new-user" routerLinkActive="active"><i class="fa-solid fa-table"></i>
+          <span>Create New User</span></a>
+        <!-- <a routerLink="general-master-data/id-type" routerLinkActive="active"><i class="fa-solid fa-table"></i>
+          <span>ID Type</span></a>
+        <a><i class="fa-solid fa-table"></i>
+          <span>Sub Item 3</span></a> -->
+      </div>
+    </div>
+    <!-- admin  end-->
   </div>
 </nav>

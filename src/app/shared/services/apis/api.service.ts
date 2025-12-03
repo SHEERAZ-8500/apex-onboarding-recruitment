@@ -42,12 +42,19 @@ export class ApiService {
   createNewPassword(data: any) {
     return this.http.post('auth/password/reset', data);
   }
+  inviteComplete(data: any) {
+    return this.http.post('auth/invite/complete', data);
+  }
 
 
 
-
-
-
+  // admin
+  createNewUser(data: any) {
+    return this.http.post('admin/users', data);
+  }
+  getAllRolls() {
+    return this.http.get(`admin/roles`);
+  }
 
   saveFormDefinition(formDefinition: any) {
     return this.http.post('v1/forms/definitions', formDefinition);

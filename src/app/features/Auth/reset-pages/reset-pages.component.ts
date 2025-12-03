@@ -26,7 +26,7 @@ export class ResetPagesComponent implements OnInit, OnDestroy {
     inputClass: 'otp-input',
     containerClass: 'otp-input-wrapper'
   };
-
+  invitePassword = false
   otp: string = '';
 
   constructor(
@@ -51,8 +51,11 @@ export class ResetPagesComponent implements OnInit, OnDestroy {
       const path = segments[0]?.path;
       if (path === 'otp-reset') {
         this.currentView = 'otp';
-      } else if (path === 'password') {
+      } else if (path === 'password' || path === 'invite') {
         this.currentView = 'create-password';
+        if (path === 'invite') {
+          this.invitePassword = true;
+        }
         this.route.queryParamMap.subscribe(params => {
           this.token = params.get('token') || '';
         });
@@ -155,14 +158,26 @@ export class ResetPagesComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.apiService.createNewPassword({ resetSessionToken: this.token, newPassword: this.password }).subscribe({
-      next: (response: any) => {
-        this.toastr.success('Password reset successfully. You can now log in with your new password.');
-        this.router.navigate(['/']);
-      },
-      error: (error) => {
-        this.toastr.error(error.error.message || 'Failed to reset password. Please try again.');
-      }
-    });
+    if (this.invitePassword) {
+      this.apiService.inviteComplete({ inviteToken: this.token, newPassword: this.password }).subscribe({
+        next: (response: any) => {
+          this.toastr.success('Invitation completed successfully. You can now log in with your new password.');
+          this.router.navigate(['/']);
+        },
+        error: (error) => {
+          this.toastr.error(error.error.message || 'Failed to complete invitation. Please try again.');
+        }
+      });
+    } else {
+      this.apiService.createNewPassword({ resetSessionToken: this.token, newPassword: this.password }).subscribe({
+        next: (response: any) => {
+          this.toastr.success('Password reset successfully. You can now log in with your new password.');
+          this.router.navigate(['/']);
+        },
+        error: (error) => {
+          this.toastr.error(error.error.message || 'Failed to reset password. Please try again.');
+        }
+      });
+    }
   }
 }

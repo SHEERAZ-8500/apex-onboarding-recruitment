@@ -25,6 +25,11 @@ const routes: Routes = [
     path: 'password/reset',
     component: ResetPagesComponent
   }
+  ,
+  {
+    path: 'invite/complete',
+    component: ResetPagesComponent
+  }
 ];
 
 @NgModule({

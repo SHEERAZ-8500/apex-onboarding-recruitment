@@ -43,6 +43,7 @@ const routes: Routes = [
       { path: 'email', loadChildren: () => import('./features/emails/email.module').then(m => m.EmailModule) },
       { path: 'general-master-data', loadChildren: () => import('./general-master-data/general-master-data.module').then(m => m.GeneralMasterDataModule) },
 
+      { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) },
 
 
 

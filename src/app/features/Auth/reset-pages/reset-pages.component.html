@@ -56,7 +56,7 @@
   <div class="otp-card" *ngIf="currentView === 'create-password'">
     <div class="otp-header">
       <h2 class="otp-title">Create New Password</h2>
-      <p class="otp-subtitle">Please enter your new password</p>
+      <p class="otp-subtitle">{{invitePassword ? 'Please set a password to complete your invitation' : 'Please enter your new password' }} </p>
     </div>
 
     <div class="otp-body email-body">
@@ -84,8 +84,8 @@
     </div>
 
     <div class="otp-footer">
-      <button class="verify-btn" (click)="createNewPassword()">Reset Password</button>
-      <p class="resend-text">
+      <button class="verify-btn" (click)="createNewPassword()">{{invitePassword ? 'Complete Invitation' : 'Reset Password'}}</button>
+      <p class="resend-text" *ngIf="!invitePassword">
         Remember your password? 
         <a routerLink="/auth" class="resend-link">Back to Login</a>
       </p>
