@@ -155,7 +155,7 @@ export class ResetPagesComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.apiService.resetPasswordByEmail({ resetSessionToken: this.token, newPassword: this.password }).subscribe({
+    this.apiService.createNewPassword({ resetSessionToken: this.token, newPassword: this.password }).subscribe({
       next: (response: any) => {
         this.toastr.success('Password reset successfully. You can now log in with your new password.');
         this.router.navigate(['/']);
