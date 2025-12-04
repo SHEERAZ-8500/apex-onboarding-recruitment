@@ -24,16 +24,23 @@ export class CreateJobTitleComponent implements OnInit {
     const currentPath = this.route.snapshot.routeConfig?.path;
     if (currentPath === 'create-employee-category') {
       this.formTitle = 'Employee Category';
-    } else {
+    } if (currentPath === 'create-job-title') {
       this.formTitle = 'Job Title';
+    }
+    if (currentPath === 'create-department') {
+      this.formTitle = 'Department';
+    }
+
+    if (currentPath === 'create-branch') {
+      this.formTitle = 'Branch';
     }
   }
 
   onSubmit() {
     if (this.formTitle === 'Job Title') {
       if (!this.formData.name || !this.formData.code || !this.formData.emailAddress) {
-         this.toaster.error('Please Fill required fileds')
-         return
+        this.toaster.error('Please Fill required fileds')
+        return
       }
       this.loader.show();
       this.apiService.createJobTitle(this.formData).subscribe((response: any) => {
@@ -47,10 +54,10 @@ export class CreateJobTitleComponent implements OnInit {
       }
       );
     }
-     if (this.formTitle === 'Employee Category') {
+    if (this.formTitle === 'Employee Category') {
       if (!this.formData.name || !this.formData.code || !this.formData.emailAddress) {
-         this.toaster.error('Please Fill required fileds')
-         return
+        this.toaster.error('Please Fill required fileds')
+        return
       }
       this.loader.show();
       this.apiService.createEmployeeCategories(this.formData).subscribe((response: any) => {
@@ -63,6 +70,14 @@ export class CreateJobTitleComponent implements OnInit {
 
       }
       );
+    }
+    if (this.formTitle === 'Department') {
+
+      // same as above
+    }
+    if (this.formTitle === 'Branch') {
+
+      // same as above
     }
   }
 }

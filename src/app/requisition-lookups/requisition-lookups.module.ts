@@ -13,6 +13,12 @@ const routes: Routes = [
   {
     path: 'create-employee-category',
     component: CreateJobTitleComponent
+  }, {
+    path: 'create-department',
+    component: CreateJobTitleComponent
+  }, {
+    path: 'create-branch',
+    component: CreateJobTitleComponent
   },
   // {
   //   path: 'create-employee-category',
