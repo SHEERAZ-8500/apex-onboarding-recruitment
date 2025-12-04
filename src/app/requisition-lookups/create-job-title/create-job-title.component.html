@@ -1,1 +1,70 @@
-<p>create-job-title works!</p>
+<div class="jobtitle-wrapper container-fluid p-4">
+
+  <!-- Header -->
+  <div class="form-header d-flex justify-content-between align-items-center mb-4">
+    <h4 class="form-title mb-0">Job Title</h4>
+    <button class="btn btn-outline-light reset-btn">
+      <i class="fa fa-refresh me-1"></i> Reset
+    </button>
+  </div>
+
+  <hr class="section-divider" />
+
+  <form>
+
+    <!-- Row 1 -->
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="form-label">Code</label>
+        <input type="text" class="form-control" placeholder="Code" />
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Name</label>
+        <input type="text" class="form-control" placeholder="Name" />
+      </div>
+    </div>
+
+    <!-- Row 2 -->
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="form-label">E-mail Address</label>
+        <input type="email" class="form-control" placeholder="Email Address" />
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Telephone</label>
+        <input type="text" class="form-control" placeholder="Telephone" />
+      </div>
+    </div>
+
+    <!-- Row 3 -->
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="form-label">Internet Address</label>
+        <input type="text" class="form-control" placeholder="Internet Address" />
+      </div>
+      <div class="col-md-6 d-flex align-items-center mt-4">
+        <label class="form-check-label me-3">Status</label>
+        <input class="form-check-input status-check" type="checkbox" />
+      </div>
+    </div>
+
+    <!-- Description -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <label class="form-label">Description</label>
+        <textarea rows="4" class="form-control" placeholder="Description"></textarea>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="form-footer d-flex justify-content-end gap-3">
+      <button type="button" class="btn btn-warning px-4">
+        <i class="fa fa-times me-1"></i> Cancel
+      </button>
+      <button type="submit" class="btn btn-primary px-4">
+        <i class="fa fa-check me-1"></i> Create
+      </button>
+    </div>
+
+  </form>
+</div>
