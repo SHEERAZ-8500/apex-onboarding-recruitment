@@ -1,10 +1,27 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-create-job-title',
   templateUrl: './create-job-title.component.html',
   styleUrl: './create-job-title.component.scss'
 })
-export class CreateJobTitleComponent {
+export class CreateJobTitleComponent implements OnInit {
+  formTitle: string = 'Job Title';
+
+  constructor(private route: ActivatedRoute) { }
+
+  ngOnInit() {
+    const currentPath = this.route.snapshot.routeConfig?.path;
+    if (currentPath === 'create-employee-category') {
+      this.formTitle = 'Employee Category';
+    } else {
+      this.formTitle = 'Job Title';
+    }
+  }
+
+  onSubmit() {
+
+  }
 
 }

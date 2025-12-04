@@ -12,8 +12,12 @@ const routes: Routes = [
   },
   {
     path: 'create-employee-category',
-    component: CreateEmployeCategoryComponent
-  }
+    component: CreateJobTitleComponent
+  },
+  // {
+  //   path: 'create-employee-category',
+  //   component: CreateEmployeCategoryComponent
+  // }
 ];
 @NgModule({
   declarations: [
