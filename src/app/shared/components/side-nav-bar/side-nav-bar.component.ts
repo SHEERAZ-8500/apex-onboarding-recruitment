@@ -16,6 +16,7 @@ export class SideNavBarComponent {
   organizationalMasterdataCollapsed = true;
   outsourcinggMasterdataCollapsed = true;
   adminCollapsed = true;
+  requisitionLookupsCollapsed = true;
   ngOnInit() {
     this.toggleService.sidebarOpen$.subscribe(open => this.isOpen = open);
   }

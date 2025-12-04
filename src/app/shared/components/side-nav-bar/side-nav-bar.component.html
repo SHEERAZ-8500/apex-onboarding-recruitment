@@ -151,7 +151,25 @@
           <span>View All Users</span></a>
         <a routerLink="/panel/permissions/view-all-rols" routerLinkActive="active"><i class="fa-solid fa-table"></i>
           <span>View Role</span></a>
-          
+
+        <!-- <a><i class="fa-solid fa-table"></i>
+          <span>Sub Item 3</span></a> -->
+      </div>
+    </div>
+    <!-- requisition lookups -->
+    <a (click)="requisitionLookups.toggle()" [attr.aria-expanded]="!requisitionLookupsCollapsed" aria-controls="requisitionLookupsExample"><i
+        class="fa-solid fa-table"></i>
+      <span style="font-size: 16px;">Requisition Lookups</span></a>
+
+    <div #requisitionLookups="ngbCollapse" [(ngbCollapse)]="requisitionLookupsCollapsed" class="collapseStyling">
+      <div class="collapseDiv">
+        <!-- <a routerLink="admin/create-new-user" routerLinkActive="active"><i class="fa-solid fa-table"></i>
+          <span>Create New User</span></a> -->
+        <a routerLink="/panel/requisition-lookups/create-job-title" routerLinkActive="active"><i class="fa-solid fa-table"></i>
+          <span>Create Job Title</span></a>
+        <a routerLink="/panel/requisition-lookups/create-employee-category" routerLinkActive="active"><i class="fa-solid fa-table"></i>
+          <span>Create Employee Category</span></a>
+
         <!-- <a><i class="fa-solid fa-table"></i>
           <span>Sub Item 3</span></a> -->
       </div>
