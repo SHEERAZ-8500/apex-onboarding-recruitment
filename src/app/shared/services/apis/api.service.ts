@@ -76,6 +76,12 @@ export class ApiService {
 createEmployeeCategories(data:any){
     return this.http.post('employee-categories',data);
   }
+  createDepartment(data:any){
+    return this.http.post('departments',data);
+  }
+createBranch(data:any){
+    return this.http.post('branches',data);
+  }
 
   getAllUser() {
     return this.http.get('admin/users');

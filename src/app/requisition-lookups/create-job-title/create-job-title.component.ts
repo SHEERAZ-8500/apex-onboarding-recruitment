@@ -12,19 +12,20 @@ import { LoaderService } from '../../shared/services/loader.service';
 })
 export class CreateJobTitleComponent implements OnInit {
   formTitle: string = 'Job Title';
-  formData = new RequestionLookupDto()
+  formData = new RequestionLookupDto();
   constructor(
     private route: ActivatedRoute,
     private apiService: ApiService,
     private toaster: ToastrService,
     private loader: LoaderService
-  ) { }
+  ) {}
 
   ngOnInit() {
     const currentPath = this.route.snapshot.routeConfig?.path;
     if (currentPath === 'create-employee-category') {
       this.formTitle = 'Employee Category';
-    } if (currentPath === 'create-job-title') {
+    }
+    if (currentPath === 'create-job-title') {
       this.formTitle = 'Job Title';
     }
     if (currentPath === 'create-department') {
@@ -38,46 +39,88 @@ export class CreateJobTitleComponent implements OnInit {
 
   onSubmit() {
     if (this.formTitle === 'Job Title') {
-      if (!this.formData.name || !this.formData.code || !this.formData.emailAddress) {
-        this.toaster.error('Please Fill required fileds')
-        return
+      if (
+        !this.formData.name ||
+        !this.formData.code ||
+        !this.formData.emailAddress
+      ) {
+        this.toaster.error('Please Fill required fileds');
+        return;
       }
       this.loader.show();
-      this.apiService.createJobTitle(this.formData).subscribe((response: any) => {
-        this.toaster.success('Job Title Created Successfully')
-        this.loader.hide()
-
-      }, (error) => {
-        this.toaster.error('Error')
-        this.loader.hide()
-
-      }
+      this.apiService.createJobTitle(this.formData).subscribe(
+        (response: any) => {
+          this.toaster.success('Job Title Created Successfully');
+          this.loader.hide();
+        },
+        (error) => {
+          this.toaster.error('Error');
+          this.loader.hide();
+        }
       );
     }
     if (this.formTitle === 'Employee Category') {
-      if (!this.formData.name || !this.formData.code || !this.formData.emailAddress) {
-        this.toaster.error('Please Fill required fileds')
-        return
+      if (
+        !this.formData.name ||
+        !this.formData.code ||
+        !this.formData.emailAddress
+      ) {
+        this.toaster.error('Please Fill required fileds');
+        return;
       }
       this.loader.show();
-      this.apiService.createEmployeeCategories(this.formData).subscribe((response: any) => {
-        this.toaster.success('Employee Category Created Successfully')
-        this.loader.hide()
-
-      }, (error) => {
-        this.toaster.error('Error')
-        this.loader.hide()
-
-      }
+      this.apiService.createEmployeeCategories(this.formData).subscribe(
+        (response: any) => {
+          this.toaster.success('Employee Category Created Successfully');
+          this.loader.hide();
+        },
+        (error) => {
+          this.toaster.error('Error');
+          this.loader.hide();
+        }
       );
     }
     if (this.formTitle === 'Department') {
-
-      // same as above
+      if (
+        !this.formData.name ||
+        !this.formData.code ||
+        !this.formData.emailAddress
+      ) {
+        this.toaster.error('Please Fill required fileds');
+        return;
+      }
+      this.loader.show();
+      this.apiService.createDepartment(this.formData).subscribe(
+        (response: any) => {
+          this.toaster.success('Department Created Successfully');
+          this.loader.hide();
+        },
+        (error) => {
+          this.toaster.error('Error');
+          this.loader.hide();
+        }
+      );
     }
     if (this.formTitle === 'Branch') {
-
-      // same as above
+      if (
+        !this.formData.name ||
+        !this.formData.code ||
+        !this.formData.emailAddress
+      ) {
+        this.toaster.error('Please Fill required fileds');
+        return;
+      }
+      this.loader.show();
+      this.apiService.createBranch(this.formData).subscribe(
+        (response: any) => {
+          this.toaster.success('Branch Created Successfully');
+          this.loader.hide();
+        },
+        (error) => {
+          this.toaster.error('Error');
+          this.loader.hide();
+        }
+      );
     }
   }
 }
