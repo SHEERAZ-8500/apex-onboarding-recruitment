@@ -18,10 +18,14 @@ export class CreateNewRoleComponent {
 
   expandedModules: { [key: string]: boolean } = {};
 
-  permissionModules:any [] = []
+  permissionModules: any[] = []
 
-  constructor(private loader: LoaderService, private apiService: ApiService, private toastr: ToastrService,private permissionService: PermissionService,private router: Router) { 
-this.permissionModules = this.permissionService.permissionModules
+  constructor(private loader: LoaderService, private apiService: ApiService, private toastr: ToastrService, private permissionService: PermissionService, private router: Router) {
+    this.permissionModules = this.permissionService.permissionModules
+    // Set first module (ADMINISTRATION) to be expanded by default
+    if (this.permissionModules.length > 0) {
+      this.expandedModules[this.permissionModules[0].key] = true;
+    }
   }
 
   toggleModule(moduleKey: string) {
@@ -44,7 +48,7 @@ this.permissionModules = this.permissionService.permissionModules
   getSelectedCount(moduleKey: string): number {
     const module = this.permissionModules.find(m => m.key === moduleKey);
     if (!module) return 0;
-    return module.permissions.filter((p:any) => this.permissionCodes.includes(p.code)).length;
+    return module.permissions.filter((p: any) => this.permissionCodes.includes(p.code)).length;
   }
 
   createRole() {
