@@ -67,6 +67,15 @@ export class ApiService {
   createNewRole(data: any) {
     return this.http.post('admin/roles', data);
   }
+      
+
+  // req lookup creations
+  createJobTitle(data:any){
+    return this.http.post('job-titles',data);
+  }
+createEmployeeCategories(data:any){
+    return this.http.post('employee-categories',data);
+  }
 
   getAllUser() {
     return this.http.get('admin/users');
