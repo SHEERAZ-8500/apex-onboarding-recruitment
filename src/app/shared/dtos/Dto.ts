@@ -28,3 +28,19 @@ export class FormSubmissionDto {
     }
   }
 }
+
+
+
+export class RequestionLookupDto {
+  code: string = '';
+  name: string = '';
+  description: string = '';
+  status: boolean = true;
+  internetAddress: string = '';
+  emailAddress: string = '';
+  telephone: string = '';
+
+  constructor(init?: Partial<RequestionLookupDto>) {
+    Object.assign(this, init);
+  }
+}

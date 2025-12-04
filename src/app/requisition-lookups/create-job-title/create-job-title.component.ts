@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { RequestionLookupDto } from '../../shared/dtos/Dto';
 
 @Component({
   selector: 'app-create-job-title',
@@ -8,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class CreateJobTitleComponent implements OnInit {
   formTitle: string = 'Job Title';
-
+  formData = new RequestionLookupDto()
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
