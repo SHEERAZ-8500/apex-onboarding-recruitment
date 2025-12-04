@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { SahringModule } from '../shared/modules/sahring.module';
 import { RouterModule, Routes } from '@angular/router';
 import { CreateJobTitleComponent } from './create-job-title/create-job-title.component';
-import { CreateEmployeCategoryComponent } from './create-employe-category/create-employe-category.component';
 
 
 const routes: Routes = [
@@ -28,7 +27,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     CreateJobTitleComponent,
-    CreateEmployeCategoryComponent
+    
   ],
   imports: [
     RouterModule.forChild(routes),

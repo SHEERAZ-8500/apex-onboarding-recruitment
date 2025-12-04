@@ -18,7 +18,7 @@ export class CreateJobTitleComponent implements OnInit {
     private apiService: ApiService,
     private toaster: ToastrService,
     private loader: LoaderService
-  ) {}
+  ) { }
 
   ngOnInit() {
     const currentPath = this.route.snapshot.routeConfig?.path;
@@ -54,7 +54,7 @@ export class CreateJobTitleComponent implements OnInit {
           this.loader.hide();
         },
         (error) => {
-          this.toaster.error('Error');
+          this.toaster.error(error.message || 'Error');
           this.loader.hide();
         }
       );
@@ -75,7 +75,8 @@ export class CreateJobTitleComponent implements OnInit {
           this.loader.hide();
         },
         (error) => {
-          this.toaster.error('Error');
+          this.toaster.error(error.message || 'Error');
+
           this.loader.hide();
         }
       );
@@ -96,7 +97,7 @@ export class CreateJobTitleComponent implements OnInit {
           this.loader.hide();
         },
         (error) => {
-          this.toaster.error('Error');
+          this.toaster.error(error.message || 'Error');
           this.loader.hide();
         }
       );
@@ -117,10 +118,14 @@ export class CreateJobTitleComponent implements OnInit {
           this.loader.hide();
         },
         (error) => {
-          this.toaster.error('Error');
+          this.toaster.error(error.message || 'Error');
+
           this.loader.hide();
         }
       );
     }
+  }
+  onReset() {
+    this.formData = new RequestionLookupDto();
   }
 }
