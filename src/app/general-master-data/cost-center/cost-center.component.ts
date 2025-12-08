@@ -3,8 +3,197 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-cost-center',
   templateUrl: './cost-center.component.html',
-  styleUrl: './cost-center.component.scss'
+  styleUrls: ['./cost-center.component.scss'],
 })
 export class CostCenterComponent {
 
+  // ✅ Cost Centers Data (5 dummy values)
+  costCenters = [
+    { 
+      code: 'CC001', 
+      name: 'Administration', 
+      effectiveDate: '2024-01-01',
+      chargeableTo: 'Department A',
+      includeInSalary: 'Yes',
+      createdBy: 'Admin User'
+    },
+    { 
+      code: 'CC002', 
+      name: 'IT Department', 
+      effectiveDate: '2024-02-15',
+      chargeableTo: 'Department B',
+      includeInSalary: 'No',
+      createdBy: 'IT Manager'
+    },
+    { 
+      code: 'CC003', 
+      name: 'Human Resources', 
+      effectiveDate: '2024-03-01',
+      chargeableTo: 'Department C',
+      includeInSalary: 'Yes',
+      createdBy: 'HR Head'
+    },
+    { 
+      code: 'CC004', 
+      name: 'Finance', 
+      effectiveDate: '2024-01-15',
+      chargeableTo: 'Department D',
+      includeInSalary: 'Yes',
+      createdBy: 'Finance Director'
+    },
+    { 
+      code: 'CC005', 
+      name: 'Operations', 
+      effectiveDate: '2024-04-01',
+      chargeableTo: 'Department E',
+      includeInSalary: 'No',
+      createdBy: 'Operations Manager'
+    }
+  ];
+
+  // ✅ Form + State
+  showForm = false;
+  code = '';
+  name = '';
+  effectiveDate = '';
+  chargeableTo = '';
+  includeInSalary = '';
+  createdBy = '';
+  isEdit = false;
+  editIndex: number | null = null;
+  searchText = '';
+
+  // ✅ Dropdown Options
+  chargeableToOptions = ['Department A', 'Department B', 'Department C', 'Department D', 'Department E'];
+  includeInSalaryOptions = ['Yes', 'No'];
+
+  // ✅ Pagination
+  currentPage = 1;
+  itemsPerPage = 8;
+
+  get currentPageStart() {
+    return (this.currentPage - 1) * this.itemsPerPage;
+  }
+
+  get totalPages() {
+    return Math.ceil(this.filteredCostCenters().length / this.itemsPerPage);
+  }
+
+  get totalPagesArray() {
+    const total = this.totalPages;
+
+    if (total <= 3) {
+      return Array.from({ length: total }, (_, i) => i + 1);
+    }
+
+    if (this.currentPage === 1) return [1, 2, 3];
+    if (this.currentPage === total) return [total - 2, total - 1, total];
+
+    return [this.currentPage - 1, this.currentPage, this.currentPage + 1];
+  }
+
+  // ✅ Pagination Data
+  paginatedCostCenters() {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    return this.filteredCostCenters().slice(start, start + this.itemsPerPage);
+  }
+
+  changePage(page: number) {
+    if (page < 1 || page > this.totalPages) return;
+    this.currentPage = page;
+  }
+
+  // ✅ Add New
+  onNew() {
+    this.resetForm();
+    this.showForm = true;
+  }
+
+  createCostCenter() {
+    if (!this.code || !this.name || !this.effectiveDate || !this.chargeableTo || !this.includeInSalary || !this.createdBy) return;
+
+    this.costCenters.push({
+      code: this.code,
+      name: this.name,
+      effectiveDate: this.effectiveDate,
+      chargeableTo: this.chargeableTo,
+      includeInSalary: this.includeInSalary,
+      createdBy: this.createdBy
+    });
+
+    this.hideForm();
+  }
+
+  // ✅ Edit
+  editCostCenter(index: number) {
+    this.isEdit = true;
+    this.editIndex = index;
+    this.showForm = true;
+
+    const costCenter = this.costCenters[index];
+    this.code = costCenter.code;
+    this.name = costCenter.name;
+    this.effectiveDate = costCenter.effectiveDate;
+    this.chargeableTo = costCenter.chargeableTo;
+    this.includeInSalary = costCenter.includeInSalary;
+    this.createdBy = costCenter.createdBy;
+  }
+
+  updateCostCenter() {
+    if (this.editIndex === null) return;
+
+    this.costCenters[this.editIndex] = {
+      code: this.code,
+      name: this.name,
+      effectiveDate: this.effectiveDate,
+      chargeableTo: this.chargeableTo,
+      includeInSalary: this.includeInSalary,
+      createdBy: this.createdBy
+    };
+
+    this.hideForm();
+  }
+
+  // ✅ Delete
+  deleteCostCenter(index: number) {
+    this.costCenters.splice(index, 1);
+
+    if (this.currentPage > this.totalPages) {
+      this.currentPage = this.totalPages;
+    }
+  }
+
+  // ✅ Form Control
+  cancelForm() {
+    this.hideForm();
+  }
+
+  resetForm() {
+    this.code = '';
+    this.name = '';
+    this.effectiveDate = '';
+    this.chargeableTo = '';
+    this.includeInSalary = '';
+    this.createdBy = '';
+    this.isEdit = false;
+    this.editIndex = null;
+  }
+
+  hideForm() {
+    this.resetForm();
+    this.showForm = false;
+  }
+
+  // ✅ Search Filter
+  filteredCostCenters() {
+    if (!this.searchText.trim()) return this.costCenters;
+
+    const searchLower = this.searchText.toLowerCase();
+    return this.costCenters.filter(center =>
+      center.code.toLowerCase().includes(searchLower) ||
+      center.name.toLowerCase().includes(searchLower) ||
+      center.chargeableTo.toLowerCase().includes(searchLower) ||
+      center.createdBy.toLowerCase().includes(searchLower)
+    );
+  }
 }

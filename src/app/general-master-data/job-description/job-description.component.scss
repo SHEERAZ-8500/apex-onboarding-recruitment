@@ -347,20 +347,20 @@
 
         &.btn-primary {
           background: #198754;
-          color: #fff;
+  color: #fff;
 
-          &:hover {
-            background: #084298;
-          }
+  &:hover {
+    background: #157347; // subtle darken
+  }
         }
 
         &.btn-danger {
           background: #dc3545;
-          color: #fff;
+  color: #fff;
 
-          &:hover {
-            background: #a71d2a;
-          }
+  &:hover {
+    background: #c12738; // subtle darken
+  }
         }
       }
     }
