@@ -48,6 +48,7 @@ const routes: Routes = [
       { path: 'permissions', loadChildren: () => import('./permissions/permissions.module').then(m => m.PermissionsModule) },
 
       { path: 'requisition-lookups', loadChildren: () => import('./requisition-lookups/requisition-lookups.module').then(m => m.RequisitionLookupsModule) },
+      { path: 'organizational-master-data', loadChildren: () => import('./organizational-master-data/organizational-master-data.module').then(m => m.OrganizationalMasterDataModule) },
 
 
     ]
