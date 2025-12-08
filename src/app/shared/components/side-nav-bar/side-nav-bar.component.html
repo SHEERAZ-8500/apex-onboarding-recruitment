@@ -1,9 +1,13 @@
 <!-- side-nav-bar.component.html -->
 <nav [class.closed]="!isOpen" class="sidebar pt-3">
-  <div class="logo gap-1">
+  <div class="logo gap-1" *ngIf="isOpen">
     <img src="../../../../assets/apex-logo1.png" alt="not-found" style="width: 200px; height: 40px" />
-  </div>
 
+  </div>
+  <div *ngIf="!isOpen">
+    <img src="../../../../assets/apex-logo.svg" alt="not-found" style="width: 60px; height: 40px" />
+
+  </div>
   <div class="d-flex align-items-center justify-content-center my-3">
     <div class="user-card">
       <img src="../../../../assets/nb (2).png" alt="User Avatar" />
