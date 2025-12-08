@@ -52,6 +52,11 @@ export class QualificationComponent {
   isEdit = false;
   editIndex: number | null = null;
   searchText = '';
+  qualificationMajor: string = '';
+  passingYear: string = '';
+  grade: string = '';
+  institute: string = '';
+  active: boolean = false;
 
   // ⭐ GLOBAL PAGINATION (same as Candidate Table)
   currentPage = 1;
