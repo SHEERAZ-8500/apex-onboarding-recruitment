@@ -1,10 +1,9 @@
-<!-- sidebar.component.html -->
+<!-- side-nav-bar.component.html -->
 <nav [class.closed]="!isOpen" class="sidebar pt-3">
-
   <div class="logo gap-1">
-    <img src="../../../../assets/logo-letter.png" alt="not-found"> <span>CRM<span
-        style="color: #a8a6ac !important;">i</span></span>
+    <img src="../../../../assets/apex-logo1.png" alt="not-found" style="width: 200px; height: 40px" />
   </div>
+
   <div class="d-flex align-items-center justify-content-center my-3">
     <div class="user-card">
       <img src="../../../../assets/nb (2).png" alt="User Avatar" />
@@ -15,173 +14,206 @@
       <i class="fa-solid fa-chevron-down"></i>
     </div>
   </div>
-  <div class="menu-title">
-    <h5>Main Menu</h5>
-  </div>
+
   <div class="tabslist">
+    <!-- Top-level items -->
     <a routerLink="/panel/dashboard" routerLinkActive="active"><i class="fas fa-home"></i> <span>Dashboard</span></a>
-    <a routerLink="/panel/offers" routerLinkActive="active"><i class="fa-regular fa-chart-bar"></i>
-      <span>Offers</span></a>
-    <a routerLink="/panel/employes" routerLinkActive="active"><i class="fa-regular fa-flag"></i> <span>People</span></a>
-    <a routerLink="/panel/jobs-details" routerLinkActive="active"><i class="fa-regular fa-alarm-clock"></i> <span>Jobs
+    <a routerLink="/panel/offers" routerLinkActive="active"><i class="fa-solid fa-tag"></i> <span>Offers</span></a>
+    <a routerLink="/panel/employes" routerLinkActive="active"><i class="fa-solid fa-users"></i> <span>People</span></a>
+    <a routerLink="/panel/jobs-details" routerLinkActive="active"><i class="fa-solid fa-briefcase"></i> <span>Jobs
         Details</span></a>
     <a routerLink="/panel/chat" routerLinkActive="active"><i class="fa-regular fa-message"></i> <span>Chat</span></a>
-    <a routerLink="/panel/contact" routerLinkActive="active"><i class="fa-regular fa-user"></i>
+    <a routerLink="/panel/contact" routerLinkActive="active"><i class="fa-solid fa-address-book"></i>
       <span>Contacts</span></a>
-
-    <a routerLink="/panel/view-all-forms" routerLinkActive="active"><i class="fa-brands fa-wpforms"></i>
+    <a routerLink="/panel/view-all-forms" routerLinkActive="active"><i class="fa-solid fa-rectangle-list"></i>
       <span>Forms</span></a>
-    <a routerLink="/panel/table/table-listing" routerLinkActive="active"><i class="fa-solid fa-table"></i>
+    <a routerLink="/panel/table/table-listing" routerLinkActive="active"><i class="fa-solid fa-table-list"></i>
       <span>Tables</span></a>
 
-    <a (click)="collapse.toggle()" [attr.aria-expanded]="!assesment" aria-controls="collapseExample"><i
-        class="fa-solid fa-chart-bar"></i>
-      <span>Assesment</span></a>
+    <!-- Assessment (two-level) -->
+    <div class="nav-item-with-toggle">
+      <a class="top-link" (click)="toggleAssessment()" [attr.aria-expanded]="!assesment"
+        aria-controls="assessmentExample">
+        <i class="fa-solid fa-clipboard"></i>
+        <span>Assesment</span>
+        <span class="chev-icon">
+          <i *ngIf="assesment" class="fa-solid fa-chevron-right"></i>
+          <i *ngIf="!assesment" class="fa-solid fa-chevron-down"></i>
+        </span>
+      </a>
 
-
-    <div #collapse="ngbCollapse" [(ngbCollapse)]="assesment" class="collapseStyling">
-      <div class="collapseDiv">
-        <a>
-          <span>Design Assesment</span></a>
-        <a>
-          <span>Stored Assesment</span></a>
-        <a>
-          <span>Received Assesment</span></a>
+      <div #collapse="ngbCollapse" [(ngbCollapse)]="assesment" class="collapseStyling" [class.open]="!assesment">
+        <div class="collapseDiv">
+          <a><i class="fa-regular fa-circle"></i><span>Design Assesment</span></a>
+          <a><i class="fa-regular fa-circle"></i><span>Stored Assesment</span></a>
+          <a><i class="fa-regular fa-circle"></i><span>Received Assesment</span></a>
+        </div>
       </div>
     </div>
 
-    <a (click)="masterdata.toggle()" [attr.aria-expanded]="!masterdata" aria-controls="masterdataExample"><i
-        class="fa-solid fa-chart-bar"></i>
-      <span>Mater Data</span></a>
+    <!-- Master Data (three-level with toggles on each level) -->
+    <div class="nav-item-with-toggle">
+      <a class="top-link" (click)="toggleMasterData()" [attr.aria-expanded]="!masterdataCollapsed"
+        aria-controls="masterdataExample">
+        <i class="fa-solid fa-database"></i>
+        <span>Master Data</span>
+        <span class="chev-icon">
+          <i *ngIf="masterdataCollapsed" class="fa-solid fa-chevron-right"></i>
+          <i *ngIf="!masterdataCollapsed" class="fa-solid fa-chevron-down"></i>
+        </span>
+      </a>
 
+      <div #masterdata="ngbCollapse" [(ngbCollapse)]="masterdataCollapsed" class="collapseStyling"
+        [class.open]="!masterdataCollapsed">
+        <div class="collapseDiv">
+          <!-- General Master Data (level-2 toggle) -->
+          <div class="nav-item-with-toggle level-2">
+            <a class="level-link" (click)="toggleGeneralMaster()" [attr.aria-expanded]="!generalMasterdataCollapsed"
+              aria-controls="generalMasterdataExample">
+              <i class="fa-regular fa-circle"></i>
+              <span>General Master Data</span>
+              <span class="chev-icon small">
+                <i *ngIf="generalMasterdataCollapsed" class="fa-solid fa-caret-down"></i>
+                <i *ngIf="!generalMasterdataCollapsed" class="fa-solid fa-caret-up"></i>
+              </span>
+            </a>
 
-    <div #masterdata="ngbCollapse" [(ngbCollapse)]="masterdataCollapsed" class="collapseStyling">
-      <div class="collapseDiv">
-        <!-- general master data -->
-        <a (click)="generalMasterdata.toggle()" [attr.aria-expanded]="!generalMasterdataCollapsed"
-          aria-controls="generalMasterdataExample">
-          <span style="font-size: 16px;">General Master Data</span></a>
+            <div #generalMasterdata="ngbCollapse" [(ngbCollapse)]="generalMasterdataCollapsed"
+              class="collapseStyling inner" [class.open]="!generalMasterdataCollapsed">
+              <div class="collapseDiv nested-line">
+                <a routerLink="general-master-data/skills" routerLinkActive="active"><span>Skills</span></a>
+                <a routerLink="general-master-data/id-type" routerLinkActive="active"><span>ID Type</span></a>
+                <a routerLink="general-master-data/qualification"
+                  routerLinkActive="active"><span>Qualification</span></a>
+                <a routerLink="general-master-data/employee-cost" routerLinkActive="active"><span>Employee
+                    Cost</span></a>
+                <a routerLink="general-master-data/ramadan-timing" routerLinkActive="active"><span>Ramadan
+                    Timings</span></a>
+                <a routerLink="general-master-data/trainings" routerLinkActive="active"><span>Trainings</span></a>
+                <a routerLink="general-master-data/job-description" routerLinkActive="active"><span>Job
+                    Description</span></a>
+                <a routerLink="general-master-data/pre-requisites" routerLinkActive="active"><span>Pre
+                    Requisites</span></a>
+                <a routerLink="general-master-data/belonging-types" routerLinkActive="active"><span>Belonging
+                    Types</span></a>
+                <a routerLink="general-master-data/cost-center" routerLinkActive="active"><span>Cost Center</span></a>
+                <a routerLink="general-master-data/work-schedule" routerLinkActive="active"><span>Work
+                    Schedule</span></a>
+                <a routerLink="general-master-data/designation" routerLinkActive="active"><span>Designation</span></a>
+                <a routerLink="general-master-data/job-title" routerLinkActive="active"><span>Job Title</span></a>
+                <a routerLink="general-master-data/post-assignment" routerLinkActive="active"><span>Post
+                    Assignment</span></a>
+                <a routerLink="general-master-data/kpi-questions" routerLinkActive="active"><span>KPI
+                    Questions</span></a>
+                <a routerLink="general-master-data/employees-grade" routerLinkActive="active"><span>Employees
+                    Grade</span></a>
+              </div>
+            </div>
+          </div>
 
-        <div #generalMasterdata="ngbCollapse" [(ngbCollapse)]="generalMasterdataCollapsed" class="collapseStyling">
-          <div class="collapseDiv">
-            <a routerLink="general-master-data/skills" routerLinkActive="active">
-              <span>Skills</span></a>
-            <a routerLink="general-master-data/id-type" routerLinkActive="active">
-              <span>ID Type</span></a>
-            <a routerLink="general-master-data/qualification" routerLinkActive="active">
-              <span>Qualification</span></a>
-            <a routerLink="general-master-data/employee-cost" routerLinkActive="active">
-              <span>Employee Cost</span></a>
-            <a routerLink="general-master-data/ramadan-timing" routerLinkActive="active">
-              <span>Ramadan Timings</span></a>
-            <a routerLink="general-master-data/trainings" routerLinkActive="active">
-              <span>Trainings</span></a>
-            <a routerLink="general-master-data/job-description" routerLinkActive="active">
-              <span>Job Description</span></a>
-            <a routerLink="general-master-data/pre-requisites" routerLinkActive="active">
-              <span> Pre Requisites</span></a>
-            <a routerLink="general-master-data/belonging-types" routerLinkActive="active">
-              <span> Belonging Types</span></a>
-            <a routerLink="general-master-data/cost-center" routerLinkActive="active">
-              <span> Cost Center</span></a>
-            <a routerLink="general-master-data/work-schedule" routerLinkActive="active">
-              <span>Work Schedule</span></a>
-            <a routerLink="general-master-data/designation " routerLinkActive="active">
-              <span>Designation </span></a>
-            <a routerLink="general-master-data/job-title" routerLinkActive="active">
-              <span>Job Title</span></a>
-            <a routerLink="general-master-data/post-assignment" routerLinkActive="active">
-              <span> Post Assignment</span></a>
-            <a routerLink="general-master-data/ kpi-questions" routerLinkActive="active">
-              <span>KPI Questions</span></a>
-            <a routerLink="general-master-data/ employees-grade" routerLinkActive="active">
-              <span>Employess Grade</span></a>
+          <!-- Organizational Master Data (level-2 toggle) -->
+          <div class="nav-item-with-toggle level-2">
+            <a class="level-link" (click)="toggleOrganizationalMaster()"
+              [attr.aria-expanded]="!organizationalMasterdataCollapsed" aria-controls="organizationalMasterdataExample">
+              <i class="fa-regular fa-circle"></i>
+              <span>Organizational Master Data</span>
+              <span class="chev-icon small">
+                <i *ngIf="organizationalMasterdataCollapsed" class="fa-solid fa-caret-down"></i>
+                <i *ngIf="!organizationalMasterdataCollapsed" class="fa-solid fa-caret-up"></i>
+              </span>
+            </a>
+
+            <div #organizationalMasterdata="ngbCollapse" [(ngbCollapse)]="organizationalMasterdataCollapsed"
+              class="collapseStyling inner" [class.open]="!organizationalMasterdataCollapsed">
+              <div class="collapseDiv nested-line">
+                <a><span>Sub Item 1</span></a>
+                <a><span>Sub Item 2</span></a>
+                <a><span>Sub Item 3</span></a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Outsourcing Master Data (level-2 toggle) -->
+          <div class="nav-item-with-toggle level-2">
+            <a class="level-link" (click)="toggleOutsourcingMaster()"
+              [attr.aria-expanded]="!outsourcinggMasterdataCollapsed" aria-controls="outsourcinggMasterdataExample">
+              <i class="fa-regular fa-circle"></i>
+              <span>Outsourcing Master Data</span>
+              <span class="chev-icon small">
+                <i *ngIf="outsourcinggMasterdataCollapsed" class="fa-solid fa-caret-down"></i>
+                <i *ngIf="!outsourcinggMasterdataCollapsed" class="fa-solid fa-caret-up"></i>
+              </span>
+            </a>
+
+            <div #outsourcinggMasterdata="ngbCollapse" [(ngbCollapse)]="outsourcinggMasterdataCollapsed"
+              class="collapseStyling inner" [class.open]="!outsourcinggMasterdataCollapsed">
+              <div class="collapseDiv nested-line">
+                <a><span>Sub Item 1</span></a>
+                <a><span>Sub Item 2</span></a>
+                <a><span>Sub Item 3</span></a>
+              </div>
+            </div>
           </div>
         </div>
-        <!-- general master data end-->
+      </div>
+    </div>
 
-        <!-- organizational master data -->
-        <a (click)="organizationalMasterdata.toggle()" [attr.aria-expanded]="!organizationalMasterdataCollapsed"
-          aria-controls="organizationalMasterdataExample">
-          <span style="font-size: 16px;">Organizational Master Data</span></a>
+    <!-- Admin -->
+    <div class="nav-item-with-toggle">
+      <a class="top-link" (click)="toggleAdmin()" [attr.aria-expanded]="!adminCollapsed" aria-controls="adminExample">
+        <i class="fa-solid fa-user-shield"></i>
+        <span>Admin</span>
+        <span class="chev-icon">
+          <i *ngIf="adminCollapsed" class="fa-solid fa-chevron-right"></i>
+          <i *ngIf="!adminCollapsed" class="fa-solid fa-chevron-down"></i>
+        </span>
+      </a>
 
-        <div #organizationalMasterdata="ngbCollapse" [(ngbCollapse)]="organizationalMasterdataCollapsed"
-          class="collapseStyling">
-          <div class="collapseDiv">
-            <a>
-              <span>Sub Item 1</span></a>
-            <a>
-              <span>Sub Item 2</span></a>
-            <a>
-              <span>Sub Item 3</span></a>
-          </div>
+      <div #admin="ngbCollapse" [(ngbCollapse)]="adminCollapsed" class="collapseStyling" [class.open]="!adminCollapsed">
+        <div class="collapseDiv">
+          <a routerLink="admin/view-all-users">
+            <i class="fa-regular fa-circle"></i><span>View All Users</span>
+          </a>
+
+          <a routerLink="/panel/permissions/view-all-rols">
+            <i class="fa-regular fa-circle"></i><span>View Role</span>
+          </a>
         </div>
-        <!-- organizational master data end-->
+      </div>
+    </div>
 
-        <!-- outsourcing master data -->
-        <a (click)="outsourcinggMasterdata.toggle()" [attr.aria-expanded]="!outsourcinggMasterdataCollapsed"
-          aria-controls="outsourcinggMasterdataExample">
-          <span style="font-size: 16px;">Outsourcing Master Data</span></a>
+    <!-- Requisition Lookups -->
+    <div class="nav-item-with-toggle">
+      <a class="top-link" (click)="toggleRequisitionLookups()" [attr.aria-expanded]="!requisitionLookupsCollapsed"
+        aria-controls="requisitionLookupsExample">
+        <i class="fa-solid fa-arrows-rotate"></i>
+        <span>Requisition Lookups</span>
+        <span class="chev-icon">
+          <i *ngIf="requisitionLookupsCollapsed" class="fa-solid fa-chevron-right"></i>
+          <i *ngIf="!requisitionLookupsCollapsed" class="fa-solid fa-chevron-down"></i>
+        </span>
+      </a>
 
-        <div #outsourcinggMasterdata="ngbCollapse" [(ngbCollapse)]="outsourcinggMasterdataCollapsed"
-          class="collapseStyling">
-          <div class="collapseDiv">
-            <a>
-              <span>Sub Item 1</span></a>
-            <a>
-              <span>Sub Item 2</span></a>
-            <a>
-              <span>Sub Item 3</span></a>
-          </div>
+      <div #requisitionLookups="ngbCollapse" [(ngbCollapse)]="requisitionLookupsCollapsed" class="collapseStyling"
+        [class.open]="!requisitionLookupsCollapsed">
+        <div class="collapseDiv">
+          <a routerLink="/panel/requisition-lookups/create-job-title">
+            <i class="fa-regular fa-circle"></i><span>Job Title</span>
+          </a>
+
+          <a routerLink="/panel/requisition-lookups/create-employee-category">
+            <i class="fa-regular fa-circle"></i><span>Employee Category</span>
+          </a>
+
+          <a routerLink="/panel/requisition-lookups/create-department">
+            <i class="fa-regular fa-circle"></i><span>Department</span>
+          </a>
+
+          <a routerLink="/panel/requisition-lookups/create-branch">
+            <i class="fa-regular fa-circle"></i><span>Branches</span>
+          </a>
         </div>
-        <!-- outsourcing master data end-->
       </div>
     </div>
-
-    <!-- admin  -->
-    <a (click)="admin.toggle()" [attr.aria-expanded]="!adminCollapsed" aria-controls="adminExample"><i
-        class="fa-solid fa-table"></i>
-      <span style="font-size: 16px;">Admin</span></a>
-
-    <div #admin="ngbCollapse" [(ngbCollapse)]="adminCollapsed" class="collapseStyling">
-      <div class="collapseDiv">
-        <!-- <a routerLink="admin/create-new-user" routerLinkActive="active"><i class="fa-solid fa-table"></i>
-          <span>Create New User</span></a> -->
-        <a routerLink="admin/view-all-users" routerLinkActive="active"><i class="fa-solid fa-table"></i>
-          <span>View All Users</span></a>
-        <a routerLink="/panel/permissions/view-all-rols" routerLinkActive="active"><i class="fa-solid fa-table"></i>
-          <span>View Role</span></a>
-
-        <!-- <a><i class="fa-solid fa-table"></i>
-          <span>Sub Item 3</span></a> -->
-      </div>
-    </div>
-    <!-- requisition lookups -->
-    <a (click)="requisitionLookups.toggle()" [attr.aria-expanded]="!requisitionLookupsCollapsed"
-      aria-controls="requisitionLookupsExample"><i class="fa-solid fa-table"></i>
-      <span style="font-size: 16px;">Requisition Lookups</span></a>
-
-    <div #requisitionLookups="ngbCollapse" [(ngbCollapse)]="requisitionLookupsCollapsed" class="collapseStyling">
-      <div class="collapseDiv">
-        <!-- <a routerLink="admin/create-new-user" routerLinkActive="active"><i class="fa-solid fa-table"></i>
-          <span>Create New User</span></a> -->
-        <a routerLink="/panel/requisition-lookups/create-job-title" routerLinkActive="active"><i
-            class="fa-solid fa-table"></i>
-          <span>Create Job Title</span></a>
-        <a routerLink="/panel/requisition-lookups/create-employee-category" routerLinkActive="active"><i
-            class="fa-solid fa-table"></i>
-          <span>Create Employee Category</span></a>
-        <a routerLink="/panel/requisition-lookups/create-department" routerLinkActive="active"><i
-            class="fa-solid fa-table"></i>
-          <span>Create Department</span></a>
-        <a routerLink="/panel/requisition-lookups/create-branch" routerLinkActive="active"><i
-            class="fa-solid fa-table"></i>
-          <span>Create Branch</span></a>
-
-        <!-- <a><i class="fa-solid fa-table"></i>
-          <span>Sub Item 3</span></a> -->
-      </div>
-    </div>
-    <!-- admin  end-->
   </div>
 </nav>

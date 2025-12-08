@@ -6,54 +6,185 @@ import { Component } from '@angular/core';
   styleUrls: ['./skills.component.scss'],
 })
 export class SkillsComponent {
+
+  // ✅ Skills Data (cleaned duplicates)
   skills = [
-    { code: 'SK008', name: 'IT Professional' },
-    { code: 'SK011', name: '1213' },
-    { code: 'SK012', name: '121' },
-    { code: 'SK013', name: 'Skill 4' },
-    { code: 'SK014', name: 'Skill 5' },
-    { code: 'SK015', name: 'Skill 6' },
-     { code: 'SK008', name: 'IT Professional' },
-    { code: 'SK011', name: '1213' },
-    { code: 'SK012', name: '121' },
-    { code: 'SK013', name: 'Skill 4' },
-    { code: 'SK014', name: 'Skill 5' },
-    { code: 'SK015', name: 'Skill 6' },
-     { code: 'SK008', name: 'IT Professional' },
-    { code: 'SK011', name: '1213' },
-    { code: 'SK012', name: '121' },
-    { code: 'SK013', name: 'Skill 4' },
-    { code: 'SK014', name: 'Skill 5' },
-    { code: 'SK015', name: 'Skill 6' },
-     { code: 'SK008', name: 'IT Professional' },
-    { code: 'SK011', name: '1213' },
-    { code: 'SK012', name: '121' },
-    { code: 'SK013', name: 'Skill 4' },
-    { code: 'SK014', name: 'Skill 5' },
-    { code: 'SK015', name: 'Skill 6' },
-     { code: 'SK008', name: 'IT Professional' },
-    { code: 'SK011', name: '1213' },
-    { code: 'SK012', name: '121' },
-    { code: 'SK013', name: 'Skill 4' },
-    { code: 'SK014', name: 'Skill 5' },
-    { code: 'SK015', name: 'Skill 6' },
-     { code: 'SK008', name: 'IT Professional' },
-    { code: 'SK011', name: '1213' },
-    { code: 'SK012', name: '121' },
-    { code: 'SK013', name: 'Skill 4' },
-    { code: 'SK014', name: 'Skill 5' },
-    { code: 'SK015', name: 'Skill 6' },
-    { code: 'SK016', name: 'Skill 7' }
+    { code: 'SK001', name: 'HTML' },
+    { code: 'SK002', name: 'CSS' },
+    { code: 'SK003', name: 'JavaScript' },
+    { code: 'SK004', name: 'Angular' },
+    { code: 'SK005', name: 'WordPress' },
+    { code: 'SK006', name: 'PHP' },
+    { code: 'SK007', name: 'Bootstrap' },
+    { code: 'SK008', name: 'UI Design' },
+      { code: 'SK001', name: 'HTML' },
+    { code: 'SK002', name: 'CSS' },
+    { code: 'SK003', name: 'JavaScript' },
+    { code: 'SK004', name: 'Angular' },
+    { code: 'SK005', name: 'WordPress' },
+    { code: 'SK006', name: 'PHP' },
+    { code: 'SK007', name: 'Bootstrap' },
+    { code: 'SK008', name: 'UI Design' },
+      { code: 'SK001', name: 'HTML' },
+    { code: 'SK002', name: 'CSS' },
+    { code: 'SK003', name: 'JavaScript' },
+    { code: 'SK004', name: 'Angular' },
+    { code: 'SK005', name: 'WordPress' },
+    { code: 'SK006', name: 'PHP' },
+    { code: 'SK007', name: 'Bootstrap' },
+    { code: 'SK008', name: 'UI Design' },
+      { code: 'SK001', name: 'HTML' },
+    { code: 'SK002', name: 'CSS' },
+    { code: 'SK003', name: 'JavaScript' },
+    { code: 'SK004', name: 'Angular' },
+    { code: 'SK005', name: 'WordPress' },
+    { code: 'SK006', name: 'PHP' },
+    { code: 'SK007', name: 'Bootstrap' },
+    { code: 'SK008', name: 'UI Design' },
+      { code: 'SK001', name: 'HTML' },
+    { code: 'SK002', name: 'CSS' },
+    { code: 'SK003', name: 'JavaScript' },
+    { code: 'SK004', name: 'Angular' },
+    { code: 'SK005', name: 'WordPress' },
+    { code: 'SK006', name: 'PHP' },
+    { code: 'SK007', name: 'Bootstrap' },
+    { code: 'SK008', name: 'UI Design' },
+      { code: 'SK001', name: 'HTML' },
+    { code: 'SK002', name: 'CSS' },
+    { code: 'SK003', name: 'JavaScript' },
+    { code: 'SK004', name: 'Angular' },
+    { code: 'SK005', name: 'WordPress' },
+    { code: 'SK006', name: 'PHP' },
+    { code: 'SK007', name: 'Bootstrap' },
+    { code: 'SK008', name: 'UI Design' },
+      { code: 'SK001', name: 'HTML' },
+    { code: 'SK002', name: 'CSS' },
+    { code: 'SK003', name: 'JavaScript' },
+    { code: 'SK004', name: 'Angular' },
+    { code: 'SK005', name: 'WordPress' },
+    { code: 'SK006', name: 'PHP' },
+    { code: 'SK007', name: 'Bootstrap' },
+    { code: 'SK008', name: 'UI Design' },
+      { code: 'SK001', name: 'HTML' },
+    { code: 'SK002', name: 'CSS' },
+    { code: 'SK003', name: 'JavaScript' },
+    { code: 'SK004', name: 'Angular' },
+    { code: 'SK005', name: 'WordPress' },
+    { code: 'SK006', name: 'PHP' },
+    { code: 'SK007', name: 'Bootstrap' },
+    { code: 'SK008', name: 'UI Design' },
+      { code: 'SK001', name: 'HTML' },
+    { code: 'SK002', name: 'CSS' },
+    { code: 'SK003', name: 'JavaScript' },
+    { code: 'SK004', name: 'Angular' },
+    { code: 'SK005', name: 'WordPress' },
+    { code: 'SK006', name: 'PHP' },
+    { code: 'SK007', name: 'Bootstrap' },
+    { code: 'SK008', name: 'UI Design' },
+      { code: 'SK001', name: 'HTML' },
+    { code: 'SK002', name: 'CSS' },
+    { code: 'SK003', name: 'JavaScript' },
+    { code: 'SK004', name: 'Angular' },
+    { code: 'SK005', name: 'WordPress' },
+    { code: 'SK006', name: 'PHP' },
+    { code: 'SK007', name: 'Bootstrap' },
+    { code: 'SK008', name: 'UI Design' },  { code: 'SK001', name: 'HTML' },
+    { code: 'SK002', name: 'CSS' },
+    { code: 'SK003', name: 'JavaScript' },
+    { code: 'SK004', name: 'Angular' },
+    { code: 'SK005', name: 'WordPress' },
+    { code: 'SK006', name: 'PHP' },
+    { code: 'SK007', name: 'Bootstrap' },
+    { code: 'SK008', name: 'UI Design' },  { code: 'SK001', name: 'HTML' },
+    { code: 'SK002', name: 'CSS' },
+    { code: 'SK003', name: 'JavaScript' },
+    { code: 'SK004', name: 'Angular' },
+    { code: 'SK005', name: 'WordPress' },
+    { code: 'SK006', name: 'PHP' },
+    { code: 'SK007', name: 'Bootstrap' },
+    { code: 'SK008', name: 'UI Design' },  { code: 'SK001', name: 'HTML' },
+    { code: 'SK002', name: 'CSS' },
+    { code: 'SK003', name: 'JavaScript' },
+    { code: 'SK004', name: 'Angular' },
+    { code: 'SK005', name: 'WordPress' },
+    { code: 'SK006', name: 'PHP' },
+    { code: 'SK007', name: 'Bootstrap' },
+    { code: 'SK008', name: 'UI Design' },  { code: 'SK001', name: 'HTML' },
+    { code: 'SK002', name: 'CSS' },
+    { code: 'SK003', name: 'JavaScript' },
+    { code: 'SK004', name: 'Angular' },
+    { code: 'SK005', name: 'WordPress' },
+    { code: 'SK006', name: 'PHP' },
+    { code: 'SK007', name: 'Bootstrap' },
+    { code: 'SK008', name: 'UI Design' },  { code: 'SK001', name: 'HTML' },
+    { code: 'SK002', name: 'CSS' },
+    { code: 'SK003', name: 'JavaScript' },
+    { code: 'SK004', name: 'Angular' },
+    { code: 'SK005', name: 'WordPress' },
+    { code: 'SK006', name: 'PHP' },
+    { code: 'SK007', name: 'Bootstrap' },
+    { code: 'SK008', name: 'UI Design' },  { code: 'SK001', name: 'HTML' },
+    { code: 'SK002', name: 'CSS' },
+    { code: 'SK003', name: 'JavaScript' },
+    { code: 'SK004', name: 'Angular' },
+    { code: 'SK005', name: 'WordPress' },
+    { code: 'SK006', name: 'PHP' },
+    { code: 'SK007', name: 'Bootstrap' },
+    { code: 'SK008', name: 'UI Design' },  { code: 'SK001', name: 'HTML' },
+    { code: 'SK002', name: 'CSS' },
+    { code: 'SK003', name: 'JavaScript' },
+    { code: 'SK004', name: 'Angular' },
+    { code: 'SK005', name: 'WordPress' },
+    { code: 'SK006', name: 'PHP' },
+    { code: 'SK007', name: 'Bootstrap' },
+    { code: 'SK008', name: 'UI Design' },  { code: 'SK001', name: 'HTML' },
+    { code: 'SK002', name: 'CSS' },
+    { code: 'SK003', name: 'JavaScript' },
+    { code: 'SK004', name: 'Angular' },
+    { code: 'SK005', name: 'WordPress' },
+    { code: 'SK006', name: 'PHP' },
+    { code: 'SK007', name: 'Bootstrap' },
+    { code: 'SK008', name: 'UI Design' },  { code: 'SK001', name: 'HTML' },
+    { code: 'SK002', name: 'CSS' },
+    { code: 'SK003', name: 'JavaScript' },
+    { code: 'SK004', name: 'Angular' },
+    { code: 'SK005', name: 'WordPress' },
+    { code: 'SK006', name: 'PHP' },
+    { code: 'SK007', name: 'Bootstrap' },
+    { code: 'SK008', name: 'UI Design' },  { code: 'SK001', name: 'HTML' },
+    { code: 'SK002', name: 'CSS' },
+    { code: 'SK003', name: 'JavaScript' },
+    { code: 'SK004', name: 'Angular' },
+    { code: 'SK005', name: 'WordPress' },
+    { code: 'SK006', name: 'PHP' },
+    { code: 'SK007', name: 'Bootstrap' },
+    { code: 'SK008', name: 'UI Design' },  { code: 'SK001', name: 'HTML' },
+    { code: 'SK002', name: 'CSS' },
+    { code: 'SK003', name: 'JavaScript' },
+    { code: 'SK004', name: 'Angular' },
+    { code: 'SK005', name: 'WordPress' },
+    { code: 'SK006', name: 'PHP' },
+    { code: 'SK007', name: 'Bootstrap' },
+    { code: 'SK008', name: 'UI Design' },  { code: 'SK001', name: 'HTML' },
+    { code: 'SK002', name: 'CSS' },
+    { code: 'SK003', name: 'JavaScript' },
+    { code: 'SK004', name: 'Angular' },
+    { code: 'SK005', name: 'WordPress' },
+    { code: 'SK006', name: 'PHP' },
+    { code: 'SK007', name: 'Bootstrap' },
+    { code: 'SK008', name: 'UI Design' },
+    { code: 'SK009', name: 'Git' }
   ];
 
+  // ✅ Form + State
   showForm = false;
-  skillCode: string = '';
-  skillName: string = '';
+  skillCode = '';
+  skillName = '';
   isEdit = false;
   editIndex: number | null = null;
   searchText = '';
 
-  // ⭐ GLOBAL PAGINATION (same as Candidate Table)
+  // ✅ Pagination
   currentPage = 1;
   itemsPerPage = 8;
 
@@ -66,24 +197,22 @@ export class SkillsComponent {
   }
 
   get totalPagesArray() {
-  const total = this.totalPages;
+    const total = this.totalPages;
 
-  if (total <= 3) {
-    return Array.from({ length: total }, (_, i) => i + 1);
+    if (total <= 3) {
+      return Array.from({ length: total }, (_, i) => i + 1);
+    }
+
+    if (this.currentPage === 1) return [1, 2, 3];
+    if (this.currentPage === total) return [total - 2, total - 1, total];
+
+    return [this.currentPage - 1, this.currentPage, this.currentPage + 1];
   }
 
-  // Always show only 3 pages
-  if (this.currentPage === 1) return [1, 2, 3];
-  if (this.currentPage === total) return [total - 2,total - 1, total];
-
-  return [this.currentPage - 1, this.currentPage, this.currentPage + 1];
-}
-
-
+  // ✅ Pagination Data
   paginatedSkills() {
     const start = (this.currentPage - 1) * this.itemsPerPage;
-    const end = start + this.itemsPerPage;
-    return this.filteredSkills().slice(start, end);
+    return this.filteredSkills().slice(start, start + this.itemsPerPage);
   }
 
   changePage(page: number) {
@@ -91,7 +220,7 @@ export class SkillsComponent {
     this.currentPage = page;
   }
 
-  // ⭐ Show form as a dedicated page
+  // ✅ Add New
   onNew() {
     this.resetForm();
     this.showForm = true;
@@ -99,33 +228,46 @@ export class SkillsComponent {
 
   createSkill() {
     if (!this.skillCode || !this.skillName) return;
-    this.skills.push({ code: this.skillCode, name: this.skillName });
+
+    this.skills.push({
+      code: this.skillCode,
+      name: this.skillName,
+    });
+
     this.hideForm();
   }
 
+  // ✅ Edit
   editSkill(index: number) {
     this.isEdit = true;
     this.editIndex = index;
     this.showForm = true;
+
     this.skillCode = this.skills[index].code;
     this.skillName = this.skills[index].name;
   }
 
   updateSkill() {
     if (this.editIndex === null) return;
+
     this.skills[this.editIndex] = {
       code: this.skillCode,
       name: this.skillName,
     };
+
     this.hideForm();
   }
 
+  // ✅ Delete
   deleteSkill(index: number) {
     this.skills.splice(index, 1);
-    if (this.editIndex === index) this.hideForm();
-    if (this.currentPage > this.totalPages) this.currentPage = this.totalPages;
+
+    if (this.currentPage > this.totalPages) {
+      this.currentPage = this.totalPages;
+    }
   }
 
+  // ✅ Form Control
   cancelForm() {
     this.hideForm();
   }
@@ -142,13 +284,13 @@ export class SkillsComponent {
     this.showForm = false;
   }
 
+  // ✅ Search Filter
   filteredSkills() {
     if (!this.searchText.trim()) return this.skills;
-    return this.skills.filter(
-      (s) =>
-        s.code.toLowerCase().includes(this.searchText.toLowerCase()) ||
-        s.name.toLowerCase().includes(this.searchText.toLowerCase())
+
+    return this.skills.filter(skill =>
+      skill.code.toLowerCase().includes(this.searchText.toLowerCase()) ||
+      skill.name.toLowerCase().includes(this.searchText.toLowerCase())
     );
   }
-  
 }
