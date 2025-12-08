@@ -1,101 +1,161 @@
 <div class="employee-cost-wrapper col-md-12">
+
+  <!-- ============================= -->
+  <!--   LIST VIEW (When showForm = false)  -->
+  <!-- ============================= -->
   <ng-container *ngIf="!showForm; else formPage">
-    <!-- Top Action Bar -->
-    <div class="top-action-bar">
-      <span class="action-btn" (click)="onNew()">
-        <i class="fa fa-plus"></i> New
-      </span>
 
-      <div class="search-wrapper ms-auto">
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Search..."
-          [(ngModel)]="searchText"
-        />
-        <i class="fa fa-search search-icon"></i>
+    <div class="card-container">
+
+      <!-- Header Row -->
+      <div class="header-row">
+        <h4 class="main-title">Employee Costs</h4>
+
+        <button class="add-btn" (click)="onNew()">
+          <i class="fa fa-plus"></i> Add New
+        </button>
       </div>
-    </div>
 
-    <!-- Employee Cost List Section -->
-    <div class="employee-cost-list-section">
-      <h5 class="section-title mt-3"><i class="fa fa-bars"></i> Employee Cost List</h5>
+      <hr class="divider" />
 
-      <table class="table table-bordered employee-cost-table">
-        <thead>
-          <tr>
-            <th>Code</th>
-            <th>Description</th>
-            <th>Fixed</th>
-            <th>Amount</th>
-            <th class="action-col-header">Actions</th>
-          </tr>
-        </thead>
+      <!-- Items Per Page + Search -->
+      <div class="top-controls d-flex align-items-center">
 
-        <tbody>
-          <tr
-            *ngFor="let item of paginatedEmployeeCosts(); let i = index"
-            [class.edit-row]="editIndex === currentPageStart + i"
-          >
-            <td>{{ item.code }}</td>
-            <td>{{ item.description }}</td>
-            <td>{{ item.fixed ? 'Yes' : 'No' }}</td>
-            <td>{{ item.amount }}</td>
-            <td class="action-col">
-              <i
-                class="fa fa-edit action-icon"
-                (click)="editEmployeeCost(currentPageStart + i)"
-              ></i>
-              <i
-                class="fa fa-trash action-icon"
-                (click)="deleteEmployeeCost(currentPageStart + i)"
-              ></i>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+        <!-- Items Per Page -->
+        <div class="items-per-page">
+          <label>Items per page:</label>
+          <select class="form-select" [(ngModel)]="itemsPerPage">
+            <option [ngValue]="5">5</option>
+            <option [ngValue]="8">8</option>
+            <option [ngValue]="10">10</option>
+            <option [ngValue]="20">20</option>
+          </select>
+        </div>
 
-      <div class="d-flex justify-content-end mt-3 me-3">
-        <nav aria-label="Page navigation">
-          <ul class="pagination">
-            <li class="page-item" [class.disabled]="currentPage === 1">
-              <a class="page-link" (click)="changePage(currentPage - 1)" aria-label="Previous">&laquo;</a>
-            </li>
+        <!-- Search -->
+        <div class="search-wrapper ms-auto">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search..."
+            [(ngModel)]="searchText"
+          />
+          <i class="fa fa-search search-icon"></i>
+        </div>
+      </div>
 
-            <li
-              class="page-item"
-              *ngFor="let page of totalPagesArray"
-              [class.active]="page === currentPage"
+      <!-- Employee Costs Table -->
+      <div class="employee-cost-list-section">
+        <table class="table table-bordered employee-cost-table">
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Description</th>
+              <th>Fixed</th>
+              <th>Amount</th>
+              <th class="action-col-header">Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr
+              *ngFor="let item of paginatedEmployeeCosts(); let i = index"
+              [class.edit-row]="editIndex === currentPageStart + i"
             >
-              <a class="page-link" (click)="changePage(page)">{{ page }}</a>
-            </li>
+              <td>{{ item.code }}</td>
+              <td>{{ item.description }}</td>
+              <td>{{ item.fixed ? 'Yes' : 'No' }}</td>
+              <td>{{ item.amount }}</td>
+              <td class="action-col">
+                <i
+                  class="fa fa-edit action-icon"
+                  (click)="editEmployeeCost(currentPageStart + i)"
+                ></i>
+                <i
+                  class="fa fa-trash action-icon"
+                  (click)="deleteEmployeeCost(currentPageStart + i)"
+                ></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
-            <li class="page-item" [class.disabled]="currentPage === totalPages">
-              <a class="page-link" (click)="changePage(currentPage + 1)" aria-label="Next">&raquo;</a>
-            </li>
-          </ul>
-        </nav>
+        <!-- Pagination -->
+        <div class="d-flex justify-content-end mt-3 me-3">
+          <nav aria-label="Page navigation">
+            <ul class="pagination">
+
+              <li class="page-item" [class.disabled]="currentPage === 1">
+                <a class="page-link" (click)="changePage(currentPage - 1)">
+                  &laquo;
+                </a>
+              </li>
+
+              <li
+                class="page-item"
+                *ngFor="let page of totalPagesArray"
+                [class.active]="page === currentPage"
+              >
+                <a class="page-link" (click)="changePage(page)">
+                  {{ page }}
+                </a>
+              </li>
+
+              <li class="page-item" [class.disabled]="currentPage === totalPages">
+                <a class="page-link" (click)="changePage(currentPage + 1)">
+                  &raquo;
+                </a>
+              </li>
+
+            </ul>
+          </nav>
+        </div>
+
       </div>
     </div>
   </ng-container>
 
-  <!-- Form Page -->
+
+
+  <!-- ============================= -->
+  <!--   FORM VIEW (NEW / EDIT)     -->
+  <!-- ============================= -->
   <ng-template #formPage>
-    <div class="form-page">
-      <h5 class="section-title mb-3">{{ isEdit ? "Edit Employee Cost" : "New Employee Cost" }}</h5>
+    <div class="card-container">
 
-      <div class="row g-3">
-        <div class="col-md-6">
+      <!-- Header Row -->
+      <div class="header-row">
+        <h4 class="main-title">
+          {{ isEdit ? "Edit Employee Cost" : "Add Employee Cost" }}
+        </h4>
+
+        <button class="reset-btn" (click)="resetForm()">
+          <i class="fa fa-refresh"></i> Reset
+        </button>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- Form -->
+      <div class="form-row row">
+
+        <div class="col-md-6 mb-3">
           <label>Code <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" [(ngModel)]="code" [readonly]="isEdit" />
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter Code"
+            [(ngModel)]="code"
+            [readonly]="isEdit"
+          />
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-6 mb-3">
           <label>Description <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" [(ngModel)]="description" />
+          <input type="text" class="form-control" placeholder="Enter Description" [(ngModel)]="description" />
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-6 mb-3">
           <label>Fixed <span class="text-danger">*</span></label>
           <select class="form-control" [(ngModel)]="fixed">
             <option [value]="true">Yes</option>
@@ -103,18 +163,25 @@
           </select>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-6 mb-3">
           <label>Amount <span class="text-danger">*</span></label>
-          <input type="number" class="form-control" [(ngModel)]="amount" />
+          <input type="number" class="form-control" placeholder="Enter Amount" [(ngModel)]="amount" />
         </div>
+
       </div>
 
-      <div class="btn-row mt-3">
-        <button class="btn btn-primary" (click)="isEdit ? updateEmployeeCost() : createEmployeeCost()">
-          <i class="fa fa-check-circle"></i> {{ isEdit ? "UPDATE" : "CREATE" }}
+      <!-- Buttons -->
+      <div class="btn-row text-end mt-2">
+        <button
+          class="btn btn-primary"
+          (click)="isEdit ? updateEmployeeCost() : createEmployeeCost()"
+        >
+          <i class="fa fa-check-circle"></i>
+          {{ isEdit ? "Update" : "Create" }}
         </button>
+
         <button class="btn btn-danger ms-2" (click)="cancelForm()">
-          <i class="fa fa-ban"></i> CANCEL
+          <i class="fa fa-ban"></i> Cancel
         </button>
       </div>
     </div>

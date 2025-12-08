@@ -1,98 +1,174 @@
 <div class="prereq-wrapper col-md-12">
 
+  <!-- ============================= -->
+  <!--   LIST VIEW (When showForm = false)  -->
+  <!-- ============================= -->
   <ng-container *ngIf="!showForm; else formPage">
-    <!-- Top Action Bar -->
-    <div class="top-action-bar">
-      <span class="action-btn" (click)="onNew()">
-        <i class="fa fa-plus"></i> New
-      </span>
 
-      <div class="search-wrapper ms-auto">
-        <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="searchText"/>
-        <i class="fa fa-search search-icon"></i>
-      </div>
-    </div>
+    <div class="card-container">
 
-    <!-- List Section -->
-    <div class="prereq-list-section">
-      <h5 class="section-title mt-3"><i class="fa fa-bars"></i> Pre-Requisites List</h5>
+      <!-- Header Row -->
+      <div class="header-row">
+        <h4 class="main-title">Pre-Requisites</h4>
 
-      <table class="table table-bordered prereq-table">
-        <thead>
-          <tr>
-            <th>Pre Requisite Name</th>
-            <th>Is Active</th>
-            <th class="action-col-header">Actions</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <tr *ngFor="let item of paginatedPrereqs(); let i=index" [class.edit-row]="editIndex === currentPageStart + i">
-            <td>{{ item.name }}</td>
-            <td>{{ item.isActive ? 'Yes' : 'No' }}</td>
-            <td class="action-col">
-              <i class="fa fa-edit action-icon" (click)="editPrereq(currentPageStart + i)"></i>
-              <i class="fa fa-trash action-icon" (click)="deletePrereq(currentPageStart + i)"></i>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <!-- Pagination -->
-      <div class="d-flex justify-content-end mt-3 me-3">
-        <nav aria-label="Page navigation">
-          <ul class="pagination">
-            <li class="page-item" [class.disabled]="currentPage === 1">
-              <a class="page-link" (click)="changePage(currentPage - 1)">&laquo;</a>
-            </li>
-
-            <li class="page-item" *ngFor="let page of totalPagesArray" [class.active]="page === currentPage">
-              <a class="page-link" (click)="changePage(page)">{{ page }}</a>
-            </li>
-
-            <li class="page-item" [class.disabled]="currentPage === totalPages">
-              <a class="page-link" (click)="changePage(currentPage + 1)">&raquo;</a>
-            </li>
-          </ul>
-        </nav>
+        <button class="add-btn" (click)="onNew()">
+          <i class="fa fa-plus"></i> Add New
+        </button>
       </div>
 
+      <hr class="divider" />
+
+      <!-- Items Per Page + Search -->
+      <div class="top-controls d-flex align-items-center">
+
+        <!-- Items Per Page -->
+        <div class="items-per-page">
+          <label>Items per page:</label>
+          <select class="form-select" [(ngModel)]="itemsPerPage">
+            <option [ngValue]="5">5</option>
+            <option [ngValue]="8">8</option>
+            <option [ngValue]="10">10</option>
+            <option [ngValue]="20">20</option>
+          </select>
+        </div>
+
+        <!-- Search -->
+        <div class="search-wrapper ms-auto">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search..."
+            [(ngModel)]="searchText"
+          />
+          <i class="fa fa-search search-icon"></i>
+        </div>
+      </div>
+
+      <!-- Pre-Requisites Table -->
+      <div class="prereq-list-section">
+        <table class="table table-bordered prereq-table">
+          <thead>
+            <tr>
+              <th>Pre Requisite Name</th>
+              <th>Is Active</th>
+              <th class="action-col-header">Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr
+              *ngFor="let item of paginatedPrereqs(); let i = index"
+              [class.edit-row]="editIndex === currentPageStart + i"
+            >
+              <td>{{ item.name }}</td>
+              <td>{{ item.isActive ? 'Yes' : 'No' }}</td>
+              <td class="action-col">
+                <i
+                  class="fa fa-edit action-icon"
+                  (click)="editPrereq(currentPageStart + i)"
+                ></i>
+                <i
+                  class="fa fa-trash action-icon"
+                  (click)="deletePrereq(currentPageStart + i)"
+                ></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Pagination -->
+        <div class="d-flex justify-content-end mt-3 me-3">
+          <nav aria-label="Page navigation">
+            <ul class="pagination">
+
+              <li class="page-item" [class.disabled]="currentPage === 1">
+                <a class="page-link" (click)="changePage(currentPage - 1)">
+                  &laquo;
+                </a>
+              </li>
+
+              <li
+                class="page-item"
+                *ngFor="let page of totalPagesArray"
+                [class.active]="page === currentPage"
+              >
+                <a class="page-link" (click)="changePage(page)">
+                  {{ page }}
+                </a>
+              </li>
+
+              <li class="page-item" [class.disabled]="currentPage === totalPages">
+                <a class="page-link" (click)="changePage(currentPage + 1)">
+                  &raquo;
+                </a>
+              </li>
+
+            </ul>
+          </nav>
+        </div>
+
+      </div>
     </div>
   </ng-container>
 
 
-  <!-- FORM PAGE -->
-  <ng-template #formPage>
-    <div class="form-page">
-      <h5 class="section-title mb-3">{{ isEdit ? "Edit Pre-Requisite" : "New Pre-Requisite" }}</h5>
 
-      <div class="row g-3">
-        
-        <div class="col-md-4">
+  <!-- ============================= -->
+  <!--   FORM VIEW (NEW / EDIT)     -->
+  <!-- ============================= -->
+  <ng-template #formPage>
+    <div class="card-container">
+
+      <!-- Header Row -->
+      <div class="header-row">
+        <h4 class="main-title">
+          {{ isEdit ? "Edit Pre-Requisite" : "Add Pre-Requisite" }}
+        </h4>
+
+        <button class="reset-btn" (click)="resetForm()">
+          <i class="fa fa-refresh"></i> Reset
+        </button>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- Form -->
+      <div class="form-row row">
+
+        <div class="col-md-6 mb-3">
           <label>Pre Requisite Name <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" [(ngModel)]="name" />
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter Pre Requisite Name"
+            [(ngModel)]="name"
+          />
         </div>
 
-        <div class="col-md-4">
-          <label>Status <span class="text-danger">*</span></label>
+        <div class="col-md-6 mb-3">
+          <label>Is Active <span class="text-danger">*</span></label>
           <select class="form-control" [(ngModel)]="isActive">
-            <option [ngValue]="true">Active</option>
-            <option [ngValue]="false">Inactive</option>
+            <option [value]="true">Active</option>
+            <option [value]="false">Inactive</option>
           </select>
         </div>
 
       </div>
 
-      <div class="btn-row mt-3">
-        <button class="btn btn-primary" (click)="isEdit ? updatePrereq() : createPrereq()">
-          <i class="fa fa-check-circle"></i> {{ isEdit ? "UPDATE" : "CREATE" }}
+      <!-- Buttons -->
+      <div class="btn-row text-end mt-2">
+        <button
+          class="btn btn-primary"
+          (click)="isEdit ? updatePrereq() : createPrereq()"
+        >
+          <i class="fa fa-check-circle"></i>
+          {{ isEdit ? "Update" : "Create" }}
         </button>
 
         <button class="btn btn-danger ms-2" (click)="cancelForm()">
-          <i class="fa fa-ban"></i> CANCEL
+          <i class="fa fa-ban"></i> Cancel
         </button>
       </div>
     </div>
   </ng-template>
-
 </div>

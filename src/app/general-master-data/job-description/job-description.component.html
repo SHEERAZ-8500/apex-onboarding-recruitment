@@ -1,161 +1,258 @@
 <div class="jobdesc-wrapper col-md-12">
+
+  <!-- ============================= -->
+  <!--   LIST VIEW (When showForm = false)  -->
+  <!-- ============================= -->
   <ng-container *ngIf="!showForm; else formPage">
-    <!-- Top Action Bar -->
-    <div class="top-action-bar">
-      <span class="action-btn" (click)="onNew()">
-        <i class="fa fa-plus"></i> New
-      </span>
 
-      <div class="search-wrapper ms-auto">
-        <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="searchText"/>
-        <i class="fa fa-search search-icon"></i>
+    <div class="card-container">
+
+      <!-- Header Row -->
+      <div class="header-row">
+        <h4 class="main-title">Job Descriptions</h4>
+
+        <button class="add-btn" (click)="onNew()">
+          <i class="fa fa-plus"></i> Add New
+        </button>
       </div>
-    </div>
 
-    <!-- Job Description List -->
-    <div class="jobdesc-list-section">
-      <h5 class="section-title mt-3"><i class="fa fa-bars"></i> Job Descriptions List</h5>
+      <hr class="divider" />
 
-      <table class="table table-bordered jobdesc-table">
-        <thead>
-          <tr>
-            <th>Code</th>
-            <th>Name</th>
-            <th>Job Title</th>
-            <th>Skill Code</th>
-            <th>Skill Description</th>
-            <th>Mandatory</th>
-            <th>Qualification Code</th>
-            <th>Qualification Name</th>
-            <th>Department</th>
-            <th>Location</th>
-            <th>Created By</th>
-            <th class="action-col-header">Actions</th>
-          </tr>
-        </thead>
+      <!-- Items Per Page + Search -->
+      <div class="top-controls d-flex align-items-center">
 
-        <tbody>
-          <tr *ngFor="let item of paginatedJobDescs(); let i = index" [class.edit-row]="editIndex === currentPageStart + i">
-            <td>{{ item.code }}</td>
-            <td>{{ item.name }}</td>
-            <td>{{ item.jobTitle }}</td>
-            <td>{{ item.skillCode }}</td>
-            <td>{{ item.skillDescription }}</td>
-            <td>{{ item.mandatory ? 'Yes' : 'No' }}</td>
-            <td>{{ item.qualificationCode }}</td>
-            <td>{{ item.qualificationName }}</td>
-            <td>{{ item.department }}</td>
-            <td>{{ item.location }}</td>
-            <td>{{ item.createdBy }}</td>
-            <td class="action-col">
-              <i class="fa fa-edit action-icon" (click)="editJobDesc(currentPageStart + i)"></i>
-              <i class="fa fa-trash action-icon" (click)="deleteJobDesc(currentPageStart + i)"></i>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+        <!-- Items Per Page -->
+        <div class="items-per-page">
+          <label>Items per page:</label>
+          <select class="form-select" [(ngModel)]="itemsPerPage">
+            <option [ngValue]="5">5</option>
+            <option [ngValue]="8">8</option>
+            <option [ngValue]="10">10</option>
+            <option [ngValue]="20">20</option>
+          </select>
+        </div>
 
-      <div class="d-flex justify-content-end mt-3 me-3">
-        <nav aria-label="Page navigation">
-          <ul class="pagination">
-            <li class="page-item" [class.disabled]="currentPage === 1">
-              <a class="page-link" (click)="changePage(currentPage - 1)">&laquo;</a>
-            </li>
-            <li class="page-item" *ngFor="let page of totalPagesArray" [class.active]="page === currentPage">
-              <a class="page-link" (click)="changePage(page)">{{ page }}</a>
-            </li>
-            <li class="page-item" [class.disabled]="currentPage === totalPages">
-              <a class="page-link" (click)="changePage(currentPage + 1)">&raquo;</a>
-            </li>
-          </ul>
-        </nav>
+        <!-- Search -->
+        <div class="search-wrapper ms-auto">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search..."
+            [(ngModel)]="searchText"
+          />
+          <i class="fa fa-search search-icon"></i>
+        </div>
+      </div>
+
+      <!-- Job Descriptions Table with Horizontal Scroll -->
+      <div class="jobdesc-list-section">
+        <div class="table-container">
+          <table class="table table-bordered jobdesc-table">
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Job Title</th>
+                <th>Skill Code</th>
+                <th>Skill Description</th>
+                <th>Mandatory</th>
+                <th>Qualification Code</th>
+                <th>Qualification Name</th>
+                <th>Department</th>
+                <th>Location</th>
+                <th>Created By</th>
+                <th class="action-col-header">Actions</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr
+                *ngFor="let item of paginatedJobDescs(); let i = index"
+                [class.edit-row]="editIndex === currentPageStart + i"
+              >
+                <td>{{ item.code }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.jobTitle }}</td>
+                <td>{{ item.skillCode }}</td>
+                <td>{{ item.skillDescription }}</td>
+                <td>{{ item.mandatory ? 'Yes' : 'No' }}</td>
+                <td>{{ item.qualificationCode }}</td>
+                <td>{{ item.qualificationName }}</td>
+                <td>{{ item.department }}</td>
+                <td>{{ item.location }}</td>
+                <td>{{ item.createdBy }}</td>
+                <td class="action-col">
+                  <i
+                    class="fa fa-edit action-icon"
+                    (click)="editJobDesc(currentPageStart + i)"
+                  ></i>
+                  <i
+                    class="fa fa-trash action-icon"
+                    (click)="deleteJobDesc(currentPageStart + i)"
+                  ></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="d-flex justify-content-end mt-3 me-3">
+          <nav aria-label="Page navigation">
+            <ul class="pagination">
+
+              <li class="page-item" [class.disabled]="currentPage === 1">
+                <a class="page-link" (click)="changePage(currentPage - 1)">
+                  &laquo;
+                </a>
+              </li>
+
+              <li
+                class="page-item"
+                *ngFor="let page of totalPagesArray"
+                [class.active]="page === currentPage"
+              >
+                <a class="page-link" (click)="changePage(page)">
+                  {{ page }}
+                </a>
+              </li>
+
+              <li class="page-item" [class.disabled]="currentPage === totalPages">
+                <a class="page-link" (click)="changePage(currentPage + 1)">
+                  &raquo;
+                </a>
+              </li>
+
+            </ul>
+          </nav>
+        </div>
+
       </div>
     </div>
   </ng-container>
 
-  <!-- Form Page -->
-  <ng-template #formPage>
-    <div class="form-page">
-      <h5 class="section-title mb-3">{{ isEdit ? "Edit Job Description" : "New Job Description" }}</h5>
 
-      <div class="row g-3">
-        <div class="col-md-4">
+
+  <!-- ============================= -->
+  <!--   FORM VIEW (NEW / EDIT)     -->
+  <!-- ============================= -->
+  <ng-template #formPage>
+    <div class="card-container">
+
+      <!-- Header Row -->
+      <div class="header-row">
+        <h4 class="main-title">
+          {{ isEdit ? "Edit Job Description" : "Add Job Description" }}
+        </h4>
+
+        <button class="reset-btn" (click)="resetForm()">
+          <i class="fa fa-refresh"></i> Reset
+        </button>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- Form -->
+      <div class="form-row row">
+
+        <div class="col-md-4 mb-3">
           <label>Code <span class="text-danger">*</span></label>
           <select class="form-control" [(ngModel)]="code">
-            <option *ngFor="let opt of dummyValues">{{ opt }}</option>
+            <option *ngFor="let opt of dummyValues" [value]="opt">{{ opt }}</option>
           </select>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-4 mb-3">
           <label>Name <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" [(ngModel)]="name" />
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter Name"
+            [(ngModel)]="name"
+          />
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-4 mb-3">
           <label>Job Title <span class="text-danger">*</span></label>
           <select class="form-control" [(ngModel)]="jobTitle">
-            <option *ngFor="let opt of dummyValues">{{ opt }}</option>
+            <option *ngFor="let opt of dummyValues" [value]="opt">{{ opt }}</option>
           </select>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-4 mb-3">
           <label>Skill Code <span class="text-danger">*</span></label>
           <select class="form-control" [(ngModel)]="skillCode">
-            <option *ngFor="let opt of dummyValues">{{ opt }}</option>
+            <option *ngFor="let opt of dummyValues" [value]="opt">{{ opt }}</option>
           </select>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-4 mb-3">
           <label>Skill Description <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" [(ngModel)]="skillDescription" />
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter Skill Description"
+            [(ngModel)]="skillDescription"
+          />
         </div>
 
-        
-
-        <div class="col-md-4">
-          <label>Qualification Code <span class="text-danger">*</span></label>
-          <select class="form-control" [(ngModel)]="qualificationCode">
-            <option *ngFor="let opt of dummyValues">{{ opt }}</option>
-          </select>
-        </div>
-
-        <div class="col-md-4">
-          <label>Qualification Name <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" [(ngModel)]="qualificationName" />
-        </div>
-
-        <div class="col-md-4">
-          <label>Department <span class="text-danger">*</span></label>
-          <select class="form-control" [(ngModel)]="department">
-            <option *ngFor="let opt of dummyValues">{{ opt }}</option>
-          </select>
-        </div>
-
-        <div class="col-md-4">
-          <label>Location <span class="text-danger">*</span></label>
-          <select class="form-control" [(ngModel)]="location">
-            <option *ngFor="let opt of dummyValues">{{ opt }}</option>
-          </select>
-        </div>
-
-        <div class="col-md-4">
-          <label>Created By <span class="text-danger">*</span></label>
-          <select class="form-control" [(ngModel)]="createdBy">
-            <option *ngFor="let opt of dummyValues">{{ opt }}</option>
-          </select>
-        </div>
-      </div>
-      <div class="col-md-4 d-flex align-items-center">
-          <label class="me-2">Mandatory</label>
+        <div class="col-md-4 mb-3 checkbox-group">
+          <label class="me-2">Mandatory <span class="text-danger">*</span></label>
           <input type="checkbox" [(ngModel)]="mandatory"/>
         </div>
 
-      <div class="btn-row mt-3">
-        <button class="btn btn-primary" (click)="isEdit ? updateJobDesc() : createJobDesc()">
-          <i class="fa fa-check-circle"></i> {{ isEdit ? "UPDATE" : "CREATE" }}
+        <div class="col-md-4 mb-3">
+          <label>Qualification Code <span class="text-danger">*</span></label>
+          <select class="form-control" [(ngModel)]="qualificationCode">
+            <option *ngFor="let opt of dummyValues" [value]="opt">{{ opt }}</option>
+          </select>
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <label>Qualification Name <span class="text-danger">*</span></label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter Qualification Name"
+            [(ngModel)]="qualificationName"
+          />
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <label>Department <span class="text-danger">*</span></label>
+          <select class="form-control" [(ngModel)]="department">
+            <option *ngFor="let opt of dummyValues" [value]="opt">{{ opt }}</option>
+          </select>
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <label>Location <span class="text-danger">*</span></label>
+          <select class="form-control" [(ngModel)]="location">
+            <option *ngFor="let opt of dummyValues" [value]="opt">{{ opt }}</option>
+          </select>
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <label>Created By <span class="text-danger">*</span></label>
+          <select class="form-control" [(ngModel)]="createdBy">
+            <option *ngFor="let opt of dummyValues" [value]="opt">{{ opt }}</option>
+          </select>
+        </div>
+
+      </div>
+
+      <!-- Buttons -->
+      <div class="btn-row text-end mt-2">
+        <button
+          class="btn btn-primary"
+          (click)="isEdit ? updateJobDesc() : createJobDesc()"
+        >
+          <i class="fa fa-check-circle"></i>
+          {{ isEdit ? "Update" : "Create" }}
         </button>
+
         <button class="btn btn-danger ms-2" (click)="cancelForm()">
-          <i class="fa fa-ban"></i> CANCEL
+          <i class="fa fa-ban"></i> Cancel
         </button>
       </div>
     </div>
