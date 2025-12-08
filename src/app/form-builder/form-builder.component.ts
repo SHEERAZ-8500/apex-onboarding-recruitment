@@ -94,7 +94,74 @@ export class FormBuilderComponent implements OnInit {
       }
     };
 
+    // const original = Components.components.select.editForm;
 
+    // Components.components.select.editForm = (...args) => {
+    //   const editForm = original(...args);
+
+    //   // --- New Custom Tab ---
+    //   editForm.components.push({
+    //     type: 'panel',
+    //     key: 'selectColumn',
+    //     title: 'Select Column',
+    //     components: [
+    //       {
+    //         type: 'select',
+    //         key: 'customColumn',
+    //         label: 'Choose Column',
+    //         input: true,
+    //         dataSrc: 'json',
+    //         data: {
+    //           json: [
+    //             { label: 'Customer Name', value: 'customer_name' },
+    //             { label: 'Email', value: 'email' },
+    //             { label: 'Address', value: 'address' }
+    //           ]
+    //         }
+    //       }
+    //     ]
+    //   });
+
+    //   return editForm;
+    // };
+    const _edit = Components.components.select.editForm;
+
+Components.components.select.editForm = (...args) => {
+  const form = _edit(...args);
+
+  // Safest way: search entire form tree for the "Label" field
+  const findAndInject = (obj:any) => {
+    if (!obj || !obj.components) return;
+
+    obj.components.forEach((comp:any, index:any) => {
+      // Label field found in Display tab
+      if (comp.key === "label") {
+        // Insert custom field right after it
+        obj.components.splice(index + 1, 0, {
+          type: "select",
+          label: "Select Column",
+          key: "customColumn",
+          input: true,
+          dataSrc: "json",
+          data: {
+            json: [
+              { label: "Customer Name", value: "customer_name" },
+              { label: "Email", value: "email" },
+              { label: "Phone", value: "phone" }
+            ]
+          }
+        });
+      }
+
+      // keep searching deeply
+      findAndInject(comp);
+    });
+  };
+
+  findAndInject(form);
+
+  return form;
+};
     // Customize edit form for textfield component by single component
 
     // Components.components.textfield.editForm = () => {
@@ -263,7 +330,7 @@ export class FormBuilderComponent implements OnInit {
 
     // Log the complete payload being sent
     console.log('📤 Complete Payload being sent to backend:', JSON.stringify(this.builder.instance.form, null, 2));
-    
+
     this.apiService.saveFormDefinition(payload).subscribe({
       next: (response) => {
         if (this.closeFormnameModal) {
