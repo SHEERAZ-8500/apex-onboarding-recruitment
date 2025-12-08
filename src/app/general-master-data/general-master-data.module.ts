@@ -53,35 +53,35 @@ const routes: Routes = [
     component: PreRequisitesComponent
   },
    {
-    path: ' belonging-types',
+    path: 'belonging-types',
     component: BelongingTypesComponent
   },
    {
-    path: ' cost-center',
+    path: 'cost-center',
     component: CostCenterComponent
   },
    {
-    path: ' work-schedule',
+    path: 'work-schedule',
     component: WorkScheduleComponent
   },
    {
-    path: 'designation ',
+    path: 'designation',
     component: DesignationComponent
   },
    {
-    path: 'job-title ',
+    path: 'job-title',
     component: JobTitleComponent
   },
    {
-    path: 'post-assignment ',
+    path: 'post-assignment',
     component: PostAssignmentComponent
   },
    {
-    path: ' kpi-questions',
+    path: 'kpi-questions',
     component: KpiQuestionsComponent
   },
    {
-    path: ' employees-grade',
+    path: 'employees-grade',
     component: EmployeesGradeComponent
   }
 ];
