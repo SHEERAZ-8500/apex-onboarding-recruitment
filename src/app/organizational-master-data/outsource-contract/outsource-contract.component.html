@@ -1,0 +1,332 @@
+<div class="outsource-contract-wrapper col-md-12">
+
+  <!-- ============================= -->
+  <!--   LIST VIEW (When showForm = false)  -->
+  <!-- ============================= -->
+  <ng-container *ngIf="!showForm; else formPage">
+
+    <div class="card-container">
+
+      <!-- Header Row -->
+      <div class="header-row">
+        <h4 class="main-title">Outsource Contracts</h4>
+
+        <button class="add-btn" (click)="onNew()">
+          <i class="fa fa-plus"></i> Add New
+        </button>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- Items Per Page + Search -->
+      <div class="top-controls d-flex align-items-center">
+
+        <!-- Items Per Page -->
+        <div class="items-per-page">
+          <label>Items per page:</label>
+          <select class="form-select" [(ngModel)]="itemsPerPage">
+            <option [ngValue]="5">5</option>
+            <option [ngValue]="8">8</option>
+            <option [ngValue]="10">10</option>
+            <option [ngValue]="20">20</option>
+          </select>
+        </div>
+
+        <!-- Search -->
+        <div class="search-wrapper ms-auto">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search..."
+            [(ngModel)]="searchText"
+          />
+          <i class="fa fa-search search-icon"></i>
+        </div>
+      </div>
+
+      <!-- Outsource Contracts Table with Horizontal Scroll -->
+      <div class="contracts-list-section">
+        <div class="table-wrapper">
+          <table class="table table-bordered contracts-table">
+            <thead>
+              <tr>
+                <th>No #</th>
+                <th>Document No</th>
+                <th>Posting Date</th>
+                <th>Requestor Name</th>
+                <th>Payment Term</th>
+                <th>Customer Name</th>
+                <th>Customer No</th>
+                <th>Bank Name</th>
+                <th>Phone No</th>
+                <th>Contact Person</th>
+                <th>VAT No</th>
+                <th class="action-col-header">Detail</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr
+                *ngFor="let item of paginatedContracts(); let i = index"
+                [class.edit-row]="editIndex === currentPageStart + i"
+              >
+                <td>{{ item.id }}</td>
+                <td>{{ item.documentNo }}</td>
+                <td>{{ item.postingDate | date:'MM/dd/yyyy' }}</td>
+                <td>{{ item.requestorName }}</td>
+                <td>{{ item.paymentTerm }}</td>
+                <td>{{ item.customerName }}</td>
+                <td>{{ item.customerNo }}</td>
+                <td>{{ item.bankName }}</td>
+                <td>{{ item.phoneNo }}</td>
+                <td>{{ item.contactPerson }}</td>
+                <td>{{ item.vatNo }}</td>
+                <td class="action-col">
+                  <i
+                    class="fa fa-edit action-icon"
+                    (click)="editContract(currentPageStart + i)"
+                  ></i>
+                  <i
+                    class="fa fa-trash action-icon"
+                    (click)="deleteContract(currentPageStart + i)"
+                  ></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="d-flex justify-content-end mt-3 me-3">
+          <nav aria-label="Page navigation">
+            <ul class="pagination">
+
+              <li class="page-item" [class.disabled]="currentPage === 1">
+                <a class="page-link" (click)="changePage(currentPage - 1)">
+                  &laquo;
+                </a>
+              </li>
+
+              <li
+                class="page-item"
+                *ngFor="let page of totalPagesArray"
+                [class.active]="page === currentPage"
+              >
+                <a class="page-link" (click)="changePage(page)">
+                  {{ page }}
+                </a>
+              </li>
+
+              <li class="page-item" [class.disabled]="currentPage === totalPages">
+                <a class="page-link" (click)="changePage(currentPage + 1)">
+                  &raquo;
+                </a>
+              </li>
+
+            </ul>
+          </nav>
+        </div>
+
+      </div>
+    </div>
+  </ng-container>
+
+
+
+  <!-- ============================= -->
+  <!--   FORM VIEW (NEW / EDIT)     -->
+  <!-- ============================= -->
+  <ng-template #formPage>
+    <div class="card-container">
+
+      <!-- Header Row -->
+      <div class="header-row">
+        <h4 class="main-title">
+          {{ isEdit ? "Edit Outsource Contract" : "Add Outsource Contract" }}
+        </h4>
+
+        <button class="reset-btn" (click)="resetForm()">
+          <i class="fa fa-refresh"></i> Reset
+        </button>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- Form -->
+      <div class="form-section">
+        <!-- Contract Form Heading -->
+        <h5 class="form-heading mb-4">Contract</h5>
+        
+        <div class="form-row row">
+          <!-- Document No -->
+          <div class="col-md-6 mb-3">
+            <label>Document No. <span class="text-danger">*</span></label>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="documentNo"
+              [readonly]="isEdit"
+            />
+          </div>
+
+          <!-- Requestor Name -->
+          <div class="col-md-6 mb-3">
+            <label>Requestor Name <span class="text-danger">*</span></label>
+            <input 
+              type="text" 
+              class="form-control" 
+              [(ngModel)]="requestorName" 
+            />
+          </div>
+
+          <!-- Customer -->
+          <div class="col-md-6 mb-3">
+            <label>Customer <span class="text-danger">*</span></label>
+            <select class="form-control" [(ngModel)]="selectedCustomer">
+              <option value="">Select Customer</option>
+              <option *ngFor="let customer of customers" [value]="customer.id">
+                {{ customer.name }}
+              </option>
+            </select>
+          </div>
+
+          <!-- Payment Term -->
+          <div class="col-md-6 mb-3">
+            <label>Payment Term <span class="text-danger">*</span></label>
+            <select class="form-control" [(ngModel)]="paymentTerm">
+              <option value="">Select Payment Term</option>
+              <option value="Net 30">Net 30</option>
+              <option value="Net 60">Net 60</option>
+              <option value="Net 90">Net 90</option>
+              <option value="COD">COD</option>
+              <option value="Advance">Advance</option>
+            </select>
+          </div>
+
+          <!-- Posting Date -->
+          <div class="col-md-6 mb-3">
+            <label>Posting Date <span class="text-danger">*</span></label>
+            <div class="input-group">
+              <input 
+                type="text" 
+                class="form-control datepicker" 
+                [(ngModel)]="postingDate"
+                placeholder="MM/DD/YYYY"
+                [readonly]="true"
+              />
+              <span class="input-group-text">
+                <i class="fa fa-calendar"></i>
+              </span>
+            </div>
+          </div>
+
+          <!-- Signature -->
+          <div class="col-md-6 mb-3">
+            <label>Signature</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              placeholder="Enter Signature" 
+              [(ngModel)]="signature" 
+            />
+          </div>
+        </div>
+
+        <!-- Details Table (Exactly as in your image) -->
+        <div class="details-table-section mt-4">
+          <h6 class="table-title mb-3">Contract Details</h6>
+          <div class="table-wrapper">
+            <table class="table table-bordered details-table">
+              <thead>
+                <tr>
+                  <th>No#</th>
+                  <th>Job Title</th>
+                  <th>Area</th>
+                  <th>Location</th>
+                  <th>Facility</th>
+                  <th>Posts</th>
+                  <th>No Of Employees</th>
+                  <th>Amount Per Employee</th>
+                  <th>Required Date</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let detail of contractDetails; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>
+                    <select class="form-control form-control-sm" [(ngModel)]="detail.jobTitle">
+                      <option value="">Select Job Title</option>
+                      <option value="Camp Boss">Camp Boss</option>
+                      <option value="Supervisor">Supervisor</option>
+                      <option value="Technician">Technician</option>
+                      <option value="Operator">Operator</option>
+                      <option value="Helper">Helper</option>
+                    </select>
+                  </td>
+                  <td>
+                    <input type="text" class="form-control form-control-sm" [(ngModel)]="detail.area" placeholder="Enter Area Name">
+                  </td>
+                  <td>
+                    <input type="text" class="form-control form-control-sm" [(ngModel)]="detail.location" placeholder="Enter Location">
+                  </td>
+                  <td>
+                    <input type="number" class="form-control form-control-sm" [(ngModel)]="detail.facility" placeholder="0">
+                  </td>
+                  <td>
+                    <input type="text" class="form-control form-control-sm" [(ngModel)]="detail.posts" placeholder="Enter Posts">
+                  </td>
+                  <td>
+                    <input type="number" class="form-control form-control-sm" [(ngModel)]="detail.noOfEmployees" placeholder="0">
+                  </td>
+                  <td>
+                    <input type="number" class="form-control form-control-sm" [(ngModel)]="detail.amountPerEmployee" placeholder="0">
+                  </td>
+                  <td>
+                    <div class="input-group input-group-sm">
+                      <input 
+                        type="text" 
+                        class="form-control datepicker-sm" 
+                        [(ngModel)]="detail.requiredDate"
+                        placeholder="MM/DD/YYYY"
+                        [readonly]="true"
+                      />
+                      <span class="input-group-text">
+                        <i class="fa fa-calendar"></i>
+                      </span>
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    <i class="fa fa-check-circle text-success action-icon" title="Approve"></i>
+                    <i class="fa fa-times-circle text-danger action-icon ms-1" title="Reject"></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Add Row Button -->
+        <div class="form-buttons text-end mt-3">
+          <button class="btn btn-primary btn-sm" (click)="addDetailRow()">
+            <i class="fa fa-plus"></i> Add Row
+          </button>
+        </div>
+
+        <!-- Submit/Cancel Buttons -->
+        <div class="submit-buttons text-end mt-4 pt-3 border-top">
+          <button
+            class="btn btn-success"
+            (click)="isEdit ? updateContract() : createContract()"
+          >
+            <i class="fa fa-check-circle"></i> Submit
+          </button>
+
+          <button class="btn btn-danger ms-2" (click)="cancelForm()">
+            <i class="fa fa-ban"></i> Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>

@@ -1,0 +1,355 @@
+<div class="posts-wrapper col-md-12">
+
+  <!-- ============================= -->
+  <!--   LIST VIEW (When showForm = false)  -->
+  <!-- ============================= -->
+  <ng-container *ngIf="!showForm; else formPage">
+
+    <div class="card-container">
+
+      <!-- Header Row -->
+      <div class="header-row">
+        <h4 class="main-title">Posts</h4>
+
+        <button class="add-btn" (click)="onNew()">
+          <i class="fa fa-plus"></i> Add New
+        </button>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- Items Per Page + Search -->
+      <div class="top-controls d-flex align-items-center">
+
+        <!-- Items Per Page -->
+        <div class="items-per-page">
+          <label>Items per page:</label>
+          <select class="form-select" [(ngModel)]="itemsPerPage">
+            <option [ngValue]="5">5</option>
+            <option [ngValue]="8">8</option>
+            <option [ngValue]="10">10</option>
+            <option [ngValue]="20">20</option>
+          </select>
+        </div>
+
+        <!-- Search -->
+        <div class="search-wrapper ms-auto">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search..."
+            [(ngModel)]="searchText"
+          />
+          <i class="fa fa-search search-icon"></i>
+        </div>
+      </div>
+
+      <!-- Posts Table -->
+      <div class="posts-list-section">
+        <table class="table table-bordered posts-table">
+          <thead>
+            <tr>
+              <th>Posts Code</th>
+              <th>Post Name</th>
+              <th>Location Name</th>
+              <th>Customer Name</th>
+              <th>Day Concept</th>
+              <th>Swing Concept</th>
+              <th>Post Type</th>
+              <th>Shift</th>
+              <th>No Of DC</th>
+              <th>No Of Shifts</th>
+              <th>No Of Employees Per Shift</th>
+              <th>Total Post Timing</th>
+              <th>No Of Days</th>
+              <th>Total ManPower</th>
+              <th>Supervisor Name</th>
+              <th class="action-col-header">Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr
+              *ngFor="let item of paginatedPosts(); let i = index"
+              [class.edit-row]="editIndex === currentPageStart + i"
+            >
+              <td>{{ item.postsCode }}</td>
+              <td>{{ item.postName }}</td>
+              <td>{{ item.locationName }}</td>
+              <td>{{ item.customerName }}</td>
+              <td>{{ item.dayConcept }}</td>
+              <td>{{ item.swingConcept }}</td>
+              <td>{{ item.postType }}</td>
+              <td>{{ item.shift }}</td>
+              <td>{{ item.noOfDC }}</td>
+              <td>{{ item.noOfShifts }}</td>
+              <td>{{ item.noOfEmployeesPerShift }}</td>
+              <td>{{ item.totalPostTiming }}</td>
+              <td>{{ item.noOfDays }}</td>
+              <td>{{ item.totalManPower }}</td>
+              <td>{{ item.supervisorName }}</td>
+
+              <td class="action-col">
+                <i
+                  class="fa fa-edit action-icon"
+                  (click)="editPost(currentPageStart + i)"
+                ></i>
+                <i
+                  class="fa fa-trash action-icon"
+                  (click)="deletePost(currentPageStart + i)"
+                ></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Pagination -->
+        <div class="d-flex justify-content-end mt-3 me-3">
+          <nav aria-label="Page navigation">
+            <ul class="pagination">
+
+              <li class="page-item" [class.disabled]="currentPage === 1">
+                <a class="page-link" (click)="changePage(currentPage - 1)">
+                  &laquo;
+                </a>
+              </li>
+
+              <li
+                class="page-item"
+                *ngFor="let page of totalPagesArray"
+                [class.active]="page === currentPage"
+              >
+                <a class="page-link" (click)="changePage(page)">
+                  {{ page }}
+                </a>
+              </li>
+
+              <li class="page-item" [class.disabled]="currentPage === totalPages">
+                <a class="page-link" (click)="changePage(currentPage + 1)">
+                  &raquo;
+                </a>
+              </li>
+
+            </ul>
+          </nav>
+        </div>
+
+      </div>
+    </div>
+  </ng-container>
+
+
+
+  <!-- ============================= -->
+  <!--   FORM VIEW (NEW / EDIT)     -->
+  <!-- ============================= -->
+  <ng-template #formPage>
+    <div class="card-container">
+
+      <!-- Header Row -->
+      <div class="header-row">
+        <h4 class="main-title">
+          {{ isEdit ? "Edit Post" : "Add Post" }}
+        </h4>
+
+        <button class="reset-btn" (click)="resetForm()">
+          <i class="fa fa-refresh"></i> Reset
+        </button>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- Form -->
+      <div class="form-row row">
+
+        <!-- Posts Code (Input Field) -->
+        <div class="col-md-6 mb-3">
+          <label>Posts Code <span class="text-danger">*</span></label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter Posts Code"
+            [(ngModel)]="postsCode"
+            [readonly]="isEdit"
+          />
+        </div>
+
+        <!-- No Of DC (Input Field) -->
+        <div class="col-md-6 mb-3">
+          <label>No Of DC <span class="text-danger">*</span></label>
+          <input
+            type="number"
+            class="form-control"
+            placeholder="Enter No Of DC"
+            [(ngModel)]="noOfDC"
+            min="0"
+          />
+        </div>
+
+        <!-- No Of Employees Per Shift (Input Field) -->
+        <div class="col-md-6 mb-3">
+          <label>No Of Employees Per Shift <span class="text-danger">*</span></label>
+          <input
+            type="number"
+            class="form-control"
+            placeholder="Enter No Of Employees Per Shift"
+            [(ngModel)]="noOfEmployeesPerShift"
+            min="0"
+          />
+        </div>
+
+        <!-- Swing Concept (Input Field) -->
+        <div class="col-md-6 mb-3">
+          <label>Swing Concept <span class="text-danger">*</span></label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter Swing Concept"
+            [(ngModel)]="swingConcept"
+          />
+        </div>
+
+        <!-- Total ManPower (Input Field) -->
+        <div class="col-md-6 mb-3">
+          <label>Total ManPower <span class="text-danger">*</span></label>
+          <input
+            type="number"
+            class="form-control"
+            placeholder="Enter Total ManPower"
+            [(ngModel)]="totalManPower"
+            min="0"
+          />
+        </div>
+
+        <!-- No Of Shifts (Input Field) -->
+        <div class="col-md-6 mb-3">
+          <label>No Of Shifts <span class="text-danger">*</span></label>
+          <input
+            type="number"
+            class="form-control"
+            placeholder="Enter No Of Shifts"
+            [(ngModel)]="noOfShifts"
+            min="0"
+          />
+        </div>
+
+        <!-- No Of Days (Input Field) -->
+        <div class="col-md-6 mb-3">
+          <label>No Of Days <span class="text-danger">*</span></label>
+          <input
+            type="number"
+            class="form-control"
+            placeholder="Enter No Of Days"
+            [(ngModel)]="noOfDays"
+            min="0"
+          />
+        </div>
+
+        <!-- Day Concept (Input Field) -->
+        <div class="col-md-6 mb-3">
+          <label>Day Concept <span class="text-danger">*</span></label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter Day Concept"
+            [(ngModel)]="dayConcept"
+          />
+        </div>
+
+        <!-- Post Name (Dropdown) -->
+        <div class="col-md-6 mb-3">
+          <label>Post Name <span class="text-danger">*</span></label>
+          <select class="form-select" [(ngModel)]="postName">
+            <option value="">Select Post Name</option>
+            <option *ngFor="let option of dropdownOptions.postNames" [value]="option">
+              {{ option }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Location Name (Dropdown) -->
+        <div class="col-md-6 mb-3">
+          <label>Location Name <span class="text-danger">*</span></label>
+          <select class="form-select" [(ngModel)]="locationName">
+            <option value="">Select Location Name</option>
+            <option *ngFor="let option of dropdownOptions.locationNames" [value]="option">
+              {{ option }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Customer Name (Dropdown) -->
+        <div class="col-md-6 mb-3">
+          <label>Customer Name <span class="text-danger">*</span></label>
+          <select class="form-select" [(ngModel)]="customerName">
+            <option value="">Select Customer Name</option>
+            <option *ngFor="let option of dropdownOptions.customerNames" [value]="option">
+              {{ option }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Post Type (Dropdown) -->
+        <div class="col-md-6 mb-3">
+          <label>Post Type <span class="text-danger">*</span></label>
+          <select class="form-select" [(ngModel)]="postType">
+            <option value="">Select Post Type</option>
+            <option *ngFor="let option of dropdownOptions.postTypes" [value]="option">
+              {{ option }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Shift (Dropdown) -->
+        <div class="col-md-6 mb-3">
+          <label>Shift <span class="text-danger">*</span></label>
+          <select class="form-select" [(ngModel)]="shift">
+            <option value="">Select Shift</option>
+            <option *ngFor="let option of dropdownOptions.shifts" [value]="option">
+              {{ option }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Total Post Timing (Dropdown) -->
+        <div class="col-md-6 mb-3">
+          <label>Total Post Timing <span class="text-danger">*</span></label>
+          <select class="form-select" [(ngModel)]="totalPostTiming">
+            <option value="">Select Total Post Timing</option>
+            <option *ngFor="let option of dropdownOptions.totalPostTimings" [value]="option">
+              {{ option }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Supervisor Name (Dropdown) -->
+        <div class="col-md-6 mb-3">
+          <label>Supervisor Name <span class="text-danger">*</span></label>
+          <select class="form-select" [(ngModel)]="supervisorName">
+            <option value="">Select Supervisor Name</option>
+            <option *ngFor="let option of dropdownOptions.supervisorNames" [value]="option">
+              {{ option }}
+            </option>
+          </select>
+        </div>
+
+      </div>
+
+      <!-- Buttons -->
+      <div class="btn-row text-end mt-2">
+        <button
+          class="btn btn-primary"
+          (click)="isEdit ? updatePost() : createPost()"
+          [disabled]="!isFormValid()"
+        >
+          <i class="fa fa-check-circle"></i>
+          {{ isEdit ? "Update" : "Create" }}
+        </button>
+
+        <button class="btn btn-danger ms-2" (click)="cancelForm()">
+          <i class="fa fa-ban"></i> Cancel
+        </button>
+      </div>
+    </div>
+  </ng-template>
+</div>

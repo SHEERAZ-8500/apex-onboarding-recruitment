@@ -1,0 +1,251 @@
+<div class="tasks-wrapper col-md-12">
+
+  <!-- ============================= -->
+  <!--   LIST VIEW (When showForm = false)  -->
+  <!-- ============================= -->
+  <ng-container *ngIf="!showForm; else formPage">
+
+    <div class="card-container">
+
+      <!-- Header Row -->
+      <div class="header-row">
+        <h4 class="main-title">Tasks</h4>
+
+        <button class="add-btn" (click)="onNew()">
+          <i class="fa fa-plus"></i> Add New
+        </button>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- Items Per Page + Search -->
+      <div class="top-controls d-flex align-items-center">
+
+        <!-- Items Per Page -->
+        <div class="items-per-page">
+          <label>Items per page:</label>
+          <select class="form-select" [(ngModel)]="itemsPerPage">
+            <option [ngValue]="5">5</option>
+            <option [ngValue]="8">8</option>
+            <option [ngValue]="10">10</option>
+            <option [ngValue]="20">20</option>
+          </select>
+        </div>
+
+        <!-- Search -->
+        <div class="search-wrapper ms-auto">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search..."
+            [(ngModel)]="searchText"
+          />
+          <i class="fa fa-search search-icon"></i>
+        </div>
+      </div>
+
+      <!-- Tasks Table -->
+      <div class="tasks-list-section">
+        <table class="table table-bordered tasks-table">
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Name</th>
+              <th>Area</th>
+              <th>Assign to Name</th>
+              <th>Assign to Code</th>
+              <th>Days</th>
+              <th>Hours</th>
+              <th class="action-col-header">Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr
+              *ngFor="let item of paginatedTasks(); let i = index"
+              [class.edit-row]="editIndex === currentPageStart + i"
+            >
+              <td>{{ item.code }}</td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.area }}</td>
+              <td>{{ item.assignToName }}</td>
+              <td>{{ item.assignToCode }}</td>
+              <td>{{ item.days }}</td>
+              <td>{{ item.hours }}</td>
+
+              <td class="action-col">
+                <i
+                  class="fa fa-edit action-icon"
+                  (click)="editTask(currentPageStart + i)"
+                ></i>
+                <i
+                  class="fa fa-trash action-icon"
+                  (click)="deleteTask(currentPageStart + i)"
+                ></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Pagination -->
+        <div class="d-flex justify-content-end mt-3 me-3">
+          <nav aria-label="Page navigation">
+            <ul class="pagination">
+
+              <li class="page-item" [class.disabled]="currentPage === 1">
+                <a class="page-link" (click)="changePage(currentPage - 1)">
+                  &laquo;
+                </a>
+              </li>
+
+              <li
+                class="page-item"
+                *ngFor="let page of totalPagesArray"
+                [class.active]="page === currentPage"
+              >
+                <a class="page-link" (click)="changePage(page)">
+                  {{ page }}
+                </a>
+              </li>
+
+              <li class="page-item" [class.disabled]="currentPage === totalPages">
+                <a class="page-link" (click)="changePage(currentPage + 1)">
+                  &raquo;
+                </a>
+              </li>
+
+            </ul>
+          </nav>
+        </div>
+
+      </div>
+    </div>
+  </ng-container>
+
+
+
+  <!-- ============================= -->
+  <!--   FORM VIEW (NEW / EDIT)     -->
+  <!-- ============================= -->
+  <ng-template #formPage>
+    <div class="card-container">
+
+      <!-- Header Row -->
+      <div class="header-row">
+        <h4 class="main-title">
+          {{ isEdit ? "Edit Task" : "Add Task" }}
+        </h4>
+
+        <button class="reset-btn" (click)="resetForm()">
+          <i class="fa fa-refresh"></i> Reset
+        </button>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- Form -->
+      <div class="form-row row">
+
+        <!-- Code (Input Field) -->
+        <div class="col-md-6 mb-3">
+          <label>Code <span class="text-danger">*</span></label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter Task Code"
+            [(ngModel)]="taskCode"
+            [readonly]="isEdit"
+          />
+        </div>
+
+        <!-- Select Project (Dropdown) -->
+        <div class="col-md-6 mb-3">
+          <label>Select Project <span class="text-danger">*</span></label>
+          <select class="form-select" [(ngModel)]="selectedProject" (change)="onProjectChange()">
+            <option value="">Select Project</option>
+            <option *ngFor="let project of dropdownOptions.projects" [value]="project.code">
+              {{ project.name }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Name (Input Field) -->
+        <div class="col-md-6 mb-3">
+          <label>Name <span class="text-danger">*</span></label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter Task Name"
+            [(ngModel)]="taskName"
+          />
+        </div>
+
+        <!-- Assigned To (Dropdown) -->
+        <div class="col-md-6 mb-3">
+          <label>Assigned To <span class="text-danger">*</span></label>
+          <select class="form-select" [(ngModel)]="assignedTo">
+            <option value="">Select Assigned To</option>
+            <option *ngFor="let person of dropdownOptions.assignedToOptions" [value]="person.code">
+              {{ person.name }} ({{ person.code }})
+            </option>
+          </select>
+        </div>
+
+        <!-- Days (Numeric Input) -->
+        <div class="col-md-6 mb-3">
+          <label>Days <span class="text-danger">*</span></label>
+          <input
+            type="number"
+            class="form-control"
+            placeholder="Enter Days"
+            [(ngModel)]="days"
+            min="0"
+            max="365"
+            step="1"
+          />
+        </div>
+
+        <!-- Hours (Numeric Input) -->
+        <div class="col-md-6 mb-3">
+          <label>Hours <span class="text-danger">*</span></label>
+          <input
+            type="number"
+            class="form-control"
+            placeholder="Enter Hours"
+            [(ngModel)]="hours"
+            min="0"
+            max="24"
+            step="0.5"
+          />
+        </div>
+
+      </div>
+
+      <!-- Task Summary -->
+      <div class="task-summary-card" *ngIf="isFormValid()">
+        <h6>Task Summary</h6>
+        <div class="summary-details">
+          <div><strong>Total Time:</strong> {{ days }} days, {{ hours }} hours</div>
+          <div *ngIf="getSelectedProjectName()"><strong>Project:</strong> {{ getSelectedProjectName() }}</div>
+          <div *ngIf="getAssignedPersonName()"><strong>Assigned To:</strong> {{ getAssignedPersonName() }}</div>
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="btn-row text-end mt-2">
+        <button
+          class="btn btn-primary"
+          (click)="isEdit ? updateTask() : createTask()"
+          [disabled]="!isFormValid()"
+        >
+          <i class="fa fa-check-circle"></i>
+          {{ isEdit ? "Update" : "Create" }}
+        </button>
+
+        <button class="btn btn-danger ms-2" (click)="cancelForm()">
+          <i class="fa fa-ban"></i> Cancel
+        </button>
+      </div>
+    </div>
+  </ng-template>
+</div>
