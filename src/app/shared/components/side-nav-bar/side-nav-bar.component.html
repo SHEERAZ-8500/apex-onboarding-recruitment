@@ -80,7 +80,7 @@
 
             <div #generalMasterdata="ngbCollapse" [(ngbCollapse)]="generalMasterdataCollapsed"
               class="collapseStyling inner" [class.open]="!generalMasterdataCollapsed">
-              <div class="collapseDiv ">
+              <div class="collapseDiv">
                 <a routerLink="general-master-data/skills" routerLinkActive="active"><span>Skills</span></a>
                 <a routerLink="general-master-data/id-type" routerLinkActive="active"><span>ID Type</span></a>
                 <a routerLink="general-master-data/qualification"
@@ -125,10 +125,16 @@
 
             <div #organizationalMasterdata="ngbCollapse" [(ngbCollapse)]="organizationalMasterdataCollapsed"
               class="collapseStyling inner" [class.open]="!organizationalMasterdataCollapsed">
-              <div class="collapseDiv ">
+              <div class="collapseDiv">
                 <a routerLink="organizational-master-data/hierarchy"><span>Hierarchy</span></a>
-                <a><span>Sub Item 2</span></a>
-                <a><span>Sub Item 3</span></a>
+                <a routerLink="organizational-master-data/outsource-contarct"><span>Outsource Contract</span></a>
+                <a routerLink="organizational-master-data/projects"><span>Projects</span></a>
+                <a routerLink="organizational-master-data/location"><span>Location</span></a>
+                <a routerLink="organizational-master-data/posts"><span>Posts</span></a>
+                <a routerLink="organizational-master-data/time-type"><span>Time Type</span></a>
+                <a routerLink="organizational-master-data/tasks"><span>Tasks</span></a>
+                <a routerLink="organizational-master-data/pay-element"><span>Pay Element</span></a>
+                <a routerLink="organizational-master-data/leaves"><span>Leaves</span></a>
               </div>
             </div>
           </div>
@@ -147,7 +153,7 @@
 
             <div #outsourcinggMasterdata="ngbCollapse" [(ngbCollapse)]="outsourcinggMasterdataCollapsed"
               class="collapseStyling inner" [class.open]="!outsourcinggMasterdataCollapsed">
-              <div class="collapseDiv ">
+              <div class="collapseDiv">
                 <a><span>Sub Item 1</span></a>
                 <a><span>Sub Item 2</span></a>
                 <a><span>Sub Item 3</span></a>

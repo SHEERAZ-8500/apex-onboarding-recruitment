@@ -1,1 +1,133 @@
-<p>hierarchy works!</p>
+<div class="hierarchy-container">
+  <!-- Header with Add New Button -->
+  <div class="header">
+    <h2>Organizational Hierarchy</h2>
+    <button class="btn btn-primary add-new-btn" (click)="openAddModal()">
+      <i class="fas fa-plus"></i>  New
+    </button>
+  </div>
+
+  <!-- Cards Grid -->
+  <div class="cards-grid">
+    <div class="row">
+      <div class="col-md-4 col-sm-6" *ngFor="let item of items; let i = index">
+        <div class="hierarchy-card">
+          <!-- Card Dropdown Menu -->
+          <div class="card-dropdown">
+            <button class="dropdown-toggle" type="button" (click)="toggleDropdown(i)">
+              <i class="fa-solid fa-ellipsis-vertical"></i>
+            </button>
+            <div class="dropdown-menu" [class.show]="item.showDropdown">
+              <a class="dropdown-item" (click)="openEditModal(item)">
+                <i class="fas fa-edit"></i> Edit
+              </a>
+              <a class="dropdown-item" (click)="openDeleteModal(item)">
+                <i class="fas fa-trash"></i> Delete
+              </a>
+            </div>
+          </div>
+
+          <!-- Card Content -->
+          <div class="card-content">
+            <div class="profile-pic">
+              <img [src]="item.avatar || 'assets/images/default-avatar.png'" alt="Profile Picture">
+            </div>
+            <div class="card-details">
+              <h5 class="card-name">{{item.name || 'Human Resource Officer'}}</h5>
+              <p class="card-title">{{item.title || 'Human Resource Officer'}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div class="modal-overlay" *ngIf="showDeleteModal" (click)="closeDeleteModal()">
+    <div class="modal-content delete-modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          <i class="fas fa-exclamation-triangle text-danger"></i> Delete
+        </h5>
+      </div>
+      <div class="modal-border"></div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete this?</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="closeDeleteModal()">
+          <i class="fas fa-times"></i> Cancel
+        </button>
+        <button class="btn btn-danger" (click)="deleteItem()">
+          <i class="fas fa-trash"></i> Delete
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit/Add Modal -->
+  <div class="modal-overlay" *ngIf="showEditModal" (click)="closeEditModal()">
+    <div class="modal-content edit-modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          <i class="fas" [class.fa-edit]="!isAddingNew" [class.fa-plus]="isAddingNew"></i>
+          {{isAddingNew ? 'Add New Item' : 'Edit Item'}}
+        </h5>
+      </div>
+      <div class="modal-border"></div>
+      <div class="modal-body">
+        <!-- Avatar Upload -->
+        <div class="form-group">
+          <label>Upload New</label>
+          <div class="avatar-upload">
+            <div class="avatar-preview">
+              <img [src]="editingItem.avatar || 'assets/images/default-avatar.png'" alt="Avatar Preview">
+            </div>
+            <div class="upload-controls">
+              <button class="btn btn-outline-secondary btn-sm" (click)="triggerFileInput()">
+                <i class="fas fa-cloud-upload-alt"></i> Select New...
+              </button>
+              <input type="file" #fileInput class="d-none" (change)="onFileSelected($event)" accept="image/*">
+            </div>
+          </div>
+        </div>
+
+        <!-- Parent Dropdown -->
+        <div class="form-group">
+          <label>Parent</label>
+          <select class="form-control" [(ngModel)]="editingItem.parent">
+            <option value="">Select </option>
+            <option value="a">Option A</option>
+            <option value="b">Option B</option>
+            <option value="c">Option C</option>
+            <option value="d">Option D</option>
+            <option value="e">Option E</option>
+          </select>
+        </div>
+
+        <!-- Name Field -->
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" class="form-control" [(ngModel)]="editingItem.name" 
+                 placeholder="Enter name">
+        </div>
+
+        <!-- Title Field -->
+        <div class="form-group">
+          <label>Title</label>
+          <input type="text" class="form-control" [(ngModel)]="editingItem.title" 
+                 placeholder="Enter title">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="closeEditModal()">
+          <i class="fas fa-times"></i> Cancel
+        </button>
+        <button class="btn btn-primary" (click)="saveItem()">
+          <i class="fas" [class.fa-save]="!isAddingNew" [class.fa-plus]="isAddingNew"></i>
+          {{isAddingNew ? 'Create' : 'Update'}}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

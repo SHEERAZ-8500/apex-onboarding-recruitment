@@ -1,0 +1,416 @@
+<div class="leave-wrapper col-md-12">
+
+  <!-- ============================= -->
+  <!--   LIST VIEW (When showForm = false)  -->
+  <!-- ============================= -->
+  <ng-container *ngIf="!showForm; else formPage">
+
+    <div class="card-container">
+
+      <!-- Header Row -->
+      <div class="header-row">
+        <h4 class="main-title">Leaves</h4>
+
+        <button class="add-btn" (click)="onNew()">
+          <i class="fa fa-plus"></i> Add New
+        </button>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- Items Per Page + Search -->
+      <div class="top-controls d-flex align-items-center">
+
+        <!-- Items Per Page -->
+        <div class="items-per-page">
+          <label>Items per page:</label>
+          <select class="form-select" [(ngModel)]="itemsPerPage">
+            <option [ngValue]="5">5</option>
+            <option [ngValue]="8">8</option>
+            <option [ngValue]="10">10</option>
+            <option [ngValue]="20">20</option>
+          </select>
+        </div>
+
+        <!-- Search -->
+        <div class="search-wrapper ms-auto">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search..."
+            [(ngModel)]="searchText"
+          />
+          <i class="fa fa-search search-icon"></i>
+        </div>
+      </div>
+
+      <!-- Leaves Table -->
+      <div class="leaves-list-section">
+        <table class="table table-bordered leaves-table">
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Description</th>
+              <th>Total Leaves/Year</th>
+              <th>Leave Type</th>
+              <th>Payable Leave</th>
+              <th>Encashabale Leave</th>
+              <th>Applicable Employee Type</th>
+              <th>Status</th>
+              <th>Min Leave for Encashment</th>
+              <th>Max Leave for Encashment</th>
+              <th>Leave Paid in Advance</th>
+              <th>Carry forward to Next Year</th>
+              <th>From Date</th>
+              <th>To Date</th>
+              <th>Remarks</th>
+              <th class="action-col-header">Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr
+              *ngFor="let item of paginatedLeaves(); let i = index"
+              [class.edit-row]="editIndex === currentPageStart + i"
+            >
+              <td>{{ item.code }}</td>
+              <td>{{ item.description }}</td>
+              <td>{{ item.totalLeavesPerYear }}</td>
+              <td>{{ item.leaveType }}</td>
+              <td>
+                <span class="badge" [ngClass]="item.payableLeave ? 'badge-success' : 'badge-secondary'">
+                  {{ item.payableLeave ? 'Yes' : 'No' }}
+                </span>
+              </td>
+              <td>
+                <span class="badge" [ngClass]="item.encashableLeave ? 'badge-success' : 'badge-secondary'">
+                  {{ item.encashableLeave ? 'Yes' : 'No' }}
+                </span>
+              </td>
+              <td>{{ item.applicableEmployeeType }}</td>
+              <td>
+                <span class="badge" [ngClass]="item.status === 'Active' ? 'badge-success' : 'badge-danger'">
+                  {{ item.status }}
+                </span>
+              </td>
+              <td>{{ item.minLeaveForEncashment }}</td>
+              <td>{{ item.maxLeaveForEncashment }}</td>
+              <td>
+                <span class="badge" [ngClass]="item.leavePaidInAdvance ? 'badge-success' : 'badge-secondary'">
+                  {{ item.leavePaidInAdvance ? 'Yes' : 'No' }}
+                </span>
+              </td>
+              <td>
+                <span class="badge" [ngClass]="item.carryForwardToNextYear ? 'badge-success' : 'badge-secondary'">
+                  {{ item.carryForwardToNextYear ? 'Yes' : 'No' }}
+                </span>
+              </td>
+              <td>{{ item.fromDate | date:'dd/MM/yyyy' }}</td>
+              <td>{{ item.toDate | date:'dd/MM/yyyy' }}</td>
+              <td>{{ item.remarks || '-' }}</td>
+
+              <td class="action-col">
+                <i
+                  class="fa fa-edit action-icon"
+                  (click)="editLeave(currentPageStart + i)"
+                ></i>
+                <i
+                  class="fa fa-trash action-icon"
+                  (click)="deleteLeave(currentPageStart + i)"
+                ></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Pagination -->
+        <div class="d-flex justify-content-end mt-3 me-3">
+          <nav aria-label="Page navigation">
+            <ul class="pagination">
+
+              <li class="page-item" [class.disabled]="currentPage === 1">
+                <a class="page-link" (click)="changePage(currentPage - 1)">
+                  &laquo;
+                </a>
+              </li>
+
+              <li
+                class="page-item"
+                *ngFor="let page of totalPagesArray"
+                [class.active]="page === currentPage"
+              >
+                <a class="page-link" (click)="changePage(page)">
+                  {{ page }}
+                </a>
+              </li>
+
+              <li class="page-item" [class.disabled]="currentPage === totalPages">
+                <a class="page-link" (click)="changePage(currentPage + 1)">
+                  &raquo;
+                </a>
+              </li>
+
+            </ul>
+          </nav>
+        </div>
+
+      </div>
+    </div>
+  </ng-container>
+
+
+
+  <!-- ============================= -->
+  <!--   FORM VIEW (NEW / EDIT)     -->
+  <!-- ============================= -->
+  <ng-template #formPage>
+    <div class="card-container">
+
+      <!-- Header Row -->
+      <div class="header-row">
+        <h4 class="main-title">
+          {{ isEdit ? "Edit Leave" : "Add Leave" }}
+        </h4>
+
+        <button class="reset-btn" (click)="resetForm()">
+          <i class="fa fa-refresh"></i> Reset
+        </button>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- Form -->
+      <div class="form-row row">
+
+        <!-- Code (Input Field) -->
+        <div class="col-md-6 mb-3">
+          <label>Code <span class="text-danger">*</span></label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter Leave Code"
+            [(ngModel)]="leaveCode"
+            [readonly]="isEdit"
+          />
+        </div>
+
+        <!-- Description (Input Field) -->
+        <div class="col-md-6 mb-3">
+          <label>Description <span class="text-danger">*</span></label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter Leave Description"
+            [(ngModel)]="leaveDescription"
+          />
+        </div>
+
+        <!-- Total Leaves/Year (Numeric Input) -->
+        <div class="col-md-6 mb-3">
+          <label>Total Leaves/Year <span class="text-danger">*</span></label>
+          <input
+            type="number"
+            class="form-control"
+            placeholder="Enter Total Leaves per Year"
+            [(ngModel)]="totalLeavesPerYear"
+            min="0"
+            max="365"
+            step="0.5"
+          />
+        </div>
+
+        <!-- Leave Type (Dropdown) -->
+        <div class="col-md-6 mb-3">
+          <label>Leave Type <span class="text-danger">*</span></label>
+          <select class="form-select" [(ngModel)]="leaveType">
+            <option value="">Select Leave Type</option>
+            <option *ngFor="let option of dropdownOptions.leaveTypes" [value]="option">
+              {{ option }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Applicable Employee Type (Dropdown) -->
+        <div class="col-md-6 mb-3">
+          <label>Applicable Employee Type <span class="text-danger">*</span></label>
+          <select class="form-select" [(ngModel)]="applicableEmployeeType">
+            <option value="">Select Employee Type</option>
+            <option *ngFor="let option of dropdownOptions.employeeTypes" [value]="option">
+              {{ option }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Minimum Leave for Encashment (Numeric Input) -->
+        <div class="col-md-6 mb-3">
+          <label>Minimum Leave for Encashment</label>
+          <input
+            type="number"
+            class="form-control"
+            placeholder="Enter Minimum Leave for Encashment"
+            [(ngModel)]="minLeaveForEncashment"
+            min="0"
+            max="365"
+            step="0.5"
+          />
+        </div>
+
+        <!-- Maximum Leave for Encashment (Numeric Input) -->
+        <div class="col-md-6 mb-3">
+          <label>Maximum Leave for Encashment</label>
+          <input
+            type="number"
+            class="form-control"
+            placeholder="Enter Maximum Leave for Encashment"
+            [(ngModel)]="maxLeaveForEncashment"
+            min="0"
+            max="365"
+            step="0.5"
+          />
+        </div>
+
+        <!-- From Date (Date Picker) -->
+        <div class="col-md-6 mb-3">
+          <label>From Date <span class="text-danger">*</span></label>
+          <input
+            type="date"
+            class="form-control"
+            [(ngModel)]="fromDate"
+            [min]="minDate"
+            [max]="maxDate"
+          />
+        </div>
+
+        <!-- To Date (Date Picker) -->
+        <div class="col-md-6 mb-3">
+          <label>To Date <span class="text-danger">*</span></label>
+          <input
+            type="date"
+            class="form-control"
+            [(ngModel)]="toDate"
+            [min]="fromDate || minDate"
+            [max]="maxDate"
+          />
+        </div>
+
+        <!-- Status (Dropdown) -->
+        <div class="col-md-6 mb-3">
+          <label>Status <span class="text-danger">*</span></label>
+          <select class="form-select" [(ngModel)]="status">
+            <option value="">Select Status</option>
+            <option *ngFor="let option of dropdownOptions.statusOptions" [value]="option">
+              {{ option }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Remarks (Input Field) -->
+        <div class="col-md-6 mb-3">
+          <label>Remarks</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter Remarks"
+            [(ngModel)]="remarks"
+          />
+        </div>
+
+        <!-- Checkboxes Section -->
+        <div class="col-md-12 mb-3">
+          <div class="checkboxes-section">
+            <h6>Leave Options</h6>
+            <div class="row">
+              <div class="col-md-3">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="payableLeaveCheckbox"
+                    [(ngModel)]="payableLeave"
+                  />
+                  <label class="form-check-label" for="payableLeaveCheckbox">
+                    Payable Leave
+                  </label>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="encashableLeaveCheckbox"
+                    [(ngModel)]="encashableLeave"
+                  />
+                  <label class="form-check-label" for="encashableLeaveCheckbox">
+                    Encashable Leave
+                  </label>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="carryForwardCheckbox"
+                    [(ngModel)]="carryForwardToNextYear"
+                  />
+                  <label class="form-check-label" for="carryForwardCheckbox">
+                    Carry forward to Next Year
+                  </label>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="paidInAdvanceCheckbox"
+                    [(ngModel)]="leavePaidInAdvance"
+                  />
+                  <label class="form-check-label" for="paidInAdvanceCheckbox">
+                    Leave Paid in Advance
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Leave Summary -->
+      <div class="leave-summary-card" *ngIf="isFormValid()">
+        <h6>Leave Summary</h6>
+        <div class="summary-details">
+          <div><strong>Code:</strong> {{ leaveCode }}</div>
+          <div><strong>Description:</strong> {{ leaveDescription }}</div>
+          <div><strong>Total Leaves/Year:</strong> {{ totalLeavesPerYear }}</div>
+          <div><strong>Leave Type:</strong> {{ leaveType }}</div>
+          <div><strong>Employee Type:</strong> {{ applicableEmployeeType }}</div>
+          <div><strong>Status:</strong> 
+            <span class="badge" [ngClass]="status === 'Active' ? 'badge-success' : 'badge-danger'">
+              {{ status }}
+            </span>
+          </div>
+          <div><strong>Period:</strong> {{ formatDate(fromDate) }} - {{ formatDate(toDate) }}</div>
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="btn-row text-end mt-2">
+        <button
+          class="btn btn-primary"
+          (click)="isEdit ? updateLeave() : createLeave()"
+          [disabled]="!isFormValid()"
+        >
+          <i class="fa fa-check-circle"></i>
+          {{ isEdit ? "Update" : "Create" }}
+        </button>
+
+        <button class="btn btn-danger ms-2" (click)="cancelForm()">
+          <i class="fa fa-ban"></i> Cancel
+        </button>
+      </div>
+    </div>
+  </ng-template>
+</div>
