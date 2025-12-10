@@ -106,7 +106,7 @@
     border: none;
     overflow: hidden;
 
-    &.table-bordered > :not(caption) > * > * {
+    &.table-bordered> :not(caption)>*>* {
       border-color: var(--border-color) !important;
     }
 
@@ -164,9 +164,11 @@
     tbody {
       display: block;
       width: 100%;
-      max-height: 360px; /* approx 8 rows */
+      max-height: 360px;
+      /* approx 8 rows */
       overflow-y: auto;
-      overflow-x: hidden; /* Horizontal scroll remove kiya */
+      overflow-x: hidden;
+      /* Horizontal scroll remove kiya */
     }
 
     thead tr,
@@ -191,18 +193,90 @@
     }
 
     /* Column Widths - Fixed for all columns */
-    th:nth-child(1), td:nth-child(1) { width: 8%; min-width: 80px; }  /* Code */
-    th:nth-child(2), td:nth-child(2) { width: 12%; min-width: 120px; } /* Name */
-    th:nth-child(3), td:nth-child(3) { width: 10%; min-width: 100px; } /* Job Title */
-    th:nth-child(4), td:nth-child(4) { width: 8%; min-width: 80px; } /* Skill Code */
-    th:nth-child(5), td:nth-child(5) { width: 12%; min-width: 120px; } /* Skill Description */
-    th:nth-child(6), td:nth-child(6) { width: 8%; min-width: 80px; }  /* Mandatory */
-    th:nth-child(7), td:nth-child(7) { width: 10%; min-width: 100px; } /* Qualification Code */
-    th:nth-child(8), td:nth-child(8) { width: 12%; min-width: 120px; } /* Qualification Name */
-    th:nth-child(9), td:nth-child(9) { width: 10%; min-width: 100px; } /* Department */
-    th:nth-child(10), td:nth-child(10) { width: 10%; min-width: 100px; } /* Location */
-    th:nth-child(11), td:nth-child(11) { width: 10%; min-width: 100px; } /* Created By */
-    th:nth-child(12), td:nth-child(12) { width: 8%; min-width: 80px; } /* Actions */
+    th:nth-child(1),
+    td:nth-child(1) {
+      width: 8%;
+      min-width: 80px;
+    }
+
+    /* Code */
+    th:nth-child(2),
+    td:nth-child(2) {
+      width: 12%;
+      min-width: 120px;
+    }
+
+    /* Name */
+    th:nth-child(3),
+    td:nth-child(3) {
+      width: 10%;
+      min-width: 100px;
+    }
+
+    /* Job Title */
+    th:nth-child(4),
+    td:nth-child(4) {
+      width: 8%;
+      min-width: 80px;
+    }
+
+    /* Skill Code */
+    th:nth-child(5),
+    td:nth-child(5) {
+      width: 12%;
+      min-width: 120px;
+    }
+
+    /* Skill Description */
+    th:nth-child(6),
+    td:nth-child(6) {
+      width: 8%;
+      min-width: 80px;
+    }
+
+    /* Mandatory */
+    th:nth-child(7),
+    td:nth-child(7) {
+      width: 10%;
+      min-width: 100px;
+    }
+
+    /* Qualification Code */
+    th:nth-child(8),
+    td:nth-child(8) {
+      width: 12%;
+      min-width: 120px;
+    }
+
+    /* Qualification Name */
+    th:nth-child(9),
+    td:nth-child(9) {
+      width: 10%;
+      min-width: 100px;
+    }
+
+    /* Department */
+    th:nth-child(10),
+    td:nth-child(10) {
+      width: 10%;
+      min-width: 100px;
+    }
+
+    /* Location */
+    th:nth-child(11),
+    td:nth-child(11) {
+      width: 10%;
+      min-width: 100px;
+    }
+
+    /* Created By */
+    th:nth-child(12),
+    td:nth-child(12) {
+      width: 8%;
+      min-width: 80px;
+    }
+
+    /* Actions */
   }
 
   /* Actions column spacing (Edit + Delete gap) */
@@ -296,8 +370,14 @@
           padding: 0.79rem 0.75rem;
           border-radius: 5px;
           border: 1px solid var(--border-color);
-          background: var(--input-bg);
+          background: var(--second-primary-color);
           color: var(--text-primary);
+
+          &::placeholder {
+            color: var(--text-secondary);
+            /* Apna color */
+            opacity: 1;
+          }
         }
 
         .text-danger {
@@ -347,20 +427,20 @@
 
         &.btn-primary {
           background: #198754;
-  color: #fff;
+          color: #fff;
 
-  &:hover {
-    background: #157347; // subtle darken
-  }
+          &:hover {
+            background: #157347; // subtle darken
+          }
         }
 
         &.btn-danger {
           background: #dc3545;
-  color: #fff;
+          color: #fff;
 
-  &:hover {
-    background: #c12738; // subtle darken
-  }
+          &:hover {
+            background: #c12738; // subtle darken
+          }
         }
       }
     }
@@ -369,7 +449,9 @@
   /* Responsive - For smaller screens */
   @media (max-width: 1200px) {
     table.jobdesc-table {
-      th, td {
+
+      th,
+      td {
         font-size: 13px;
         padding: 8px;
       }
@@ -399,17 +481,19 @@
         }
       }
     }
-    
+
     /* Mobile view ke liye table ko scrollable rakho */
     table.jobdesc-table {
       display: block;
       overflow-x: auto;
       white-space: nowrap;
-      
-      thead, tbody, tr {
+
+      thead,
+      tbody,
+      tr {
         display: block;
       }
-      
+
       tbody {
         max-height: none;
         overflow-x: auto;

@@ -106,7 +106,7 @@
     border: none;
     overflow: hidden;
 
-    &.table-bordered > :not(caption) > * > * {
+    &.table-bordered> :not(caption)>*>* {
       border-color: var(--border-color) !important;
     }
 
@@ -162,7 +162,8 @@
     tbody {
       display: block;
       width: 100%;
-      max-height: 360px; /* approx 8 rows */
+      max-height: 360px;
+      /* approx 8 rows */
       overflow-y: auto;
     }
 
@@ -177,7 +178,7 @@
     tbody::-webkit-scrollbar {
       width: 1px;
     }
-   
+
     tbody::-webkit-scrollbar-thumb {
       background: var(--second-primary-color);
       border-radius: 2px;
@@ -278,8 +279,14 @@
           padding: 0.79rem 0.75rem;
           border-radius: 5px;
           border: 1px solid var(--border-color);
-          background: var(--input-bg);
+          background: var(--second-primary-color);
           color: var(--text-primary);
+
+          &::placeholder {
+            color: var(--text-secondary);
+            /* Apna color */
+            opacity: 1;
+          }
         }
 
         .text-danger {
@@ -311,20 +318,20 @@
 
         &.btn-primary {
           background: #198754;
-  color: #fff;
+          color: #fff;
 
-  &:hover {
-    background: #157347; // subtle darken
-  }
+          &:hover {
+            background: #157347; // subtle darken
+          }
         }
 
         &.btn-danger {
           background: #dc3545;
-  color: #fff;
+          color: #fff;
 
-  &:hover {
-    background: #c12738; // subtle darken
-  }
+          &:hover {
+            background: #c12738; // subtle darken
+          }
         }
       }
     }
@@ -393,16 +400,16 @@
     flex: 1;
   }
 
- 
+
 
   /* Detail Table in Popup */
   .detail-table {
     width: 100%;
     border-collapse: collapse;
-    
+
     thead {
       background-color: var(--primary-color);
-      
+
       th {
         padding: 12px 15px;
         text-align: left;
@@ -411,22 +418,22 @@
         border: 1px solid var(--border-color);
       }
     }
-    
+
     tbody {
       tr {
         &:nth-child(even) {
           background-color: rgba(0, 0, 0, 0.02);
         }
-        
+
         &:hover {
           background-color: rgba(52, 152, 219, 0.1);
         }
-        
+
         td {
           padding: 10px 15px;
           border: 1px solid var(--border-color);
           color: var(--text-primary);
-          
+
           &:first-child {
             font-weight: 500;
           }
@@ -455,14 +462,14 @@
         }
       }
     }
-    
+
     .modal-content {
       width: 95%;
     }
-    
+
     .detail-table {
       font-size: 14px;
-      
+
       thead th,
       tbody td {
         padding: 8px 10px;

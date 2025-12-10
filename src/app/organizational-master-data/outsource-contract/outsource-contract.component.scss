@@ -112,6 +112,7 @@
 
     thead {
       color: var(--text-primary) !important;
+      
 
       th {
         background-color: var(--second-primary-color) !important;
@@ -122,6 +123,7 @@
         padding: 10px;
         font-size: 14px;
         white-space: nowrap;
+        
       }
     }
 
@@ -168,7 +170,7 @@
       overflow-y: auto;
     }
 
-    thead tr,
+    thead  tr,
     tbody tr {
       display: table;
       width: 100%;
@@ -290,6 +292,9 @@
             border: 1px solid var(--border-color);
             background: var(--input-bg);
             color: var(--text-primary);
+             &::placeholder {
+        color: var(--text-secondary); /* Apna color */
+        opacity: 1;}
           }
 
           .text-danger {
@@ -311,12 +316,13 @@
 
           select.form-control {
             appearance: none;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
             background-repeat: no-repeat;
+             background: var(--second-primary-color);
             background-position: right 0.75rem center;
             background-size: 1rem;
             padding-right: 2.5rem;
           }
+          
         }
       }
 
@@ -502,22 +508,22 @@
           }
 
           &.btn-success {
-            background: #198754;
-            color: #fff;
+          background: #198754;
+          color: #fff;
 
-            &:hover {
-              background: #084298;
-            }
+          &:hover {
+            background: #157347; // subtle darken
           }
+        }
 
-          &.btn-danger {
-            background: #dc3545;
-            color: #fff;
+        &.btn-danger {
+          background: #dc3545;
+          color: #fff;
 
-            &:hover {
-              background: #a71d2a;
-            }
+          &:hover {
+            background: #c12738; // subtle darken
           }
+        }
         }
       }
     }

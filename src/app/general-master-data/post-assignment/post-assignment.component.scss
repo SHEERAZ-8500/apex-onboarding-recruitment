@@ -106,7 +106,7 @@
     border: none;
     overflow: hidden;
 
-    &.table-bordered > :not(caption) > * > * {
+    &.table-bordered> :not(caption)>*>* {
       border-color: var(--border-color) !important;
     }
 
@@ -162,7 +162,8 @@
     tbody {
       display: block;
       width: 100%;
-      max-height: 360px; /* approx 8 rows */
+      max-height: 360px;
+      /* approx 8 rows */
       overflow-y: auto;
     }
 
@@ -278,8 +279,14 @@
           padding: 0.79rem 0.75rem;
           border-radius: 5px;
           border: 1px solid var(--border-color);
-          background: var(--input-bg);
+          background: var(--second-primary-color);
           color: var(--text-primary);
+
+          &::placeholder {
+            color: var(--text-secondary);
+            /* Apna color */
+            opacity: 1;
+          }
         }
 
         .text-danger {
@@ -309,22 +316,22 @@
           font-size: 1rem;
         }
 
-       &.btn-primary {
+        &.btn-primary {
           background: #198754;
-  color: #fff;
+          color: #fff;
 
-  &:hover {
-    background: #157347; // subtle darken
-  }
+          &:hover {
+            background: #157347; // subtle darken
+          }
         }
 
         &.btn-danger {
           background: #dc3545;
-  color: #fff;
+          color: #fff;
 
-  &:hover {
-    background: #c12738; // subtle darken
-  }
+          &:hover {
+            background: #c12738; // subtle darken
+          }
         }
       }
     }
@@ -332,7 +339,7 @@
     /* Additional Table Section */
     .additional-table-section {
       margin-top: 30px;
-      
+
       .table-title {
         font-size: 18px;
         font-weight: 600;
@@ -340,14 +347,14 @@
         border-bottom: 2px solid var(--primary-color);
         padding-bottom: 8px;
       }
-      
+
       .detail-table {
         width: 100%;
         border-collapse: collapse;
-        
+
         thead {
           background-color: var(--primary-color);
-          
+
           th {
             padding: 12px 15px;
             text-align: left;
@@ -356,17 +363,17 @@
             border: 1px solid var(--border-color);
           }
         }
-        
+
         tbody {
           tr {
             &:nth-child(even) {
               background-color: rgba(0, 0, 0, 0.02);
             }
-            
+
             &:hover {
               background-color: rgba(52, 152, 219, 0.1);
             }
-            
+
             td {
               padding: 10px 15px;
               border: 1px solid var(--border-color);
@@ -397,10 +404,10 @@
           width: 100%;
         }
       }
-      
+
       .additional-table-section {
         overflow-x: auto;
-        
+
         .detail-table {
           min-width: 700px;
         }

@@ -290,12 +290,15 @@
           padding: 0.79rem 0.75rem;
           border-radius: 5px;
           border: 1px solid var(--border-color);
-          background: var(--input-bg);
+          background: var(--second-primary-color);
           color: var(--text-primary);
 
           &[type="date"] {
             padding: 0.69rem 0.75rem;
           }
+             &::placeholder {
+        color: var(--text-secondary); /* Apna color */
+        opacity: 1;}
         }
 
         .text-danger {
