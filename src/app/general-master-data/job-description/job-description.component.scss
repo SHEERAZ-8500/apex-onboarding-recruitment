@@ -100,11 +100,36 @@
     }
   }
 
-  /* Table Styling - Exact same as skills component */
+  /* Table Container with overflow */
+  .table-container {
+    overflow-x: auto;
+    min-width:100%;
+    max-width: 800px;
+    
+    &::-webkit-scrollbar {
+      height: 8px;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: var(--second-primary-color);
+      border-radius: 4px;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: 4px;
+      
+      &:hover {
+        background: var(--purple-1);
+      }
+    }
+  }
+
+  /* Table Styling */
   table.jobdesc-table {
-    width: 100%;
+    width: 1600px;
     border: none;
-    overflow: hidden;
+    // overflow: hidden;
 
     &.table-bordered> :not(caption)>*>* {
       border-color: var(--border-color) !important;
@@ -161,15 +186,6 @@
       z-index: 5;
     }
 
-    tbody {
-      display: block;
-      width: 100%;
-      max-height: 360px;
-      /* approx 8 rows */
-      overflow-y: auto;
-      overflow-x: hidden;
-      /* Horizontal scroll remove kiya */
-    }
 
     thead tr,
     tbody tr {
@@ -192,89 +208,7 @@
       scrollbar-width: thin;
     }
 
-    /* Column Widths - Fixed for all columns */
-    th:nth-child(1),
-    td:nth-child(1) {
-      width: 8%;
-      min-width: 80px;
-    }
-
-    /* Code */
-    th:nth-child(2),
-    td:nth-child(2) {
-      width: 12%;
-      min-width: 120px;
-    }
-
-    /* Name */
-    th:nth-child(3),
-    td:nth-child(3) {
-      width: 10%;
-      min-width: 100px;
-    }
-
-    /* Job Title */
-    th:nth-child(4),
-    td:nth-child(4) {
-      width: 8%;
-      min-width: 80px;
-    }
-
-    /* Skill Code */
-    th:nth-child(5),
-    td:nth-child(5) {
-      width: 12%;
-      min-width: 120px;
-    }
-
-    /* Skill Description */
-    th:nth-child(6),
-    td:nth-child(6) {
-      width: 8%;
-      min-width: 80px;
-    }
-
-    /* Mandatory */
-    th:nth-child(7),
-    td:nth-child(7) {
-      width: 10%;
-      min-width: 100px;
-    }
-
-    /* Qualification Code */
-    th:nth-child(8),
-    td:nth-child(8) {
-      width: 12%;
-      min-width: 120px;
-    }
-
-    /* Qualification Name */
-    th:nth-child(9),
-    td:nth-child(9) {
-      width: 10%;
-      min-width: 100px;
-    }
-
-    /* Department */
-    th:nth-child(10),
-    td:nth-child(10) {
-      width: 10%;
-      min-width: 100px;
-    }
-
-    /* Location */
-    th:nth-child(11),
-    td:nth-child(11) {
-      width: 10%;
-      min-width: 100px;
-    }
-
-    /* Created By */
-    th:nth-child(12),
-    td:nth-child(12) {
-      width: 8%;
-      min-width: 80px;
-    }
+   
 
     /* Actions */
   }
@@ -485,7 +419,7 @@
     /* Mobile view ke liye table ko scrollable rakho */
     table.jobdesc-table {
       display: block;
-      overflow-x: auto;
+      // overflow-x: auto;
       white-space: nowrap;
 
       thead,
@@ -496,7 +430,7 @@
 
       tbody {
         max-height: none;
-        overflow-x: auto;
+        // overflow-x: auto;
       }
     }
   }

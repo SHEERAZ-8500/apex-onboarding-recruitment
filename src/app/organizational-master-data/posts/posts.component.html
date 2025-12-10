@@ -34,74 +34,63 @@
 
         <!-- Search -->
         <div class="search-wrapper ms-auto">
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Search..."
-            [(ngModel)]="searchText"
-          />
+          <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="searchText" />
           <i class="fa fa-search search-icon"></i>
         </div>
       </div>
 
       <!-- Posts Table -->
       <div class="posts-list-section">
-        <table class="table table-bordered posts-table">
-          <thead>
-            <tr>
-              <th>Posts Code</th>
-              <th>Post Name</th>
-              <th>Location Name</th>
-              <th>Customer Name</th>
-              <th>Day Concept</th>
-              <th>Swing Concept</th>
-              <th>Post Type</th>
-              <th>Shift</th>
-              <th>No Of DC</th>
-              <th>No Of Shifts</th>
-              <th>No Of Employees Per Shift</th>
-              <th>Total Post Timing</th>
-              <th>No Of Days</th>
-              <th>Total ManPower</th>
-              <th>Supervisor Name</th>
-              <th class="action-col-header">Actions</th>
-            </tr>
-          </thead>
+        <div class="table-container">
+          <table class="table table-bordered posts-table">
+            <thead>
+              <tr>
+                <th>Posts Code</th>
+                <th>Post Name</th>
+                <th>Location Name</th>
+                <th>Customer Name</th>
+                <th>Day Concept</th>
+                <th>Swing Concept</th>
+                <th>Post Type</th>
+                <th>Shift</th>
+                <th>No Of DC</th>
+                <th>No Of Shifts</th>
+                <th>No Of Employees Per Shift</th>
+                <th>Total Post Timing</th>
+                <th>No Of Days</th>
+                <th>Total ManPower</th>
+                <th>Supervisor Name</th>
+                <th class="action-col-header">Actions</th>
+              </tr>
+            </thead>
 
-          <tbody>
-            <tr
-              *ngFor="let item of paginatedPosts(); let i = index"
-              [class.edit-row]="editIndex === currentPageStart + i"
-            >
-              <td>{{ item.postsCode }}</td>
-              <td>{{ item.postName }}</td>
-              <td>{{ item.locationName }}</td>
-              <td>{{ item.customerName }}</td>
-              <td>{{ item.dayConcept }}</td>
-              <td>{{ item.swingConcept }}</td>
-              <td>{{ item.postType }}</td>
-              <td>{{ item.shift }}</td>
-              <td>{{ item.noOfDC }}</td>
-              <td>{{ item.noOfShifts }}</td>
-              <td>{{ item.noOfEmployeesPerShift }}</td>
-              <td>{{ item.totalPostTiming }}</td>
-              <td>{{ item.noOfDays }}</td>
-              <td>{{ item.totalManPower }}</td>
-              <td>{{ item.supervisorName }}</td>
+            <tbody>
+              <tr *ngFor="let item of paginatedPosts(); let i = index"
+                [class.edit-row]="editIndex === currentPageStart + i">
+                <td>{{ item.postsCode }}</td>
+                <td>{{ item.postName }}</td>
+                <td>{{ item.locationName }}</td>
+                <td>{{ item.customerName }}</td>
+                <td>{{ item.dayConcept }}</td>
+                <td>{{ item.swingConcept }}</td>
+                <td>{{ item.postType }}</td>
+                <td>{{ item.shift }}</td>
+                <td>{{ item.noOfDC }}</td>
+                <td>{{ item.noOfShifts }}</td>
+                <td>{{ item.noOfEmployeesPerShift }}</td>
+                <td>{{ item.totalPostTiming }}</td>
+                <td>{{ item.noOfDays }}</td>
+                <td>{{ item.totalManPower }}</td>
+                <td>{{ item.supervisorName }}</td>
 
-              <td class="action-col">
-                <i
-                  class="fa fa-edit action-icon"
-                  (click)="editPost(currentPageStart + i)"
-                ></i>
-                <i
-                  class="fa fa-trash action-icon"
-                  (click)="deletePost(currentPageStart + i)"
-                ></i>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                <td class="action-col">
+                  <i class="fa fa-edit action-icon" (click)="editPost(currentPageStart + i)"></i>
+                  <i class="fa fa-trash action-icon" (click)="deletePost(currentPageStart + i)"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <!-- Pagination -->
         <div class="d-flex justify-content-end mt-3 me-3">
@@ -114,11 +103,7 @@
                 </a>
               </li>
 
-              <li
-                class="page-item"
-                *ngFor="let page of totalPagesArray"
-                [class.active]="page === currentPage"
-              >
+              <li class="page-item" *ngFor="let page of totalPagesArray" [class.active]="page === currentPage">
                 <a class="page-link" (click)="changePage(page)">
                   {{ page }}
                 </a>
@@ -165,95 +150,52 @@
         <!-- Posts Code (Input Field) -->
         <div class="col-md-6 mb-3">
           <label>Posts Code <span class="text-danger">*</span></label>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Enter Posts Code"
-            [(ngModel)]="postsCode"
-            [readonly]="isEdit"
-          />
+          <input type="text" class="form-control" placeholder="Enter Posts Code" [(ngModel)]="postsCode"
+            [readonly]="isEdit" />
         </div>
 
         <!-- No Of DC (Input Field) -->
         <div class="col-md-6 mb-3">
           <label>No Of DC <span class="text-danger">*</span></label>
-          <input
-            type="number"
-            class="form-control"
-            placeholder="Enter No Of DC"
-            [(ngModel)]="noOfDC"
-            min="0"
-          />
+          <input type="number" class="form-control" placeholder="Enter No Of DC" [(ngModel)]="noOfDC" min="0" />
         </div>
 
         <!-- No Of Employees Per Shift (Input Field) -->
         <div class="col-md-6 mb-3">
           <label>No Of Employees Per Shift <span class="text-danger">*</span></label>
-          <input
-            type="number"
-            class="form-control"
-            placeholder="Enter No Of Employees Per Shift"
-            [(ngModel)]="noOfEmployeesPerShift"
-            min="0"
-          />
+          <input type="number" class="form-control" placeholder="Enter No Of Employees Per Shift"
+            [(ngModel)]="noOfEmployeesPerShift" min="0" />
         </div>
 
         <!-- Swing Concept (Input Field) -->
         <div class="col-md-6 mb-3">
           <label>Swing Concept <span class="text-danger">*</span></label>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Enter Swing Concept"
-            [(ngModel)]="swingConcept"
-          />
+          <input type="text" class="form-control" placeholder="Enter Swing Concept" [(ngModel)]="swingConcept" />
         </div>
 
         <!-- Total ManPower (Input Field) -->
         <div class="col-md-6 mb-3">
           <label>Total ManPower <span class="text-danger">*</span></label>
-          <input
-            type="number"
-            class="form-control"
-            placeholder="Enter Total ManPower"
-            [(ngModel)]="totalManPower"
-            min="0"
-          />
+          <input type="number" class="form-control" placeholder="Enter Total ManPower" [(ngModel)]="totalManPower"
+            min="0" />
         </div>
 
         <!-- No Of Shifts (Input Field) -->
         <div class="col-md-6 mb-3">
           <label>No Of Shifts <span class="text-danger">*</span></label>
-          <input
-            type="number"
-            class="form-control"
-            placeholder="Enter No Of Shifts"
-            [(ngModel)]="noOfShifts"
-            min="0"
-          />
+          <input type="number" class="form-control" placeholder="Enter No Of Shifts" [(ngModel)]="noOfShifts" min="0" />
         </div>
 
         <!-- No Of Days (Input Field) -->
         <div class="col-md-6 mb-3">
           <label>No Of Days <span class="text-danger">*</span></label>
-          <input
-            type="number"
-            class="form-control"
-            placeholder="Enter No Of Days"
-            [(ngModel)]="noOfDays"
-            min="0"
-          />
+          <input type="number" class="form-control" placeholder="Enter No Of Days" [(ngModel)]="noOfDays" min="0" />
         </div>
 
         <!-- Day Concept (Input Field) -->
         <div class="col-md-6 mb-3">
           <label>Day Concept <span class="text-danger">*</span></label>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Enter Day Concept"
-            [(ngModel)]="dayConcept"
-          />
+          <input type="text" class="form-control" placeholder="Enter Day Concept" [(ngModel)]="dayConcept" />
         </div>
 
         <!-- Post Name (Dropdown) -->
@@ -337,11 +279,7 @@
 
       <!-- Buttons -->
       <div class="btn-row text-end mt-2">
-        <button
-          class="btn btn-primary"
-          (click)="isEdit ? updatePost() : createPost()"
-          [disabled]="!isFormValid()"
-        >
+        <button class="btn btn-primary" (click)="isEdit ? updatePost() : createPost()" [disabled]="!isFormValid()">
           <i class="fa fa-check-circle"></i>
           {{ isEdit ? "Update" : "Create" }}
         </button>

@@ -36,6 +36,30 @@
     }
   }
 
+  .table-container {
+    overflow-x: auto;
+    min-width: 100%;
+    max-width: 800px;
+
+    &::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: var(--second-primary-color);
+      border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: 4px;
+
+      &:hover {
+        background: var(--purple-1);
+      }
+    }
+  }
+
   /* Divider Line */
   .divider {
     margin: 12px 0;
@@ -102,11 +126,10 @@
 
   /* Table Styling */
   table.cost-center-table {
-    width: 100%;
+    width: 1600px;
     border: none;
-    overflow: hidden;
 
-    &.table-bordered > :not(caption) > * > * {
+    &.table-bordered> :not(caption)>*>* {
       border-color: var(--border-color) !important;
     }
 
@@ -149,8 +172,7 @@
     /* ===================== */
     /* ✅ SCROLLABLE ROWS ONLY */
     /* ===================== */
-    display: flex;
-    flex-direction: column;
+
 
     thead {
       display: table;
@@ -164,7 +186,8 @@
     tbody {
       display: block;
       width: 100%;
-      max-height: 360px; /* approx 8 rows */
+      max-height: 360px;
+      /* approx 8 rows */
       overflow-y: auto;
     }
 
@@ -185,27 +208,14 @@
       border-radius: 2px;
     }
 
-    tbody {
-      scrollbar-width: thin;
-    }
 
-    /* Column Widths */
-    th:nth-child(1), td:nth-child(1) { width: 10%; min-width: 80px; }  /* Code */
-    th:nth-child(2), td:nth-child(2) { width: 15%; min-width: 120px; } /* Name */
-    th:nth-child(3), td:nth-child(3) { width: 12%; min-width: 100px; } /* Effective Date */
-    th:nth-child(4), td:nth-child(4) { width: 15%; min-width: 120px; } /* Chargeable To */
-    th:nth-child(5), td:nth-child(5) { width: 12%; min-width: 100px; } /* Include In Salary */
-    th:nth-child(6), td:nth-child(6) { width: 15%; min-width: 120px; } /* Created By */
-    th:nth-child(7), td:nth-child(7) { width: 10%; min-width: 80px; }  /* Actions */
+
+
+    /* Actions */
   }
 
   /* Actions column spacing (Edit + Delete gap) */
-  .cost-center-table tbody td.action-col {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    justify-content: center;
-  }
+
 
   .cost-center-table tbody td.action-col .action-icon {
     font-size: 15px;
@@ -296,9 +306,12 @@
           &[type="date"] {
             padding: 0.69rem 0.75rem;
           }
-             &::placeholder {
-        color: var(--text-secondary); /* Apna color */
-        opacity: 1;}
+
+          &::placeholder {
+            color: var(--text-secondary);
+            /* Apna color */
+            opacity: 1;
+          }
         }
 
         .text-danger {
@@ -328,22 +341,22 @@
           font-size: 1rem;
         }
 
-       &.btn-primary {
+        &.btn-primary {
           background: #198754;
-  color: #fff;
+          color: #fff;
 
-  &:hover {
-    background: #157347; // subtle darken
-  }
+          &:hover {
+            background: #157347; // subtle darken
+          }
         }
 
         &.btn-danger {
           background: #dc3545;
-  color: #fff;
+          color: #fff;
 
-  &:hover {
-    background: #c12738; // subtle darken
-  }
+          &:hover {
+            background: #c12738; // subtle darken
+          }
         }
       }
     }

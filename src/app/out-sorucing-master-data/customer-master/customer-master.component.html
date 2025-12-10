@@ -27,85 +27,74 @@
         </div>
 
         <div class="search-wrapper ms-auto">
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Search..."
-            [(ngModel)]="searchText"
-          />
+          <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="searchText" />
           <i class="fa fa-search search-icon"></i>
         </div>
       </div>
 
       <div class="customer-master-list-section">
-        <table class="table table-bordered customer-master-table">
-          <thead>
-            <tr>
-              <th>CustCode</th>
-              <th>CustName</th>
-              <th>Arabic Name</th>
-              <th>Cust Type</th>
-              <th>Company Reg No</th>
-              <th>VAT No</th>
-              <th>Phone No</th>
-              <th>Mobile No</th>
-              <th>Contact Person</th>
-              <th>Bank Name</th>
-              <th>IBAN</th>
-              <th>SwiftCode</th>
-              <th>Beneficiary Name</th>
-              <th>Payment Terms</th>
-              <th>Payment Frequency</th>
-              <th>CurrentBalance</th>
-              <th>Status</th>
-              <th>Contract No</th>
-              <th>Created By</th>
-              <th class="action-col-header">Actions</th>
-            </tr>
-          </thead>
+        <div class="table-container">
+          <table class="table table-bordered customer-master-table">
+            <thead>
+              <tr>
+                <th>CustCode</th>
+                <th>CustName</th>
+                <th>Arabic Name</th>
+                <th>Cust Type</th>
+                <th>Company Reg No</th>
+                <th>VAT No</th>
+                <th>Phone No</th>
+                <th>Mobile No</th>
+                <th>Contact Person</th>
+                <th>Bank Name</th>
+                <th>IBAN</th>
+                <th>SwiftCode</th>
+                <th>Beneficiary Name</th>
+                <th>Payment Terms</th>
+                <th>Payment Frequency</th>
+                <th>CurrentBalance</th>
+                <th>Status</th>
+                <th>Contract No</th>
+                <th>Created By</th>
+                <th class="action-col-header">Actions</th>
+              </tr>
+            </thead>
 
-          <tbody>
-            <tr
-              *ngFor="let item of paginatedCustomers(); let i = index"
-              [class.edit-row]="editIndex === currentPageStart + i"
-            >
-              <td>{{ item.custCode }}</td>
-              <td>{{ item.custName }}</td>
-              <td>{{ item.arabicName }}</td>
-              <td>{{ item.custType }}</td>
-              <td>{{ item.companyRegNo }}</td>
-              <td>{{ item.vatNo }}</td>
-              <td>{{ item.phoneNo }}</td>
-              <td>{{ item.mobileNo }}</td>
-              <td>{{ item.contactPerson }}</td>
-              <td>{{ item.bankName }}</td>
-              <td>{{ item.iban }}</td>
-              <td>{{ item.swiftCode }}</td>
-              <td>{{ item.beneficiaryName }}</td>
-              <td>{{ item.paymentTerms }}</td>
-              <td>{{ item.paymentFrequency }}</td>
-              <td>{{ item.currentBalance | currency:'USD':'symbol':'1.2-2' }}</td>
-              <td>
-                <span class="badge" [ngClass]="item.status === 'Active' ? 'badge-success' : 'badge-danger'">
-                  {{ item.status }}
-                </span>
-              </td>
-              <td>{{ item.contractNo }}</td>
-              <td>{{ item.createdBy }}</td>
+            <tbody>
+              <tr *ngFor="let item of paginatedCustomers(); let i = index"
+                [class.edit-row]="editIndex === currentPageStart + i">
+                <td>{{ item.custCode }}</td>
+                <td>{{ item.custName }}</td>
+                <td>{{ item.arabicName }}</td>
+                <td>{{ item.custType }}</td>
+                <td>{{ item.companyRegNo }}</td>
+                <td>{{ item.vatNo }}</td>
+                <td>{{ item.phoneNo }}</td>
+                <td>{{ item.mobileNo }}</td>
+                <td>{{ item.contactPerson }}</td>
+                <td>{{ item.bankName }}</td>
+                <td>{{ item.iban }}</td>
+                <td>{{ item.swiftCode }}</td>
+                <td>{{ item.beneficiaryName }}</td>
+                <td>{{ item.paymentTerms }}</td>
+                <td>{{ item.paymentFrequency }}</td>
+                <td>{{ item.currentBalance | currency:'USD':'symbol':'1.2-2' }}</td>
+                <td>
+                  <span class="badge" [ngClass]="item.status === 'Active' ? 'badge-success' : 'badge-danger'">
+                    {{ item.status }}
+                  </span>
+                </td>
+                <td>{{ item.contractNo }}</td>
+                <td>{{ item.createdBy }}</td>
 
-              <td class="action-col">
-                <i
-                  class="fa fa-edit action-icon"
-                  (click)="editCustomer(currentPageStart + i)"
-                ></i>
-                <i
-                  class="fa fa-trash action-icon"
-                  (click)="deleteCustomer(currentPageStart + i)"
-                ></i>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                <td class="action-col">
+                  <i class="fa fa-edit action-icon" (click)="editCustomer(currentPageStart + i)"></i>
+                  <i class="fa fa-trash action-icon" (click)="deleteCustomer(currentPageStart + i)"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <div class="d-flex justify-content-end mt-3 me-3">
           <nav aria-label="Page navigation">
@@ -117,11 +106,7 @@
                 </a>
               </li>
 
-              <li
-                class="page-item"
-                *ngFor="let page of totalPagesArray"
-                [class.active]="page === currentPage"
-              >
+              <li class="page-item" *ngFor="let page of totalPagesArray" [class.active]="page === currentPage">
                 <a class="page-link" (click)="changePage(page)">
                   {{ page }}
                 </a>
@@ -160,34 +145,18 @@
 
         <div class="col-md-6 mb-3">
           <label>Cust Code <span class="text-danger">*</span></label>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Enter Customer Code"
-            [(ngModel)]="custCode"
-            [readonly]="isEdit"
-          />
+          <input type="text" class="form-control" placeholder="Enter Customer Code" [(ngModel)]="custCode"
+            [readonly]="isEdit" />
         </div>
 
         <div class="col-md-6 mb-3">
           <label>Cust Name <span class="text-danger">*</span></label>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Enter Customer Name"
-            [(ngModel)]="custName"
-          />
+          <input type="text" class="form-control" placeholder="Enter Customer Name" [(ngModel)]="custName" />
         </div>
 
         <div class="col-md-6 mb-3">
           <label>Arabic Name</label>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Enter Arabic Name"
-            [(ngModel)]="arabicName"
-            dir="rtl"
-          />
+          <input type="text" class="form-control" placeholder="Enter Arabic Name" [(ngModel)]="arabicName" dir="rtl" />
         </div>
 
         <div class="col-md-6 mb-3">
@@ -202,82 +171,42 @@
 
         <div class="col-md-6 mb-3">
           <label>VAT No</label>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Enter VAT Number"
-            [(ngModel)]="vatNo"
-          />
+          <input type="text" class="form-control" placeholder="Enter VAT Number" [(ngModel)]="vatNo" />
         </div>
 
         <div class="col-md-6 mb-3">
           <label>Phone No</label>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Enter Phone Number"
-            [(ngModel)]="phoneNo"
-          />
+          <input type="text" class="form-control" placeholder="Enter Phone Number" [(ngModel)]="phoneNo" />
         </div>
 
         <div class="col-md-6 mb-3">
           <label>Mobile Number</label>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Enter Mobile Number"
-            [(ngModel)]="mobileNo"
-          />
+          <input type="text" class="form-control" placeholder="Enter Mobile Number" [(ngModel)]="mobileNo" />
         </div>
 
         <div class="col-md-6 mb-3">
           <label>Contact Person Name</label>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Enter Contact Person Name"
-            [(ngModel)]="contactPerson"
-          />
+          <input type="text" class="form-control" placeholder="Enter Contact Person Name" [(ngModel)]="contactPerson" />
         </div>
 
         <div class="col-md-6 mb-3">
           <label>Bank Name</label>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Enter Bank Name"
-            [(ngModel)]="bankName"
-          />
+          <input type="text" class="form-control" placeholder="Enter Bank Name" [(ngModel)]="bankName" />
         </div>
 
         <div class="col-md-6 mb-3">
           <label>IBAN</label>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Enter IBAN"
-            [(ngModel)]="iban"
-          />
+          <input type="text" class="form-control" placeholder="Enter IBAN" [(ngModel)]="iban" />
         </div>
 
         <div class="col-md-6 mb-3">
           <label>SwiftCode</label>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Enter Swift Code"
-            [(ngModel)]="swiftCode"
-          />
+          <input type="text" class="form-control" placeholder="Enter Swift Code" [(ngModel)]="swiftCode" />
         </div>
 
         <div class="col-md-6 mb-3">
           <label>Beneficiary Name</label>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Enter Beneficiary Name"
-            [(ngModel)]="beneficiaryName"
-          />
+          <input type="text" class="form-control" placeholder="Enter Beneficiary Name" [(ngModel)]="beneficiaryName" />
         </div>
 
         <div class="col-md-6 mb-3">
@@ -312,55 +241,32 @@
 
         <div class="col-md-6 mb-3">
           <label>Contract No</label>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Enter Contract Number"
-            [(ngModel)]="contractNo"
-          />
+          <input type="text" class="form-control" placeholder="Enter Contract Number" [(ngModel)]="contractNo" />
         </div>
 
         <div class="col-md-6 mb-3">
           <label>No Of Areas</label>
-          <input
-            type="number"
-            class="form-control"
-            placeholder="Enter Number of Areas"
-            [(ngModel)]="noOfAreas"
-            min="0"
-          />
+          <input type="number" class="form-control" placeholder="Enter Number of Areas" [(ngModel)]="noOfAreas"
+            min="0" />
         </div>
 
         <div class="col-md-6 mb-3">
           <label>No Of Locations</label>
-          <input
-            type="number"
-            class="form-control"
-            placeholder="Enter Number of Locations"
-            [(ngModel)]="noOfLocations"
-            min="0"
-          />
+          <input type="number" class="form-control" placeholder="Enter Number of Locations" [(ngModel)]="noOfLocations"
+            min="0" />
         </div>
 
         <div class="col-md-6 mb-3">
           <label>No Of Posts</label>
-          <input
-            type="number"
-            class="form-control"
-            placeholder="Enter Number of Posts"
-            [(ngModel)]="noOfPosts"
-            min="0"
-          />
+          <input type="number" class="form-control" placeholder="Enter Number of Posts" [(ngModel)]="noOfPosts"
+            min="0" />
         </div>
 
       </div>
 
       <div class="btn-row text-end mt-2">
-        <button
-          class="btn btn-primary"
-          (click)="isEdit ? updateCustomer() : createCustomer()"
-          [disabled]="!isFormValid()"
-        >
+        <button class="btn btn-primary" (click)="isEdit ? updateCustomer() : createCustomer()"
+          [disabled]="!isFormValid()">
           <i class="fa fa-check-circle"></i>
           {{ isEdit ? "Update" : "Create" }}
         </button>

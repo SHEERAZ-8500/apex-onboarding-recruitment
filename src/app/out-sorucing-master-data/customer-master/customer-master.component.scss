@@ -36,6 +36,30 @@
         }
     }
 
+    .table-container {
+        overflow-x: auto;
+        min-width: 100%;
+        max-width: 800px;
+
+        &::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: var(--second-primary-color);
+            border-radius: 4px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+
+            &:hover {
+                background: var(--purple-1);
+            }
+        }
+    }
+
     /* Divider Line */
     .divider {
         margin: 12px 0;
@@ -102,9 +126,7 @@
 
     /* Table Styling */
     table.customer-master-table {
-        width: 100%;
-        border: none;
-        overflow: hidden;
+        width: 3000px;
 
         &.table-bordered> :not(caption)>*>* {
             border-color: var(--border-color) !important;
@@ -141,7 +163,7 @@
                     border: none;
                     padding: 8px;
                     font-size: 12px;
-                    white-space: nowrap;
+                    // white-space: nowrap;
                     vertical-align: middle;
                 }
             }
@@ -165,11 +187,6 @@
             }
         }
 
-        /* ===================== */
-        /* ✅ SCROLLABLE ROWS ONLY */
-        /* ===================== */
-        display: flex;
-        flex-direction: column;
 
         thead {
             display: table;
@@ -180,14 +197,6 @@
             z-index: 5;
         }
 
-        tbody {
-            display: block;
-            width: 100%;
-            max-height: 400px;
-            overflow-y: auto;
-            overflow-x: auto;
-        }
-
         thead tr,
         tbody tr {
             display: table;
@@ -196,29 +205,9 @@
             border: none;
         }
 
-        tbody::-webkit-scrollbar {
-            width: 1px;
-        }
 
-        tbody::-webkit-scrollbar-thumb {
-            background: var(--second-primary-color);
-            border-radius: 2px;
-        }
-
-        tbody {
-            scrollbar-width: thin;
-        }
     }
 
-    /* Actions column spacing (Edit + Delete gap) */
-    .customer-master-table tbody td.action-col {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        position: sticky;
-        right: 0;
-        background-color: var(--second-primary-color) !important;
-    }
 
     .customer-master-table tbody td.action-col .action-icon {
         font-size: 14px;
@@ -411,23 +400,23 @@
                     font-size: 1rem;
                 }
 
-              &.btn-primary {
-          background: #198754;
-          color: #fff;
+                &.btn-primary {
+                    background: #198754;
+                    color: #fff;
 
-          &:hover {
-            background: #157347; // subtle darken
-          }
-        }
+                    &:hover {
+                        background: #157347; // subtle darken
+                    }
+                }
 
-        &.btn-danger {
-          background: #dc3545;
-          color: #fff;
+                &.btn-danger {
+                    background: #dc3545;
+                    color: #fff;
 
-          &:hover {
-            background: #c12738; // subtle darken
-          }
-        }
+                    &:hover {
+                        background: #c12738; // subtle darken
+                    }
+                }
             }
         }
     }

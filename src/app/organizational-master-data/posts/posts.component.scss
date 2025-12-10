@@ -35,7 +35,29 @@
       }
     }
   }
+  .table-container {
+    overflow-x: auto;
+    min-width: 100%;
+    max-width: 800px;
 
+    &::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: var(--second-primary-color);
+      border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: 4px;
+
+      &:hover {
+        background: var(--purple-1);
+      }
+    }
+  }
   /* Divider Line */
   .divider {
     margin: 12px 0;
@@ -102,9 +124,9 @@
 
   /* Table Styling */
   table.posts-table {
-    width: 100%;
+    width:3000px;
     border: none;
-    overflow: hidden;
+   
 
     &.table-bordered> :not(caption)>*>* {
       border-color: var(--border-color) !important;
@@ -146,11 +168,7 @@
       }
     }
 
-    /* ===================== */
-    /* ✅ SCROLLABLE ROWS ONLY */
-    /* ===================== */
-    display: flex;
-    flex-direction: column;
+
 
     thead {
       display: table;
@@ -161,13 +179,7 @@
       z-index: 5;
     }
 
-    tbody {
-      display: block;
-      width: 100%;
-      max-height: 400px;
-      overflow-y: auto;
-      overflow-x: auto;
-    }
+
 
     thead tr,
     tbody tr {
@@ -177,29 +189,15 @@
       border: none;
     }
 
-    tbody::-webkit-scrollbar {
-      width: 1px;
-    }
 
     tbody::-webkit-scrollbar-thumb {
       background: var(--second-primary-color);
       border-radius: 2px;
     }
 
-    tbody {
-      scrollbar-width: thin;
-    }
+
   }
 
-  /* Actions column spacing (Edit + Delete gap) */
-  .posts-table tbody td.action-col {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    position: sticky;
-    right: 0;
-    background-color: var(--second-primary-color) !important;
-  }
 
   .posts-table tbody td.action-col .action-icon {
     font-size: 15px;
@@ -377,58 +375,6 @@
       }
     }
 
-    table.posts-table {
-      display: block;
-      overflow-x: auto;
 
-      thead,
-      tbody,
-      th,
-      td,
-      tr {
-        display: block;
-      }
-
-      thead tr {
-        position: absolute;
-        top: -9999px;
-        left: -9999px;
-      }
-
-      tr {
-        margin-bottom: 15px;
-        border: 1px solid var(--border-color);
-        border-radius: 5px;
-      }
-
-      td {
-        border: none;
-        position: relative;
-        padding-left: 50%;
-        text-align: left;
-        white-space: normal;
-
-        &:before {
-          position: absolute;
-          top: 10px;
-          left: 10px;
-          width: 45%;
-          padding-right: 10px;
-          white-space: nowrap;
-          font-weight: bold;
-          content: attr(data-label);
-        }
-      }
-
-      td.action-col {
-        display: flex;
-        justify-content: center;
-        padding-left: 10px !important;
-
-        &:before {
-          display: none;
-        }
-      }
-    }
   }
 }
