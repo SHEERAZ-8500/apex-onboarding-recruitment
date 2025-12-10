@@ -1,0 +1,249 @@
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-client',
+  templateUrl: './client.component.html',
+  styleUrls: ['./client.component.scss'],
+})
+export class ClientComponent {
+
+  // ✅ Clients Data
+  clients = [
+    {
+      customerNo: 'CUST001',
+      customerName: 'ABC Corporation',
+      bankName: 'National Bank',
+      accountNo: '1234567890',
+      city: 'New York',
+      toAddress: '123 Main Street, NY 10001',
+      vatNo: 'VAT123456789'
+    },
+    {
+      customerNo: 'CUST002',
+      customerName: 'XYZ Ltd',
+      bankName: 'Global Bank',
+      accountNo: '0987654321',
+      city: 'London',
+      toAddress: '456 Oxford Street, London W1',
+      vatNo: 'GB123456789'
+    },
+    {
+      customerNo: 'CUST003',
+      customerName: 'Tech Solutions Inc',
+      bankName: 'Tech Bank',
+      accountNo: '1122334455',
+      city: 'San Francisco',
+      toAddress: '789 Market Street, SF 94105',
+      vatNo: 'US987654321'
+    },
+    {
+      customerNo: 'CUST004',
+      customerName: 'Manufacturing Co',
+      bankName: 'Industrial Bank',
+      accountNo: '5566778899',
+      city: 'Chicago',
+      toAddress: '101 Industrial Park, Chicago 60601',
+      vatNo: 'US456789123'
+    },
+    {
+      customerNo: 'CUST005',
+      customerName: 'Retail Chain',
+      bankName: 'Commerce Bank',
+      accountNo: '3344556677',
+      city: 'Miami',
+      toAddress: '222 Beach Avenue, Miami 33101',
+      vatNo: 'US789123456'
+    },
+    {
+      customerNo: 'CUST006',
+      customerName: 'Service Provider',
+      bankName: 'Service Bank',
+      accountNo: '8899001122',
+      city: 'Dallas',
+      toAddress: '333 Service Road, Dallas 75201',
+      vatNo: 'US321654987'
+    },
+    {
+      customerNo: 'CUST007',
+      customerName: 'Consulting Firm',
+      bankName: 'Professional Bank',
+      accountNo: '4455667788',
+      city: 'Boston',
+      toAddress: '444 Consultant Lane, Boston 02101',
+      vatNo: 'US654987321'
+    },
+    {
+      customerNo: 'CUST008',
+      customerName: 'Logistics Company',
+      bankName: 'Transport Bank',
+      accountNo: '6677889900',
+      city: 'Atlanta',
+      toAddress: '555 Logistics Drive, Atlanta 30301',
+      vatNo: 'US987321654'
+    }
+  ];
+
+  // ✅ Form Fields
+  customerNo = '';
+  customerName = '';
+  bankName = '';
+  accountNo = '';
+  city = '';
+  toAddress = '';
+  vatNo = '';
+
+  // ✅ State Variables
+  showForm = false;
+  isEdit = false;
+  editIndex: number | null = null;
+  searchText = '';
+
+  // ✅ Pagination
+  currentPage = 1;
+  itemsPerPage = 5;
+
+  get currentPageStart() {
+    return (this.currentPage - 1) * this.itemsPerPage;
+  }
+
+  get totalPages() {
+    return Math.ceil(this.filteredClients().length / this.itemsPerPage);
+  }
+
+  get totalPagesArray() {
+    const total = this.totalPages;
+
+    if (total <= 3) {
+      return Array.from({ length: total }, (_, i) => i + 1);
+    }
+
+    if (this.currentPage === 1) return [1, 2, 3];
+    if (this.currentPage === total) return [total - 2, total - 1, total];
+
+    return [this.currentPage - 1, this.currentPage, this.currentPage + 1];
+  }
+
+  // ✅ Form Validation
+  isFormValid(): boolean {
+    return !!(
+      this.customerNo &&
+      this.customerName
+    );
+    // Note: Only Customer Code and Customer Name are required
+    // Other fields are optional
+  }
+
+  // ✅ Pagination Data
+  paginatedClients() {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    return this.filteredClients().slice(start, start + this.itemsPerPage);
+  }
+
+  changePage(page: number) {
+    if (page < 1 || page > this.totalPages) return;
+    this.currentPage = page;
+  }
+
+  // ✅ Add New
+  onNew() {
+    this.resetForm();
+    this.showForm = true;
+  }
+
+  createClient() {
+    if (!this.isFormValid()) return;
+
+    this.clients.push({
+      customerNo: this.customerNo,
+      customerName: this.customerName,
+      bankName: this.bankName,
+      accountNo: this.accountNo,
+      city: this.city,
+      toAddress: this.toAddress,
+      vatNo: this.vatNo
+    });
+
+    this.hideForm();
+  }
+
+  // ✅ Edit
+  editClient(index: number) {
+    this.isEdit = true;
+    this.editIndex = index;
+    this.showForm = true;
+
+    const client = this.clients[index];
+    this.customerNo = client.customerNo;
+    this.customerName = client.customerName;
+    this.bankName = client.bankName;
+    this.accountNo = client.accountNo;
+    this.city = client.city;
+    this.toAddress = client.toAddress;
+    this.vatNo = client.vatNo;
+  }
+
+  updateClient() {
+    if (this.editIndex === null || !this.isFormValid()) return;
+
+    this.clients[this.editIndex] = {
+      customerNo: this.customerNo,
+      customerName: this.customerName,
+      bankName: this.bankName,
+      accountNo: this.accountNo,
+      city: this.city,
+      toAddress: this.toAddress,
+      vatNo: this.vatNo
+    };
+
+    this.hideForm();
+  }
+
+  // ✅ Delete
+  deleteClient(index: number) {
+    if (confirm('Are you sure you want to delete this client?')) {
+      this.clients.splice(index, 1);
+
+      if (this.currentPage > this.totalPages && this.currentPage > 1) {
+        this.currentPage = this.totalPages;
+      }
+    }
+  }
+
+  // ✅ Form Control
+  cancelForm() {
+    this.hideForm();
+  }
+
+  resetForm() {
+    this.customerNo = '';
+    this.customerName = '';
+    this.bankName = '';
+    this.accountNo = '';
+    this.city = '';
+    this.toAddress = '';
+    this.vatNo = '';
+    this.isEdit = false;
+    this.editIndex = null;
+  }
+
+  hideForm() {
+    this.resetForm();
+    this.showForm = false;
+  }
+
+  // ✅ Search Filter
+  filteredClients() {
+    if (!this.searchText.trim()) return this.clients;
+
+    const searchLower = this.searchText.toLowerCase();
+    return this.clients.filter(client =>
+      client.customerNo.toLowerCase().includes(searchLower) ||
+      client.customerName.toLowerCase().includes(searchLower) ||
+      client.bankName.toLowerCase().includes(searchLower) ||
+      client.accountNo.toLowerCase().includes(searchLower) ||
+      client.city.toLowerCase().includes(searchLower) ||
+      client.toAddress.toLowerCase().includes(searchLower) ||
+      client.vatNo.toLowerCase().includes(searchLower)
+    );
+  }
+}

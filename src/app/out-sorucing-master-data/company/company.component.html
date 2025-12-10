@@ -1,1 +1,465 @@
-<p>company works!</p>
+<div class="company-wrapper col-md-12">
+
+  <!-- ============================= -->
+  <!--   LIST VIEW (When showForm = false)  -->
+  <!-- ============================= -->
+  <ng-container *ngIf="!showForm; else formPage">
+
+    <div class="card-container">
+
+      <!-- Header Row -->
+      <div class="header-row">
+        <h4 class="main-title">Companies</h4>
+
+        <button class="add-btn" (click)="onNew()">
+          <i class="fa fa-plus"></i> Add New
+        </button>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- Items Per Page + Search -->
+      <div class="top-controls d-flex align-items-center">
+
+        <!-- Items Per Page -->
+        <div class="items-per-page">
+          <label>Items per page:</label>
+          <select class="form-select" [(ngModel)]="itemsPerPage">
+            <option [ngValue]="5">5</option>
+            <option [ngValue]="8">8</option>
+            <option [ngValue]="10">10</option>
+            <option [ngValue]="20">20</option>
+          </select>
+        </div>
+
+        <!-- Search -->
+        <div class="search-wrapper ms-auto">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search..."
+            [(ngModel)]="searchText"
+          />
+          <i class="fa fa-search search-icon"></i>
+        </div>
+      </div>
+
+      <!-- Companies Table -->
+      <div class="companies-list-section">
+        <table class="table table-bordered company-table">
+          <thead>
+            <tr>
+              <th>Companies Code</th>
+              <th>Company Name</th>
+              <th>Address</th>
+              <th>Internet Address</th>
+              <th>Email address</th>
+              <th>Telephone</th>
+              <th class="action-col-header">Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr
+              *ngFor="let item of paginatedCompanies(); let i = index"
+              [class.edit-row]="editIndex === currentPageStart + i"
+            >
+              <td>{{ item.companiesCode }}</td>
+              <td>{{ item.companyName }}</td>
+              <td>
+                {{ item.street }}, {{ item.building }}, {{ item.city }}, {{ item.state }}, {{ item.country }}
+              </td>
+              <td>{{ item.internetAddress }}</td>
+              <td>{{ item.emailAddress }}</td>
+              <td>{{ item.telephoneNo1 }}</td>
+
+              <td class="action-col">
+                <i
+                  class="fa fa-edit action-icon"
+                  (click)="editCompany(currentPageStart + i)"
+                ></i>
+                <i
+                  class="fa fa-trash action-icon"
+                  (click)="deleteCompany(currentPageStart + i)"
+                ></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Pagination -->
+        <div class="d-flex justify-content-end mt-3 me-3">
+          <nav aria-label="Page navigation">
+            <ul class="pagination">
+
+              <li class="page-item" [class.disabled]="currentPage === 1">
+                <a class="page-link" (click)="changePage(currentPage - 1)">
+                  &laquo;
+                </a>
+              </li>
+
+              <li
+                class="page-item"
+                *ngFor="let page of totalPagesArray"
+                [class.active]="page === currentPage"
+              >
+                <a class="page-link" (click)="changePage(page)">
+                  {{ page }}
+                </a>
+              </li>
+
+              <li class="page-item" [class.disabled]="currentPage === totalPages">
+                <a class="page-link" (click)="changePage(currentPage + 1)">
+                  &raquo;
+                </a>
+              </li>
+
+            </ul>
+          </nav>
+        </div>
+
+      </div>
+    </div>
+  </ng-container>
+
+
+
+  <!-- ============================= -->
+  <!--   FORM VIEW (NEW / EDIT)     -->
+  <!-- ============================= -->
+  <ng-template #formPage>
+    <div class="card-container">
+
+      <!-- Header Row -->
+      <div class="header-row">
+        <h4 class="main-title">
+          {{ isEdit ? "Edit Company" : "Add Company" }}
+        </h4>
+
+        <button class="reset-btn" (click)="resetForm()">
+          <i class="fa fa-refresh"></i> Reset
+        </button>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- Form -->
+      <div class="form-row row">
+
+        <!-- Companies Code (Input Field) -->
+        <div class="col-md-6 mb-3">
+          <label>Companies Code <span class="text-danger">*</span></label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter Companies Code"
+            [(ngModel)]="companiesCode"
+            [readonly]="isEdit"
+          />
+        </div>
+
+        <!-- Company Name (Input Field) -->
+        <div class="col-md-6 mb-3">
+          <label>Company Name <span class="text-danger">*</span></label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter Company Name"
+            [(ngModel)]="companyName"
+          />
+        </div>
+
+         <div class="col-md-6 mb-3">
+          <label>Address</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter Address"
+            [(ngModel)]="address"
+          />
+        </div>
+       
+
+        <!-- Street (Input Field) -->
+        <div class="col-md-6 mb-3">
+          <label>Street</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter Street No"
+            [(ngModel)]="street"
+          />
+        </div>
+
+       
+
+        <!-- Block (Input Field) -->
+        <div class="col-md-6 mb-3">
+          <label>Block</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter Block"
+            [(ngModel)]="block"
+          />
+        </div>
+
+        <!-- Building (Input Field) -->
+        <div class="col-md-6 mb-3">
+          <label>Building</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter Building"
+            [(ngModel)]="building"
+          />
+        </div>
+
+        <!-- City (Input Field) -->
+        <div class="col-md-6 mb-3">
+          <label>City</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter City"
+            [(ngModel)]="city"
+          />
+        </div>
+
+        <!-- Zip Code (Input Field) -->
+        <div class="col-md-6 mb-3">
+          <label>Zip Code</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter Zip Code"
+            [(ngModel)]="zipCode"
+          />
+        </div>
+
+        <!-- County (Country Dropdown) -->
+        <div class="col-md-6 mb-3">
+          <label>Country <span class="text-danger">*</span></label>
+          <select class="form-select" [(ngModel)]="country">
+            <option value="">Select Country</option>
+            <option *ngFor="let country of dropdownOptions.countries" [value]="country">
+              {{ country }}
+            </option>
+          </select>
+        </div>
+
+        <!-- State (Input Field) -->
+        <div class="col-md-6 mb-3">
+          <label>State</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter State"
+            [(ngModel)]="state"
+          />
+        </div>
+
+        <!-- Internet Address (Input Field) -->
+        <div class="col-md-6 mb-3">
+          <label>Internet Address</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter Internet Address"
+            [(ngModel)]="internetAddress"
+          />
+        </div>
+
+        <!-- Printing Header (Input Field) -->
+        <div class="col-md-6 mb-3">
+          <label>Printing Header</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter Printing Header"
+            [(ngModel)]="printingHeader"
+          />
+        </div>
+
+        <!-- Manager (Dropdown) -->
+        <div class="col-md-6 mb-3">
+          <label>Manager</label>
+          <select class="form-select" [(ngModel)]="manager">
+            <option value="">Select Manager</option>
+            <option *ngFor="let manager of dropdownOptions.managers" [value]="manager">
+              {{ manager }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Alias Name (Input Field) -->
+        <div class="col-md-6 mb-3">
+          <label>Alias Name</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter Alias Name"
+            [(ngModel)]="aliasName"
+          />
+        </div>
+
+        <!-- Telephone No1 (Input Field) -->
+        <div class="col-md-6 mb-3">
+          <label>Telephone No1 <span class="text-danger">*</span></label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter Telephone No1"
+            [(ngModel)]="telephoneNo1"
+          />
+        </div>
+
+        <!-- Telephone2 (Input Field) -->
+        <div class="col-md-6 mb-3">
+          <label>Telephone2</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Optional"
+            [(ngModel)]="telephone2"
+          />
+        </div>
+
+        <!-- Fax (Input Field) -->
+        <div class="col-md-6 mb-3">
+          <label>Fax</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter Fax"
+            [(ngModel)]="fax"
+          />
+        </div>
+
+        <!-- Email Address (Input Field) -->
+        <div class="col-md-6 mb-3">
+          <label>Email Address <span class="text-danger">*</span></label>
+          <input
+            type="email"
+            class="form-control"
+            placeholder="Enter Email Address"
+            [(ngModel)]="emailAddress"
+          />
+        </div>
+
+        <!-- GLN (Input Field) -->
+        <div class="col-md-6 mb-3">
+          <label>GLN</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter GLN"
+            [(ngModel)]="gln"
+          />
+        </div>
+
+        <!-- Signature Section -->
+        <div class="col-md-12 mb-3">
+          <h6 class="section-title">Signatures</h6>
+        </div>
+
+        <!-- Signature 1 (File Upload) -->
+        <div class="col-md-6 mb-3">
+          <label>Signature 1</label>
+          <div class="file-upload-wrapper">
+            <input
+              type="file"
+              class="form-control"
+              (change)="onSignature1Change($event)"
+              accept=".jpg,.jpeg,.png,.pdf"
+              #signature1Input
+            />
+            <div class="file-info" *ngIf="signature1FileName">
+              <span>{{ signature1FileName }}</span>
+              <button type="button" class="btn-remove-file" (click)="removeSignature1()">
+                <i class="fa fa-times"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Signature 2 (File Upload) -->
+        <div class="col-md-6 mb-3">
+          <label>Signature 2</label>
+          <div class="file-upload-wrapper">
+            <input
+              type="file"
+              class="form-control"
+              (change)="onSignature2Change($event)"
+              accept=".jpg,.jpeg,.png,.pdf"
+              #signature2Input
+            />
+            <div class="file-info" *ngIf="signature2FileName">
+              <span>{{ signature2FileName }}</span>
+              <button type="button" class="btn-remove-file" (click)="removeSignature2()">
+                <i class="fa fa-times"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Signature 3 (File Upload) -->
+        <div class="col-md-6 mb-3">
+          <label>Signature 3</label>
+          <div class="file-upload-wrapper">
+            <input
+              type="file"
+              class="form-control"
+              (change)="onSignature3Change($event)"
+              accept=".jpg,.jpeg,.png,.pdf"
+              #signature3Input
+            />
+            <div class="file-info" *ngIf="signature3FileName">
+              <span>{{ signature3FileName }}</span>
+              <button type="button" class="btn-remove-file" (click)="removeSignature3()">
+                <i class="fa fa-times"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Signature 4 (File Upload) -->
+        <div class="col-md-6 mb-3">
+          <label>Signature 4</label>
+          <div class="file-upload-wrapper">
+            <input
+              type="file"
+              class="form-control"
+              (change)="onSignature4Change($event)"
+              accept=".jpg,.jpeg,.png,.pdf"
+              #signature4Input
+            />
+            <div class="file-info" *ngIf="signature4FileName">
+              <span>{{ signature4FileName }}</span>
+              <button type="button" class="btn-remove-file" (click)="removeSignature4()">
+                <i class="fa fa-times"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Buttons -->
+      <div class="btn-row text-end mt-2">
+        <button
+          class="btn btn-primary"
+          (click)="isEdit ? updateCompany() : createCompany()"
+          [disabled]="!isFormValid()"
+        >
+          <i class="fa fa-check-circle"></i>
+          {{ isEdit ? "Update" : "Create" }}
+        </button>
+
+        <button class="btn btn-danger ms-2" (click)="cancelForm()">
+          <i class="fa fa-ban"></i> Cancel
+        </button>
+      </div>
+    </div>
+  </ng-template>
+</div>
