@@ -194,7 +194,27 @@
         </div>
       </div>
     </div>
+    <!-- employees -master-data -->
+    <div class="nav-item-with-toggle">
+      <a class="top-link" (click)="toggleEmployeesMasterData()" [attr.aria-expanded]="!employeesMasterDataCollapsed" aria-controls="employeesMasterDataExample">
+        <i class="fa-solid fa-user-shield"></i>
+        <span>Employees</span>
+        <span class="chev-icon">
+          <i *ngIf="employeesMasterDataCollapsed" class="fa-solid fa-chevron-right"></i>
+          <i *ngIf="!employeesMasterDataCollapsed" class="fa-solid fa-chevron-down"></i>
+        </span>
+      </a>
 
+      <div #employeesMasterData="ngbCollapse" [(ngbCollapse)]="employeesMasterDataCollapsed" class="collapseStyling" [class.open]="!employeesMasterDataCollapsed">
+        <div class="collapseDiv">
+          <a routerLink="/panel/employees-master-data/employees">
+            <i class="fa-regular fa-circle"></i><span>Employees-Master-Data</span>
+          </a>
+
+
+        </div>
+      </div>
+    </div>
     <!-- Requisition Lookups -->
     <div class="nav-item-with-toggle">
       <a class="top-link" (click)="toggleRequisitionLookups()" [attr.aria-expanded]="!requisitionLookupsCollapsed"

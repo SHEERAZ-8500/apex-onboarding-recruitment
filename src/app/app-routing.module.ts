@@ -50,6 +50,7 @@ const routes: Routes = [
       { path: 'requisition-lookups', loadChildren: () => import('./requisition-lookups/requisition-lookups.module').then(m => m.RequisitionLookupsModule) },
       { path: 'organizational-master-data', loadChildren: () => import('./organizational-master-data/organizational-master-data.module').then(m => m.OrganizationalMasterDataModule) },
       { path: 'out-sourcing-master-data', loadChildren: () => import('./out-sorucing-master-data/out-sourcing-master-data.module').then(m => m.OutSourcingMasterDataModule) },
+      { path: 'employees-master-data', loadChildren: () => import('./employees/employees-data-master/employees-master-data.module').then(m => m.EmployeesMasterDataModule) },
 
 
     ]

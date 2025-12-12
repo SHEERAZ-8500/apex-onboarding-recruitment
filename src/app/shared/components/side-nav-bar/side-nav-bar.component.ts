@@ -23,7 +23,7 @@ export class SideNavBarComponent implements OnInit {
   // other groups
   adminCollapsed = true;
   requisitionLookupsCollapsed = true;
-
+  employeesMasterDataCollapsed = true;
   ngOnInit() {
     this.toggleService.sidebarOpen$.subscribe(open => this.isOpen = open);
   }
@@ -42,4 +42,5 @@ export class SideNavBarComponent implements OnInit {
   toggleAdmin() { this.adminCollapsed = !this.adminCollapsed; }
 
   toggleRequisitionLookups() { this.requisitionLookupsCollapsed = !this.requisitionLookupsCollapsed; }
+  toggleEmployeesMasterData() { this.employeesMasterDataCollapsed = !this.employeesMasterDataCollapsed; }
 }
