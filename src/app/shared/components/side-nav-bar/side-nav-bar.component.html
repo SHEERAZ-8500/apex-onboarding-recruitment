@@ -48,9 +48,9 @@
 
       <div #collapse="ngbCollapse" [(ngbCollapse)]="assesment" class="collapseStyling" [class.open]="!assesment">
         <div class="collapseDiv">
-          <a><i class="fa-regular fa-circle"></i><span>Design Assesment</span></a>
-          <a><i class="fa-regular fa-circle"></i><span>Stored Assesment</span></a>
-          <a><i class="fa-regular fa-circle"></i><span>Received Assesment</span></a>
+          <a><i class="fas fa-angle-double-right"></i><span>Design Assesment</span></a>
+          <a><i class="fas fa-angle-double-right"></i><span>Stored Assesment</span></a>
+          <a><i class="fas fa-angle-double-right"></i><span>Received Assesment</span></a>
         </div>
       </div>
     </div>
@@ -74,11 +74,11 @@
           <div class="nav-item-with-toggle level-2">
             <a class="level-link" (click)="toggleGeneralMaster()" [attr.aria-expanded]="!generalMasterdataCollapsed"
               aria-controls="generalMasterdataExample">
-              <i class="fa-regular fa-circle"></i>
+              <i class="fas fa-angle-double-right"></i>
               <span>General Master Data</span>
               <span class="chev-icon small">
-                <i *ngIf="generalMasterdataCollapsed" class="fa-solid fa-caret-down"></i>
-                <i *ngIf="!generalMasterdataCollapsed" class="fa-solid fa-caret-up"></i>
+                <i *ngIf="generalMasterdataCollapsed" ></i>
+                <i *ngIf="!generalMasterdataCollapsed" ></i>
               </span>
             </a>
 
@@ -119,11 +119,11 @@
           <div class="nav-item-with-toggle level-2">
             <a class="level-link" (click)="toggleOrganizationalMaster()"
               [attr.aria-expanded]="!organizationalMasterdataCollapsed" aria-controls="organizationalMasterdataExample">
-              <i class="fa-regular fa-circle"></i>
+              <i class="fas fa-angle-double-right"></i>
               <span>Organizational Master Data</span>
               <span class="chev-icon small">
-                <i *ngIf="organizationalMasterdataCollapsed" class="fa-solid fa-caret-down"></i>
-                <i *ngIf="!organizationalMasterdataCollapsed" class="fa-solid fa-caret-up"></i>
+                <i *ngIf="organizationalMasterdataCollapsed" ></i>
+                <i *ngIf="!organizationalMasterdataCollapsed" ></i>
               </span>
             </a>
 
@@ -147,11 +147,11 @@
           <div class="nav-item-with-toggle level-2">
             <a class="level-link" (click)="toggleOutsourcingMaster()"
               [attr.aria-expanded]="!outsourcinggMasterdataCollapsed" aria-controls="outsourcinggMasterdataExample">
-              <i class="fa-regular fa-circle"></i>
+              <i class="fas fa-angle-double-right"></i>
               <span>Outsourcing Master Data</span>
               <span class="chev-icon small">
-                <i *ngIf="outsourcinggMasterdataCollapsed" class="fa-solid fa-caret-down"></i>
-                <i *ngIf="!outsourcinggMasterdataCollapsed" class="fa-solid fa-caret-up"></i>
+                <i *ngIf="outsourcinggMasterdataCollapsed" ></i>
+                <i *ngIf="!outsourcinggMasterdataCollapsed" ></i>
               </span>
             </a>
 
@@ -185,11 +185,11 @@
       <div #admin="ngbCollapse" [(ngbCollapse)]="adminCollapsed" class="collapseStyling" [class.open]="!adminCollapsed">
         <div class="collapseDiv">
           <a routerLink="admin/view-all-users">
-            <i class="fa-regular fa-circle"></i><span>View All Users</span>
+            <i class="fas fa-angle-double-right"></i><span>View All Users</span>
           </a>
 
           <a routerLink="/panel/permissions/view-all-rols">
-            <i class="fa-regular fa-circle"></i><span>View Role</span>
+            <i class="fas fa-angle-double-right"></i><span>View Role</span>
           </a>
         </div>
       </div>
@@ -231,19 +231,19 @@
         [class.open]="!requisitionLookupsCollapsed">
         <div class="collapseDiv">
           <a routerLink="/panel/requisition-lookups/create-job-title">
-            <i class="fa-regular fa-circle"></i><span>Job Title</span>
+            <i class="fas fa-angle-double-right"></i><span>Job Title</span>
           </a>
 
           <a routerLink="/panel/requisition-lookups/create-employee-category">
-            <i class="fa-regular fa-circle"></i><span>Employee Category</span>
+            <i class="fas fa-angle-double-right"></i><span>Employee Category</span>
           </a>
 
           <a routerLink="/panel/requisition-lookups/create-department">
-            <i class="fa-regular fa-circle"></i><span>Department</span>
+            <i class="fas fa-angle-double-right"></i><span>Department</span>
           </a>
 
           <a routerLink="/panel/requisition-lookups/create-branch">
-            <i class="fa-regular fa-circle"></i><span>Branches</span>
+            <i class="fas fa-angle-double-right"></i><span>Branches</span>
           </a>
         </div>
       </div>
