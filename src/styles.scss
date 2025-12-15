@@ -174,91 +174,9 @@ body {
 
 
 
-// form io styling
 
 
 
-.builder,
-.formio.builder.row.formbuilder {
-  overflow-x: hidden !important;
-}
-
-/* Optional — inner area me thoda spacing handle karne ke liye */
-.formarea {
-  overflow-x: hidden !important;
-  overflow-y: auto !important;
-  height: 70vh !important;
-  position: relative;
-}
-
-.formarea::after {
-  content: '';
-  display: block;
-  height: 50px;
-  width: 100%;
-}
-
-// labels
-
-.formarea label,
-.formarea .form-check-label,
-.formarea .formio-component label,
-.formarea .formio-component span {
-  color: var(--white-color-1) !important;
-}
-
-/* File selector ke text aur links */
-.fileSelector,
-.fileSelector a,
-.fileSelector span,
-.fileSelector i {
-  color: var(--white-color-1) !important;
-}
-
-.formarea .input-group .input-group-append {
-  position: absolute !important;
-  right: 1% !important;
-  top: 4px !important;
-
-  span {
-    background: transparent !important;
-  }
-
-  button,
-  .btn {
-    background-color: transparent !important;
-    border: none !important;
-    color: var(--white-color-1) !important;
-    cursor: pointer !important;
-    padding: 4px 8px !important;
-
-    &:hover {
-      color: #ff4d4d !important;
-    }
-  }
-}
-
-/* Clear button text color */
-.formarea .input-group-text {
-  background-color: transparent !important;
-  border: none !important;
-  color: var(--white-color-1) !important;
-}
-
-/* Sidebar panels ke liye custom background aur border color */
-.form-builder-panel {
-  background-color: var(--second-primary-color, #0c1a32) !important;
-  border: 1px solid var(--border-color, #5C607B) !important;
-  border-radius: 6px;
-  margin-bottom: 8px;
-}
-
-/* Header ka color thoda distinct banane ke liye */
-.form-builder-panel .card-header {
-  background-color: var(--second-primary-color, #0c1a32) !important;
-  border-bottom: 1px solid var(--border-color, #5C607B) !important;
-  color: var(--white-color-1);
-}
 
 /* Buttons aur text ke liye thoda spacing aur color contrast */
 .builder-group-button {
@@ -267,30 +185,7 @@ body {
   text-align: left;
 }
 
-.choices[data-type*="select-one"] .choices__button {
-  background-color: transparent !important;
-  border: none !important;
-  opacity: 0.6 !important;
-  filter: invert(1) brightness(1.2) !important;
 
-  &:hover {
-    opacity: 1 !important;
-    filter: invert(0.5) sepia(1) saturate(5) hue-rotate(320deg) brightness(1.2) !important;
-  }
-}
-
-.light-theme .choices[data-type*="select-one"] .choices__button {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath fill='%23ffffff' d='M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z'/%3E%3C/svg%3E") !important;
-  background-size: 14px !important;
-  background-repeat: no-repeat !important;
-  background-position: center !important;
-  padding: 0 !important;
-}
-
-/* Optional: hover pe halka highlight effect */
-.form-builder-panel:hover {
-  box-shadow: 0 0 6px rgba(92, 96, 123, 0.5);
-}
 
 input[type="time"]::-webkit-calendar-picker-indicator {
   filter: invert(1) brightness(2);
@@ -300,147 +195,9 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 }
 
 
-.formarea input,
-.formarea textarea,
-.formarea .dropdown,
-.formarea select {
-  border-radius: 6px !important;
-  background-color: var(--second-primary-color) !important;
-  color: #b5b5c3 !important;
-  border: 1px solid var(--border-color) !important;
-  outline: none !important;
-  padding-inline-start: 10px !important;
-  // margin: 10px auto !important;
-  display: block !important;
-}
-
-.formarea input,
-.formarea textarea,
-.formarea .dropdown,
-.formarea select .formarea .choices__list {
-  background-color: var(--second-primary-color) !important;
-  color: #b5b5c3 !important;
-}
-
-.formarea .choices__list ul li {
-  background-color: var(--second-primary-color) !important;
-  color: #b5b5c3 !important;
-}
-
-/* Default list items */
-.formarea .formio-component-select .choices__item {
-  background-color: var(--second-primary-color) !important;
-  color: #b5b5c3 !important;
-}
-
-/* Hover items */
-.formarea .formio-component-select .choices__item:hover {
-  background-color: var(--second-primary-color) !important;
-  color: #b5b5c3 !important;
-}
-
-/* Highlighted / currently focused item in dropdown */
-.formarea .formio-component-select .choices__item.is-highlighted {
-  background-color: var(--second-primary-color) !important;
-  color: #b5b5c3 !important;
-}
-
-/* Selected item */
-.formarea .formio-component-select .choices__item.is-selected {
-  background-color: var(--second-primary-color) !important;
-  color: #b5b5c3 !important;
-}
-
-
-.builder-sidebar_search {
-
-  border-radius: 6px !important;
-  background-color: var(--second-primary-color) !important;
-  color: #b5b5c3 !important;
-  border: 1px solid var(--border-color) !important;
-  outline: none !important;
-  padding-inline-start: 10px !important;
-  margin: 10px auto !important;
-  display: block !important;
-}
-
-/* Placeholder color thoda halka karne ke liye */
-.builder-sidebar_search::placeholder {
-  color: #888 !important;
-  opacity: 1 !important;
-}
-
-/* Focus pe border ya glow chahiye to ye add kar lo */
-.builder-sidebar_search:focus {
-  box-shadow: 0 0 4px #5c607b;
-}
-
-
-// placeholder
-.formarea input::placeholder,
-.formarea textarea::placeholder,
-.formarea .dropdown::placeholder,
-.formarea select::placeholder {
-  color: var(--white-color-1) !important;
-  opacity: 0.5;
-}
 
 
 
 
-/* Section container */
-.formio-component-panel {
-  background-color: transparent !important;
-  /* Transparent background */
-  border: none !important;
-  /* Remove border if needed */
-  box-shadow: none !important;
-  /* Remove shadow */
-}
-
-/* Card inside section */
-.formio-component-panel .card {
-  background-color: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-}
-
-/* Card header */
-.formio-component-panel .card-header {
-  background-color: transparent !important;
-  border: none !important;
-}
-
-/* Card body */
-.formio-component-panel .card-body {
-  background-color: transparent !important;
-  border: none !important;
-
-}
 
 
-
-.formio-component .formio-form.formio-form-group label {
-  color: var(--white-color-1) !important;
-}
-
-
-// tags
-
-.formarea .formio-component-tags .choices__inner {
-  background-color: var(--second-primary-color) !important;
-  color: var(--white-color-1) !important;
-  border: 1px solid var(--border-color) !important;
-  border-radius: 8px !important;
-  min-height: 40px !important;
-  padding: 6px 8px !important;
-
-  .choices__input {
-    width: 300px !important;
-    margin-top: 15px !important;
-  }
-}
-
-.formarea .formio-component-employeeTabs .card {
-  background: transparent !important;
-}
