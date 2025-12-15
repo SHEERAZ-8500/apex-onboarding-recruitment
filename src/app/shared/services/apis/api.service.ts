@@ -67,21 +67,30 @@ export class ApiService {
   createNewRole(data: any) {
     return this.http.post('admin/roles', data);
   }
-      
+
 
   // req lookup creations
-  createJobTitle(data:any){
-    return this.http.post('job-titles',data);
+  createJobTitle(data: any) {
+    return this.http.post('job-titles', data);
   }
-createEmployeeCategories(data:any){
-    return this.http.post('employee-categories',data);
+  createEmployeeCategories(data: any) {
+    return this.http.post('employee-categories', data);
   }
-  createDepartment(data:any){
-    return this.http.post('departments',data);
+  createDepartment(data: any) {
+    return this.http.post('departments', data);
   }
-createBranch(data:any){
-    return this.http.post('branches',data);
+  createBranch(data: any) {
+    return this.http.post('branches', data);
   }
+
+
+
+// forms apis
+
+  getUserAllForms() {
+    return this.http.get(`/forms`);
+  }
+
 
   getAllUser() {
     return this.http.get('admin/users');

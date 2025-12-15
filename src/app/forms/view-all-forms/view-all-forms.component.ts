@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { ApiService } from '../shared/services/apis/api.service';
-import { AllFormsLisitngDto } from '../shared/dtos/Dto';
+import { ApiService } from '../../shared/services/apis/api.service';
+import { AllFormsLisitngDto } from '../../shared/dtos/Dto';
 import { ActivatedRoute } from '@angular/router';
-import { LoaderService } from '../shared/services/loader.service';
+import { LoaderService } from '../../shared/services/loader.service';
 @Component({
   selector: 'app-view-all-forms',
   templateUrl: './view-all-forms.component.html',
@@ -19,7 +19,7 @@ export class ViewAllFormsComponent {
   getAllFormlist() {
     this.routeNUmber = 1;
     this.loader.show();
-    this.apiService.getFormAllDefinition().subscribe((res: any) => {
+    this.apiService.getUserAllForms().subscribe((res: any) => {
       this.FormList = res.data;
       console.log(this.FormList);
       this.updatePagination();

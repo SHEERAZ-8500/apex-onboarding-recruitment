@@ -30,8 +30,7 @@
     <a routerLink="/panel/chat" routerLinkActive="active"><i class="fa-regular fa-message"></i> <span>Chat</span></a>
     <a routerLink="/panel/contact" routerLinkActive="active"><i class="fa-solid fa-address-book"></i>
       <span>Contacts</span></a>
-    <a routerLink="/panel/view-all-forms" routerLinkActive="active"><i class="fa-solid fa-rectangle-list"></i>
-      <span>Forms</span></a>
+
     <a routerLink="/panel/table/table-listing" routerLinkActive="active"><i class="fa-solid fa-table-list"></i>
       <span>Tables</span></a>
 
@@ -249,7 +248,25 @@
         </div>
       </div>
     </div>
+    <!-- forms -->
+    <div class="nav-item-with-toggle">
+      <a class="top-link" (click)="toggleForms()" [attr.aria-expanded]="!formsCollapsed" aria-controls="formsExample">
+        <i class="fa-solid fa-file-lines"></i>
+        <span>Forms</span>
+        <span class="chev-icon">
+          <i *ngIf="formsCollapsed" class="fa-solid fa-chevron-right"></i>
+          <i *ngIf="!formsCollapsed" class="fa-solid fa-chevron-down"></i>
+        </span>
+      </a>
 
+      <div #forms="ngbCollapse" [(ngbCollapse)]="formsCollapsed" class="collapseStyling" [class.open]="!formsCollapsed">
+        <div class="collapseDiv">
+          <a routerLink="/panel/forms/view-all-forms">
+            <span>View All Forms</span>
+          </a>
+        </div>
+      </div>
+    </div>
     <!-- Requisition Lookups -->
     <div class="nav-item-with-toggle">
       <a class="top-link" (click)="toggleRequisitionLookups()" [attr.aria-expanded]="!requisitionLookupsCollapsed"

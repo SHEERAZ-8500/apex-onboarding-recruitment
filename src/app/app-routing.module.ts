@@ -10,7 +10,6 @@ import { LayOutTwoComponent } from './lay-outs/lay-out-two/lay-out-two.component
 import { LogInComponent } from './features/Auth/log-in/log-in.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 
-import { ViewAllFormsComponent } from './view-all-forms/view-all-forms.component';
 import { ViewAllFormSubmissionsComponent } from './view-all-form-submissions/view-all-form-submissions.component';
 
 import { ViewAllNotificationsComponent } from './view-all-notifications/view-all-notifications.component';
@@ -27,7 +26,6 @@ const routes: Routes = [
 
       { path: 'employes', component: EmployesComponent },
       { path: 'jobs-details', component: JobsComponent },
-      { path: 'view-all-forms', component: ViewAllFormsComponent },
       { path: 'view-all-submissions/:id', component: ViewAllFormSubmissionsComponent },
       { path: 'view-all-notifications', component: ViewAllNotificationsComponent },
       { path: 'table', loadChildren: () => import('./table-builder/table-build.module').then(m => m.TableBuildModule) },
@@ -45,6 +43,7 @@ const routes: Routes = [
       { path: 'organizational-master-data', loadChildren: () => import('./organizational-master-data/organizational-master-data.module').then(m => m.OrganizationalMasterDataModule) },
       { path: 'out-sourcing-master-data', loadChildren: () => import('./out-sorucing-master-data/out-sourcing-master-data.module').then(m => m.OutSourcingMasterDataModule) },
       { path: 'employees-master-data', loadChildren: () => import('./employees/employees-data-master/employees-master-data.module').then(m => m.EmployeesMasterDataModule) },
+      { path: 'forms', loadChildren: () => import('./forms/forms.module').then(m => m.FormsModule) },
 
 
     ]
