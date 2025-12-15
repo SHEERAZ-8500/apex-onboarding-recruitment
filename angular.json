@@ -39,7 +39,6 @@
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "node_modules/formiojs/dist/formio.full.min.css",
               "node_modules/ngx-toastr/toastr.css",
               "src/styles.scss"
             ],

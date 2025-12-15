@@ -4,7 +4,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { FormBuilderComponent } from './form-builder/form-builder.component';
 import { SideNavBarComponent } from './shared/components/side-nav-bar/side-nav-bar.component';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { ResponsiveBotstrapSideNavBarComponent } from './shared/components/responsive-botstrap-side-nav-bar/responsive-botstrap-side-nav-bar.component';
@@ -21,8 +20,6 @@ import { LayOutOneComponent } from './lay-outs/lay-out-one/lay-out-one.component
 import { LayOutTwoComponent } from './lay-outs/lay-out-two/lay-out-two.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
-import { FormRenderComponent } from './form-render/form-render.component';
-import { FormioModule } from '@formio/angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors } from '@angular/common/http';
@@ -31,15 +28,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { HeaderModalComponent } from './shared/components/bootstrap-modals/header-modal/header-modal.component';
 import { ViewAllFormsComponent } from './view-all-forms/view-all-forms.component';
 import { ViewAllFormSubmissionsComponent } from './view-all-form-submissions/view-all-form-submissions.component';
-import { ViewFormSubmitedDataComponent } from './view-form-submited-data/view-form-submited-data.component';
-import { FormDefinationUpdateComponent } from './form-defination-update/form-defination-update.component';
+
 import { SahringModule } from './shared/modules/sahring.module';
 import { ViewAllNotificationsComponent } from './view-all-notifications/view-all-notifications.component';
 import { ChatBoxCardComponent } from './shared/components/chat-box-card/chat-box-card.component';
 @NgModule({
   declarations: [
     AppComponent,
-    FormBuilderComponent,
     SideNavBarComponent,
     HeaderComponent,
     ResponsiveBotstrapSideNavBarComponent,
@@ -56,12 +51,9 @@ import { ChatBoxCardComponent } from './shared/components/chat-box-card/chat-box
     
     DashboardComponent,
     
-    FormRenderComponent,
     HeaderModalComponent,
     ViewAllFormsComponent,
     ViewAllFormSubmissionsComponent,
-    ViewFormSubmitedDataComponent,
-    FormDefinationUpdateComponent,
     ViewAllNotificationsComponent,
     ChatBoxCardComponent,
     
@@ -71,7 +63,6 @@ import { ChatBoxCardComponent } from './shared/components/chat-box-card/chat-box
     AppRoutingModule,
     NgbModule,
     SahringModule,
-    FormioModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({
       timeOut: 3000,
