@@ -185,7 +185,7 @@ export class SkillsComponent {
   searchText = '';
   skillRemarks = '';
   skillLevel = ''
-  skillActive = false;
+  skillActive = true;
 
   // ✅ Pagination
   currentPage = 1;
