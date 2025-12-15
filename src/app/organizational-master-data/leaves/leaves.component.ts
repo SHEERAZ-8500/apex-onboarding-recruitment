@@ -152,10 +152,10 @@ export class LeavesComponent {
   remarks = '';
   
   // Checkbox Fields
-  payableLeave: boolean = false;
-  encashableLeave: boolean = false;
-  carryForwardToNextYear: boolean = false;
-  leavePaidInAdvance: boolean = false;
+  payableLeave: boolean = true;
+  encashableLeave: boolean = true;
+  carryForwardToNextYear: boolean = true;
+  leavePaidInAdvance: boolean = true;
 
   // ✅ State Variables
   showForm = false;

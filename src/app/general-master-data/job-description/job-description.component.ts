@@ -27,7 +27,7 @@ export class JobDescriptionComponent {
   jobTitle = '';
   skillCode = '';
   skillDescription = '';
-  mandatory = false;
+  mandatory = true;
   qualificationCode = '';
   qualificationName = '';
   department = '';

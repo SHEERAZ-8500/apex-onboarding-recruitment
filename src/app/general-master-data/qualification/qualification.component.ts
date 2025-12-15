@@ -56,7 +56,7 @@ export class QualificationComponent {
   passingYear: string = '';
   grade: string = '';
   institute: string = '';
-  active: boolean = false;
+  active: boolean = true;
 
   // ⭐ GLOBAL PAGINATION (same as Candidate Table)
   currentPage = 1;
