@@ -1,4 +1,9 @@
-import { Component, ElementRef, HostListener } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  ViewChild
+} from '@angular/core';
 import { ToggleService } from '../../services/ToggleService';
 import { ThemeService } from '../../services/Theme.service';
 
@@ -8,8 +13,12 @@ import { ThemeService } from '../../services/Theme.service';
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
+
+  // 🔹 Notification card ka reference
+  @ViewChild('notifyCard') notifyCard!: ElementRef;
+
   showNotifications = false;
-  animateBounce = false; 
+  animateBounce = false;
 
   notifications = [
     { icon: 'fa-solid fa-triangle-exclamation', color: '#f5e967ff', text: 'Duis malesuada justo eu sapien elementum varius.' },
@@ -20,11 +29,11 @@ export class HeaderComponent {
   ];
 
   isDarkMode = false;
+  showChat = false;
 
   constructor(
-    private toggleService: ToggleService, 
-    public themeService: ThemeService,
-    private eRef: ElementRef  // Inject ElementRef
+    private toggleService: ToggleService,
+    public themeService: ThemeService
   ) {}
 
   ngOnInit() {
@@ -39,47 +48,52 @@ export class HeaderComponent {
     } else {
       const offcanvasElement = document.getElementById('offcanvasScrolling');
       if (offcanvasElement) {
-        const bootstrapOffcanvas = new (window as any).bootstrap.Offcanvas(offcanvasElement);
+        const bootstrapOffcanvas =
+          new (window as any).bootstrap.Offcanvas(offcanvasElement);
         bootstrapOffcanvas.show();
       }
     }
   }
 
-  toggleNotifications() {
+  // 🔔 Bell click
+  toggleNotifications(event: MouseEvent) {
+    event.stopPropagation(); // 🔴 very important
     this.showNotifications = !this.showNotifications;
-     if (this.showNotifications) {
-    this.animateBounce = true;  
-    setTimeout(() => {
-      this.animateBounce = false; 
-    }, 1000); 
-  }
+
+    if (this.showNotifications) {
+      this.animateBounce = true;
+      setTimeout(() => {
+        this.animateBounce = false;
+      }, 1000);
+    }
   }
 
   clearAll() {
-    console.log('Clear all notifications clicked');
     this.notifications = [];
   }
+
   closeNotifications() {
-  this.showNotifications = false;
-}
+    this.showNotifications = false;
+  }
 
-
-  // **Click outside listener**
+  // 🔥 Real outside click handler
   @HostListener('document:click', ['$event'])
-  clickOutside(event: Event) {
-    const clickedInside = this.eRef.nativeElement.contains(event.target);
-    if (!clickedInside) {
+  onDocumentClick(event: Event) {
+    if (!this.showNotifications) return;
+
+    const clickedInsideNotify =
+      this.notifyCard?.nativeElement.contains(event.target);
+
+    if (!clickedInsideNotify) {
       this.showNotifications = false;
     }
   }
 
-  showChat = false;
+  openChat() {
+    this.showChat = true;
+  }
 
-openChat() {
-  this.showChat = true;
-}
-
-closeChat() {
-  this.showChat = false;
-}
+  closeChat() {
+    this.showChat = false;
+  }
 }

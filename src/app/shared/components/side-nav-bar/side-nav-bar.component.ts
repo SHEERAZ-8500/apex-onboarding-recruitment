@@ -13,12 +13,14 @@ export class SideNavBarComponent implements OnInit {
   // top-level groups
   assesment = true;
   masterdata = true;
+  employees = true;
 
   // master data tree state
   masterdataCollapsed = true;
   generalMasterdataCollapsed = true;
   organizationalMasterdataCollapsed = true;
   outsourcinggMasterdataCollapsed = true;
+  employeesCollapsed = true;
 
   // other groups
   adminCollapsed = true;
@@ -32,6 +34,8 @@ export class SideNavBarComponent implements OnInit {
   toggleAssessment() { this.assesment = !this.assesment; }
 
   toggleMasterData() { this.masterdataCollapsed = !this.masterdataCollapsed; }
+    toggleEmployees() { this.employeesCollapsed = !this.employeesCollapsed; }
+
 
   toggleGeneralMaster() { this.generalMasterdataCollapsed = !this.generalMasterdataCollapsed; }
 
@@ -43,4 +47,5 @@ export class SideNavBarComponent implements OnInit {
 
   toggleRequisitionLookups() { this.requisitionLookupsCollapsed = !this.requisitionLookupsCollapsed; }
   toggleEmployeesMasterData() { this.employeesMasterDataCollapsed = !this.employeesMasterDataCollapsed; }
+  
 }

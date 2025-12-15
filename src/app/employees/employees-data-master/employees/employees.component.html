@@ -1,1 +1,651 @@
-<p>employees works!</p>
+<div class="employees-wrapper col-md-12">
+  <!-- LIST VIEW -->
+  <ng-container *ngIf="!showForm; else formPage">
+    <div class="card-container">
+      <!-- Header Row -->
+      <div class="header-row">
+        <h4 class="main-title">Employees</h4>
+        <button class="add-btn" (click)="onNew()">
+          <i class="fa fa-plus"></i> Add New
+        </button>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- Top Controls -->
+      <div class="top-controls d-flex align-items-center justify-content-between mb-3">
+        <!-- Left Side: Items per page -->
+        <div class="d-flex align-items-center gap-3">
+          <div class="items-per-page">
+            <label>Items per page:</label>
+            <select class="form-select" [(ngModel)]="itemsPerPage">
+              <option [ngValue]="5">5</option>
+              <option [ngValue]="10">10</option>
+              <option [ngValue]="20">20</option>
+              <option [ngValue]="50">50</option>
+            </select>
+          </div>
+
+          <!-- ERP Dropdown -->
+          <div class="erp-dropdown">
+            <select class="form-select" [(ngModel)]="selectedErp">
+              <option value="">Select ERP</option>
+              <option value="erp1">ERP System 1</option>
+              <option value="erp2">ERP System 2</option>
+            </select>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="action-buttons d-flex gap-2">
+            <button class="btn btn-outline-primary btn-sm">
+              <i class="fa fa-refresh"></i> Sync ERP
+            </button>
+            <button class="btn btn-outline-success btn-sm">
+              <i class="fa fa-download"></i> Export Employees
+            </button>
+          </div>
+        </div>
+
+        <!-- Right Side: Search -->
+        <div class="search-wrapper">
+          <input type="text" class="form-control" placeholder="Search employees..." [(ngModel)]="searchText" />
+          <i class="fa fa-search search-icon"></i>
+        </div>
+      </div>
+
+      <!-- Employees Table -->
+      <div class="table-section">
+        <div class="table-container">
+          <table class="table table-bordered employees-table">
+            <thead>
+              <tr>
+                <th>Sr #</th>
+                <th>Code</th>
+                <th>Legacy Code</th>
+                <th>Name</th>
+                <th>Job Title</th>
+                <th>Project</th>
+                <th>Email address</th>
+                <th>Mobile No</th>
+                <th>Status</th>
+                <th class="action-col-header">Actions</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let emp of paginatedEmployees; let i = index">
+                <td>{{ currentPageStart + i + 1 }}</td>
+                <td>{{ emp.code }}</td>
+                <td>{{ emp.legacyCode }}</td>
+                <td>{{ emp.name }}</td>
+                <td>{{ emp.jobTitle }}</td>
+                <td>{{ emp.project }}</td>
+                <td>{{ emp.email }}</td>
+                <td>{{ emp.mobileNo }}</td>
+                <td>
+                  <span class="badge" [ngClass]="emp.status === 'Active' ? 'badge-success' : 'badge-danger'">
+                    {{ emp.status }}
+                  </span>
+                </td>
+                <td class="action-col">
+                  <i class="fa fa-eye action-icon me-2" (click)="viewEmployee(i)" title="View"></i>
+                  <i class="fa fa-edit action-icon" (click)="editEmployee(i)" title="Edit"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="d-flex justify-content-end mt-3">
+          <nav aria-label="Page navigation">
+            <ul class="pagination">
+              <li class="page-item" [class.disabled]="currentPage === 1">
+                <a class="page-link" (click)="changePage(currentPage - 1)">&laquo;</a>
+              </li>
+              <li class="page-item" *ngFor="let page of totalPagesArray" [class.active]="page === currentPage">
+                <a class="page-link" (click)="changePage(page)">{{ page }}</a>
+              </li>
+              <li class="page-item" [class.disabled]="currentPage === totalPages">
+                <a class="page-link" (click)="changePage(currentPage + 1)">&raquo;</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- FORM VIEW -->
+  <ng-template #formPage>
+    <div class="card-container">
+      <!-- Header Row -->
+      <div class="header-row">
+        <h4 class="main-title">
+          {{ isEdit ? "Edit Employee" : "Add Employee" }}
+        </h4>
+        <div class="d-flex gap-2">
+          <button class="view-tabs-btn" (click)="openTabsModal()">
+            <i class="fa fa-eye"></i> View Tabs
+          </button>
+          <button class="reset-btn" (click)="resetForm()">
+            <i class="fa fa-refresh"></i> Reset
+          </button>
+        </div>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- Form -->
+      <!-- Form -->
+      <form (ngSubmit)="saveEmployee()">
+        <div class="form-row row">
+          <!-- First Row: 2 fields in first 4 columns, Profile Change on right -->
+          <div class="row">
+            <!-- Left side: First 4 columns (8 out of 12) -->
+            <div class="col-md-8">
+              <div class="row">
+                <!-- Row 1 (First 2 fields) -->
+                <div class="col-md-6 mb-3">
+                  <label>Code <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" placeholder="Enter Employee Code" 
+                         [(ngModel)]="employeeData.code" name="code" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label>Legacy Code</label>
+                  <input type="text" class="form-control" placeholder="Enter Legacy Code" 
+                         [(ngModel)]="employeeData.legacyCode" name="legacyCode">
+                </div>
+
+                <!-- Row 2 (Next 2 fields) -->
+                <div class="col-md-6 mb-3">
+                  <label>Name <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" placeholder="Enter Full Name" 
+                         [(ngModel)]="employeeData.name" name="name" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label>Father Name</label>
+                  <input type="text" class="form-control" placeholder="Enter Father's Name" 
+                         [(ngModel)]="employeeData.fatherName" name="fatherName">
+                </div>
+
+                <!-- Row 3 (Next 2 fields) -->
+                <div class="col-md-6 mb-3">
+                  <label>Employee Category</label>
+                  <select class="form-select" [(ngModel)]="employeeData.employeeCategory" name="employeeCategory">
+                    <option value="">Select Category</option>
+                    <option *ngFor="let cat of dropdownOptions.employeeCategories" [value]="cat">{{ cat }}</option>
+                  </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label>Gender</label>
+                  <select class="form-select" [(ngModel)]="employeeData.gender" name="gender">
+                    <option value="">Select Gender</option>
+                    <option *ngFor="let gender of dropdownOptions.genders" [value]="gender">{{ gender }}</option>
+                  </select>
+                </div>
+
+                <!-- Row 4 (Next 2 fields) -->
+                <div class="col-md-6 mb-3">
+                  <label>Select Job Title</label>
+                  <select class="form-select" [(ngModel)]="employeeData.jobTitle" name="jobTitle">
+                    <option value="">Select Job Title</option>
+                    <option *ngFor="let title of dropdownOptions.jobTitles" [value]="title">{{ title }}</option>
+                  </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label>Manager</label>
+                  <select class="form-select" [(ngModel)]="employeeData.manager" name="manager">
+                    <option value="">Select Manager</option>
+                    <option *ngFor="let manager of dropdownOptions.managers" [value]="manager">{{ manager }}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right side: Profile Change (4 out of 12 columns) -->
+            <div class="col-md-4 mb-3">
+              <div class="profile-change-section">
+                <label>Profile Picture</label>
+                <div class="profile-upload-area">
+                  <div class="avatar-preview">
+                    <img [src]="profileImage" alt="Profile" class="preview-image">
+                  </div>
+                  <div class="upload-actions mt-2">
+                    <button type="button" class="btn btn-sm btn-outline-primary w-100" 
+                            (click)="avatarFileInput.click()">
+                      <i class="fa fa-upload"></i> Change Photo
+                    </button>
+                    <input #avatarFileInput type="file" accept="image/*" class="d-none" 
+                           (change)="onProfileImageChange($event)">
+                    <small class="text-muted d-block mt-1 text-center">Max 2MB, JPG/PNG</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Rest of the form: 3 fields per row -->
+          <!-- Row 5: 3 fields -->
+          <div class="col-md-4 mb-3">
+            <label>Select Company</label>
+            <select class="form-select" [(ngModel)]="employeeData.company" name="company">
+              <option value="">Select Company</option>
+              <option *ngFor="let company of dropdownOptions.companies" [value]="company">{{ company }}</option>
+            </select>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label>Select Department</label>
+            <select class="form-select" [(ngModel)]="employeeData.department" name="department">
+              <option value="">Select Department</option>
+              <option *ngFor="let dept of dropdownOptions.departments" [value]="dept">{{ dept }}</option>
+            </select>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label>Active/In Active</label>
+            <div class="form-check form-switch mt-2">
+              <input class="form-check-input" type="checkbox" id="activeSwitch" 
+                     [(ngModel)]="employeeData.active" name="active">
+              <label class="form-check-label" for="activeSwitch">
+                {{ employeeData.active ? 'Active' : 'Inactive' }}
+              </label>
+            </div>
+          </div>
+
+          <!-- Row 6: 3 fields -->
+          <div class="col-md-4 mb-3">
+            <label>Date of Birth</label>
+            <input type="date" class="form-control" [(ngModel)]="employeeData.dob" name="dob">
+          </div>
+          <div class="col-md-4 mb-3">
+            <label>Nationality</label>
+            <select class="form-select" [(ngModel)]="employeeData.nationality" name="nationality">
+              <option value="">Select Nationality</option>
+              <option *ngFor="let nation of dropdownOptions.nationalities" [value]="nation">{{ nation }}</option>
+            </select>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label>Mobile Number</label>
+            <input type="text" class="form-control" placeholder="Enter Mobile Number" 
+                   [(ngModel)]="employeeData.mobileNumber" name="mobileNumber">
+          </div>
+
+          <!-- Row 7: 3 fields -->
+          <div class="col-md-4 mb-3">
+            <label>Email Address <span class="text-danger">*</span></label>
+            <input type="email" class="form-control" placeholder="Enter Email Address" 
+                   [(ngModel)]="employeeData.email" name="email" required>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label>Date of Joining</label>
+            <input type="date" class="form-control" [(ngModel)]="employeeData.dateOfJoining" name="dateOfJoining">
+          </div>
+          <div class="col-md-4 mb-3">
+            <label>Home Address</label>
+            <input type="text" class="form-control" placeholder="Enter Home Address" 
+                   [(ngModel)]="employeeData.homeAddress" name="homeAddress">
+          </div>
+
+          <!-- Row 8: 3 fields -->
+          <div class="col-md-4 mb-3">
+            <label>Blood Group</label>
+            <input type="text" class="form-control" placeholder="Enter Blood Group" 
+                   [(ngModel)]="employeeData.bloodGroup" name="bloodGroup">
+          </div>
+          <div class="col-md-4 mb-3">
+            <label>Sponsor</label>
+            <select class="form-select" [(ngModel)]="employeeData.sponsor" name="sponsor">
+              <option value="">Select Sponsor</option>
+              <option *ngFor="let sponsor of dropdownOptions.sponsors" [value]="sponsor">{{ sponsor }}</option>
+            </select>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label>Contract No</label>
+            <input type="text" class="form-control" placeholder="Enter Contract Number" 
+                   [(ngModel)]="employeeData.contractNo" name="contractNo">
+          </div>
+
+          <!-- Row 9: 3 fields -->
+          <div class="col-md-4 mb-3">
+            <label>Employee Grade</label>
+            <select class="form-select" [(ngModel)]="employeeData.employeeGrade" name="employeeGrade">
+              <option value="">Select Grade</option>
+              <option *ngFor="let grade of dropdownOptions.employeeGrades" [value]="grade">{{ grade }}</option>
+            </select>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label>Religion</label>
+            <input type="text" class="form-control" placeholder="Enter Religion" 
+                   [(ngModel)]="employeeData.religion" name="religion">
+          </div>
+          <div class="col-md-4 mb-3">
+            <label>Marital Status</label>
+            <select class="form-select" [(ngModel)]="employeeData.maritalStatus" name="maritalStatus">
+              <option value="">Select Status</option>
+              <option *ngFor="let status of dropdownOptions.maritalStatuses" [value]="status">{{ status }}</option>
+            </select>
+          </div>
+
+          <!-- Row 10: 3 fields -->
+          <div class="col-md-4 mb-3">
+            <label>Medical Insurance No.</label>
+            <input type="text" class="form-control" placeholder="Enter Insurance Number" 
+                   [(ngModel)]="employeeData.medicalInsuranceNo" name="medicalInsuranceNo">
+          </div>
+          <div class="col-md-4 mb-3">
+            <label>Emergency Contact</label>
+            <input type="text" class="form-control" placeholder="Enter Emergency Contact" 
+                   [(ngModel)]="employeeData.emergencyContact" name="emergencyContact">
+          </div>
+          <div class="col-md-4 mb-3">
+            <label>Visa Type</label>
+            <select class="form-select" [(ngModel)]="employeeData.visaType" name="visaType">
+              <option value="">Select Visa Type</option>
+              <option *ngFor="let visa of dropdownOptions.visaTypes" [value]="visa">{{ visa }}</option>
+            </select>
+          </div>
+
+          <!-- Row 11: 3 fields -->
+          <div class="col-md-4 mb-3">
+            <label>Visa/Iqama/ID</label>
+            <input type="text" class="form-control" placeholder="Enter Visa/Iqama/ID" 
+                   [(ngModel)]="employeeData.visaIqamaId" name="visaIqamaId">
+          </div>
+          <div class="col-md-4 mb-3">
+            <label>Visa/Iqama/ID Expiry Date</label>
+            <input type="date" class="form-control" [(ngModel)]="employeeData.visaExpiryDate" name="visaExpiryDate">
+          </div>
+          <div class="col-md-4 mb-3">
+            <label>Bank Name</label>
+            <input type="text" class="form-control" placeholder="Enter Bank Name" 
+                   [(ngModel)]="employeeData.bankName" name="bankName">
+          </div>
+
+          <!-- Row 12: 3 fields -->
+          <div class="col-md-4 mb-3">
+            <label>Account Number</label>
+            <input type="text" class="form-control" placeholder="Enter Account Number" 
+                   [(ngModel)]="employeeData.accountNumber" name="accountNumber">
+          </div>
+          <div class="col-md-4 mb-3">
+            <label>Remarks</label>
+            <input type="text" class="form-control" placeholder="Enter Remarks" 
+                   [(ngModel)]="employeeData.remarks" name="remarks">
+          </div>
+          <div class="col-md-4 mb-3">
+            <label>Current Status</label>
+            <select class="form-select" [(ngModel)]="employeeData.currentStatus" name="currentStatus">
+              <option value="">Select Status</option>
+              <option *ngFor="let status of dropdownOptions.currentStatuses" [value]="status">{{ status }}</option>
+            </select>
+          </div>
+
+          <!-- Row 13: 3 fields -->
+          <div class="col-md-4 mb-3">
+            <label>Select Project</label>
+            <select class="form-select" [(ngModel)]="employeeData.project" name="project">
+              <option value="">Select Project</option>
+              <option *ngFor="let project of dropdownOptions.projects" [value]="project">{{ project }}</option>
+            </select>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label>Last Increment Date</label>
+            <input type="date" class="form-control" [(ngModel)]="employeeData.lastIncrementDate" name="lastIncrementDate">
+          </div>
+          <div class="col-md-4 mb-3">
+            <label>Last Increment Amount</label>
+            <input type="number" class="form-control" placeholder="Enter Amount" 
+                   [(ngModel)]="employeeData.lastIncrementAmount" name="lastIncrementAmount">
+          </div>
+
+          <!-- Row 14: 3 fields -->
+          <div class="col-md-4 mb-3">
+            <label>Payment Method</label>
+            <select class="form-select" [(ngModel)]="employeeData.paymentMethod" name="paymentMethod">
+              <option value="">Select Method</option>
+              <option *ngFor="let method of dropdownOptions.paymentMethods" [value]="method">{{ method }}</option>
+            </select>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label>Disability</label>
+            <select class="form-select" [(ngModel)]="employeeData.disability" name="disability">
+              <option value="">Select</option>
+              <option *ngFor="let disability of dropdownOptions.disabilities" [value]="disability">{{ disability }}</option>
+            </select>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label>Employee Type</label>
+            <select class="form-select" [(ngModel)]="employeeData.employeeType" name="employeeType">
+              <option value="">Select Type</option>
+              <option *ngFor="let type of dropdownOptions.employeeTypes" [value]="type">{{ type }}</option>
+            </select>
+          </div>
+
+          <!-- Row 15: 3 fields -->
+          <div class="col-md-4 mb-3">
+            <label>Building Number</label>
+            <input type="text" class="form-control" placeholder="Enter Building Number" 
+                   [(ngModel)]="employeeData.buildingNumber" name="buildingNumber">
+          </div>
+          <div class="col-md-4 mb-3">
+            <label>Street Name</label>
+            <input type="text" class="form-control" placeholder="Enter Street Name" 
+                   [(ngModel)]="employeeData.streetName" name="streetName">
+          </div>
+          <div class="col-md-4 mb-3">
+            <label>District Name</label>
+            <input type="text" class="form-control" placeholder="Enter District Name" 
+                   [(ngModel)]="employeeData.districtName" name="districtName">
+          </div>
+
+          <!-- Row 16: 3 fields -->
+          <div class="col-md-4 mb-3">
+            <label>Country</label>
+            <select class="form-select" [(ngModel)]="employeeData.country" name="country">
+              <option value="">Select Country</option>
+              <option *ngFor="let country of dropdownOptions.countries" [value]="country">{{ country }}</option>
+            </select>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label>City</label>
+            <select class="form-select" [(ngModel)]="employeeData.city" name="city">
+              <option value="">Select City</option>
+              <option *ngFor="let city of dropdownOptions.cities" [value]="city">{{ city }}</option>
+            </select>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label>Country Code</label>
+            <input type="text" class="form-control" placeholder="Enter Country Code" 
+                   [(ngModel)]="employeeData.countryCode" name="countryCode">
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="btn-row text-end mt-4">
+          <button type="submit" class="btn btn-primary" [disabled]="!isFormValid()">
+            <i class="fa fa-check-circle"></i>
+            {{ isEdit ? "Update Employee" : "Create Employee" }}
+          </button>
+          <button type="button" class="btn btn-danger ms-2" (click)="cancelForm()">
+            <i class="fa fa-ban"></i> Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </ng-template>
+
+</div>
+
+<!-- View Employee Modal -->
+<div class="modal fade show" [class.show]="showViewModal" [style.display]="showViewModal ? 'block' : 'none'">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Employee Details</h5>
+        <button type="button" class="btn-close" (click)="closeModals()"></button>
+      </div>
+      <div class="modal-body">
+        <div class="employee-detail-table">
+          <table class="table table-bordered">
+            <tbody>
+              <tr>
+                <td><strong>Code</strong></td><td>{{ viewEmployeeData.code }}</td>
+                <td><strong>Name</strong></td><td>{{ viewEmployeeData.name }}</td>
+                <td><strong>Job Title</strong></td><td>{{ viewEmployeeData.jobTitle }}</td>
+              </tr>
+              <tr>
+                <td><strong>Department</strong></td><td>{{ viewEmployeeData.department }}</td>
+                <td><strong>Email address</strong></td><td>{{ viewEmployeeData.email }}</td>
+                <td><strong>Mobile No</strong></td><td>{{ viewEmployeeData.mobileNo }}</td>
+              </tr>
+              <tr>
+                <td><strong>Created By</strong></td><td>{{ viewEmployeeData.createdBy || '-' }}</td>
+                <td><strong>Created Date</strong></td><td>{{ viewEmployeeData.createdDate || '-' }}</td>
+                <td><strong>Updated By</strong></td><td>{{ viewEmployeeData.updatedBy || '-' }}</td>
+              </tr>
+              <tr>
+                <td><strong>Updated Date</strong></td><td>{{ viewEmployeeData.updatedDate || '-' }}</td>
+                <td><strong>Active</strong></td>
+                <td>
+                  <span class="badge" [ngClass]="viewEmployeeData.active === 'true' ? 'badge-success' : 'badge-danger'">
+                    {{ viewEmployeeData.active === 'true' ? 'Yes' : 'No' }}
+                  </span>
+                </td>
+                <td><strong>Remarks</strong></td><td>{{ viewEmployeeData.remarks }}</td>
+              </tr>
+              <tr>
+                <td><strong>Gender</strong></td><td>{{ viewEmployeeData.gender }}</td>
+                <td><strong>Current Customer</strong></td><td>{{ viewEmployeeData.currentCustomer || '-' }}</td>
+                <td><strong>DOB</strong></td><td>{{ viewEmployeeData.dob }}</td>
+              </tr>
+              <tr>
+                <td><strong>ID Number</strong></td><td>{{ viewEmployeeData.idNumber || '-' }}</td>
+                <td><strong>GOSI ID</strong></td><td>{{ viewEmployeeData.gosiId }}</td>
+                <td><strong>Date Of Joining</strong></td><td>{{ viewEmployeeData.dateOfJoining }}</td>
+              </tr>
+              <tr>
+                <td><strong>Passport No</strong></td><td>{{ viewEmployeeData.passportNo }}</td>
+                <td><strong>Home Address</strong></td><td>{{ viewEmployeeData.homeAddress || '-' }}</td>
+                <td><strong>Blood Group</strong></td><td>{{ viewEmployeeData.bloodGroup }}</td>
+              </tr>
+              <tr>
+                <td><strong>Sponsor</strong></td><td>{{ viewEmployeeData.sponsor }}</td>
+                <td><strong>Contract No</strong></td><td>{{ viewEmployeeData.contractNo }}</td>
+                <td><strong>Overtime Factor</strong></td><td>{{ viewEmployeeData.overtimeFactor }}</td>
+              </tr>
+              <tr>
+                <td><strong>Last Increment Date</strong></td><td>{{ viewEmployeeData.lastIncrementDate }}</td>
+                <td><strong>Religion</strong></td><td>{{ viewEmployeeData.religion }}</td>
+                <td><strong>Marital Status</strong></td><td>{{ viewEmployeeData.maritalStatus }}</td>
+              </tr>
+              <tr>
+                <td><strong>Passport Expiry Date</strong></td><td>{{ viewEmployeeData.passportExpiryDate || '-' }}</td>
+                <td><strong>Visa Aqama Id</strong></td><td>{{ viewEmployeeData.visaAqamaId }}</td>
+                <td><strong>VisaAqama Expiry Date</strong></td><td>{{ viewEmployeeData.visaAqamaExpiryDate }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModals()">Close</button>
+        <button type="button" class="btn btn-primary">Edit</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop fade show" [class.show]="showViewModal" [style.display]="showViewModal ? 'block' : 'none'"></div>
+
+<!-- Tabs Modal -->
+<div class="modal fade show" [class.show]="showTabsModal" [style.display]="showTabsModal ? 'block' : 'none'">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Employee Details - {{ activeTab.name }}</h5>
+        <button type="button" class="btn-close" (click)="closeModals()"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Tabs Navigation -->
+        <div class="tabs-navigation">
+          <nav>
+            <div class="nav nav-tabs" id="nav-tab">
+              <a *ngFor="let tab of tabs" 
+                 class="nav-link" 
+                 [class.active]="tab.active"
+                 (click)="setActiveTab(tab)"
+                 style="cursor: pointer;">
+                {{ tab.name }}
+              </a>
+            </div>
+          </nav>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="tab-content mt-4">
+          <div class="tab-pane fade show active">
+            <h6>{{ activeTab.name }} Information</h6>
+            
+            <!-- Form Fields for Active Tab -->
+            <div class="row mb-4">
+              <div class="col-md-3 mb-3">
+                <label>Name</label>
+                <input type="text" class="form-control" placeholder="Enter Name">
+              </div>
+              <div class="col-md-3 mb-3">
+                <label>Email</label>
+                <input type="email" class="form-control" placeholder="Enter Email">
+              </div>
+              <div class="col-md-3 mb-3">
+                <label>Contact</label>
+                <input type="text" class="form-control" placeholder="Enter Contact">
+              </div>
+              <div class="col-md-3 mb-3">
+                <label>Address</label>
+                <input type="text" class="form-control" placeholder="Enter Address">
+              </div>
+            </div>
+
+            <!-- Add Button -->
+            <div class="text-end mb-3">
+              <button class="btn btn-primary btn-sm">
+                <i class="fa fa-plus"></i> Add
+              </button>
+            </div>
+
+            <!-- Table -->
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Contact</th>
+                    <th>Address</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of tabTableData">
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.email }}</td>
+                    <td>{{ item.contact }}</td>
+                    <td>{{ item.address }}</td>
+                    <td>
+                      <i class="fa fa-edit text-primary me-2" style="cursor: pointer;"></i>
+                      <i class="fa fa-trash text-danger" style="cursor: pointer;"></i>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModals()">Close</button>
+        <button type="button" class="btn btn-primary">Save Changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop fade show" [class.show]="showTabsModal" [style.display]="showTabsModal ? 'block' : 'none'"></div>

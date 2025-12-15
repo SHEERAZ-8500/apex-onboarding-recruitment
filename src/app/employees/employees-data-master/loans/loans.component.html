@@ -1,0 +1,197 @@
+<div class="loans-wrapper col-md-12">
+  <!-- ============================= -->
+  <!--   LIST VIEW (When showForm = false)  -->
+  <!-- ============================= -->
+  <ng-container *ngIf="!showForm; else formPage">
+    <div class="card-container">
+      <!-- Header Row -->
+      <div class="header-row">
+        <h4 class="main-title">Loans</h4>
+        <button class="add-btn" (click)="onNew()">
+          <i class="fa fa-plus"></i> Add New
+        </button>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- Items Per Page + Search -->
+      <div class="top-controls d-flex align-items-center">
+        <!-- Items Per Page -->
+        <div class="items-per-page">
+          <label>Items per page:</label>
+          <select class="form-select" [(ngModel)]="itemsPerPage">
+            <option [ngValue]="5">5</option>
+            <option [ngValue]="8">8</option>
+            <option [ngValue]="10">10</option>
+            <option [ngValue]="20">20</option>
+          </select>
+        </div>
+
+        <!-- Search -->
+        <div class="search-wrapper ms-auto">
+          <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="searchText" />
+          <i class="fa fa-search search-icon"></i>
+        </div>
+      </div>
+
+      <!-- Loans Table -->
+      <div class="loans-list-section">
+        <div class="table-container">
+          <table class="table table-bordered loans-table">
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th>Description</th>
+                <th>Max Amount</th>
+                <th>Loan Type</th>
+                <th>Min Repayment Amount</th>
+                <th>Max No. of Installments</th>
+                <th>Status</th>
+                <th>Created By</th>
+                <th class="action-col-header">Actions</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let item of paginatedLoans(); let i = index"
+                [class.edit-row]="editIndex === currentPageStart + i">
+                <td>{{ item.code }}</td>
+                <td>{{ item.description }}</td>
+                <td>{{ item.maxAmount | currency }}</td>
+                <td>{{ item.loanType }}</td>
+                <td>{{ item.minRepaymentAmount | currency }}</td>
+                <td>{{ item.maxNoOfInstallments }}</td>
+                <td>
+                  <span class="status-badge" [class.active]="item.status === 'Active'"
+                    [class.inactive]="item.status === 'Inactive'">
+                    <i class="fa" [class.fa-check-circle]="item.status === 'Active'"
+                      [class.fa-times-circle]="item.status === 'Inactive'"></i>
+                    {{ item.status }}
+                  </span>
+                </td>
+                <td>{{ item.createdBy }}</td>
+                <td class="action-col">
+                  <i class="fa fa-edit action-icon" (click)="editLoan(currentPageStart + i)"></i>
+                  <i class="fa fa-trash action-icon" (click)="deleteLoan(currentPageStart + i)"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="d-flex justify-content-end mt-3 me-3">
+          <nav aria-label="Page navigation">
+            <ul class="pagination">
+              <li class="page-item" [class.disabled]="currentPage === 1">
+                <a class="page-link" (click)="changePage(currentPage - 1)">
+                  &laquo;
+                </a>
+              </li>
+              <li class="page-item" *ngFor="let page of totalPagesArray" [class.active]="page === currentPage">
+                <a class="page-link" (click)="changePage(page)">
+                  {{ page }}
+                </a>
+              </li>
+              <li class="page-item" [class.disabled]="currentPage === totalPages">
+                <a class="page-link" (click)="changePage(currentPage + 1)">
+                  &raquo;
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- ============================= -->
+  <!--   FORM VIEW (NEW / EDIT)     -->
+  <!-- ============================= -->
+  <ng-template #formPage>
+    <div class="card-container">
+      <!-- Header Row -->
+      <div class="header-row">
+        <h4 class="main-title">
+          {{ isEdit ? "Edit Loan" : "Add Loan" }}
+        </h4>
+        <button class="reset-btn" (click)="resetForm()">
+          <i class="fa fa-refresh"></i> Reset
+        </button>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- Form -->
+      <div class="form-row row">
+        <div class="col-md-6 mb-3">
+          <label>Code <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" placeholder="Enter Code" [(ngModel)]="code" [readonly]="isEdit" />
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label>Description <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" placeholder="Enter Description" [(ngModel)]="description" />
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label>Loan Type <span class="text-danger">*</span></label>
+          <select class="form-control" [(ngModel)]="loanType">
+            <option value="" disabled selected>Select Loan Type</option>
+            <option *ngFor="let option of loanTypeOptions" [value]="option">
+              {{ option }}
+            </option>
+          </select>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label>Max Amount / Year <span class="text-danger">*</span></label>
+          <input type="number" class="form-control" placeholder="Enter Max Amount" [(ngModel)]="maxAmount" min="0" />
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label>Min Repayment Amount <span class="text-danger">*</span></label>
+          <input type="number" class="form-control" placeholder="Enter Min Repayment Amount"
+            [(ngModel)]="minRepaymentAmount" min="0" />
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label>Max No. of Installments <span class="text-danger">*</span></label>
+          <input type="number" class="form-control" placeholder="Enter Max Installments"
+            [(ngModel)]="maxNoOfInstallments" min="1" />
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label>Status <span class="text-danger">*</span></label>
+          <div class="status-toggle">
+            <button type="button" class="status-btn" [class.active]="status === 'Active'"
+              (click)="status = 'Active'">
+              <i class="fa fa-check-circle"></i> Active
+            </button>
+            <button type="button" class="status-btn" [class.inactive]="status === 'Inactive'"
+              (click)="status = 'Inactive'">
+              <i class="fa fa-times-circle"></i> Inactive
+            </button>
+          </div>
+          <input type="hidden" [(ngModel)]="status" />
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label>Created By <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" placeholder="Enter Created By" [(ngModel)]="createdBy" />
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="btn-row text-end mt-2">
+        <button class="btn btn-primary" (click)="isEdit ? updateLoan() : createLoan()">
+          <i class="fa fa-check-circle"></i>
+          {{ isEdit ? "Update" : "Create" }}
+        </button>
+        <button class="btn btn-danger ms-2" (click)="cancelForm()">
+          <i class="fa fa-ban"></i> Cancel
+        </button>
+      </div>
+    </div>
+  </ng-template>
+</div>

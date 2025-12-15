@@ -23,7 +23,8 @@
     <!-- Top-level items -->
     <a routerLink="/panel/dashboard" routerLinkActive="active"><i class="fas fa-home"></i> <span>Dashboard</span></a>
     <a routerLink="/panel/offers" routerLinkActive="active"><i class="fa-solid fa-tag"></i> <span>Offers</span></a>
-    <a routerLink="/panel/employes" routerLinkActive="active"><i class="fa-solid fa-users"></i> <span>People</span></a>
+    <a routerLink="/panel/employes" routerLinkActive="active"><i
+        class="fa-solid fa-people-group"></i><span>People</span></a>
     <a routerLink="/panel/jobs-details" routerLinkActive="active"><i class="fa-solid fa-briefcase"></i> <span>Jobs
         Details</span></a>
     <a routerLink="/panel/chat" routerLinkActive="active"><i class="fa-regular fa-message"></i> <span>Chat</span></a>
@@ -48,9 +49,9 @@
 
       <div #collapse="ngbCollapse" [(ngbCollapse)]="assesment" class="collapseStyling" [class.open]="!assesment">
         <div class="collapseDiv">
-          <a><i class="fas fa-angle-double-right"></i><span>Design Assesment</span></a>
-          <a><i class="fas fa-angle-double-right"></i><span>Stored Assesment</span></a>
-          <a><i class="fas fa-angle-double-right"></i><span>Received Assesment</span></a>
+          <a><span>Design Assesment</span></a>
+          <a><span>Stored Assesment</span></a>
+          <a><span>Received Assesment</span></a>
         </div>
       </div>
     </div>
@@ -77,8 +78,8 @@
               <i class="fas fa-angle-double-right"></i>
               <span>General Master Data</span>
               <span class="chev-icon small">
-                <i *ngIf="generalMasterdataCollapsed" ></i>
-                <i *ngIf="!generalMasterdataCollapsed" ></i>
+                <i *ngIf="generalMasterdataCollapsed"></i>
+                <i *ngIf="!generalMasterdataCollapsed"></i>
               </span>
             </a>
 
@@ -122,8 +123,8 @@
               <i class="fas fa-angle-double-right"></i>
               <span>Organizational Master Data</span>
               <span class="chev-icon small">
-                <i *ngIf="organizationalMasterdataCollapsed" ></i>
-                <i *ngIf="!organizationalMasterdataCollapsed" ></i>
+                <i *ngIf="organizationalMasterdataCollapsed"></i>
+                <i *ngIf="!organizationalMasterdataCollapsed"></i>
               </span>
             </a>
 
@@ -150,8 +151,8 @@
               <i class="fas fa-angle-double-right"></i>
               <span>Outsourcing Master Data</span>
               <span class="chev-icon small">
-                <i *ngIf="outsourcinggMasterdataCollapsed" ></i>
-                <i *ngIf="!outsourcinggMasterdataCollapsed" ></i>
+                <i *ngIf="outsourcinggMasterdataCollapsed"></i>
+                <i *ngIf="!outsourcinggMasterdataCollapsed"></i>
               </span>
             </a>
 
@@ -170,7 +171,61 @@
         </div>
       </div>
     </div>
+    <!-- employees (one-level with toggles on each level) -->
+    <div class="nav-item-with-toggle">
+      <a class="top-link" (click)="toggleEmployees()" [attr.aria-expanded]="!employeesCollapsed"
+        aria-controls="employeesExample">
+        <i class="fa-solid fa-users"></i> <span>Employees</span>
+        <span class="chev-icon">
+          <i *ngIf="employeesCollapsed" class="fa-solid fa-chevron-right"></i>
+          <i *ngIf="!employeesCollapsed" class="fa-solid fa-chevron-down"></i>
+        </span>
+      </a>
 
+      <div #employees="ngbCollapse" [(ngbCollapse)]="employeesCollapsed" class="collapseStyling"
+        [class.open]="!employeesCollapsed">
+        <div class="collapseDiv">
+          <!-- Employees Master Data (level-2 toggle) -->
+          <div class="nav-item-with-toggle level-2">
+            <a class="level-link" (click)="toggleEmployeesMasterData()"
+              [attr.aria-expanded]="!employeesMasterDataCollapsed" aria-controls="employeesMasterDataExample">
+              <i class="fas fa-angle-double-right"></i>
+              <span>Employees-Master-Data</span>
+              <span class="chev-icon small">
+                <i *ngIf="employeesMasterDataCollapsed"></i>
+                <i *ngIf="!employeesMasterDataCollapsed"></i>
+              </span>
+            </a>
+
+            <div #employeesMasterData="ngbCollapse" [(ngbCollapse)]="employeesMasterDataCollapsed"
+              class="collapseStyling inner" [class.open]="!employeesMasterDataCollapsed">
+              <div class="collapseDiv">
+                <a routerLink="employees-master-data/employees" routerLinkActive="active"><span>Employees</span></a>
+                <a routerLink="employees-master-data/gosiid" routerLinkActive="active"><span>GOSIID</span></a>
+                <a routerLink="employees-master-data/departments" routerLinkActive="active"><span>Departments</span></a>
+                <a routerLink="employees-master-data/medical-insurance" routerLinkActive="active"><span>Medical
+                    Insurance</span></a>
+                <a routerLink="employees-master-data/accommodation"
+                  routerLinkActive="active"><span>Accommodation</span></a>
+                <a routerLink="employees-master-data/loans" routerLinkActive="active"><span>Loans</span></a>
+                <a routerLink="employees-master-data/employee-belongings" routerLinkActive="active"><span>Employee
+                    Belongings</span></a>
+                <a routerLink="employees-master-data/employees-category" routerLinkActive="active"><span>Employees
+                    Category</span></a>
+                <a routerLink="employees-master-data/project-transfer" routerLinkActive="active"><span>Project
+                    Transfer</span></a>
+
+
+              </div>
+            </div>
+          </div>
+
+
+
+
+        </div>
+      </div>
+    </div>
     <!-- Admin -->
     <div class="nav-item-with-toggle">
       <a class="top-link" (click)="toggleAdmin()" [attr.aria-expanded]="!adminCollapsed" aria-controls="adminExample">
@@ -185,36 +240,16 @@
       <div #admin="ngbCollapse" [(ngbCollapse)]="adminCollapsed" class="collapseStyling" [class.open]="!adminCollapsed">
         <div class="collapseDiv">
           <a routerLink="admin/view-all-users">
-            <i class="fas fa-angle-double-right"></i><span>View All Users</span>
+            <span>View All Users</span>
           </a>
 
           <a routerLink="/panel/permissions/view-all-rols">
-            <i class="fas fa-angle-double-right"></i><span>View Role</span>
+            <span>View Role</span>
           </a>
         </div>
       </div>
     </div>
-    <!-- employees -master-data -->
-    <div class="nav-item-with-toggle">
-      <a class="top-link" (click)="toggleEmployeesMasterData()" [attr.aria-expanded]="!employeesMasterDataCollapsed" aria-controls="employeesMasterDataExample">
-        <i class="fa-solid fa-user-shield"></i>
-        <span>Employees</span>
-        <span class="chev-icon">
-          <i *ngIf="employeesMasterDataCollapsed" class="fa-solid fa-chevron-right"></i>
-          <i *ngIf="!employeesMasterDataCollapsed" class="fa-solid fa-chevron-down"></i>
-        </span>
-      </a>
 
-      <div #employeesMasterData="ngbCollapse" [(ngbCollapse)]="employeesMasterDataCollapsed" class="collapseStyling" [class.open]="!employeesMasterDataCollapsed">
-        <div class="collapseDiv">
-          <a routerLink="/panel/employees-master-data/employees">
-            <i class="fa-regular fa-circle"></i><span>Employees-Master-Data</span>
-          </a>
-
-
-        </div>
-      </div>
-    </div>
     <!-- Requisition Lookups -->
     <div class="nav-item-with-toggle">
       <a class="top-link" (click)="toggleRequisitionLookups()" [attr.aria-expanded]="!requisitionLookupsCollapsed"
@@ -231,19 +266,19 @@
         [class.open]="!requisitionLookupsCollapsed">
         <div class="collapseDiv">
           <a routerLink="/panel/requisition-lookups/create-job-title">
-            <i class="fas fa-angle-double-right"></i><span>Job Title</span>
+            <span>Job Title</span>
           </a>
 
           <a routerLink="/panel/requisition-lookups/create-employee-category">
-            <i class="fas fa-angle-double-right"></i><span>Employee Category</span>
+            <span>Employee Category</span>
           </a>
 
           <a routerLink="/panel/requisition-lookups/create-department">
-            <i class="fas fa-angle-double-right"></i><span>Department</span>
+            <span>Department</span>
           </a>
 
           <a routerLink="/panel/requisition-lookups/create-branch">
-            <i class="fas fa-angle-double-right"></i><span>Branches</span>
+            <span>Branches</span>
           </a>
         </div>
       </div>
