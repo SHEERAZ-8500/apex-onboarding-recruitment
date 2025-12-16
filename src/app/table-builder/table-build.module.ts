@@ -7,6 +7,8 @@ import { SahringModule } from '../shared/modules/sahring.module';
 import { CreateLookupTableComponent } from './create-lookup-table/create-lookup-table.component';
 import { AddNewRowLookupTableComponent } from './add-new-row-lookup-table/add-new-row-lookup-table.component';
 import { CreateNewRowInTableComponent } from './create-new-row-in-table/create-new-row-in-table.component';
+import { ViewAllLookupTablesComponent } from './view-all-lookup-tables/view-all-lookup-tables.component';
+import { ViewAllLookupEnumsComponent } from './view-all-lookup-enums/view-all-lookup-enums.component';
 
 const routes: Routes = [
   {
@@ -30,6 +32,15 @@ const routes: Routes = [
     path: 'create-new-row-in-table',
     component: CreateNewRowInTableComponent
   }
+  ,
+  {
+    path: 'view-all-lookup-tables',
+    component: ViewAllLookupTablesComponent
+  },
+  {
+    path: 'view-all-lookup-enums',
+    component: ViewAllLookupEnumsComponent
+  }
 ];
 @NgModule({
   declarations: [
@@ -37,7 +48,9 @@ const routes: Routes = [
     BuildTableComponent,
     CreateLookupTableComponent,
     AddNewRowLookupTableComponent,
-    CreateNewRowInTableComponent
+    CreateNewRowInTableComponent,
+    ViewAllLookupTablesComponent,
+    ViewAllLookupEnumsComponent
   ],
   imports: [
 

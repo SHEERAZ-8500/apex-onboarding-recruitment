@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../shared/services/apis/api.service';
 import { LoaderService } from '../../shared/services/loader.service';
 import { ToastrService } from 'ngx-toastr';
@@ -9,7 +9,10 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './add-new-row-lookup-table.component.html',
   styleUrl: './add-new-row-lookup-table.component.scss'
 })
-export class AddNewRowLookupTableComponent {
+export class AddNewRowLookupTableComponent implements OnInit {
+  // Component Code from URL
+  componentCode: string = '';
+
   // Form Fields
   code: string = '';
   name: string = '';
@@ -18,10 +21,18 @@ export class AddNewRowLookupTableComponent {
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private apiService: ApiService,
     private loader: LoaderService,
     private toastr: ToastrService
   ) {}
+
+  ngOnInit(): void {
+    // Get componentCode from URL query params
+    this.route.queryParams.subscribe(params => {
+      this.componentCode = params['tableName'] || '';
+    });
+  }
 
   // Submit Form
   onSubmit(): void {
@@ -43,17 +54,17 @@ export class AddNewRowLookupTableComponent {
     this.loader.show();
 
     // Uncomment when API is ready
-    // this.apiService.addLookupTableRow(payload).subscribe({
-    //   next: (response: any) => {
-    //     this.loader.hide();
-    //     this.toastr.success('Row added successfully');
-    //     this.resetForm();
-    //   },
-    //   error: (error: any) => {
-    //     this.loader.hide();
-    //     this.toastr.error(error?.error?.message || 'Failed to add row');
-    //   }
-    // });
+    this.apiService.createRowInLookUpTable(this.componentCode,payload).subscribe({
+      next: (response: any) => {
+        this.loader.hide();
+        this.toastr.success('Row added successfully');
+        this.resetForm();
+      },
+      error: (error: any) => {
+        this.loader.hide();
+        this.toastr.error(error?.error?.message || 'Failed to add row');
+      }
+    });
 
     // Temporary - remove when API is ready
     setTimeout(() => {

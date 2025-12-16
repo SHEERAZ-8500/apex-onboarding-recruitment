@@ -85,6 +85,9 @@ export class ApiService {
   createLookupEnum(data: any) {
     return this.http.post('admin/lookups/enums', data);
   }
+  getAllLookupEnums() {
+    return this.http.get(`admin/lookups/enums`);
+  }
 
   // tables
   createLookUpTable(data: any) {
@@ -96,16 +99,19 @@ export class ApiService {
   createRowInTable( data: any) {
     return this.http.post(`api/admin/row-tables`, data);
   }
+  getAllLookUpTables() {
+    return this.http.get(`admin/lookups/tables`);
+  }
   // forms apis
 
   getUserAllForms() {
     return this.http.get(`forms`);
   }
-  createNewUDF(data: any) {
-    return this.http.post('admin/udf/fields', data);
+  createNewUDF(formCode: any, data: any) {
+    return this.http.post(`admin/forms/${formCode}/fields/basic`, data);
   }
   getFormById(id: any) {
-    return this.http.get(`forms/${id}`);
+    return this.http.get(`forms/${id}?filter=USER_DEFINED`);
   }
 
   getAllUser() {

@@ -68,9 +68,9 @@ export class AuthInterceptor implements HttpInterceptor {
         localStorage.removeItem('refreshToken');
         localStorage.removeItem('userId');
         localStorage.removeItem('deviceId');
-        if (this.router.url !== '/log-in') {
+        if (this.router.url !== '/') {
           this.closeAllModals()
-          this.router.navigate(['/log-in']);
+          this.router.navigate(['/']);
 
         }
         break;
@@ -137,6 +137,7 @@ export class AuthInterceptor implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         
         if (error.error.errors[0].code === "UNAUTHORIZED") {
+          
           let refreshToken = localStorage.getItem('refreshToken');
           localStorage.removeItem('token');
           localStorage.removeItem('refreshToken');
@@ -152,17 +153,17 @@ export class AuthInterceptor implements HttpInterceptor {
             }, error => {
 
               this.toastr.error('Session expired. Please login again.', 'Unauthorized');
-              if (this.router.url !== '/log-in') {
+              if (this.router.url !== '/') {
                 this.closeAllModals()
-                this.router.navigate(['/log-in']);
+                this.router.navigate(['/']);
 
               }
             });
           } else {
             this.toastr.error('Session expired. Please login again.', 'Unauthorized');
-            if (this.router.url !== '/log-in') {
+            if (this.router.url !== '/') {
               this.closeAllModals()
-              this.router.navigate(['/log-in']);
+              this.router.navigate(['/']);
 
             }
           }
