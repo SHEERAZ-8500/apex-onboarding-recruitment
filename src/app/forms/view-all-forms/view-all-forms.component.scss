@@ -191,6 +191,10 @@ table tbody tr td {
      background: rgba(86, 111, 158, 0.2)!important;
   }
 }
+
+.dropdown-toggle::after {
+  display: none !important;
+}
 .creat-btn {
   width: 150px;
   height: 40px;

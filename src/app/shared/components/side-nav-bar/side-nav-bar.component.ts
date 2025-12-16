@@ -27,6 +27,7 @@ export class SideNavBarComponent implements OnInit {
   formsCollapsed = true;
   requisitionLookupsCollapsed = true;
   employeesMasterDataCollapsed = true;
+  tableCollapsed = true;
   ngOnInit() {
     this.toggleService.sidebarOpen$.subscribe(open => this.isOpen = open);
   }
@@ -50,5 +51,7 @@ export class SideNavBarComponent implements OnInit {
 
   toggleRequisitionLookups() { this.requisitionLookupsCollapsed = !this.requisitionLookupsCollapsed; }
   toggleEmployeesMasterData() { this.employeesMasterDataCollapsed = !this.employeesMasterDataCollapsed; }
+  
+  toggleTable() { this.tableCollapsed = !this.tableCollapsed; }
   
 }

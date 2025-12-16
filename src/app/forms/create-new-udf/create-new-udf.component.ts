@@ -76,7 +76,7 @@ export class CreateNewUdfComponent implements OnInit {
   // Submit Form
   onSubmit(): void {
     // Validation
-    if (!this.entityName || !this.fieldCode || !this.label || !this.fieldType || !this.displayOrder) {
+    if ( !this.fieldCode || !this.label || !this.fieldType || !this.displayOrder) {
       this.toastr.error('Please fill in all required fields');
       return;
     }
@@ -96,17 +96,17 @@ export class CreateNewUdfComponent implements OnInit {
 
     this.loader.show();
 
-    // this.apiService.createNewUDF(payload).subscribe({
-    //   next: (response: any) => {
-    //     this.loader.hide();
-    //     this.toastr.success('UDF field created successfully');
-    //     this.resetForm();
-    //   },
-    //   error: (error: any) => {
-    //     this.loader.hide();
-    //     this.toastr.error(error?.error?.message || 'Failed to create UDF field');
-    //   }
-    // });
+    this.apiService.createNewUDF(payload).subscribe({
+      next: (response: any) => {
+        this.loader.hide();
+        this.toastr.success('UDF field created successfully');
+        this.resetForm();
+      },
+      error: (error: any) => {
+        this.loader.hide();
+        this.toastr.error(error?.error?.message || 'Failed to create UDF field');
+      }
+    });
   }
 
   // Cancel

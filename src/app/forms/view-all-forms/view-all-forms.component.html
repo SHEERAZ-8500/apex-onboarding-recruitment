@@ -24,23 +24,20 @@
                 <tbody>
                     <tr *ngFor="let c of paginatedFormList; let i = index"
                         class="bg-[#1e293b] hover:bg-[#27354a] rounded-lg">
-                        <td class="px-3 py-3 font-medium">{{ c.name }}</td>
+                        <td class="px-3 py-3 font-medium">{{ c.displayName }}</td>
 
                         <td class="px-3 py-3 text-gray-400">
 
-                            <div class="dropdown" *ngIf="routeNUmber === 1">
-                                <span class="cursor-pointer" data-bs-toggle="dropdown" aria-expanded="false"
+                            <div class="dropdown" ngbDropdown>
+                                <span class="cursor-pointer" ngbDropdownToggle
                                     style="cursor: pointer;"><i class="fa-solid fa-ellipsis-vertical"></i></span>
 
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item"
-                                            [routerLink]="['/panel/view-all-submissions', c.publicId]">View All
-                                            Submissions</a></li>
-                                    <li><a class="dropdown-item" [routerLink]="['/panel/form-render', c.publicId]">View
-                                            Form</a></li>
-                                    <li><a class="dropdown-item"
-                                            [routerLink]="['/panel/update-form', c.publicId]">Update
-                                            Form</a></li>
+                                <ul class="dropdown-menu" ngbDropdownMenu>
+                                    <li><a class="dropdown-item" 
+                                            [routerLink]="['/panel/forms/create-new-udf']" 
+                                            [queryParams]="{formCode: c.formCode}">
+                                            Create New Udf</a></li>
+
                                     <!-- <li><a class="dropdown-item" href="#">Something else here</a></li> -->
                                 </ul>
                             </div>

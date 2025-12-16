@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ApiService } from '../../../shared/services/apis/api.service';
 
 @Component({
   selector: 'app-employees',
@@ -181,7 +182,11 @@ export class EmployeesComponent {
     { name: 'John Doe', email: 'john@example.com', contact: '1234567890', address: '123 Street' },
     { name: 'Jane Smith', email: 'jane@example.com', contact: '0987654321', address: '456 Avenue' }
   ];
-  
+  constructor(private api: ApiService){
+    this.api.getFormById('EMPLOYEE_REQUISITION').subscribe(res=>{
+      console.log(res);
+    });
+  }
   // Pagination Methods
   get paginatedEmployees() {
     const start = (this.currentPage - 1) * this.itemsPerPage;
