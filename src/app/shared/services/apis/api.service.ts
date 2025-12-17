@@ -113,6 +113,12 @@ export class ApiService {
   getFormById(id: any) {
     return this.http.get(`forms/${id}?filter=USER_DEFINED`);
   }
+  createNewUDDLookupTable(formCode: any, data: any) {
+    return this.http.post(`admin/forms/${formCode}/link/lookup-table`, data);
+  }
+  createNewUDDLookupEnum(formCode: any, data: any) {
+    return this.http.post(`admin/forms/${formCode}/link/lookup-enum`, data);
+  }
 
   getAllUser() {
     return this.http.get('admin/users');

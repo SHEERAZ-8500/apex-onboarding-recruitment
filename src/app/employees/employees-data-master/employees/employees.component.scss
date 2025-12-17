@@ -1,10 +1,10 @@
 .employees-wrapper {
   background: var(--second-primary-color);
-  padding: 20px 25px;
+  padding: 20px 15px;
   border: 1px solid var(--border-color);
   border-radius: 10px;
   color: var(--text-primary);
-  height: calc(100vh - 150px);
+  // height: calc(100vh - 150px);
   margin-top: -2px;
 
   /* Header Row (Employees + Add New / Reset button) */
@@ -301,6 +301,7 @@
       display: flex;
       flex-wrap: wrap;
       margin: 0 -15px;
+      overflow-x: hidden;
       
       .sidebar-column {
         padding: 0 15px;
@@ -482,6 +483,7 @@
       .form-column {
         padding: 0 15px;
         width: 75%;
+        overflow-x: hidden;
         
         .form-content {
           background: var(--second-primary-color);
@@ -492,6 +494,7 @@
           height: 450px; /* Fixed height for scrolling */
           display: flex;
           flex-direction: column;
+          overflow-x: hidden;
 
           .form-title {
             color: var(--text-primary);
@@ -555,6 +558,7 @@
           .tab-content {
             flex: 1;
             overflow-y: auto;
+            overflow-x: hidden;
             padding-right: 5px;
             
             /* Custom scrollbar styling */
