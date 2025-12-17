@@ -5,6 +5,7 @@ import { SahringModule } from '../shared/modules/sahring.module';
 import { RouterModule, Routes } from '@angular/router';
 import { ViewAllFormsComponent } from './view-all-forms/view-all-forms.component';
 import { CreateNewUdfComponent } from './create-new-udf/create-new-udf.component';
+import { CreateUddComponent } from './create-udd/create-udd.component';
 const routes: Routes = [
   {
     path: 'view-all-forms',
@@ -13,10 +14,14 @@ const routes: Routes = [
     {
     path: 'create-new-udf',
     component: CreateNewUdfComponent
+  },
+    {
+    path: 'create-new-udd',
+    component: CreateUddComponent
   }
 ]
 @NgModule({
-  declarations: [ViewAllFormsComponent, CreateNewUdfComponent],
+  declarations: [ViewAllFormsComponent, CreateNewUdfComponent, CreateUddComponent],
   imports: [
         RouterModule.forChild(routes),
         SahringModule,
