@@ -102,6 +102,12 @@ export class ApiService {
   getAllLookUpTables() {
     return this.http.get(`admin/lookups/tables`);
   }
+  getAllIndependentTables() {
+    return this.http.get(`admin/row-tables?filter=ALL`);
+  }
+  createIndependentTable(data: any) {
+    return this.http.post('admin/row-tables', data);
+  }
   // forms apis
 
   getUserAllForms() {
@@ -119,7 +125,9 @@ export class ApiService {
   createNewUDDLookupEnum(formCode: any, data: any) {
     return this.http.post(`admin/forms/${formCode}/link/lookup-enum`, data);
   }
-
+createNewUDDIndependentTable(formCode: any, data: any) {
+    return this.http.post(`admin/forms/${formCode}/link/row-table`, data);
+  }
   getAllUser() {
     return this.http.get('admin/users');
   }

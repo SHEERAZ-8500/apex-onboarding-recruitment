@@ -9,6 +9,8 @@ import { AddNewRowLookupTableComponent } from './add-new-row-lookup-table/add-ne
 import { CreateNewRowInTableComponent } from './create-new-row-in-table/create-new-row-in-table.component';
 import { ViewAllLookupTablesComponent } from './view-all-lookup-tables/view-all-lookup-tables.component';
 import { ViewAllLookupEnumsComponent } from './view-all-lookup-enums/view-all-lookup-enums.component';
+import { ViewAllIndependentTableComponent } from './view-all-independent-table/view-all-independent-table.component';
+import { CreateNewIndependentTableComponent } from './create-new-independent-table/create-new-independent-table.component';
 
 const routes: Routes = [
   {
@@ -40,6 +42,15 @@ const routes: Routes = [
   {
     path: 'view-all-lookup-enums',
     component: ViewAllLookupEnumsComponent
+  },
+  {
+    path: 'view-all-independent-tables',
+    component: ViewAllIndependentTableComponent
+  }
+  ,
+  {
+    path: 'create-new-independent-table',
+    component: CreateNewIndependentTableComponent
   }
 ];
 @NgModule({
@@ -50,7 +61,9 @@ const routes: Routes = [
     AddNewRowLookupTableComponent,
     CreateNewRowInTableComponent,
     ViewAllLookupTablesComponent,
-    ViewAllLookupEnumsComponent
+    ViewAllLookupEnumsComponent,
+    ViewAllIndependentTableComponent,
+    CreateNewIndependentTableComponent
   ],
   imports: [
 
