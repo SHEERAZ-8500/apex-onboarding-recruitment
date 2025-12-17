@@ -4,14 +4,16 @@
   inset: 0;
   background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(4px);
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
   z-index: 9999;
 }
 
 .loader {
   width: 48px;
   height: 48px;
-  border: 2px solid var( --border-color);
+  border: 2px solid var(--border-color);
   border-radius: 50%;
   display: inline-block;
   position: relative;

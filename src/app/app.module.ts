@@ -26,7 +26,6 @@ import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors } from '@angular
 import { AuthInterceptor } from '../app/shared/interceptor/auth.interceptor';
 import { HttpClientModule } from '@angular/common/http';
 import { HeaderModalComponent } from './shared/components/bootstrap-modals/header-modal/header-modal.component';
-import { ViewAllFormsComponent } from './view-all-forms/view-all-forms.component';
 import { ViewAllFormSubmissionsComponent } from './view-all-form-submissions/view-all-form-submissions.component';
 
 import { SahringModule } from './shared/modules/sahring.module';
@@ -52,7 +51,6 @@ import { ChatBoxCardComponent } from './shared/components/chat-box-card/chat-box
     DashboardComponent,
     
     HeaderModalComponent,
-    ViewAllFormsComponent,
     ViewAllFormSubmissionsComponent,
     ViewAllNotificationsComponent,
     ChatBoxCardComponent,

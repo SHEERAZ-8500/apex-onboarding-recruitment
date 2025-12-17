@@ -10,7 +10,6 @@ export class EmployeesComponent {
   showForm = false;
   isEdit = false;
   showViewModal = false;
-  showTabsModal = false;
   
   // Table Controls
   itemsPerPage = 10;
@@ -18,8 +17,12 @@ export class EmployeesComponent {
   searchText = '';
   selectedErp = '';
   
-  // Form Data
-  employeeData = {
+  // Active Tab Management
+  activeTabId = 1; // Default: Personal Details (Employees Form)
+  
+  // Main Employee Form Data (Complete Employees Form from your code)
+  employeeFormData = {
+    // Basic Information (from your screenshot and original form)
     code: '',
     legacyCode: '',
     name: '',
@@ -63,10 +66,23 @@ export class EmployeesComponent {
     country: '',
     city: '',
     countryCode: '',
-    active: true
+    active: true,
+    
+    // Personal Details from screenshot
+    employeeId: '4222',
+    otherId: 'emp05',
+    firstName: 'akash',
+    middleName: 'Automation',
+    lastName: 'lala',
+    driversLicense: 'GJ3234263',
+    licenseExpiry: '2025-02-15',
+    nationality2: 'Micronesian', // Different name to avoid conflict
+    maritalStatus2: 'Married', // Different name to avoid conflict
+    dob2: '2010-11-18',
+    gender2: 'Male', // Different name to avoid conflict
   };
   
-  // Dropdown Options
+  // Dropdown Options (from your original code)
   dropdownOptions = {
     employeeCategories: ['Category A', 'Category B', 'Category C', 'Category D'],
     genders: ['Male', 'Female', 'Other'],
@@ -74,7 +90,7 @@ export class EmployeesComponent {
     companies: ['Company A', 'Company B', 'Company C'],
     managers: ['John Doe', 'Jane Smith', 'Robert Johnson'],
     departments: ['HR', 'IT', 'Finance', 'Operations'],
-    nationalities: ['Saudi', 'Pakistani', 'Indian', 'American'],
+    nationalities: ['Saudi', 'Pakistani', 'Indian', 'American', 'Micronesian'],
     sponsors: ['Yes', 'No'],
     employeeGrades: ['Grade 1', 'Grade 2', 'Grade 3', 'Grade 4'],
     maritalStatuses: ['Single', 'Married', 'Divorced', 'Widowed'],
@@ -87,6 +103,26 @@ export class EmployeesComponent {
     countries: ['Saudi Arabia', 'Pakistan', 'India', 'USA'],
     cities: ['Riyadh', 'Jeddah', 'Karachi', 'Lahore']
   };
+  
+  // Sidebar Tabs Data (All modal tabs moved to sidebar)
+  sidebarTabs = [
+    { id: 1, name: 'Personal Details', icon: 'fa-user', active: true },
+    { id: 2, name: 'Employee Cost Info', icon: 'fa-calculator' },
+    { id: 3, name: 'Employee ID Info', icon: 'fa-id-card' },
+    { id: 4, name: 'Employee Leave Info', icon: 'fa-calendar' },
+    { id: 5, name: 'Employee Salary Info', icon: 'fa-credit-card' },
+    { id: 6, name: 'Qualification', icon: 'fa-graduation-cap' },
+    { id: 7, name: 'Skills', icon: 'fa-cogs' },
+    { id: 8, name: 'Trainings', icon: 'fa-book' },
+    { id: 9, name: 'Experience', icon: 'fa-briefcase' },
+    { id: 10, name: 'Family Detail', icon: 'fa-users' },
+    { id: 11, name: 'Employee Belongings', icon: 'fa-suitcase' },
+    { id: 12, name: 'Pre Requisite', icon: 'fa-tasks' }
+  ];
+  
+  // Profile Image
+  profileImage: string = 'assets/images/default-avatar.png';
+  profileImageFile: File | null = null;
   
   // Sample Data for Table
   employees = [
@@ -125,59 +161,8 @@ export class EmployeesComponent {
     }
   ];
   
-  // View Modal Data
-  viewEmployeeData = {
-    code: 'EMP-00000',
-    name: 'Naveed Rasheed',
-    jobTitle: 'Admin Officer',
-    department: 'HR',
-    email: 'naveed@gmail.com',
-    mobileNo: '2342343243245',
-    createdBy: '',
-    createdDate: '',
-    updatedBy: '',
-    updatedDate: '',
-    active: 'false',
-    remarks: 're',
-    gender: 'Male',
-    currentCustomer: '',
-    dob: '05/26/1990',
-    idNumber: '',
-    gosiId: '123',
-    dateOfJoining: '12/31/2022',
-    passportNo: 'Lahore',
-    homeAddress: '',
-    bloodGroup: 'B+',
-    sponsor: 'No',
-    contractNo: 'NH7434',
-    overtimeFactor: '1.5',
-    lastIncrementDate: '12/03/2022',
-    religion: 'Islam',
-    maritalStatus: 'Single',
-    passportExpiryDate: '',
-    visaAqamaId: '222',
-    visaAqamaExpiryDate: '06/09/2025'
-  };
-  
-  // Tabs Data
-  tabs = [
-    { id: 1, name: 'Employee Cost Info', active: true },
-    { id: 2, name: 'Employee ID Info', active: false },
-    { id: 3, name: 'Employee Leave Info', active: false },
-    { id: 4, name: 'Employee Salary Info', active: false },
-    { id: 5, name: 'Qualification', active: false },
-    { id: 6, name: 'Skills', active: false },
-    { id: 7, name: 'Trainings', active: false },
-    { id: 8, name: 'Experience', active: false },
-    { id: 9, name: 'Family Detail', active: false },
-    { id: 10, name: 'Employee Belongings', active: false },
-    { id: 11, name: 'Pre Requisite', active: false }
-  ];
-  
-  activeTab = this.tabs[0];
-  
-  // Tab Table Data
-  tabTableData = [
+  // Data for other tabs
+  otherTabsData = [
     { name: 'John Doe', email: 'john@example.com', contact: '1234567890', address: '123 Street' },
     { name: 'Jane Smith', email: 'jane@example.com', contact: '0987654321', address: '456 Avenue' }
   ];
@@ -212,30 +197,36 @@ export class EmployeesComponent {
     this.showForm = true;
     this.isEdit = false;
     this.resetForm();
+    this.setActiveTab(1); // Reset to Personal Details tab
   }
   
   editEmployee(index: number) {
     this.showForm = true;
     this.isEdit = true;
-    // In real app, load employee data by ID
-    this.employeeData = { ...this.employees[index] as any };
+    // Load employee data
+    const emp = this.employees[index];
+    this.employeeFormData.code = emp.code;
+    this.employeeFormData.legacyCode = emp.legacyCode;
+    this.employeeFormData.name = emp.name;
+    this.employeeFormData.jobTitle = emp.jobTitle;
+    this.employeeFormData.project = emp.project;
+    this.employeeFormData.email = emp.email;
+    this.employeeFormData.mobileNumber = emp.mobileNo;
+    this.employeeFormData.currentStatus = emp.status;
+    this.setActiveTab(1); // Reset to Personal Details tab
   }
   
   viewEmployee(index: number) {
     this.showViewModal = true;
   }
   
-  openTabsModal() {
-    this.showTabsModal = true;
-  }
-  
   closeModals() {
     this.showViewModal = false;
-    this.showTabsModal = false;
   }
   
   resetForm() {
-    this.employeeData = {
+    // Reset all form data
+    this.employeeFormData = {
       code: '',
       legacyCode: '',
       name: '',
@@ -279,17 +270,26 @@ export class EmployeesComponent {
       country: '',
       city: '',
       countryCode: '',
-      active: true
+      active: true,
+      employeeId: '',
+      otherId: '',
+      firstName: '',
+      middleName: '',
+      lastName: '',
+      driversLicense: '',
+      licenseExpiry: '',
+      nationality2: '',
+      maritalStatus2: '',
+      dob2: '',
+      gender2: 'Male'
     };
   }
   
   saveEmployee() {
     if (this.isEdit) {
-      // Update logic
-      console.log('Updating employee:', this.employeeData);
+      console.log('Updating employee:', this.employeeFormData);
     } else {
-      // Create logic
-      console.log('Creating employee:', this.employeeData);
+      console.log('Creating employee:', this.employeeFormData);
     }
     this.showForm = false;
   }
@@ -298,21 +298,29 @@ export class EmployeesComponent {
     this.showForm = false;
   }
   
-  setActiveTab(tab: any) {
-    this.tabs.forEach(t => t.active = false);
-    tab.active = true;
-    this.activeTab = tab;
+  setActiveTab(tabId: number) {
+    this.activeTabId = tabId;
+    this.sidebarTabs.forEach(tab => {
+      tab.active = tab.id === tabId;
+    });
   }
   
   // Validation
   isFormValid(): boolean {
-    return !!this.employeeData.code && !!this.employeeData.name && !!this.employeeData.email;
+    return !!this.employeeFormData.code && !!this.employeeFormData.name && !!this.employeeFormData.email;
   }
   
-  // Utility
-  formatDate(date: string): string {
-    if (!date) return '';
-    return new Date(date).toLocaleDateString();
+  // Profile Image Methods
+  onProfileImageChange(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.profileImageFile = file;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.profileImage = e.target?.result as string;
+      };
+      reader.readAsDataURL(file);
+    }
   }
   
   // Search Filter
@@ -325,38 +333,4 @@ export class EmployeesComponent {
       emp.email.toLowerCase().includes(search)
     );
   }
-  // Add these properties to the existing component class
-profileImage: string = 'assets/images/default-avatar.png';
-profileImageFile: File | null = null;
-isImageUploading = false;
-imagePreview: string | ArrayBuffer | null = null;
-
-// Add this method for image handling
-onProfileImageChange(event: any) {
-  const file = event.target.files[0];
-  if (file) {
-    this.profileImageFile = file;
-    
-    // Create preview
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      this.imagePreview = e.target?.result as string;
-      this.profileImage = this.imagePreview as string;
-    };
-    reader.readAsDataURL(file);
-    
-    // In real app, upload to server here
-    this.isImageUploading = true;
-    setTimeout(() => {
-      this.isImageUploading = false;
-      console.log('Image uploaded successfully');
-    }, 1500);
-  }
-}
-
-removeProfileImage() {
-  this.profileImage = 'assets/images/default-avatar.png';
-  this.profileImageFile = null;
-  this.imagePreview = null;
-}
 }

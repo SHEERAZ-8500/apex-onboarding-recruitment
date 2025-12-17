@@ -30,6 +30,7 @@ export class SideNavBarComponent implements OnInit {
 
   // other groups
   adminCollapsed = true;
+  formsCollapsed = true;
   requisitionLookupsCollapsed = true;
   employeesMasterDataCollapsed = true;
   ngOnInit() {
@@ -50,6 +51,8 @@ export class SideNavBarComponent implements OnInit {
   toggleOutsourcingMaster() { this.outsourcinggMasterdataCollapsed = !this.outsourcinggMasterdataCollapsed; }
 
   toggleAdmin() { this.adminCollapsed = !this.adminCollapsed; }
+
+  toggleForms() { this.formsCollapsed = !this.formsCollapsed; }
 
   toggleRequisitionLookups() { this.requisitionLookupsCollapsed = !this.requisitionLookupsCollapsed; }
   toggleEmployeesMasterData() { this.employeesMasterDataCollapsed = !this.employeesMasterDataCollapsed; }
