@@ -66,7 +66,7 @@ export class CreateUddComponent implements OnInit {
         next: (response: any) => {
           // console.log('Lookup Enums:', response);  
           this.selectTable = response.data;
-          debugger
+
           this.loader.hide();
         },
         error: (error: any) => {
@@ -102,9 +102,10 @@ export class CreateUddComponent implements OnInit {
   // Select Enum Component
   selectEnumComponent(item: any, event: Event): void {
     event.stopPropagation();
-    this.enumComponentCode = item.componentCode;
-    this.selectedEnumLabel = `${item.componentCode}`;
+    this.enumComponentCode = this.step === '1' ? item.componentCode : item.enumComponentCode;
+    this.selectedEnumLabel = `${item.displayName}`;
     this.isEnumDropdownOpen = false;
+    
   }
 
   // Close dropdown on document click
@@ -127,7 +128,7 @@ export class CreateUddComponent implements OnInit {
     const payload = {
       fieldCode: this.fieldCode,
       label: this.label,
-      enumComponentCode: this.enumComponentCode,
+      [this.step === '1' ? 'lookupComponentCode' : 'enumComponentCode']: this.enumComponentCode,
       displayOrder: this.displayOrder
     };
 
@@ -135,7 +136,7 @@ export class CreateUddComponent implements OnInit {
     this.loader.show();
 
     // Uncomment when API is ready
-    const apiMethod = this.step === '1' 
+    const apiMethod = this.step === '1'
       ? this.apiService.createNewUDDLookupTable(this.formCode, payload)
       : this.apiService.createNewUDDLookupEnum(this.formCode, payload);
 
