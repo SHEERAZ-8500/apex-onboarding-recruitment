@@ -1,1 +1,296 @@
-<p>mobilization works!</p>
+<div class="leave-wrapper col-md-12">
+
+  <!-- ============================= -->
+  <!--   LIST VIEW (When showForm = false)  -->
+  <!-- ============================= -->
+  <ng-container *ngIf="!showForm; else formPage">
+
+    <div class="card-container">
+
+      <!-- Header Row -->
+      <div class="header-row">
+        <h4 class="main-title">Mobilization</h4>
+
+        <button class="add-btn" (click)="onNew()">
+          <i class="fa fa-plus"></i> Add New
+        </button>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- Items Per Page + Search -->
+      <div class="top-controls d-flex align-items-center">
+
+        <!-- Items Per Page -->
+        <div class="items-per-page">
+          <label>Items per page:</label>
+          <select class="form-select" [(ngModel)]="itemsPerPage">
+            <option [ngValue]="5">5</option>
+            <option [ngValue]="8">8</option>
+            <option [ngValue]="10">10</option>
+            <option [ngValue]="20">20</option>
+          </select>
+        </div>
+
+        <!-- Search -->
+        <div class="search-wrapper ms-auto">
+          <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="searchText" />
+          <i class="fa fa-search search-icon"></i>
+        </div>
+      </div>
+
+      <!-- Mobilization Table -->
+      <div class="leaves-list-section">
+        <div class="table-container">
+          <table class="table table-bordered leaves-table">
+            <thead>
+              <tr>
+                <th>No #</th>
+                <th>Assigned Employee Code</th>
+                <th>Candidate Name</th>
+                <th>Department Name</th>
+                <th>Location Name</th>
+                <th>Mobilization Code</th>
+                <th>Mobilizer Name</th>
+                <th>Supervisor Name</th>
+                <th>Total Agreed Salary</th>
+                <th>Is Active</th>
+                <th class="action-col-header">Actions</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let item of paginatedMobilizations(); let i = index"
+                [class.edit-row]="editIndex === currentPageStart + i">
+                <td>{{ currentPageStart + i + 1 }}</td>
+                <td>{{ item.assignedEmployeeCode }}</td>
+                <td>{{ item.candidateName }}</td>
+                <td>{{ item.departmentName }}</td>
+                <td>{{ item.locationName }}</td>
+                <td>{{ item.mobilizationCode }}</td>
+                <td>{{ item.mobilizerName }}</td>
+                <td>{{ item.supervisorName }}</td>
+                <td>${{ item.totalAgreedSalary | number:'1.2-2' }}</td>
+                <td>
+                  <span class="badge" [ngClass]="item.isActive ? 'badge-success' : 'badge-secondary'">
+                    {{ item.isActive ? 'Yes' : 'No' }}
+                  </span>
+                </td>
+                <td class="action-col">
+                  <i class="fa fa-edit action-icon" (click)="editMobilization(currentPageStart + i)"></i>
+                  <i class="fa fa-trash action-icon" (click)="deleteMobilization(currentPageStart + i)"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="d-flex justify-content-end mt-3 me-3">
+          <nav aria-label="Page navigation">
+            <ul class="pagination">
+
+              <li class="page-item" [class.disabled]="currentPage === 1">
+                <a class="page-link" (click)="changePage(currentPage - 1)">
+                  &laquo;
+                </a>
+              </li>
+
+              <li class="page-item" *ngFor="let page of totalPagesArray" [class.active]="page === currentPage">
+                <a class="page-link" (click)="changePage(page)">
+                  {{ page }}
+                </a>
+              </li>
+
+              <li class="page-item" [class.disabled]="currentPage === totalPages">
+                <a class="page-link" (click)="changePage(currentPage + 1)">
+                  &raquo;
+                </a>
+              </li>
+
+            </ul>
+          </nav>
+        </div>
+
+      </div>
+    </div>
+  </ng-container>
+
+
+
+  <!-- ============================= -->
+  <!--   FORM VIEW (NEW / EDIT)     -->
+  <!-- ============================= -->
+  <ng-template #formPage>
+    <div class="card-container">
+
+      <!-- Header Row -->
+      <div class="header-row">
+        <h4 class="main-title">
+          {{ isEdit ? "Edit Mobilization" : "Add Mobilization" }}
+        </h4>
+
+        <button class="reset-btn" (click)="resetForm()">
+          <i class="fa fa-refresh"></i> Reset
+        </button>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- Form -->
+      <div class="form-row row">
+
+        <!-- Mobilization Code (Input Field) -->
+        <div class="col-md-6 mb-3">
+          <label>Mobilization Code <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" placeholder="Enter Mobilization Code" 
+            [(ngModel)]="mobilizationCode" [readonly]="isEdit" />
+        </div>
+
+        <!-- Requisition ID (Dropdown) -->
+        <div class="col-md-6 mb-3">
+          <label>Requisition ID <span class="text-danger">*</span></label>
+          <select class="form-select" [(ngModel)]="requisitionId">
+            <option value="">Select Requisition</option>
+            <option *ngFor="let option of dropdownOptions.requisitionIds" [value]="option">
+              {{ option }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Mobilization Description (Input Field) -->
+        <div class="col-md-12 mb-3">
+          <label>Mobilization Description</label>
+          <textarea class="form-control" placeholder="Enter Mobilization Description" rows="2"
+            [(ngModel)]="mobilizationDescription"></textarea>
+        </div>
+
+        <!-- Date (Date Picker) -->
+        <div class="col-md-6 mb-3">
+          <label>Date <span class="text-danger">*</span></label>
+          <input type="date" class="form-control" [(ngModel)]="date" 
+            [min]="minDate" [max]="maxDate" />
+        </div>
+
+        <!-- Mobilizer Name (Input Field) -->
+        <div class="col-md-6 mb-3">
+          <label>Mobilizer Name <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" placeholder="Enter Mobilizer Name" 
+            [(ngModel)]="mobilizerName" />
+        </div>
+
+        <!-- Candidate (Dropdown) -->
+        <div class="col-md-6 mb-3">
+          <label>Candidate <span class="text-danger">*</span></label>
+          <select class="form-select" [(ngModel)]="candidateName">
+            <option value="">Select Candidate</option>
+            <option *ngFor="let candidate of dropdownOptions.candidates" [value]="candidate">
+              {{ candidate }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Expected Joining Date (Date Picker) -->
+        <div class="col-md-6 mb-3">
+          <label>Expected Joining Date <span class="text-danger">*</span></label>
+          <input type="date" class="form-control" [(ngModel)]="expectedJoiningDate" 
+            [min]="date || minDate" [max]="maxDate" />
+        </div>
+
+        <!-- Assigned Department (Dropdown) -->
+        <div class="col-md-6 mb-3">
+          <label>Assigned Department <span class="text-danger">*</span></label>
+          <select class="form-select" [(ngModel)]="departmentName">
+            <option value="">Select Department</option>
+            <option *ngFor="let dept of dropdownOptions.departments" [value]="dept">
+              {{ dept }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Assigned Location (Dropdown) -->
+        <div class="col-md-6 mb-3">
+          <label>Assigned Location <span class="text-danger">*</span></label>
+          <select class="form-select" [(ngModel)]="locationName">
+            <option value="">Select Location</option>
+            <option *ngFor="let location of dropdownOptions.locations" [value]="location">
+              {{ location }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Supervisor (Input Field) -->
+        <div class="col-md-6 mb-3">
+          <label>Supervisor <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" placeholder="Enter Supervisor Name" 
+            [(ngModel)]="supervisorName" />
+        </div>
+
+        <!-- Assigned Employee Code (Dropdown) -->
+        <div class="col-md-6 mb-3">
+          <label>Assigned Employee Code <span class="text-danger">*</span></label>
+          <select class="form-select" [(ngModel)]="assignedEmployeeCode">
+            <option value="">Select Employee Code</option>
+            <option *ngFor="let code of dropdownOptions.employeeCodes" [value]="code">
+              {{ code }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Total Agreed Salary (Input Field) -->
+        <div class="col-md-6 mb-3">
+          <label>Total Agreed Salary ($) <span class="text-danger">*</span></label>
+          <input type="number" class="form-control" placeholder="Enter Agreed Salary" 
+            [(ngModel)]="totalAgreedSalary" min="0" step="0.01" />
+        </div>
+
+        <!-- Is Active (Checkbox) -->
+        <div class="col-md-6 mb-3 d-flex align-items-end">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="isActiveCheckbox" 
+              [(ngModel)]="isActive" />
+            <label class="form-check-label" for="isActiveCheckbox">
+              Is Active
+            </label>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Mobilization Summary -->
+      <div class="leave-summary-card" *ngIf="isFormValid()">
+        <h6>Mobilization Summary</h6>
+        <div class="summary-details">
+          <div><strong>Mobilization Code:</strong> {{ mobilizationCode }}</div>
+          <div><strong>Requisition ID:</strong> {{ requisitionId }}</div>
+          <div><strong>Candidate:</strong> {{ candidateName }}</div>
+          <div><strong>Mobilizer:</strong> {{ mobilizerName }}</div>
+          <div><strong>Department:</strong> {{ departmentName }}</div>
+          <div><strong>Location:</strong> {{ locationName }}</div>
+          <div><strong>Supervisor:</strong> {{ supervisorName }}</div>
+          <div><strong>Employee Code:</strong> {{ assignedEmployeeCode }}</div>
+          <div><strong>Expected Joining:</strong> {{ formatDate(expectedJoiningDate) }}</div>
+          <div><strong>Salary:</strong> ${{ totalAgreedSalary | number:'1.2-2' }}</div>
+          <div><strong>Status:</strong>
+            <span class="badge" [ngClass]="isActive ? 'badge-success' : 'badge-secondary'">
+              {{ isActive ? 'Active' : 'Inactive' }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="btn-row text-end mt-2">
+        <button class="btn btn-primary" (click)="isEdit ? updateMobilization() : createMobilization()" 
+          [disabled]="!isFormValid()">
+          <i class="fa fa-check-circle"></i>
+          {{ isEdit ? "Update" : "Create" }}
+        </button>
+
+        <button class="btn btn-danger ms-2" (click)="cancelForm()">
+          <i class="fa fa-ban"></i> Cancel
+        </button>
+      </div>
+    </div>
+  </ng-template>
+</div>

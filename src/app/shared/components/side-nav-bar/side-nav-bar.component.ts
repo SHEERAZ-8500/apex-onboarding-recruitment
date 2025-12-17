@@ -60,6 +60,7 @@ export class SideNavBarComponent implements OnInit {
   toggleRecruitment() { this.recruitmentCollapsed = !this.recruitmentCollapsed; }
   toggleRecruitmentForms() { this.recruitmentFormsCollapsed = !this.recruitmentFormsCollapsed; }
   toggleSelectionForms() { this.SelectionFormsCollapsed = !this.SelectionFormsCollapsed; }
+  
   toggleTable() { this.tableCollapsed = !this.tableCollapsed; }
   
 }

@@ -1,1 +1,257 @@
-<p>requisition works!</p>
+<div class="leave-wrapper col-md-12">
+
+  <!-- ============================= -->
+  <!--   LIST VIEW (When showForm = false)  -->
+  <!-- ============================= -->
+  <ng-container *ngIf="!showForm; else formPage">
+
+    <div class="card-container">
+
+      <!-- Header Row -->
+      <div class="header-row">
+        <h4 class="main-title">Requisitions</h4>
+
+        <button class="add-btn" (click)="onNew()">
+          <i class="fa fa-plus"></i> Add New
+        </button>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- Items Per Page + Search -->
+      <div class="top-controls d-flex align-items-center">
+
+        <!-- Items Per Page -->
+        <div class="items-per-page">
+          <label>Items per page:</label>
+          <select class="form-select" [(ngModel)]="itemsPerPage">
+            <option [ngValue]="5">5</option>
+            <option [ngValue]="8">8</option>
+            <option [ngValue]="10">10</option>
+            <option [ngValue]="20">20</option>
+          </select>
+        </div>
+
+        <!-- Search -->
+        <div class="search-wrapper ms-auto">
+          <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="searchText" />
+          <i class="fa fa-search search-icon"></i>
+        </div>
+      </div>
+
+      <!-- Requisitions Table -->
+      <div class="leaves-list-section">
+        <div class="table-container">
+          <table class="table table-bordered leaves-table">
+            <thead>
+              <tr>
+                <th>Sr.</th>
+                <th>Requisition Number</th>
+                <th>Requisition Name</th>
+                <th>Designation Name</th>
+                <th>No Of Employee Intra Country</th>
+                <th>No Of Employee Inter Country</th>
+                <th>No Of Interviews</th>
+                <th>Training Required</th>
+                <th>Required Date</th>
+                <th>Description</th>
+                <th>Current Status</th>
+                <th class="action-col-header">Actions</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let item of paginatedRequisitions(); let i = index"
+                [class.edit-row]="editIndex === currentPageStart + i">
+                <td>{{ currentPageStart + i + 1 }}</td>
+                <td>{{ item.requisitionNumber }}</td>
+                <td>{{ item.requisitionName }}</td>
+                <td>{{ item.designationName }}</td>
+                <td>{{ item.intraCountryEmployees }}</td>
+                <td>{{ item.interCountryEmployees }}</td>
+                <td>{{ item.numberOfInterviews }}</td>
+                <td>{{ item.trainingRequired || '-' }}</td>
+                <td>{{ item.requiredDate | date:'dd/MM/yyyy' }}</td>
+                <td>{{ item.description || '-' }}</td>
+                <td>
+                  <span class="badge" [ngClass]="item.status === 'Active' ? 'badge-success' : 'badge-danger'">
+                    {{ item.status }}
+                  </span>
+                </td>
+                <td class="action-col">
+                  <i class="fa fa-edit action-icon" (click)="editRequisition(currentPageStart + i)"></i>
+                  <i class="fa fa-trash action-icon" (click)="deleteRequisition(currentPageStart + i)"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="d-flex justify-content-end mt-3 me-3">
+          <nav aria-label="Page navigation">
+            <ul class="pagination">
+
+              <li class="page-item" [class.disabled]="currentPage === 1">
+                <a class="page-link" (click)="changePage(currentPage - 1)">
+                  &laquo;
+                </a>
+              </li>
+
+              <li class="page-item" *ngFor="let page of totalPagesArray" [class.active]="page === currentPage">
+                <a class="page-link" (click)="changePage(page)">
+                  {{ page }}
+                </a>
+              </li>
+
+              <li class="page-item" [class.disabled]="currentPage === totalPages">
+                <a class="page-link" (click)="changePage(currentPage + 1)">
+                  &raquo;
+                </a>
+              </li>
+
+            </ul>
+          </nav>
+        </div>
+
+      </div>
+    </div>
+  </ng-container>
+
+
+
+  <!-- ============================= -->
+  <!--   FORM VIEW (NEW / EDIT)     -->
+  <!-- ============================= -->
+  <ng-template #formPage>
+    <div class="card-container">
+
+      <!-- Header Row -->
+      <div class="header-row">
+        <h4 class="main-title">
+          {{ isEdit ? "Edit Requisition" : "Add Requisition" }}
+        </h4>
+
+        <button class="reset-btn" (click)="resetForm()">
+          <i class="fa fa-refresh"></i> Reset
+        </button>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- Form -->
+      <div class="form-row row">
+
+        <!-- Requisition Number (Numeric Field) -->
+        <div class="col-md-6 mb-3">
+          <label>Requisition Number <span class="text-danger">*</span></label>
+          <input type="number" class="form-control" placeholder="Enter Requisition Number" 
+            [(ngModel)]="requisitionNumber" [readonly]="isEdit" min="1" />
+        </div>
+
+        <!-- Requisition Name (Input Field) -->
+        <div class="col-md-6 mb-3">
+          <label>Requisition Name <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" placeholder="Enter Requisition Name" 
+            [(ngModel)]="requisitionName" />
+        </div>
+
+        <!-- Designation Name (Dropdown) -->
+        <div class="col-md-6 mb-3">
+          <label>Designation Name <span class="text-danger">*</span></label>
+          <select class="form-select" [(ngModel)]="designationName">
+            <option value="">Select Designation</option>
+            <option *ngFor="let option of dropdownOptions.designations" [value]="option">
+              {{ option }}
+            </option>
+          </select>
+        </div>
+
+        <!-- No of Interviews (Numeric Field) -->
+        <div class="col-md-6 mb-3">
+          <label>No of Interviews <span class="text-danger">*</span></label>
+          <input type="number" class="form-control" placeholder="Enter Number of Interviews" 
+            [(ngModel)]="numberOfInterviews" min="0" />
+        </div>
+
+        <!-- No Of Employee Intra Country (Numeric Field) -->
+        <div class="col-md-6 mb-3">
+          <label>No Of Employee Intra Country <span class="text-danger">*</span></label>
+          <input type="number" class="form-control" placeholder="Enter Intra Country Employees" 
+            [(ngModel)]="intraCountryEmployees" min="0" />
+        </div>
+
+        <!-- No Of Employee Inter Country (Numeric Field) -->
+        <div class="col-md-6 mb-3">
+          <label>No Of Employee Inter Country <span class="text-danger">*</span></label>
+          <input type="number" class="form-control" placeholder="Enter Inter Country Employees" 
+            [(ngModel)]="interCountryEmployees" min="0" />
+        </div>
+
+        <!-- Required Date (Date Picker) -->
+        <div class="col-md-6 mb-3">
+          <label>Required Date <span class="text-danger">*</span></label>
+          <input type="date" class="form-control" [(ngModel)]="requiredDate" 
+            [min]="minDate" [max]="maxDate" />
+        </div>
+
+        <!-- Training Required (Input Field) -->
+        <div class="col-md-6 mb-3">
+          <label>Training Required</label>
+          <input type="text" class="form-control" placeholder="Enter Training Requirements" 
+            [(ngModel)]="trainingRequired" />
+        </div>
+
+        <!-- Description (Textarea) -->
+        <div class="col-md-12 mb-3">
+          <label>Description</label>
+          <textarea class="form-control" placeholder="Enter Description" rows="3" 
+            [(ngModel)]="description"></textarea>
+        </div>
+
+        <!-- Status (Dropdown) -->
+        <div class="col-md-6 mb-3">
+          <label>Status <span class="text-danger">*</span></label>
+          <select class="form-select" [(ngModel)]="status">
+            <option value="">Select Status</option>
+            <option *ngFor="let option of dropdownOptions.statusOptions" [value]="option">
+              {{ option }}
+            </option>
+          </select>
+        </div>
+
+      </div>
+
+      <!-- Requisition Summary -->
+      <div class="leave-summary-card" *ngIf="isFormValid()">
+        <h6>Requisition Summary</h6>
+        <div class="summary-details">
+          <div><strong>Requisition Number:</strong> {{ requisitionNumber }}</div>
+          <div><strong>Requisition Name:</strong> {{ requisitionName }}</div>
+          <div><strong>Designation:</strong> {{ designationName }}</div>
+          <div><strong>Total Employees:</strong> {{ (intraCountryEmployees || 0) + (interCountryEmployees || 0) }}</div>
+          <div><strong>Interviews:</strong> {{ numberOfInterviews }}</div>
+          <div><strong>Required Date:</strong> {{ formatDate(requiredDate) }}</div>
+          <div><strong>Status:</strong>
+            <span class="badge" [ngClass]="status === 'Active' ? 'badge-success' : 'badge-danger'">
+              {{ status }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="btn-row text-end mt-2">
+        <button class="btn btn-primary" (click)="isEdit ? updateRequisition() : createRequisition()" 
+          [disabled]="!isFormValid()">
+          <i class="fa fa-check-circle"></i>
+          {{ isEdit ? "Update" : "Create" }}
+        </button>
+
+        <button class="btn btn-danger ms-2" (click)="cancelForm()">
+          <i class="fa fa-ban"></i> Cancel
+        </button>
+      </div>
+    </div>
+  </ng-template>
+</div>

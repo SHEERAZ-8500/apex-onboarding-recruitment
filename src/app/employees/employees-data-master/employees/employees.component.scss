@@ -4,7 +4,6 @@
   border: 1px solid var(--border-color);
   border-radius: 10px;
   color: var(--text-primary);
-  // height: calc(100vh - 150px);
   margin-top: -2px;
 
   /* Header Row (Employees + Add New / Reset button) */
@@ -162,7 +161,8 @@
 
   /* Table Styling */
   table.employees-table {
-    width: 2000px;
+    width: 100%; /* Changed from 2000px to 100% */
+    table-layout: auto; /* Auto table layout */
 
     &.table-bordered > :not(caption) > * > * {
       border-color: var(--border-color) !important;
@@ -180,6 +180,7 @@
         padding: 10px;
         font-size: 12px;
         white-space: nowrap;
+        min-width: 120px; /* Minimum width for columns */
       }
     }
 
@@ -201,6 +202,7 @@
           font-size: 12px;
           white-space: nowrap;
           vertical-align: middle;
+          min-width: 120px; /* Minimum width for columns */
         }
       }
     }
@@ -231,7 +233,7 @@
     thead {
       display: table;
       width: 100%;
-      table-layout: fixed;
+      table-layout: auto; /* Auto layout */
       position: sticky;
       top: 0;
       z-index: 5;
@@ -241,7 +243,7 @@
     tbody tr {
       display: table;
       width: 100%;
-      table-layout: fixed;
+      table-layout: auto; /* Auto layout */
       border: none;
     }
   }
@@ -312,7 +314,6 @@
           border: 1px solid var(--border-color);
           border-radius: 8px;
           overflow: hidden;
-          height: 480px;
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
@@ -490,11 +491,9 @@
           border: 1px solid var(--border-color);
           border-radius: 8px;
           padding: 25px;
-          min-height: 500px;
-          height: 450px; /* Fixed height for scrolling */
           display: flex;
           flex-direction: column;
-          overflow-x: hidden;
+          min-height: 500px;
 
           .form-title {
             color: var(--text-primary);
@@ -558,26 +557,35 @@
           .tab-content {
             flex: 1;
             overflow-y: auto;
-            overflow-x: hidden;
+            overflow-x: hidden; /* Horizontal scrollbar remove */
             padding-right: 5px;
             
             /* Custom scrollbar styling */
             &::-webkit-scrollbar {
-              width: 8px;
+              width: 6px;
             }
             
             &::-webkit-scrollbar-track {
               background: var(--second-primary-color);
-              border-radius: 4px;
+              border-radius: 3px;
             }
             
             &::-webkit-scrollbar-thumb {
               background: var(--border-color);
-              border-radius: 4px;
+              border-radius: 3px;
               
               &:hover {
                 background: var(--primary-color);
               }
+            }
+            
+            /* Hide horizontal scrollbar */
+            &::-webkit-scrollbar-horizontal {
+              display: none;
+            }
+            
+            &::-webkit-scrollbar-button {
+              display: none;
             }
             
             /* Firefox */
@@ -592,10 +600,25 @@
                 flex: 1;
                 display: flex;
                 flex-direction: column;
+                width: 100%;
+                overflow-x: hidden; /* Prevent horizontal overflow */
+                
+                .row {
+                  margin-left: -8px;
+                  margin-right: -8px;
+                  width: calc(100% + 16px);
+                  
+                  .col-md-4 {
+                    padding-left: 8px;
+                    padding-right: 8px;
+                  }
+                }
                 
                 .btn-row {
                   margin-top: auto;
                   padding-top: 20px;
+                  width: 100%;
+                  overflow: hidden;
                 }
               }
             }
@@ -605,6 +628,8 @@
             margin-top: 20px;
             padding-top: 20px;
             border-top: 1px solid var(--border-color);
+            width: 100%;
+            overflow: hidden;
           }
         }
       }
@@ -674,11 +699,11 @@
       }
       
       .form-column .form-content {
-        height: auto;
         min-height: 400px;
         
         .tab-content {
           overflow: visible;
+          overflow-x: hidden;
         }
       }
     }
@@ -716,7 +741,12 @@
     }
 
     .employees-table {
-      width: 1200px;
+      width: 100% !important; /* Force 100% width on mobile */
+      
+      thead th,
+      tbody td {
+        min-width: 80px !important; /* Smaller minimum width on mobile */
+      }
     }
 
     .form-view-container {
@@ -753,7 +783,6 @@
         
         .form-column .form-content {
           padding: 20px 15px;
-          height: auto;
           
           .form-buttons {
             flex-direction: column;
@@ -761,6 +790,22 @@
             .btn {
               width: 100%;
               margin-bottom: 10px;
+            }
+          }
+          
+          .tab-content {
+            .form-tab-scroll {
+              form {
+                .row {
+                  margin-left: -5px;
+                  margin-right: -5px;
+                  
+                  .col-md-4 {
+                    padding-left: 5px;
+                    padding-right: 5px;
+                  }
+                }
+              }
             }
           }
         }
@@ -792,6 +837,25 @@
         flex-wrap: nowrap;
       }
     }
+    
+    .form-view-container {
+      .form-layout {
+        .form-column .form-content {
+          .tab-content {
+            .form-tab-scroll {
+              form {
+                .row {
+                  .col-md-4 {
+                    width: 100% !important; /* Full width on small screens */
+                    margin-bottom: 15px;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }
 
@@ -817,4 +881,14 @@ textarea,
   background-color: var(--second-primary-color) !important;
   border-color: var(--border-color) !important;
   color: var(--text-primary) !important;
+}
+
+/* Prevent horizontal overflow globally */
+* {
+  box-sizing: border-box;
+}
+
+.form-tab-scroll {
+  max-width: 100%;
+  overflow-x: hidden !important;
 }
