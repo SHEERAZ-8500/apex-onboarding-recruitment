@@ -29,18 +29,19 @@
                         <td class="px-3 py-3 text-gray-400">
 
                             <div class="dropdown" ngbDropdown>
-                                <span class="cursor-pointer" ngbDropdownToggle
-                                    style="cursor: pointer;"><i class="fa-solid fa-ellipsis-vertical"></i></span>
+                                <span class="cursor-pointer" ngbDropdownToggle style="cursor: pointer;"><i
+                                        class="fa-solid fa-ellipsis-vertical"></i></span>
 
                                 <ul class="dropdown-menu" ngbDropdownMenu>
-                                    <li><a class="dropdown-item" 
-                                            [routerLink]="['/panel/forms/create-new-udf']" 
+                                    <li><a class="dropdown-item" [routerLink]="['/panel/forms/create-new-udf']"
                                             [queryParams]="{formCode: c.formCode}">
                                             Create New Udf</a></li>
-                                    <li><a class="dropdown-item" 
-                                            [routerLink]="['/panel/forms/create-new-udd']" 
+                                    <li><a class="dropdown-item" [routerLink]="['/panel/forms/create-new-udd']"
                                             [queryParams]="{formCode: c.formCode}">
                                             Create New Udd</a></li>
+                                    <li><a class="dropdown-item" [routerLink]="['/panel/forms/manage-fields-visibility']"
+                                            [queryParams]="{formCode: c.formCode}">
+                                            Manage Fields Visibility</a></li>
                                     <!-- <li><a class="dropdown-item" href="#">Something else here</a></li> -->
                                 </ul>
                             </div>
