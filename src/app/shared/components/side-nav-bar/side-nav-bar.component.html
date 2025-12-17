@@ -250,6 +250,76 @@
         </div>
       </div>
     </div>
+    <!-- recruitment with both levels -->
+    <div class="nav-item-with-toggle">
+      <a class="top-link" (click)="toggleRecruitment()" [attr.aria-expanded]="!recruitmentCollapsed"
+        aria-controls="recruitment">
+        <i class="fa-solid fa-database"></i>
+        <span>Recruitment</span>
+        <span class="chev-icon">
+          <i *ngIf="recruitmentCollapsed" class="fa-solid fa-chevron-right"></i>
+          <i *ngIf="!recruitmentCollapsed" class="fa-solid fa-chevron-down"></i>
+        </span>
+      </a>
+
+      <div #recruitment="ngbCollapse" [(ngbCollapse)]="recruitmentCollapsed" class="collapseStyling"
+        [class.open]="!recruitmentCollapsed">
+        <div class="collapseDiv">
+          <!-- recruitment (level-1 toggle) -->
+          <div class="nav-item-with-toggle level-2">
+            <a class="level-link" (click)="toggleRecruitmentForms()" [attr.aria-expanded]="!recruitmentFormsCollapsed"
+              aria-controls="recruitmentformsExample">
+              <i class="fas fa-angle-double-right"></i>
+              <span>Recruitment</span>
+              <span class="chev-icon small">
+                <i *ngIf="recruitmentFormsCollapsed"></i>
+                <i *ngIf="!recruitmentFormsCollapsed"></i>
+              </span>
+            </a>
+
+            <div #recruitmentforms="ngbCollapse" [(ngbCollapse)]="recruitmentFormsCollapsed"
+              class="collapseStyling inner" [class.open]="!recruitmentFormsCollapsed">
+              <div class="collapseDiv">
+                <a routerLink="recruitment-forms/requisition" routerLinkActive="active"><span>Requisition</span></a>
+                                <a routerLink="recruitment-forms/candidate-information" routerLinkActive="active"><span>Candidate Information</span></a>
+                <a routerLink="recruitment-forms/screening" routerLinkActive="active"><span>Screening</span></a>
+
+                <a routerLink="recruitment-forms/interview-scheduling" routerLinkActive="active"><span>Interview Scheduling</span></a>
+                <a routerLink="recruitment-forms/interview-results" routerLinkActive="active"><span>Interview Results</span></a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Organizational Master Data (level-2 toggle) -->
+          <div class="nav-item-with-toggle level-2">
+            <a class="level-link" (click)="toggleSelectionForms()" [attr.aria-expanded]="!SelectionFormsCollapsed"
+              aria-controls="SelectionFormsExample">
+              <i class="fas fa-angle-double-right"></i>
+              <span>Selection</span>
+              <span class="chev-icon small">
+                <i *ngIf="SelectionFormsCollapsed"></i>
+                <i *ngIf="!SelectionFormsCollapsed"></i>
+              </span>
+            </a>
+
+            <div #Selection="ngbCollapse" [(ngbCollapse)]="SelectionFormsCollapsed" class="collapseStyling inner"
+              [class.open]="!SelectionFormsCollapsed">
+              <div class="collapseDiv">
+                <a routerLink="selection/offer-letter"><span>Offer Letter</span></a>
+                <a routerLink="selection/contarct"><span>Contract</span></a>
+                <a routerLink="selection/mobilization"><span>Mobilization</span></a>
+                <a routerLink="selection/joining"><span>Joining</span></a>
+                <a routerLink="selection/interview-report"><span>Interview Report</span></a>
+                <a routerLink="selection/selection"><span>Selection</span></a>
+
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
     <!-- Admin -->
     <div class="nav-item-with-toggle">
       <a class="top-link" (click)="toggleAdmin()" [attr.aria-expanded]="!adminCollapsed" aria-controls="adminExample">

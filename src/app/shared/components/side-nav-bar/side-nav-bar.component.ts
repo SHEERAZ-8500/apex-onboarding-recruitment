@@ -14,6 +14,8 @@ export class SideNavBarComponent implements OnInit {
   assesment = true;
   masterdata = true;
   employees = true;
+  recruitment = true;
+  selection = true;
 
   // master data tree state
   masterdataCollapsed = true;
@@ -21,6 +23,10 @@ export class SideNavBarComponent implements OnInit {
   organizationalMasterdataCollapsed = true;
   outsourcinggMasterdataCollapsed = true;
   employeesCollapsed = true;
+  recruitmentCollapsed = true;
+  recruitmentFormsCollapsed = true;
+    SelectionFormsCollapsed = true
+
 
   // other groups
   adminCollapsed = true;
@@ -51,7 +57,9 @@ export class SideNavBarComponent implements OnInit {
 
   toggleRequisitionLookups() { this.requisitionLookupsCollapsed = !this.requisitionLookupsCollapsed; }
   toggleEmployeesMasterData() { this.employeesMasterDataCollapsed = !this.employeesMasterDataCollapsed; }
-  
+  toggleRecruitment() { this.recruitmentCollapsed = !this.recruitmentCollapsed; }
+  toggleRecruitmentForms() { this.recruitmentFormsCollapsed = !this.recruitmentFormsCollapsed; }
+  toggleSelectionForms() { this.SelectionFormsCollapsed = !this.SelectionFormsCollapsed; }
   toggleTable() { this.tableCollapsed = !this.tableCollapsed; }
   
 }
