@@ -31,8 +31,33 @@
     <a routerLink="/panel/contact" routerLinkActive="active"><i class="fa-solid fa-address-book"></i>
       <span>Contacts</span></a>
 
-    <a routerLink="/panel/table/table-listing" routerLinkActive="active"><i class="fa-solid fa-table-list"></i>
-      <span>Tables</span></a>
+    <!-- Table -->
+    <div class="nav-item-with-toggle">
+      <a class="top-link" (click)="toggleTable()" [attr.aria-expanded]="!tableCollapsed">
+        <i class="fa-solid fa-table-list"></i>
+        <span>Tables</span>
+        <span class="chev-icon">
+          <i *ngIf="tableCollapsed" class="fa-solid fa-chevron-right"></i>
+          <i *ngIf="!tableCollapsed" class="fa-solid fa-chevron-down"></i>
+        </span>
+      </a>
+
+      <div #table="ngbCollapse" [(ngbCollapse)]="tableCollapsed" class="collapseStyling" [class.open]="!tableCollapsed">
+        <div class="collapseDiv">
+          <a routerLink="/panel/table/table-listing">
+            <span>View All Tables</span>
+          </a>
+
+
+          <a routerLink="/panel/table/view-all-lookup-tables">
+            <span>View All Lookup Table</span>
+          </a>
+          <a routerLink="/panel/table/view-all-lookup-enums">
+            <span>View All Lookup Enums</span>
+          </a>
+        </div>
+      </div>
+    </div>
 
     <!-- Assessment (two-level) -->
     <div class="nav-item-with-toggle">
@@ -337,6 +362,29 @@
         </div>
       </div>
     </div>
+    <!-- table -->
+    <div class="nav-item-with-toggle">
+      <a class="top-link" (click)="toggleAdmin()" [attr.aria-expanded]="!adminCollapsed" aria-controls="adminExample">
+        <i class="fa-solid fa-user-shield"></i>
+        <span>Admin</span>
+        <span class="chev-icon">
+          <i *ngIf="adminCollapsed" class="fa-solid fa-chevron-right"></i>
+          <i *ngIf="!adminCollapsed" class="fa-solid fa-chevron-down"></i>
+        </span>
+      </a>
+
+      <div #admin="ngbCollapse" [(ngbCollapse)]="adminCollapsed" class="collapseStyling" [class.open]="!adminCollapsed">
+        <div class="collapseDiv">
+          <a routerLink="admin/view-all-users">
+            <span>View All Users</span>
+          </a>
+
+          <a routerLink="/panel/permissions/view-all-rols">
+            <span>View Role</span>
+          </a>
+        </div>
+      </div>
+    </div>
     <!-- Requisition Lookups -->
     <div class="nav-item-with-toggle">
       <a class="top-link" (click)="toggleRequisitionLookups()" [attr.aria-expanded]="!requisitionLookupsCollapsed"
@@ -367,6 +415,7 @@
           <a routerLink="/panel/requisition-lookups/create-branch">
             <span>Branches</span>
           </a>
+
         </div>
       </div>
     </div>

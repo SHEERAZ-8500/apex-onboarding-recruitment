@@ -82,15 +82,37 @@ export class ApiService {
   createBranch(data: any) {
     return this.http.post('branches', data);
   }
-
-
-
-// forms apis
-
-  getUserAllForms() {
-    return this.http.get(`/forms`);
+  createLookupEnum(data: any) {
+    return this.http.post('admin/lookups/enums', data);
+  }
+  getAllLookupEnums() {
+    return this.http.get(`admin/lookups/enums`);
   }
 
+  // tables
+  createLookUpTable(data: any) {
+    return this.http.post('admin/lookups/tables', data);
+  }
+  createRowInLookUpTable(componentCode: any, data: any) {
+    return this.http.post(`admin/lookups/tables/${componentCode}/values`, data);
+  }
+  createRowInTable( data: any) {
+    return this.http.post(`api/admin/row-tables`, data);
+  }
+  getAllLookUpTables() {
+    return this.http.get(`admin/lookups/tables`);
+  }
+  // forms apis
+
+  getUserAllForms() {
+    return this.http.get(`forms`);
+  }
+  createNewUDF(formCode: any, data: any) {
+    return this.http.post(`admin/forms/${formCode}/fields/basic`, data);
+  }
+  getFormById(id: any) {
+    return this.http.get(`forms/${id}?filter=USER_DEFINED`);
+  }
 
   getAllUser() {
     return this.http.get('admin/users');

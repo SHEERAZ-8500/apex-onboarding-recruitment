@@ -14,13 +14,13 @@ export class CreateNewUdfComponent implements OnInit {
   formCode: string = '';
 
   // Form Fields
-  entityName: string = '';
   fieldCode: string = '';
   label: string = '';
   fieldType: string = '';
-  nullable: boolean = false;
-  unique: boolean = false;
+  required: boolean = false;
   maxLength: number | null = null;
+  precision: number | null = null;
+  scale: number | null = null;
   validationRegex: string = '';
   displayOrder: number | null = null;
 
@@ -73,40 +73,44 @@ export class CreateNewUdfComponent implements OnInit {
     this.isFieldTypeDropdownOpen = false;
   }
 
+  // Replace spaces with underscores in field code
+  onFieldCodeInput(): void {
+    this.fieldCode = this.fieldCode.replace(/\s+/g, '_');
+  }
+
   // Submit Form
   onSubmit(): void {
     // Validation
-    if (!this.entityName || !this.fieldCode || !this.label || !this.fieldType || !this.displayOrder) {
+    if ( !this.fieldCode || !this.label || !this.fieldType ) {
       this.toastr.error('Please fill in all required fields');
       return;
     }
 
-    const payload = {
-      formCode: this.formCode,
-      entityName: this.entityName,
+    const payload: any = {
       fieldCode: this.fieldCode,
       label: this.label,
       fieldType: this.fieldType,
-      nullable: this.nullable,
-      unique: this.unique,
-      maxLength: this.maxLength,
-      validationRegex: this.validationRegex || null,
+      required: this.required,
+      maxLength: this.maxLength || 0,
+      precision: this.precision || 0,
+      scale: this.scale || 0,
+      validationRegex: this.validationRegex || '',
       displayOrder: this.displayOrder
     };
 
     this.loader.show();
 
-    // this.apiService.createNewUDF(payload).subscribe({
-    //   next: (response: any) => {
-    //     this.loader.hide();
-    //     this.toastr.success('UDF field created successfully');
-    //     this.resetForm();
-    //   },
-    //   error: (error: any) => {
-    //     this.loader.hide();
-    //     this.toastr.error(error?.error?.message || 'Failed to create UDF field');
-    //   }
-    // });
+    this.apiService.createNewUDF(this.formCode,payload).subscribe({
+      next: (response: any) => {
+        this.loader.hide();
+        this.toastr.success('UDF field created successfully');
+        this.resetForm();
+      },
+      error: (error: any) => {
+        this.loader.hide();
+        this.toastr.error(error?.error?.message || 'Failed to create UDF field');
+      }
+    });
   }
 
   // Cancel
@@ -116,14 +120,14 @@ export class CreateNewUdfComponent implements OnInit {
 
   // Reset Form
   resetForm(): void {
-    this.entityName = '';
     this.fieldCode = '';
     this.label = '';
     this.fieldType = '';
     this.selectedFieldType = '';
-    this.nullable = false;
-    this.unique = false;
+    this.required = false;
     this.maxLength = null;
+    this.precision = null;
+    this.scale = null;
     this.validationRegex = '';
     this.displayOrder = null;
   }
