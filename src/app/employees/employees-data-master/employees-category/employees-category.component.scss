@@ -4,7 +4,7 @@
   border: 1px solid var(--border-color);
   border-radius: 10px;
   color: var(--text-primary);
-  margin-top: 15px;
+  margin-top: -8px;
 
   /* Header Row (Skills + Add New / Reset button) */
   .header-row {
@@ -14,7 +14,7 @@
 
     .main-title {
       margin: 0;
-      font-size: 20px;
+      font-size: 23px;
       font-weight: 600;
       color: var(--text-primary);
     }
@@ -51,7 +51,7 @@
     .items-per-page {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
 
       label {
         margin: 0;
@@ -65,8 +65,9 @@
         border: 1px solid var(--border-color);
         color: var(--text-primary);
         text-align: center;
-        padding: 6px 3px;
+        padding: 2px 3px;
         border-radius: 4px;
+
       }
     }
 
@@ -114,14 +115,15 @@
       color: var(--text-primary) !important;
 
       th {
-         background-color: var(--primary-color) !important; 
+        background-color: var(--primary-color) !important;
         color: var(--text-primary) !important;
         border-bottom: 0.5px solid var(--border-color) !important;
         border-top: 0.5px solid var(--border-color) !important;
         border: none;
         padding: 10px;
         font-size: 14px;
-        white-space: nowrap;
+        text-align: center; /* Header text center */
+      vertical-align: middle; 
       }
     }
 
@@ -141,10 +143,8 @@
           border: none;
           padding: 10px;
           font-size: 14px;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          max-width: 300px;
+          text-align: center; /* Header text center */
+      vertical-align: middle; 
         }
 
 
@@ -201,18 +201,22 @@
   .skill-table tbody td.action-col {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
+     justify-content: center; 
+   
   }
 
   .skill-table tbody td.action-col .action-icon {
-    font-size: 15px;
+    font-size: 13px;
     cursor: pointer;
     transition: 0.2s ease;
+    color: var(--text-secondary);
+    
   }
 
   .skill-table tbody td.action-col .fa-edit:hover,
   .skill-table tbody td.action-col .fa-trash:hover {
-    color: #1274ac;
+    color: var(--light-purple);
   }
 
   /* Pagination */
@@ -281,11 +285,10 @@
           display: block;
           font-weight: 500;
           margin-bottom: 0.25rem;
-          color: var(--text-primary);
         }
 
         .form-control {
-          padding: 0.79rem 0.75rem;
+          padding: 9px 16px;
           border-radius: 5px;
           border: 1px solid var(--border-color);
           background: var(--second-primary-color);
@@ -293,6 +296,7 @@
 
           &::placeholder {
             color: var(--text-secondary);
+            /* Apna color */
             opacity: 1;
           }
         }
@@ -300,6 +304,9 @@
         .text-danger {
           margin-left: 0.2rem;
         }
+         input[type="checkbox"] {
+      accent-color: var(--purple-1);
+    }
       }
     }
 
@@ -325,20 +332,46 @@
         }
 
         &.btn-primary {
-          background: #198754;
-          color: #fff;
+          padding: 8px 16px;
+          border-radius: 4px;
+          border: none;
+          font-size: 14px;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          height: 36px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          background-color: var(--purple-1);
+          color: white;
+
+
 
           &:hover {
-            background: #157347;
+            transform: translateY(-2px);
           }
         }
 
         &.btn-danger {
-          background: #dc3545;
-          color: #fff;
+          padding: 8px 16px;
+          border-radius: 4px;
+          border: none;
+          font-size: 14px;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          height: 36px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          background-color: var(--red-color);
+          color: white;
+
+
 
           &:hover {
-            background: #c12738;
+            transform: translateY(-2px);
           }
         }
       }
@@ -362,73 +395,7 @@
 
         .btn {
           width: 100%;
-          margin-bottom: 0.5rem;
         }
-      }
-    }
-
-    table.skill-table {
-      thead th,
-      tbody td {
-        font-size: 12px;
-        padding: 8px 5px;
-      }
-
-      thead {
-        display: none;
-      }
-
-      tbody {
-        display: block;
-        max-height: none;
-      }
-
-      tbody tr {
-        display: block;
-        margin-bottom: 1rem;
-        border: 1px solid var(--border-color);
-        border-radius: 8px;
-        padding: 10px;
-      }
-
-      tbody td {
-        display: flex;
-        justify-content: space-between;
-        padding: 8px 0;
-        border-bottom: 1px solid var(--border-color);
-        max-width: 100%;
-        white-space: normal;
-
-        &:before {
-          content: attr(data-label);
-          font-weight: 600;
-          margin-right: 10px;
-          min-width: 120px;
-        }
-
-        &:last-child {
-          border-bottom: none;
-        }
-
-        &.action-col {
-          justify-content: center;
-          gap: 20px;
-          padding-top: 10px;
-        }
-      }
-    }
-  }
-
-  /* For smaller screens */
-  @media (max-width: 576px) {
-    .top-controls {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 10px;
-
-      .search-wrapper {
-        width: 100%;
-        margin-left: 0;
       }
     }
   }

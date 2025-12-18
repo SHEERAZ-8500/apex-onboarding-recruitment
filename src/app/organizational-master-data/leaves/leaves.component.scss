@@ -4,7 +4,7 @@
   border: 1px solid var(--border-color);
   border-radius: 10px;
   color: var(--text-primary);
-  margin-top: 15px;
+  margin-top: -8px;
 
   /* Header Row (Leaves + Add New / Reset button) */
   .header-row {
@@ -14,7 +14,7 @@
 
     .main-title {
       margin: 0;
-      font-size: 20px;
+      font-size: 23px;
       font-weight: 600;
       color: var(--text-primary);
     }
@@ -73,7 +73,7 @@
     .items-per-page {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
 
       label {
         margin: 0;
@@ -87,7 +87,7 @@
         border: 1px solid var(--border-color);
         color: var(--text-primary);
         text-align: center;
-        padding: 6px 3px;
+        padding: 2px 3px;
         border-radius: 4px;
       }
     }
@@ -124,7 +124,7 @@
 
   /* Table Styling */
   table.leaves-table {
-    width: 3800px;
+    width: 2950px;
 
 
     &.table-bordered> :not(caption)>*>* {
@@ -141,8 +141,10 @@
         border-top: 0.5px solid var(--border-color) !important;
         border: none;
         padding: 10px;
-        font-size: 12px;
+        font-size: 14px;
         white-space: nowrap;
+        text-align: center; /* Header text center */
+      vertical-align: middle; 
       }
     }
 
@@ -161,9 +163,11 @@
           color: var(--text-primary) !important;
           border: none;
           padding: 8px;
-          font-size: 12px;
+          font-size: 14px;
           // white-space: nowrap;
           vertical-align: middle;
+          text-align: center; /* Header text center */
+      vertical-align: middle; 
         }
       }
     }
@@ -215,15 +219,25 @@
   }
 
 
+ .leaves-table tbody td.action-col {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+
+  }
+
   .leaves-table tbody td.action-col .action-icon {
-    font-size: 14px;
+    font-size: 13px;
     cursor: pointer;
     transition: 0.2s ease;
+    color: var(--text-secondary);
+
   }
 
   .leaves-table tbody td.action-col .fa-edit:hover,
   .leaves-table tbody td.action-col .fa-trash:hover {
-    color: #1274ac;
+    color: var(--light-purple);
   }
 
   /* Pagination */
