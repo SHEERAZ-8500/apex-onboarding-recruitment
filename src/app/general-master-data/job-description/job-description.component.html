@@ -196,10 +196,7 @@
           />
         </div>
 
-        <div class="col-md-4 mb-3 checkbox-group">
-          <label class="me-2">Mandatory <span class="text-danger">*</span></label>
-          <input type="checkbox" [(ngModel)]="mandatory"/>
-        </div>
+        
 
         <div class="col-md-4 mb-3">
           <label>Qualification Code <span class="text-danger">*</span></label>
@@ -237,6 +234,10 @@
           <select class="form-control" [(ngModel)]="createdBy">
             <option *ngFor="let opt of dummyValues" [value]="opt">{{ opt }}</option>
           </select>
+        </div>
+        <div class="col-md-4 mb-3 checkbox-group">
+          <label class="me-2">Mandatory <span class="text-danger">*</span></label>
+          <input type="checkbox" [(ngModel)]="mandatory"/>
         </div>
 
       </div>

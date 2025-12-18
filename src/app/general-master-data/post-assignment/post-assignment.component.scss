@@ -4,7 +4,7 @@
   border: 1px solid var(--border-color);
   border-radius: 10px;
   color: var(--text-primary);
-  margin-top: 15px;
+  margin-top: -8px;
 
   /* Header Row (Posts + Add New / Reset button) */
   .header-row {
@@ -14,7 +14,7 @@
 
     .main-title {
       margin: 0;
-      font-size: 20px;
+      font-size: 23px;
       font-weight: 600;
       color: var(--text-primary);
     }
@@ -51,7 +51,7 @@
     .items-per-page {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
 
       label {
         margin: 0;
@@ -65,7 +65,7 @@
         border: 1px solid var(--border-color);
         color: var(--text-primary);
         text-align: center;
-        padding: 6px 3px;
+        padding: 2px 3px;
         border-radius: 4px;
       }
     }
@@ -114,13 +114,15 @@
       color: var(--text-primary) !important;
 
       th {
-        background-color: var(--second-primary-color) !important;
+         background-color: var(--primary-color) !important; 
         color: var(--text-primary) !important;
         border-bottom: 0.5px solid var(--border-color) !important;
         border-top: 0.5px solid var(--border-color) !important;
         border: none;
         padding: 10px;
         font-size: 14px;
+        text-align: center; /* Header text center */
+      vertical-align: middle; 
       }
     }
 
@@ -140,6 +142,8 @@
           border: none;
           padding: 10px;
           font-size: 14px;
+          text-align: center; /* Header text center */
+      vertical-align: middle; 
         }
       }
     }
@@ -193,19 +197,20 @@
   .post-table tbody td.action-col {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
+      justify-content: center;
   }
 
   .post-table tbody td.action-col .action-icon {
-    font-size: 15px;
+    font-size: 13px;
     cursor: pointer;
     transition: 0.2s ease;
+    color: var(--text-secondary);
   }
 
   .post-table tbody td.action-col .fa-edit:hover,
   .post-table tbody td.action-col .fa-trash:hover {
-    color: #1274ac;
-  }
+    color: var(--primary-color);
 
   /* Pagination */
   .pagination-wrapper {
@@ -414,4 +419,5 @@
       }
     }
   }
+}
 }
