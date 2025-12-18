@@ -473,7 +473,8 @@ export class EmployeesComponent {
   }
   
   loadRowColumnLookupOptions(column: any) {
-    this.api.getLokupTableByCode(column.lookupComponentCode).subscribe({
+    
+    this.api.getLokupTableByCode(column.linkedComponent).subscribe({
       next: (res: any) => {
         column.options = res.data || [];
         column.optionsLoaded = true;
