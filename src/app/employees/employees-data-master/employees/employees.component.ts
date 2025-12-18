@@ -442,7 +442,7 @@ export class EmployeesComponent {
     
     // Load options on first open if not already loaded
     if (column.isDropdownOpen && !column.optionsLoaded) {
-      if (column.fieldType === 'LOOKUP_TABLE' && column.lookupComponentCode) {
+      if (column.fieldType === 'LOOKUP_TABLE' && column.lookupTable) {
         this.loadRowColumnLookupOptions(column);
       }
     }

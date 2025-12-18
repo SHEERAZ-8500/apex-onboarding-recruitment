@@ -828,24 +828,8 @@ textarea,
   overflow-x: hidden !important;
 }
 
-/* Dynamic Fields Section */
-.dynamic-fields-section {
-  margin-top: 30px;
-  padding-top: 30px;
-  border-top: 2px solid var(--border-color);
-
-  .section-title {
-    color: var(--text-primary);
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid var(--primary-color);
-    display: inline-block;
-  }
-
-  // Custom Dropdown Styling
-  .custom-dropdown {
+/* Custom Dropdown Styling - Global */
+.custom-dropdown {
     position: relative;
     cursor: pointer;
 
@@ -933,5 +917,21 @@ textarea,
         }
       }
     }
+  }
+
+/* Dynamic Fields Section */
+.dynamic-fields-section {
+  margin-top: 30px;
+  padding-top: 30px;
+  border-top: 2px solid var(--border-color);
+
+  .section-title {
+    color: var(--text-primary);
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--primary-color);
+    display: inline-block;
   }
 }
