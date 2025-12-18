@@ -848,21 +848,21 @@
             <tbody>
               <tr>
                 <td><strong>Code</strong></td>
-                <td>{{ employees[0]?.code || 'N/A' }}</td>
+                <td>{{ employees[0].code || 'N/A' }}</td>
                 <td><strong>Name</strong></td>
-                <td>{{ employees[0]?.name || 'N/A' }}</td>
+                <td>{{ employees[0].name || 'N/A' }}</td>
                 <td><strong>Job Title</strong></td>
-                <td>{{ employees[0]?.jobTitle || 'N/A' }}</td>
+                <td>{{ employees[0].jobTitle || 'N/A' }}</td>
               </tr>
               <tr>
                 <td><strong>Email address</strong></td>
-                <td>{{ employees[0]?.email || 'N/A' }}</td>
+                <td>{{ employees[0].email || 'N/A' }}</td>
                 <td><strong>Mobile No</strong></td>
-                <td>{{ employees[0]?.mobileNo || 'N/A' }}</td>
+                <td>{{ employees[0].mobileNo || 'N/A' }}</td>
                 <td><strong>Status</strong></td>
                 <td>
-                  <span class="badge" [ngClass]="employees[0]?.status === 'Active' ? 'badge-success' : 'badge-danger'">
-                    {{ employees[0]?.status || 'N/A' }}
+                  <span class="badge" [ngClass]="employees[0].status === 'Active' ? 'badge-success' : 'badge-danger'">
+                    {{ employees[0].status || 'N/A' }}
                   </span>
                 </td>
               </tr>
