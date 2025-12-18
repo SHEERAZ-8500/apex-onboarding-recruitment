@@ -88,6 +88,9 @@ export class ApiService {
   getAllLookupEnums() {
     return this.http.get(`admin/lookups/enums`);
   }
+  getLokupTableByCode(code: any) {
+    return this.http.get(`admin/lookups/tables/${code}/values`);
+  }
 
   // tables
   createLookUpTable(data: any) {

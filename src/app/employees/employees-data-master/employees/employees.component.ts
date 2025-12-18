@@ -1,5 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { ApiService } from '../../../shared/services/apis/api.service';
+import { DynamicFieldDto } from '../../../shared/dtos/Dto';
 
 @Component({
   selector: 'app-employees',
@@ -106,7 +107,7 @@ export class EmployeesComponent {
   };
   
   // Sidebar Tabs Data (All modal tabs moved to sidebar)
-  sidebarTabs = [
+  sidebarTabs: any[] = [
     { id: 1, name: 'Personal Details', icon: 'fa-user', active: true },
     { id: 2, name: 'Employee Cost Info', icon: 'fa-calculator' },
     { id: 3, name: 'Employee ID Info', icon: 'fa-id-card' },
@@ -163,8 +164,9 @@ export class EmployeesComponent {
   ];
   
   // Dynamic Fields
-  dynamicFields: any[] = [];
+  dynamicFields: DynamicFieldDto[] = [];
   dynamicFieldsData: { [key: string]: any } = {};
+  rowTableFields: DynamicFieldDto[] = []; // Fields with ROW type
   
   // Data for other tabs
   otherTabsData = [
@@ -174,16 +176,25 @@ export class EmployeesComponent {
   
   constructor(private api: ApiService){
     this.api.getFormById('EMPLOYEE_REQUISITION','USER_DEFINED').subscribe((res:any)=>{
-      this.dynamicFields = res.data.fields || [];
-      // Load dropdown options for LOOKUP_TABLE, LOOKUP_ENUM, and ROW_TABLE fields
-      // this.dynamicFields.forEach(field => {
-      //   if (field.fieldType === 'LOOKUP_TABLE' && field.linkedComponent) {
-      //     this.loadLookupTableOptions(field);
-      //   } else if (field.fieldType === 'ROW_TABLE' && field.linkedComponent) {
-      //     this.loadRowTableOptions(field);
-      //   }
-      //   // LOOKUP_ENUM uses field.enumValues directly, no API call needed
-      // });
+      const allFields = res.data.fields || [];
+      
+      // Map to DTOs to ensure all properties have default values
+      const mappedFields = allFields.map((f: any) => new DynamicFieldDto(f));
+      
+      // Separate ROW fields for tabs and other fields for display
+      this.dynamicFields = mappedFields.filter((f: DynamicFieldDto) => f.fieldType !== 'ROW');
+      this.rowTableFields = mappedFields.filter((f: DynamicFieldDto) => f.fieldType === 'ROW');
+      
+      // Add ROW fields as new tabs in sidebar
+      this.rowTableFields.forEach((field: DynamicFieldDto, index: number) => {
+        this.sidebarTabs.push({
+          id: 13 + index,
+          name: field.label,
+          icon: 'fa-table',
+          active: false,
+          rowTableField: field // Store reference to the field
+        });
+      });
     });
   }
   // Pagination Methods
@@ -359,16 +370,31 @@ export class EmployeesComponent {
     const target = event.target as HTMLElement;
     if (!target.closest('.custom-dropdown')) {
       this.dynamicFields.forEach(f => f.isDropdownOpen = false);
+      
+      // Close row column dropdowns
+      this.rowTableFields.forEach(field => {
+        if (field.rowColumns) {
+          field.rowColumns.forEach((col: any) => col.isDropdownOpen = false);
+        }
+      });
     }
   }
   
   toggleDynamicDropdown(field: any, event: Event) {
     event.stopPropagation();
     field.isDropdownOpen = !field.isDropdownOpen;
+    
     // Close other dropdowns
     this.dynamicFields.forEach(f => {
       if (f !== field) f.isDropdownOpen = false;
     });
+    
+    // Load options on first open if not already loaded
+    if (field.isDropdownOpen && !field.optionsLoaded) {
+      if (field.fieldType === 'LOOKUP_TABLE' && field.lookupTable) {
+        this.loadLookupTableOptions(field);
+      }
+    }
   }
   
   selectDynamicOption(field: any, option: any, event: Event) {
@@ -395,27 +421,68 @@ export class EmployeesComponent {
     return selectedValue;
   }
   
-  // loadLookupTableOptions(field: any) {
-  //   this.api.getLookupTableData(field.linkedComponent).subscribe({
-  //     next: (res: any) => {
-  //       field.options = res.data || [];
-  //     },
-  //     error: (err) => {
-  //       console.error('Error loading lookup table options:', err);
-  //       field.options = [];
-  //     }
-  //   });
-  // }
+  loadLookupTableOptions(field: any) {
+    this.api.getLokupTableByCode(field.lookupTable).subscribe({
+      next: (res: any) => {
+        field.options = res.data || [];
+        field.optionsLoaded = true;
+      },
+      error: (err) => {
+        console.error('Error loading lookup table options:', err);
+        field.options = [];
+        field.optionsLoaded = true;
+      }
+    });
+  }
   
-  // loadRowTableOptions(field: any) {
-  //   this.api.getRowTableData(field.linkedComponent).subscribe({
-  //     next: (res: any) => {
-  //       field.options = res.data || [];
-  //     },
-  //     error: (err) => {
-  //       console.error('Error loading row table options:', err);
-  //       field.options = [];
-  //     }
-  //   });
-  // }
+  // Row Table Column Methods
+  toggleRowColumnDropdown(column: any, event: Event) {
+    event.stopPropagation();
+    column.isDropdownOpen = !column.isDropdownOpen;
+    
+    // Load options on first open if not already loaded
+    if (column.isDropdownOpen && !column.optionsLoaded) {
+      if (column.fieldType === 'LOOKUP_TABLE' && column.lookupComponentCode) {
+        this.loadRowColumnLookupOptions(column);
+      }
+    }
+  }
+  
+  selectRowColumnOption(column: any, option: any, event: Event) {
+    event.stopPropagation();
+    if (column.fieldType === 'LOOKUP_ENUM') {
+      column.selectedValue = option;
+    } else {
+      column.selectedValue = option.id || option.code || option;
+    }
+    column.isDropdownOpen = false;
+  }
+  
+  getRowColumnDisplayText(column: any): string {
+    const selectedValue = column.selectedValue;
+    if (!selectedValue) {
+      return 'Select ' + (column.label || column.name);
+    }
+    if (column.options) {
+      const option = column.options.find((opt: any) => 
+        (opt.id || opt.code) === selectedValue
+      );
+      return option?.displayText || option?.name || selectedValue;
+    }
+    return selectedValue;
+  }
+  
+  loadRowColumnLookupOptions(column: any) {
+    this.api.getLokupTableByCode(column.lookupComponentCode).subscribe({
+      next: (res: any) => {
+        column.options = res.data || [];
+        column.optionsLoaded = true;
+      },
+      error: (err) => {
+        console.error('Error loading row column lookup options:', err);
+        column.options = [];
+        column.optionsLoaded = true;
+      }
+    });
+  }
 }

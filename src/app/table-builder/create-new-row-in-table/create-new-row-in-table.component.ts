@@ -8,10 +8,14 @@ interface TableColumn {
   name: string;
   type: string;
   maxLength?: number;
+  precision?: number;
+  scale?: number;
   nullable: boolean;
   displayOrder: number | null;
   lookupComponentCode?: string;
   isTypeDropdownOpen?: boolean;
+  isLookupDropdownOpen?: boolean;
+  lookupOptions?: any[];
 }
 
 @Component({
@@ -43,6 +47,7 @@ export class CreateNewRowInTableComponent {
     'PHONE',
     'URL',
     'TEXTAREA',
+    'LOOKUP_TABLE',
     'LOOKUP_ENUM'
   ];
 
@@ -94,8 +99,69 @@ export class CreateNewRowInTableComponent {
   closeDropdowns(event: Event): void {
     const target = event.target as HTMLElement;
     if (!target.closest('.custom-dropdown')) {
-      this.columns.forEach(col => col.isTypeDropdownOpen = false);
+      this.columns.forEach(col => {
+        col.isTypeDropdownOpen = false;
+        col.isLookupDropdownOpen = false;
+      });
     }
+  }
+
+  // Toggle Lookup Dropdown
+  toggleLookupDropdown(index: number, event: Event): void {
+    event.stopPropagation();
+    const column = this.columns[index];
+    column.isLookupDropdownOpen = !column.isLookupDropdownOpen;
+
+    // Load options if not already loaded
+    if (column.isLookupDropdownOpen && !column.lookupOptions) {
+      if (column.type === 'LOOKUP_TABLE') {
+        this.loadLookupTableOptions(column);
+      } else if (column.type === 'LOOKUP_ENUM') {
+        this.loadLookupEnumOptions(column);
+      }
+    }
+  }
+
+  // Select Lookup Option
+  selectLookupOption(index: number, option: any, event: Event): void {
+    event.stopPropagation();
+    const column = this.columns[index];
+    
+    if (column.type === 'LOOKUP_TABLE') {
+      column.lookupComponentCode = option.componentCode || option.code;
+    } else if (column.type === 'LOOKUP_ENUM') {
+      column.lookupComponentCode = option.enumComponentCode || option.code;
+    }
+    
+    column.isLookupDropdownOpen = false;
+  }
+
+  // Load Lookup Table Options
+  loadLookupTableOptions(column: TableColumn): void {
+    this.apiService.getAllLookUpTables().subscribe({
+      next: (res: any) => {
+        column.lookupOptions = res.data || [];
+      },
+      error: (err) => {
+        console.error('Error loading lookup tables:', err);
+        column.lookupOptions = [];
+        this.toastr.error('Failed to load lookup tables');
+      }
+    });
+  }
+
+  // Load Lookup Enum Options  
+  loadLookupEnumOptions(column: TableColumn): void {
+    this.apiService.getAllLookupEnums().subscribe({
+      next: (res: any) => {
+        column.lookupOptions = res.data || [];
+      },
+      error: (err) => {
+        console.error('Error loading enums:', err);
+        column.lookupOptions = [];
+        this.toastr.error('Failed to load enums');
+      }
+    });
   }
 
   // Submit Form
