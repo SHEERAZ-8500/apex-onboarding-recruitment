@@ -818,3 +818,121 @@ textarea,
   border-color: var(--border-color) !important;
   color: var(--text-primary) !important;
 }
+
+/* Prevent horizontal overflow globally */
+* {
+  box-sizing: border-box;
+}
+
+.form-tab-scroll {
+  max-width: 100%;
+  overflow-x: hidden !important;
+}
+
+/* Dynamic Fields Section */
+.dynamic-fields-section {
+  margin-top: 30px;
+  padding-top: 30px;
+  border-top: 2px solid var(--border-color);
+
+  .section-title {
+    color: var(--text-primary);
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--primary-color);
+    display: inline-block;
+  }
+
+  // Custom Dropdown Styling
+  .custom-dropdown {
+    position: relative;
+    cursor: pointer;
+
+    .dropdown-selected {
+      background: var(--second-primary-color);
+      border: 1px solid var(--border-color);
+      padding: 10px 12px;
+      border-radius: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.3s ease;
+
+      &:hover {
+        border-color: var(--primary-color);
+        transform: translateY(-1px);
+      }
+
+      span {
+        color: var(--text-primary);
+        font-size: 14px;
+      }
+
+      .dropdown-arrow {
+        color: var(--text-primary);
+        font-size: 12px;
+        transition: transform 0.3s ease;
+
+        &.rotate {
+          transform: rotate(180deg);
+        }
+      }
+    }
+
+    .dropdown-options {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      right: 0;
+      max-height: 250px;
+      overflow-y: auto;
+      background-color: var(--second-primary-color);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      z-index: 100;
+
+      &::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: var(--border-color);
+        border-radius: 3px;
+
+        &:hover {
+          background: var(--purple-1);
+        }
+      }
+
+      .dropdown-option {
+        padding: 12px 16px;
+        color: var(--white-color-1);
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        &:hover {
+          background-color: rgba(112, 71, 238, 0.1);
+        }
+
+        &.no-data {
+          cursor: default;
+          opacity: 0.6;
+          text-align: center;
+
+          &:hover {
+            background-color: transparent;
+          }
+        }
+      }
+    }
+  }
+}

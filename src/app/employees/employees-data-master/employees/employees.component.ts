@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { ApiService } from '../../../shared/services/apis/api.service';
 
 @Component({
@@ -162,14 +162,28 @@ export class EmployeesComponent {
     }
   ];
   
+  // Dynamic Fields
+  dynamicFields: any[] = [];
+  dynamicFieldsData: { [key: string]: any } = {};
+  
   // Data for other tabs
   otherTabsData = [
     { name: 'John Doe', email: 'john@example.com', contact: '1234567890', address: '123 Street' },
     { name: 'Jane Smith', email: 'jane@example.com', contact: '0987654321', address: '456 Avenue' }
   ];
+  
   constructor(private api: ApiService){
-    this.api.getFormById('EMPLOYEE_REQUISITION').subscribe(res=>{
-      console.log(res);
+    this.api.getFormById('EMPLOYEE_REQUISITION','USER_DEFINED').subscribe((res:any)=>{
+      this.dynamicFields = res.data.fields || [];
+      // Load dropdown options for LOOKUP_TABLE, LOOKUP_ENUM, and ROW_TABLE fields
+      // this.dynamicFields.forEach(field => {
+      //   if (field.fieldType === 'LOOKUP_TABLE' && field.linkedComponent) {
+      //     this.loadLookupTableOptions(field);
+      //   } else if (field.fieldType === 'ROW_TABLE' && field.linkedComponent) {
+      //     this.loadRowTableOptions(field);
+      //   }
+      //   // LOOKUP_ENUM uses field.enumValues directly, no API call needed
+      // });
     });
   }
   // Pagination Methods
@@ -338,4 +352,70 @@ export class EmployeesComponent {
       emp.email.toLowerCase().includes(search)
     );
   }
+  
+  // Dynamic Fields Methods
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.custom-dropdown')) {
+      this.dynamicFields.forEach(f => f.isDropdownOpen = false);
+    }
+  }
+  
+  toggleDynamicDropdown(field: any, event: Event) {
+    event.stopPropagation();
+    field.isDropdownOpen = !field.isDropdownOpen;
+    // Close other dropdowns
+    this.dynamicFields.forEach(f => {
+      if (f !== field) f.isDropdownOpen = false;
+    });
+  }
+  
+  selectDynamicOption(field: any, option: any, event: Event) {
+    event.stopPropagation();
+    if (field.fieldType === 'LOOKUP_ENUM') {
+      this.dynamicFieldsData[field.fieldCode] = option;
+    } else {
+      this.dynamicFieldsData[field.fieldCode] = option.id || option.code || option;
+    }
+    field.isDropdownOpen = false;
+  }
+  
+  getSelectedDisplayText(field: any): string {
+    const selectedValue = this.dynamicFieldsData[field.fieldCode];
+    if (!selectedValue) {
+      return 'Select ' + field.label;
+    }
+    if (field.options) {
+      const option = field.options.find((opt: any) => 
+        (opt.id || opt.code) === selectedValue
+      );
+      return option?.displayText || option?.name || selectedValue;
+    }
+    return selectedValue;
+  }
+  
+  // loadLookupTableOptions(field: any) {
+  //   this.api.getLookupTableData(field.linkedComponent).subscribe({
+  //     next: (res: any) => {
+  //       field.options = res.data || [];
+  //     },
+  //     error: (err) => {
+  //       console.error('Error loading lookup table options:', err);
+  //       field.options = [];
+  //     }
+  //   });
+  // }
+  
+  // loadRowTableOptions(field: any) {
+  //   this.api.getRowTableData(field.linkedComponent).subscribe({
+  //     next: (res: any) => {
+  //       field.options = res.data || [];
+  //     },
+  //     error: (err) => {
+  //       console.error('Error loading row table options:', err);
+  //       field.options = [];
+  //     }
+  //   });
+  // }
 }

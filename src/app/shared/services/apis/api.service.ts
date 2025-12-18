@@ -96,22 +96,30 @@ export class ApiService {
   createRowInLookUpTable(componentCode: any, data: any) {
     return this.http.post(`admin/lookups/tables/${componentCode}/values`, data);
   }
-  createRowInTable( data: any) {
+  createRowInTable(data: any) {
     return this.http.post(`api/admin/row-tables`, data);
   }
   getAllLookUpTables() {
     return this.http.get(`admin/lookups/tables`);
   }
+  getAllIndependentTables() {
+    return this.http.get(`admin/row-tables?filter=ALL`);
+  }
+  createIndependentTable(data: any) {
+    return this.http.post('admin/row-tables', data);
+  }
   // forms apis
-
+  manageFieldsVisibility(formCode: any, status: any, data: any) {
+    return this.http.patch(`admin/forms/${formCode}/fields/${data}/${status}`,  {});
+  }
   getUserAllForms() {
     return this.http.get(`forms`);
   }
   createNewUDF(formCode: any, data: any) {
     return this.http.post(`admin/forms/${formCode}/fields/basic`, data);
   }
-  getFormById(id: any) {
-    return this.http.get(`forms/${id}?filter=USER_DEFINED`);
+  getFormById(id: any,filter: any = 'ALL') {
+    return this.http.get(`forms/${id}?filter=${filter}`);
   }
   createNewUDDLookupTable(formCode: any, data: any) {
     return this.http.post(`admin/forms/${formCode}/link/lookup-table`, data);
@@ -119,7 +127,9 @@ export class ApiService {
   createNewUDDLookupEnum(formCode: any, data: any) {
     return this.http.post(`admin/forms/${formCode}/link/lookup-enum`, data);
   }
-
+  createNewUDDIndependentTable(formCode: any, data: any) {
+    return this.http.post(`admin/forms/${formCode}/link/row-table`, data);
+  }
   getAllUser() {
     return this.http.get('admin/users');
   }

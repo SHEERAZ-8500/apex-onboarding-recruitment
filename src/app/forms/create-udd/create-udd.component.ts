@@ -36,6 +36,9 @@ export class CreateUddComponent implements OnInit {
       this.formCode = params['formCode'] || '';
       this.step = params['step'] || '';
     });
+    if (this.step) {
+      this.selectLinkType(this.step);
+    }
   }
 
   // Select link type and update URL
@@ -74,6 +77,22 @@ export class CreateUddComponent implements OnInit {
           this.loader.hide();
         }
       });
+    } else if (stepValue === '3') {
+      this.loader.show();
+      // Uncomment when API is ready
+      this.apiService.getAllIndependentTables().subscribe({
+        next: (response: any) => {
+          console.log('Independent Row Tables:', response);
+          this.selectTable = response.data;
+          this.loader.hide();
+        },
+        error: (error: any) => {
+          console.error('Error fetching independent row tables:', error);
+          this.loader.hide();
+        }
+      });
+      
+
     }
   }
 
@@ -102,7 +121,7 @@ export class CreateUddComponent implements OnInit {
   // Select Enum Component
   selectEnumComponent(item: any, event: Event): void {
     event.stopPropagation();
-    this.enumComponentCode = this.step === '1' ? item.componentCode : item.enumComponentCode;
+    this.enumComponentCode = this.step === '1' ? item.componentCode : this.step === '2' ? item.enumComponentCode : item.rowComponentCode;
     this.selectedEnumLabel = `${item.displayName}`;
     this.isEnumDropdownOpen = false;
     
@@ -128,7 +147,7 @@ export class CreateUddComponent implements OnInit {
     const payload = {
       fieldCode: this.fieldCode,
       label: this.label,
-      [this.step === '1' ? 'lookupComponentCode' : 'enumComponentCode']: this.enumComponentCode,
+      [this.step === '1' ? 'lookupComponentCode' : this.step === '2' ? 'enumComponentCode' : 'rowComponentCode']: this.enumComponentCode,
       displayOrder: this.displayOrder
     };
 
@@ -138,7 +157,9 @@ export class CreateUddComponent implements OnInit {
     // Uncomment when API is ready
     const apiMethod = this.step === '1'
       ? this.apiService.createNewUDDLookupTable(this.formCode, payload)
-      : this.apiService.createNewUDDLookupEnum(this.formCode, payload);
+      : this.step === '2'
+      ? this.apiService.createNewUDDLookupEnum(this.formCode, payload)
+      : this.apiService.createNewUDDIndependentTable(this.formCode, payload);
 
     apiMethod.subscribe({
       next: (response: any) => {
