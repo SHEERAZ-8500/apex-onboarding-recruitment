@@ -120,12 +120,11 @@
         border-radius: 5px;
         border: 1px solid var(--border-color);
         background: var(--light-purple);
-        color: var(--text-primary);
+        color: white;
         cursor: pointer;
 
         &:hover {
-          background: var(--light-purple);
-          color: var(--text-secondary);
+          transform: translateY(-2px);
         }
       }
     }
@@ -172,7 +171,7 @@
       color: var(--text-primary) !important;
 
       th {
-        background-color: var(--second-primary-color) !important;
+        background-color: var(--primary-color) !important;
         color: var(--text-primary) !important;
         border-bottom: 0.5px solid var(--border-color) !important;
         border-top: 0.5px solid var(--border-color) !important;

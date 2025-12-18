@@ -124,7 +124,7 @@
 
   /* Table Styling */
   table.leaves-table {
-    width: 3800px;
+    width: 1700px;
 
 
     &.table-bordered> :not(caption)>*>* {
@@ -135,7 +135,7 @@
       color: var(--text-primary) !important;
 
       th {
-        background-color: var(--second-primary-color) !important;
+         background-color: var(--primary-color) !important; 
         color: var(--text-primary) !important;
         border-bottom: 0.5px solid var(--border-color) !important;
         border-top: 0.5px solid var(--border-color) !important;
@@ -216,7 +216,7 @@
 
 
   .leaves-table tbody td.action-col .action-icon {
-    font-size: 14px;
+    font-size: 12px;
     cursor: pointer;
     transition: 0.2s ease;
   }
@@ -226,28 +226,28 @@
     color: #1274ac;
   }
 
-  /* Pagination */
-  .pagination-wrapper {
-    margin-top: 15px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  // /* Pagination */
+  // .pagination-wrapper {
+  //   margin-top: 15px;
+  //   display: flex;
+  //   justify-content: center;
+  //   align-items: center;
 
-    .pagination-btn {
-      padding: 5px 12px;
-      margin: 0 4px;
-      border-radius: 6px;
-      border: 1px solid var(--border-color);
-      cursor: pointer;
-      background: var(--main-bg);
-      color: var(--text-primary);
+  //   .pagination-btn {
+  //     padding: 5px 12px;
+  //     margin: 0 4px;
+  //     border-radius: 6px;
+  //     border: 1px solid var(--border-color);
+  //     cursor: pointer;
+  //     background: var(--main-bg);
+  //     color: var(--text-primary);
 
-      &.active {
-        background: var(--primary-color);
-        color: #fff;
-      }
-    }
-  }
+  //     &.active {
+  //       background: var(--primary-color);
+  //       color: #fff;
+  //     }
+  //   }
+  // }
 
   /* Form Page */
   .card-container {
