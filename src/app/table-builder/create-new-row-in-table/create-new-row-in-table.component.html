@@ -84,13 +84,30 @@
                                     </div>
                                 </div>
 
-                                <!-- Lookup Component Code (only for LOOKUP_ENUM) -->
-                                <div class="form-row" *ngIf="column.type === 'LOOKUP_ENUM'">
+                                <!-- Lookup Component Selection (for LOOKUP_TABLE and LOOKUP_ENUM) -->
+                                <div class="form-row" *ngIf="column.type === 'LOOKUP_TABLE' || column.type === 'LOOKUP_ENUM'">
                                     <div class="form-group">
-                                        <label class="input-label">Lookup Component Code <span
-                                                class="required">*</span></label>
-                                        <input type="text" class="form-input" [(ngModel)]="column.lookupComponentCode"
-                                            [name]="'lookupCode_' + i" placeholder="e.g., account_type_enum" required />
+                                        <label class="input-label">
+                                            {{ column.type === 'LOOKUP_TABLE' ? 'Select Lookup Table' : 'Select Enum' }}
+                                            <span class="required">*</span>
+                                        </label>
+                                        <div class="custom-dropdown">
+                                            <div class="dropdown-selected" (click)="toggleLookupDropdown(i, $event)">
+                                                <span>{{ column.lookupComponentCode || 'Select ' + (column.type === 'LOOKUP_TABLE' ? 'Lookup Table' : 'Enum') }}</span>
+                                                <i class="fa" [ngClass]="column.isLookupDropdownOpen ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                                            </div>
+                                            <div class="dropdown-options" *ngIf="column.isLookupDropdownOpen">
+                                                <div 
+                                                    class="dropdown-option" 
+                                                    *ngFor="let option of column.lookupOptions"
+                                                    (click)="selectLookupOption(i, option, $event)">
+                                                    {{ option.componentCode || option.enumComponentCode || option.code || option.name }}
+                                                </div>
+                                                <div class="dropdown-option text-muted" *ngIf="!column.lookupOptions || column.lookupOptions.length === 0">
+                                                    No options available
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div class="form-group">

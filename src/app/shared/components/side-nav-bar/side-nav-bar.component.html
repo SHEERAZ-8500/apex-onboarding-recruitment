@@ -326,29 +326,7 @@
         </div>
       </div>
     </div>
-    <!-- Admin -->
-    <div class="nav-item-with-toggle">
-      <a class="top-link" (click)="toggleAdmin()" [attr.aria-expanded]="!adminCollapsed" aria-controls="adminExample">
-        <i class="fa-solid fa-user-shield"></i>
-        <span>Admin</span>
-        <span class="chev-icon">
-          <i *ngIf="adminCollapsed" class="fa-solid fa-chevron-right"></i>
-          <i *ngIf="!adminCollapsed" class="fa-solid fa-chevron-down"></i>
-        </span>
-      </a>
 
-      <div #admin="ngbCollapse" [(ngbCollapse)]="adminCollapsed" class="collapseStyling" [class.open]="!adminCollapsed">
-        <div class="collapseDiv">
-          <a routerLink="admin/view-all-users">
-            <span>View All Users</span>
-          </a>
-
-          <a routerLink="/panel/permissions/view-all-rols">
-            <span>View Role</span>
-          </a>
-        </div>
-      </div>
-    </div>
     <!-- forms -->
     <div class="nav-item-with-toggle">
       <a class="top-link" (click)="toggleForms()" [attr.aria-expanded]="!formsCollapsed" aria-controls="formsExample">
