@@ -1,6 +1,8 @@
 import { Component, HostListener } from '@angular/core';
 import { ApiService } from '../../../shared/services/apis/api.service';
 import { DynamicFieldDto } from '../../../shared/dtos/Dto';
+import { LoaderService } from '../../../shared/services/loader.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-employees',
@@ -12,16 +14,16 @@ export class EmployeesComponent {
   showForm = false;
   isEdit = false;
   showViewModal = false;
-  
+
   // Table Controls
   itemsPerPage = 10;
   currentPage = 1;
   searchText = '';
   selectedErp = '';
-  
+
   // Active Tab Management
   activeTabId = 1; // Default: Personal Details (Employees Form)
-  
+
   // Main Employee Form Data (Complete Employees Form from your code)
   employeeFormData = {
     // Basic Information (from your screenshot and original form)
@@ -69,7 +71,7 @@ export class EmployeesComponent {
     city: '',
     countryCode: '',
     active: true,
-    
+
     // Personal Details from screenshot
     employeeId: '4222',
     otherId: 'emp05',
@@ -83,7 +85,7 @@ export class EmployeesComponent {
     dob2: '2010-11-18',
     gender2: 'Male', // Different name to avoid conflict
   };
-  
+
   // Dropdown Options (from your original code)
   dropdownOptions = {
     employeeCategories: ['Category A', 'Category B', 'Category C', 'Category D'],
@@ -105,7 +107,7 @@ export class EmployeesComponent {
     countries: ['Saudi Arabia', 'Pakistan', 'India', 'USA'],
     cities: ['Riyadh', 'Jeddah', 'Karachi', 'Lahore']
   };
-  
+
   // Sidebar Tabs Data (All modal tabs moved to sidebar)
   sidebarTabs: any[] = [
     { id: 1, name: 'Personal Details', icon: 'fa-user', active: true },
@@ -121,11 +123,11 @@ export class EmployeesComponent {
     { id: 11, name: 'Employee Belongings', icon: 'fa-suitcase' },
     { id: 12, name: 'Pre Requisite', icon: 'fa-tasks' }
   ];
-  
+
   // Profile Image
   profileImage: string = 'assets/images/default-avatar.png';
   profileImageFile: File | null = null;
-  
+
   // Sample Data for Table
   employees = [
     {
@@ -162,29 +164,30 @@ export class EmployeesComponent {
       status: 'Inactive'
     }
   ];
-  
+
   // Dynamic Fields
   dynamicFields: DynamicFieldDto[] = [];
   dynamicFieldsData: { [key: string]: any } = {};
   rowTableFields: DynamicFieldDto[] = []; // Fields with ROW type
-  
+  rowTableData: { [fieldCode: string]: { [columnCode: string]: any } } = {}; // Store row column data
+
   // Data for other tabs
   otherTabsData = [
     { name: 'John Doe', email: 'john@example.com', contact: '1234567890', address: '123 Street' },
     { name: 'Jane Smith', email: 'jane@example.com', contact: '0987654321', address: '456 Avenue' }
   ];
-  
-  constructor(private api: ApiService){
-    this.api.getFormById('EMPLOYEE_REQUISITION','USER_DEFINED').subscribe((res:any)=>{
+
+  constructor(private api: ApiService, private toastr: ToastrService, private loader: LoaderService) {
+    this.api.getFormById('EMPLOYEE_REQUISITION', 'USER_DEFINED').subscribe((res: any) => {
       const allFields = res.data.fields || [];
-      
+
       // Map to DTOs to ensure all properties have default values
       const mappedFields = allFields.map((f: any) => new DynamicFieldDto(f));
-      
+
       // Separate ROW fields for tabs and other fields for display
       this.dynamicFields = mappedFields.filter((f: DynamicFieldDto) => f.fieldType !== 'ROW');
       this.rowTableFields = mappedFields.filter((f: DynamicFieldDto) => f.fieldType === 'ROW');
-      
+
       // Add ROW fields as new tabs in sidebar
       this.rowTableFields.forEach((field: DynamicFieldDto, index: number) => {
         this.sidebarTabs.push({
@@ -203,25 +206,25 @@ export class EmployeesComponent {
     const end = start + this.itemsPerPage;
     return this.employees.slice(start, end);
   }
-  
+
   get totalPages() {
     return Math.ceil(this.employees.length / this.itemsPerPage);
   }
-  
+
   get totalPagesArray() {
     return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
-  
+
   changePage(page: number) {
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
     }
   }
-  
+
   get currentPageStart() {
     return (this.currentPage - 1) * this.itemsPerPage;
   }
-  
+
   // Form Methods
   onNew() {
     this.showForm = true;
@@ -229,7 +232,7 @@ export class EmployeesComponent {
     this.resetForm();
     this.setActiveTab(1); // Reset to Personal Details tab
   }
-  
+
   editEmployee(index: number) {
     this.showForm = true;
     this.isEdit = true;
@@ -245,15 +248,15 @@ export class EmployeesComponent {
     this.employeeFormData.currentStatus = emp.status;
     this.setActiveTab(1); // Reset to Personal Details tab
   }
-  
+
   viewEmployee(index: number) {
     this.showViewModal = true;
   }
-  
+
   closeModals() {
     this.showViewModal = false;
   }
-  
+
   resetForm() {
     // Reset all form data
     this.employeeFormData = {
@@ -314,32 +317,92 @@ export class EmployeesComponent {
       gender2: 'Male'
     };
   }
-  
+
   saveEmployee() {
+    // Prepare complete data with dynamic fields
+    const completeData = {
+      data: {
+        ...this.employeeFormData,
+        ...this.dynamicFieldsData,
+      },
+      rows: this.getRowTableFieldsData() // Get data from all row table tabs
+    };
+
     if (this.isEdit) {
-      console.log('Updating employee:', this.employeeFormData);
+      console.log('Updating employee:');
+      console.log('Static Fields:', this.employeeFormData);
+      console.log('Dynamic Fields:', this.dynamicFieldsData);
+      console.log('Row Table Fields (rows):', this.getRowTableFieldsData());
+      console.log('Complete Data:', completeData);
     } else {
-      console.log('Creating employee:', this.employeeFormData);
+      console.log('Creating employee:');
+      console.log('Static Fields:', this.employeeFormData);
+      console.log('Dynamic Fields:', this.dynamicFieldsData);
+      console.log('Row Table Fields (rows):', this.getRowTableFieldsData());
+      console.log('Complete Data:', completeData);
     }
     this.showForm = false;
+    this.loader.show();
+    this.api.saveFormData('EMPLOYEE_REQUISITION', completeData).subscribe({
+      next: (res: any) => {
+        console.log('Employee saved successfully:', res);
+        this.toastr.success('Employee data saved successfully');
+        this.loader.hide();
+      },
+      error: (err: any) => {
+        console.error('Error saving employee data:', err);
+        this.toastr.error('Failed to save employee data');
+        this.loader.hide();
+      }
+    });
   }
-  
+
+  // Get all row table fields data in required format
+  getRowTableFieldsData() {
+    const rows: { [key: string]: any[] } = {};
+
+    this.rowTableFields.forEach((field: DynamicFieldDto) => {
+      // Each row table field becomes an array of objects
+      const rowArray: any[] = [];
+
+      // Collect data from each row table field's columns as a single object
+      if (field.rowColumns && field.rowColumns.length > 0) {
+        const rowObject: { [key: string]: any } = {};
+
+        field.rowColumns.forEach((column: any) => {
+          // Use fieldCode as key and selectedValue as value
+          if (column.fieldCode) {
+            rowObject[column.fieldCode] = column.selectedValue || null;
+          }
+        });
+
+        // Add the row object to the array (currently single row, can be extended for multiple rows)
+        rowArray.push(rowObject);
+      }
+
+      // Store under the parent field's fieldCode as an array
+      rows[field.fieldCode] = rowArray;
+    });
+
+    return rows;
+  }
+
   cancelForm() {
     this.showForm = false;
   }
-  
+
   setActiveTab(tabId: number) {
     this.activeTabId = tabId;
     this.sidebarTabs.forEach(tab => {
       tab.active = tab.id === tabId;
     });
   }
-  
+
   // Validation
   isFormValid(): boolean {
     return !!this.employeeFormData.code && !!this.employeeFormData.name && !!this.employeeFormData.email;
   }
-  
+
   // Profile Image Methods
   onProfileImageChange(event: any) {
     const file = event.target.files[0];
@@ -352,25 +415,25 @@ export class EmployeesComponent {
       reader.readAsDataURL(file);
     }
   }
-  
+
   // Search Filter
   get filteredEmployees() {
     if (!this.searchText) return this.employees;
     const search = this.searchText.toLowerCase();
-    return this.employees.filter(emp => 
+    return this.employees.filter(emp =>
       emp.name.toLowerCase().includes(search) ||
       emp.code.toLowerCase().includes(search) ||
       emp.email.toLowerCase().includes(search)
     );
   }
-  
+
   // Dynamic Fields Methods
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
     const target = event.target as HTMLElement;
     if (!target.closest('.custom-dropdown')) {
       this.dynamicFields.forEach(f => f.isDropdownOpen = false);
-      
+
       // Close row column dropdowns
       this.rowTableFields.forEach(field => {
         if (field.rowColumns) {
@@ -379,16 +442,16 @@ export class EmployeesComponent {
       });
     }
   }
-  
+
   toggleDynamicDropdown(field: any, event: Event) {
     event.stopPropagation();
     field.isDropdownOpen = !field.isDropdownOpen;
-    
+
     // Close other dropdowns
     this.dynamicFields.forEach(f => {
       if (f !== field) f.isDropdownOpen = false;
     });
-    
+
     // Load options on first open if not already loaded
     if (field.isDropdownOpen && !field.optionsLoaded) {
       if (field.fieldType === 'LOOKUP_TABLE' && field.lookupTable) {
@@ -396,7 +459,7 @@ export class EmployeesComponent {
       }
     }
   }
-  
+
   selectDynamicOption(field: any, option: any, event: Event) {
     event.stopPropagation();
     if (field.fieldType === 'LOOKUP_ENUM') {
@@ -406,21 +469,21 @@ export class EmployeesComponent {
     }
     field.isDropdownOpen = false;
   }
-  
+
   getSelectedDisplayText(field: any): string {
     const selectedValue = this.dynamicFieldsData[field.fieldCode];
     if (!selectedValue) {
       return 'Select ' + field.label;
     }
     if (field.options) {
-      const option = field.options.find((opt: any) => 
+      const option = field.options.find((opt: any) =>
         (opt.id || opt.code) === selectedValue
       );
       return option?.displayText || option?.name || selectedValue;
     }
     return selectedValue;
   }
-  
+
   loadLookupTableOptions(field: any) {
     this.api.getLokupTableByCode(field.lookupTable).subscribe({
       next: (res: any) => {
@@ -434,12 +497,12 @@ export class EmployeesComponent {
       }
     });
   }
-  
+
   // Row Table Column Methods
   toggleRowColumnDropdown(column: any, event: Event) {
     event.stopPropagation();
     column.isDropdownOpen = !column.isDropdownOpen;
-    
+
     // Load options on first open if not already loaded
     if (column.isDropdownOpen && !column.optionsLoaded) {
       if (column.fieldType === 'LOOKUP_TABLE' && column.lookupTable) {
@@ -447,7 +510,7 @@ export class EmployeesComponent {
       }
     }
   }
-  
+
   selectRowColumnOption(column: any, option: any, event: Event) {
     event.stopPropagation();
     if (column.fieldType === 'LOOKUP_ENUM') {
@@ -457,23 +520,23 @@ export class EmployeesComponent {
     }
     column.isDropdownOpen = false;
   }
-  
+
   getRowColumnDisplayText(column: any): string {
     const selectedValue = column.selectedValue;
     if (!selectedValue) {
       return 'Select ' + (column.label || column.name);
     }
     if (column.options) {
-      const option = column.options.find((opt: any) => 
+      const option = column.options.find((opt: any) =>
         (opt.id || opt.code) === selectedValue
       );
       return option?.displayText || option?.name || selectedValue;
     }
     return selectedValue;
   }
-  
+
   loadRowColumnLookupOptions(column: any) {
-    
+
     this.api.getLokupTableByCode(column.linkedComponent).subscribe({
       next: (res: any) => {
         column.options = res.data || [];

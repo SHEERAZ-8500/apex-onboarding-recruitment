@@ -115,6 +115,9 @@ export class ApiService {
   manageFieldsVisibility(formCode: any, status: any, data: any) {
     return this.http.patch(`admin/forms/${formCode}/fields/${data}/${status}`,  {});
   }
+  saveFormData(formCode: any, data: any) {
+    return this.http.post(`forms/${formCode}`, data);
+  }
   getUserAllForms() {
     return this.http.get(`forms`);
   }
