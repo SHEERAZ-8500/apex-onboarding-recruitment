@@ -1,4 +1,4 @@
-<div class="outsource-contract-wrapper col-md-12">
+<div class="cost-center-wrapper col-md-12">
 
   <!-- ============================= -->
   <!--   LIST VIEW (When showForm = false)  -->
@@ -34,20 +34,15 @@
 
         <!-- Search -->
         <div class="search-wrapper ms-auto">
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Search..."
-            [(ngModel)]="searchText"
-          />
+          <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="searchText" />
           <i class="fa fa-search search-icon"></i>
         </div>
       </div>
 
       <!-- Outsource Contracts Table with Horizontal Scroll -->
-      <div class="contracts-list-section">
-        <div class="table-wrapper">
-          <table class="table table-bordered contracts-table">
+      <div class="cost-center-list-section">
+        <div class="table-container">
+          <table class="table table-bordered cost-center-table">
             <thead>
               <tr>
                 <th>No #</th>
@@ -66,10 +61,8 @@
             </thead>
 
             <tbody>
-              <tr
-                *ngFor="let item of paginatedContracts(); let i = index"
-                [class.edit-row]="editIndex === currentPageStart + i"
-              >
+              <tr *ngFor="let item of paginatedContracts(); let i = index"
+                [class.edit-row]="editIndex === currentPageStart + i">
                 <td>{{ item.id }}</td>
                 <td>{{ item.documentNo }}</td>
                 <td>{{ item.postingDate | date:'MM/dd/yyyy' }}</td>
@@ -82,14 +75,8 @@
                 <td>{{ item.contactPerson }}</td>
                 <td>{{ item.vatNo }}</td>
                 <td class="action-col">
-                  <i
-                    class="fa fa-edit action-icon"
-                    (click)="editContract(currentPageStart + i)"
-                  ></i>
-                  <i
-                    class="fa fa-trash action-icon"
-                    (click)="deleteContract(currentPageStart + i)"
-                  ></i>
+                  <i class="fa fa-edit action-icon" (click)="editContract(currentPageStart + i)"></i>
+                  <i class="fa fa-trash action-icon" (click)="deleteContract(currentPageStart + i)"></i>
                 </td>
               </tr>
             </tbody>
@@ -107,11 +94,7 @@
                 </a>
               </li>
 
-              <li
-                class="page-item"
-                *ngFor="let page of totalPagesArray"
-                [class.active]="page === currentPage"
-              >
+              <li class="page-item" *ngFor="let page of totalPagesArray" [class.active]="page === currentPage">
                 <a class="page-link" (click)="changePage(page)">
                   {{ page }}
                 </a>
@@ -156,27 +139,18 @@
       <div class="form-section">
         <!-- Contract Form Heading -->
         <h5 class="form-heading mb-4">Contract</h5>
-        
+
         <div class="form-row row">
           <!-- Document No -->
           <div class="col-md-6 mb-3">
             <label>Document No. <span class="text-danger">*</span></label>
-            <input
-              type="text"
-              class="form-control"
-              [(ngModel)]="documentNo"
-              [readonly]="isEdit"
-            />
+            <input type="text" class="form-control" [(ngModel)]="documentNo" [readonly]="isEdit" />
           </div>
 
           <!-- Requestor Name -->
           <div class="col-md-6 mb-3">
             <label>Requestor Name <span class="text-danger">*</span></label>
-            <input 
-              type="text" 
-              class="form-control" 
-              [(ngModel)]="requestorName" 
-            />
+            <input type="text" class="form-control" [(ngModel)]="requestorName" />
           </div>
 
           <!-- Customer -->
@@ -207,13 +181,8 @@
           <div class="col-md-6 mb-3">
             <label>Posting Date <span class="text-danger">*</span></label>
             <div class="input-group">
-              <input 
-                type="text" 
-                class="form-control datepicker" 
-                [(ngModel)]="postingDate"
-                placeholder="MM/DD/YYYY"
-                [readonly]="true"
-              />
+              <input type="text" class="form-control datepicker" [(ngModel)]="postingDate" placeholder="MM/DD/YYYY"
+                [readonly]="true" />
               <span class="input-group-text">
                 <i class="fa fa-calendar"></i>
               </span>
@@ -223,12 +192,7 @@
           <!-- Signature -->
           <div class="col-md-6 mb-3">
             <label>Signature</label>
-            <input 
-              type="text" 
-              class="form-control" 
-              placeholder="Enter Signature" 
-              [(ngModel)]="signature" 
-            />
+            <input type="text" class="form-control" placeholder="Enter Signature" [(ngModel)]="signature" />
           </div>
         </div>
 
@@ -265,32 +229,33 @@
                     </select>
                   </td>
                   <td>
-                    <input type="text" class="form-control form-control-sm" [(ngModel)]="detail.area" placeholder="Enter Area Name">
+                    <input type="text" class="form-control form-control-sm" [(ngModel)]="detail.area"
+                      placeholder="Enter Area Name">
                   </td>
                   <td>
-                    <input type="text" class="form-control form-control-sm" [(ngModel)]="detail.location" placeholder="Enter Location">
+                    <input type="text" class="form-control form-control-sm" [(ngModel)]="detail.location"
+                      placeholder="Enter Location">
                   </td>
                   <td>
-                    <input type="number" class="form-control form-control-sm" [(ngModel)]="detail.facility" placeholder="0">
+                    <input type="number" class="form-control form-control-sm" [(ngModel)]="detail.facility"
+                      placeholder="0">
                   </td>
                   <td>
-                    <input type="text" class="form-control form-control-sm" [(ngModel)]="detail.posts" placeholder="Enter Posts">
+                    <input type="text" class="form-control form-control-sm" [(ngModel)]="detail.posts"
+                      placeholder="Enter Posts">
                   </td>
                   <td>
-                    <input type="number" class="form-control form-control-sm" [(ngModel)]="detail.noOfEmployees" placeholder="0">
+                    <input type="number" class="form-control form-control-sm" [(ngModel)]="detail.noOfEmployees"
+                      placeholder="0">
                   </td>
                   <td>
-                    <input type="number" class="form-control form-control-sm" [(ngModel)]="detail.amountPerEmployee" placeholder="0">
+                    <input type="number" class="form-control form-control-sm" [(ngModel)]="detail.amountPerEmployee"
+                      placeholder="0">
                   </td>
                   <td>
                     <div class="input-group input-group-sm">
-                      <input 
-                        type="text" 
-                        class="form-control datepicker-sm" 
-                        [(ngModel)]="detail.requiredDate"
-                        placeholder="MM/DD/YYYY"
-                        [readonly]="true"
-                      />
+                      <input type="text" class="form-control datepicker-sm" [(ngModel)]="detail.requiredDate"
+                        placeholder="MM/DD/YYYY" [readonly]="true" />
                       <span class="input-group-text">
                         <i class="fa fa-calendar"></i>
                       </span>
@@ -315,10 +280,7 @@
 
         <!-- Submit/Cancel Buttons -->
         <div class="submit-buttons text-end mt-4 pt-3 border-top">
-          <button
-            class="btn btn-success"
-            (click)="isEdit ? updateContract() : createContract()"
-          >
+          <button class="btn btn-success" (click)="isEdit ? updateContract() : createContract()">
             <i class="fa fa-check-circle"></i> Submit
           </button>
 

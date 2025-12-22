@@ -257,28 +257,7 @@
 
       </div>
 
-      <!-- Mobilization Summary -->
-      <div class="leave-summary-card" *ngIf="isFormValid()">
-        <h6>Mobilization Summary</h6>
-        <div class="summary-details">
-          <div><strong>Mobilization Code:</strong> {{ mobilizationCode }}</div>
-          <div><strong>Requisition ID:</strong> {{ requisitionId }}</div>
-          <div><strong>Candidate:</strong> {{ candidateName }}</div>
-          <div><strong>Mobilizer:</strong> {{ mobilizerName }}</div>
-          <div><strong>Department:</strong> {{ departmentName }}</div>
-          <div><strong>Location:</strong> {{ locationName }}</div>
-          <div><strong>Supervisor:</strong> {{ supervisorName }}</div>
-          <div><strong>Employee Code:</strong> {{ assignedEmployeeCode }}</div>
-          <div><strong>Expected Joining:</strong> {{ formatDate(expectedJoiningDate) }}</div>
-          <div><strong>Salary:</strong> ${{ totalAgreedSalary | number:'1.2-2' }}</div>
-          <div><strong>Status:</strong>
-            <span class="badge" [ngClass]="isActive ? 'badge-success' : 'badge-secondary'">
-              {{ isActive ? 'Active' : 'Inactive' }}
-            </span>
-          </div>
-        </div>
-      </div>
-
+  
       <!-- Buttons -->
       <div class="btn-row text-end mt-2">
         <button class="btn btn-primary" (click)="isEdit ? updateMobilization() : createMobilization()" 

@@ -182,15 +182,7 @@
 
       </div>
 
-      <!-- Task Summary -->
-      <div class="task-summary-card" *ngIf="isFormValid()">
-        <h6>Task Summary</h6>
-        <div class="summary-details">
-          <div><strong>Total Time:</strong> {{ days }} days, {{ hours }} hours</div>
-          <div *ngIf="getSelectedProjectName()"><strong>Project:</strong> {{ getSelectedProjectName() }}</div>
-          <div *ngIf="getAssignedPersonName()"><strong>Assigned To:</strong> {{ getAssignedPersonName() }}</div>
-        </div>
-      </div>
+
 
       <!-- Buttons -->
       <div class="btn-row text-end mt-2">

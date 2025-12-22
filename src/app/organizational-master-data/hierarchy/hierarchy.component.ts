@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-hierarchy',
@@ -15,7 +15,7 @@ export class HierarchyComponent implements OnInit {
       id: 1,
       name: 'Human Resource Officer',
       title: 'Human Resource Officer',
-      avatar: 'assets/images/default-avatar.png',
+      avatar: 'assets/nb (2).png',
       parent: 'a',
       showDropdown: false,
     },
@@ -23,7 +23,7 @@ export class HierarchyComponent implements OnInit {
       id: 2,
       name: 'Human Resource Officer',
       title: 'Human Resource Officer',
-      avatar: 'assets/images/default-avatar.png',
+      avatar: 'assets/nb (2).png',
       parent: 'b',
       showDropdown: false,
     },
@@ -31,7 +31,7 @@ export class HierarchyComponent implements OnInit {
       id: 3,
       name: 'Human Resource Officer',
       title: 'Human Resource Officer',
-      avatar: 'assets/images/default-avatar.png',
+      avatar: 'assets/nb (2).png',
       parent: 'c',
       showDropdown: false,
     },
@@ -39,7 +39,7 @@ export class HierarchyComponent implements OnInit {
       id: 4,
       name: 'Human Resource Officer',
       title: 'Human Resource Officer',
-      avatar: 'assets/images/default-avatar.png',
+      avatar: 'assets/nb (2).png',
       parent: 'd',
       showDropdown: false,
     },
@@ -47,7 +47,7 @@ export class HierarchyComponent implements OnInit {
       id: 5,
       name: 'Human Resource Officer',
       title: 'Human Resource Officer',
-      avatar: 'assets/images/default-avatar.png',
+      avatar: 'assets/nb (2).png',
       parent: 'e',
       showDropdown: false,
     },
@@ -55,7 +55,7 @@ export class HierarchyComponent implements OnInit {
       id: 6,
       name: 'Human Resource Officer',
       title: 'Human Resource Officer',
-      avatar: 'assets/images/default-avatar.png',
+      avatar: 'assets/nb (2).png',
       parent: 'a',
       showDropdown: false,
     },
@@ -63,7 +63,7 @@ export class HierarchyComponent implements OnInit {
       id: 7,
       name: 'Human Resource Officer',
       title: 'Human Resource Officer',
-      avatar: 'assets/images/default-avatar.png',
+      avatar: 'assets/nb (2).png',
       parent: 'b',
       showDropdown: false,
     },
@@ -71,7 +71,7 @@ export class HierarchyComponent implements OnInit {
       id: 8,
       name: 'Human Resource Officer',
       title: 'Human Resource Officer',
-      avatar: 'assets/images/default-avatar.png',
+      avatar: 'assets/nb (2).png',
       parent: 'c',
       showDropdown: false,
     },
@@ -79,7 +79,7 @@ export class HierarchyComponent implements OnInit {
       id: 9,
       name: 'Human Resource Officer',
       title: 'Human Resource Officer',
-      avatar: 'assets/images/default-avatar.png',
+      avatar: 'assets/nb (2).png',
       parent: 'd',
       showDropdown: false,
     },
@@ -87,7 +87,7 @@ export class HierarchyComponent implements OnInit {
       id: 10,
       name: 'Human Resource Officer',
       title: 'Human Resource Officer',
-      avatar: 'assets/images/default-avatar.png',
+      avatar: 'assets/nb (2).png',
       parent: 'e',
       showDropdown: false,
     },
@@ -95,7 +95,7 @@ export class HierarchyComponent implements OnInit {
       id: 11,
       name: 'Human Resource Officer',
       title: 'Human Resource Officer',
-      avatar: 'assets/images/default-avatar.png',
+      avatar: 'assets/nb (2).png',
       parent: 'a',
       showDropdown: false,
     },
@@ -103,7 +103,7 @@ export class HierarchyComponent implements OnInit {
       id: 12,
       name: 'Human Resource Officer',
       title: 'Human Resource Officer',
-      avatar: 'assets/images/default-avatar.png',
+      avatar: 'assets/nb (2).png',
       parent: 'b',
       showDropdown: false,
     },
@@ -120,7 +120,7 @@ export class HierarchyComponent implements OnInit {
     id: 0,
     name: '',
     title: '',
-    avatar: 'assets/images/default-avatar.png',
+    avatar: 'assets/nb (2).png',
     parent: '',
   };
 
@@ -128,8 +128,25 @@ export class HierarchyComponent implements OnInit {
     // Initialize with sample data
   }
 
+  // Listen for clicks anywhere in the document
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    // Check if click is outside any dropdown toggle button
+    const clickedElement = event.target as HTMLElement;
+    const isDropdownToggle = clickedElement.closest('.dropdown-toggle');
+    const isDropdownMenu = clickedElement.closest('.dropdown-menu');
+
+    // Only close dropdowns if click is outside both toggle and menu
+    if (!isDropdownToggle && !isDropdownMenu) {
+      this.closeAllDropdowns();
+    }
+  }
+
   // Dropdown toggle
-  toggleDropdown(index: number) {
+  toggleDropdown(index: number, event: Event) {
+    // Stop propagation to prevent document click from closing immediately
+    event.stopPropagation();
+
     // Close all other dropdowns
     this.items.forEach((item, i) => {
       if (i !== index) {
@@ -148,8 +165,11 @@ export class HierarchyComponent implements OnInit {
     });
   }
 
-  // Delete modal operations
-  openDeleteModal(item: any) {
+  // Also close dropdowns when opening modals
+  openDeleteModal(item: any, event?: Event) {
+    if (event) {
+      event.stopPropagation();
+    }
     this.selectedItem = item;
     this.showDeleteModal = true;
     this.closeAllDropdowns();
@@ -173,7 +193,10 @@ export class HierarchyComponent implements OnInit {
   }
 
   // Edit modal operations
-  openEditModal(item: any) {
+  openEditModal(item: any, event?: Event) {
+    if (event) {
+      event.stopPropagation();
+    }
     this.isAddingNew = false;
     this.selectedItem = item;
     this.editingItem = {
@@ -187,7 +210,10 @@ export class HierarchyComponent implements OnInit {
     this.closeAllDropdowns();
   }
 
-  openAddModal() {
+  openAddModal(event?: Event) {
+    if (event) {
+      event.stopPropagation();
+    }
     this.isAddingNew = true;
     this.editingItem = {
       id:
@@ -200,6 +226,7 @@ export class HierarchyComponent implements OnInit {
       parent: '',
     };
     this.showEditModal = true;
+    this.closeAllDropdowns();
   }
 
   closeEditModal() {
@@ -237,7 +264,10 @@ export class HierarchyComponent implements OnInit {
   }
 
   // File upload operations
-  triggerFileInput() {
+  triggerFileInput(event?: Event) {
+    if (event) {
+      event.stopPropagation();
+    }
     this.fileInput.nativeElement.click();
   }
 

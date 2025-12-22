@@ -229,23 +229,7 @@
 
       </div>
 
-      <!-- Pay Element Summary -->
-      <div class="pay-element-summary-card" *ngIf="isFormValid()">
-        <h6>Pay Element Summary</h6>
-        <div class="summary-details">
-          <div><strong>Code:</strong> {{ payElementCode }}</div>
-          <div><strong>Description:</strong> {{ payElementDescription }}</div>
-          <div><strong>Amount:</strong> {{ amount | currency:'USD':'symbol':'1.2-2' }}</div>
-          <div><strong>Type:</strong> {{ type }}</div>
-          <div *ngIf="percentage"><strong>Percentage:</strong> {{ percentage }}%</div>
-          <div><strong>Status:</strong>
-            <span class="badge" [ngClass]="status === 'Active' ? 'badge-success' : 'badge-danger'">
-              {{ status }}
-            </span>
-          </div>
-          <div><strong>Fixed:</strong> {{ fixed ? 'Yes' : 'No' }}</div>
-        </div>
-      </div>
+     
 
       <!-- Buttons -->
       <div class="btn-row text-end mt-2">

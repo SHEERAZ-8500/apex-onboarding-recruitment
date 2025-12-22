@@ -2,7 +2,7 @@
   <!-- Header with Add New Button -->
   <div class="header">
     <h2>Organizational Hierarchy</h2>
-    <button class="btn btn-primary add-new-btn" (click)="openAddModal()">
+    <button class="btn btn-primary add-new-btn" (click)="openAddModal($event)">
       <i class="fas fa-plus"></i>  New
     </button>
   </div>
@@ -14,14 +14,14 @@
         <div class="hierarchy-card">
           <!-- Card Dropdown Menu -->
           <div class="card-dropdown">
-            <button class="dropdown-toggle" type="button" (click)="toggleDropdown(i)">
+            <button class="dropdown-toggle" type="button" (click)="toggleDropdown(i, $event)">
               <i class="fa-solid fa-ellipsis-vertical"></i>
             </button>
             <div class="dropdown-menu" [class.show]="item.showDropdown">
-              <a class="dropdown-item" (click)="openEditModal(item)">
+              <a class="dropdown-item" (click)="openEditModal(item, $event)">
                 <i class="fas fa-edit"></i> Edit
               </a>
-              <a class="dropdown-item" (click)="openDeleteModal(item)">
+              <a class="dropdown-item" (click)="openDeleteModal(item, $event)">
                 <i class="fas fa-trash"></i> Delete
               </a>
             </div>
@@ -84,7 +84,7 @@
               <img [src]="editingItem.avatar || 'assets/images/default-avatar.png'" alt="Avatar Preview">
             </div>
             <div class="upload-controls">
-              <button class="btn btn-outline-secondary btn-sm" (click)="triggerFileInput()">
+              <button class="btn btn-outline-secondary btn-sm" (click)="triggerFileInput($event)">
                 <i class="fas fa-cloud-upload-alt"></i> Select New...
               </button>
               <input type="file" #fileInput class="d-none" (change)="onFileSelected($event)" accept="image/*">

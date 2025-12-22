@@ -237,27 +237,7 @@
 
       </div>
 
-      <!-- Joining Summary -->
-      <div class="leave-summary-card" *ngIf="isFormValid()">
-        <h6>Joining Summary</h6>
-        <div class="summary-details">
-          <div><strong>Joining Code:</strong> {{ joiningCode }}</div>
-          <div><strong>Description:</strong> {{ joiningDescription || 'N/A' }}</div>
-          <div><strong>Employee:</strong> {{ employeeName }}</div>
-          <div><strong>Mobilizer:</strong> {{ mobilizerName }}</div>
-          <div><strong>Department:</strong> {{ departmentName }}</div>
-          <div><strong>Location:</strong> {{ locationName }}</div>
-          <div><strong>Supervisor:</strong> {{ supervisorName }}</div>
-          <div><strong>Employee Code:</strong> {{ assignedEmployeeCode }}</div>
-          <div><strong>Date:</strong> {{ formatDate(date) }}</div>
-          <div><strong>Expected Joining:</strong> {{ formatDate(expectedJoiningDate) }}</div>
-          <div><strong>Status:</strong>
-            <span class="badge" [ngClass]="isActive ? 'badge-success' : 'badge-secondary'">
-              {{ isActive ? 'Active' : 'Inactive' }}
-            </span>
-          </div>
-        </div>
-      </div>
+   
 
       <!-- Buttons -->
       <div class="btn-row text-end mt-2">

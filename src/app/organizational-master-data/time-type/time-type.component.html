@@ -275,16 +275,7 @@
 
       </div>
 
-      <!-- Time Summary -->
-      <div class="time-summary-card" *ngIf="isTimeValid()">
-        <h6>Time Summary</h6>
-        <div class="summary-details">
-          <div><strong>Total Working Hours:</strong> {{ calculateTotalHours() }} hours</div>
-          <div><strong>Net Working Hours:</strong> {{ calculateNetHours() }} hours</div>
-          <div><strong>Schedule:</strong> {{ formatTimeSummary() }}</div>
-        </div>
-      </div>
-
+   
       <!-- Buttons -->
       <div class="btn-row text-end mt-2">
         <button

@@ -209,34 +209,7 @@
         </button>
       </div>
 
-      <!-- Additional Table (As shown in screenshot) -->
-      <div class="additional-table-section mt-4">
-        <h5 class="table-title mb-3">Post Details</h5>
-        <table class="table table-bordered detail-table">
-          <thead>
-            <tr>
-              <th>S#</th>
-              <th>Job Title</th>
-              <th>Area</th>
-              <th>Location</th>
-              <th>Facility</th>
-              <th>Post</th>
-              <th>Employees</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let detail of postDetails; let i = index">
-              <td>{{ i + 1 }}</td>
-              <td>{{ detail.jobTitle }}</td>
-              <td>{{ detail.area }}</td>
-              <td>{{ detail.location }}</td>
-              <td>{{ detail.facility }}</td>
-              <td>{{ detail.post }}</td>
-              <td>{{ detail.employees }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+   
 
     </div>
   </ng-template>

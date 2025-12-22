@@ -219,19 +219,7 @@
 
       </div>
 
-      <!-- Interview Summary -->
-      <div class="leave-summary-card" *ngIf="isFormValid()">
-        <h6>Interview Summary</h6>
-        <div class="summary-details">
-          <div><strong>Interview Code:</strong> {{ interviewCode }}</div>
-          <div><strong>Description:</strong> {{ interviewDescription }}</div>
-          <div><strong>Interviewer:</strong> {{ interviewerName }}</div>
-          <div><strong>Date:</strong> {{ formatDate(date) }}</div>
-          <div><strong>Time Slot:</strong> {{ interviewFromTime }} - {{ interviewToTime }}</div>
-          <div><strong>Location:</strong> {{ assignedLocation }}</div>
-          <div><strong>Time per Candidate:</strong> {{ perCandidateAvgTime }} minutes</div>
-        </div>
-      </div>
+ 
 
       <!-- Buttons -->
       <div class="btn-row text-end mt-2">

@@ -131,7 +131,7 @@
         background-color: var(--second-primary-color) !important;
         color: var(--text-primary) !important;
         border-bottom: 0.5px solid var(--border-color) !important;
-
+ white-space: nowrap;
         &:nth-child(even) {
           background-color: var(--second-primary-color) !important;
         }
@@ -143,7 +143,9 @@
           padding: 10px;
           font-size: 14px;
           text-align: center; /* Header text center */
-      vertical-align: middle; 
+      vertical-align: middle;
+       white-space: normal;   /* text wrap hoga */
+  word-break: break-word; 
         }
       }
     }
@@ -210,7 +212,8 @@
 
   .post-table tbody td.action-col .fa-edit:hover,
   .post-table tbody td.action-col .fa-trash:hover {
-    color: var(--primary-color);
+    color: var(--light-purple);
+  }
 
   /* Pagination */
   .pagination-wrapper {
@@ -341,53 +344,6 @@
       }
     }
 
-    /* Additional Table Section */
-    .additional-table-section {
-      margin-top: 30px;
-
-      .table-title {
-        font-size: 18px;
-        font-weight: 600;
-        color: var(--text-primary);
-        border-bottom: 2px solid var(--primary-color);
-        padding-bottom: 8px;
-      }
-
-      .detail-table {
-        width: 100%;
-        border-collapse: collapse;
-
-        thead {
-          background-color: var(--primary-color);
-
-          th {
-            padding: 12px 15px;
-            text-align: left;
-            color: white;
-            font-weight: 600;
-            border: 1px solid var(--border-color);
-          }
-        }
-
-        tbody {
-          tr {
-            &:nth-child(even) {
-              background-color: rgba(0, 0, 0, 0.02);
-            }
-
-            &:hover {
-              background-color: rgba(52, 152, 219, 0.1);
-            }
-
-            td {
-              padding: 10px 15px;
-              border: 1px solid var(--border-color);
-              color: var(--text-primary);
-            }
-          }
-        }
-      }
-    }
   }
 
   /* Responsive */
@@ -419,5 +375,4 @@
       }
     }
   }
-}
 }

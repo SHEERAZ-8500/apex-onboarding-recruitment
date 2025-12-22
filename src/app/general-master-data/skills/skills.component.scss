@@ -132,7 +132,7 @@
         background-color: var(--second-primary-color) !important;
         color: var(--text-primary) !important;
         border-bottom: 0.5px solid var(--border-color) !important;
-
+ white-space: nowrap;
         &:nth-child(even) {
           background-color: var(--second-primary-color) !important;
         }
@@ -145,6 +145,8 @@
           font-size: 14px;
           text-align: center; /* Header text center */
       vertical-align: middle; 
+       white-space: normal;   /* text wrap hoga */
+  word-break: break-word;
         }
 
 

@@ -261,28 +261,6 @@
 
       </div>
 
-      <!-- Selection Summary -->
-      <div class="leave-summary-card" *ngIf="isFormValid()">
-        <h6>Selection Summary</h6>
-        <div class="summary-details">
-          <div><strong>Selection Code:</strong> {{ selectionCode }}</div>
-          <div><strong>Requisition ID:</strong> {{ requisitionId }}</div>
-          <div><strong>Candidate:</strong> {{ candidateName }}</div>
-          <div><strong>Selector:</strong> {{ selectorName }}</div>
-          <div><strong>Supervisor:</strong> {{ supervisorName }}</div>
-          <div><strong>Department:</strong> {{ assignedDepartment }}</div>
-          <div><strong>Location:</strong> {{ assignedLocation }}</div>
-          <div><strong>Date:</strong> {{ formatDate(date) }}</div>
-          <div><strong>Expected Joining:</strong> {{ formatDate(expectedJoiningDate) }}</div>
-          <div><strong>Salary:</strong> ${{ totalAgreedSalary | number:'1.2-2' }}</div>
-          <div><strong>Document No:</strong> {{ documentNo || 'N/A' }}</div>
-          <div><strong>Status:</strong>
-            <span class="badge" [ngClass]="isActive ? 'badge-success' : 'badge-secondary'">
-              {{ isActive ? 'Active' : 'Inactive' }}
-            </span>
-          </div>
-        </div>
-      </div>
 
       <!-- Buttons -->
       <div class="btn-row text-end mt-2">

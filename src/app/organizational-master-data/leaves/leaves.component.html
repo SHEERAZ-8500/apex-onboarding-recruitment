@@ -300,23 +300,7 @@
 
       </div>
 
-      <!-- Leave Summary -->
-      <div class="leave-summary-card" *ngIf="isFormValid()">
-        <h6>Leave Summary</h6>
-        <div class="summary-details">
-          <div><strong>Code:</strong> {{ leaveCode }}</div>
-          <div><strong>Description:</strong> {{ leaveDescription }}</div>
-          <div><strong>Total Leaves/Year:</strong> {{ totalLeavesPerYear }}</div>
-          <div><strong>Leave Type:</strong> {{ leaveType }}</div>
-          <div><strong>Employee Type:</strong> {{ applicableEmployeeType }}</div>
-          <div><strong>Status:</strong>
-            <span class="badge" [ngClass]="status === 'Active' ? 'badge-success' : 'badge-danger'">
-              {{ status }}
-            </span>
-          </div>
-          <div><strong>Period:</strong> {{ formatDate(fromDate) }} - {{ formatDate(toDate) }}</div>
-        </div>
-      </div>
+
 
       <!-- Buttons -->
       <div class="btn-row text-end mt-2">

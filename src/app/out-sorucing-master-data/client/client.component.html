@@ -176,18 +176,6 @@
 
       </div>
 
-      <!-- Client Summary -->
-      <div class="client-summary-card" *ngIf="isFormValid()">
-        <h6>Client Summary</h6>
-        <div class="summary-details">
-          <div><strong>Customer Code:</strong> {{ customerNo }}</div>
-          <div><strong>Customer Name:</strong> {{ customerName }}</div>
-          <div *ngIf="bankName"><strong>Bank Name:</strong> {{ bankName }}</div>
-          <div *ngIf="accountNo"><strong>Account No:</strong> {{ accountNo }}</div>
-          <div *ngIf="city"><strong>City:</strong> {{ city }}</div>
-          <div *ngIf="vatNo"><strong>VAT No:</strong> {{ vatNo }}</div>
-        </div>
-      </div>
 
       <!-- Buttons -->
       <div class="btn-row text-end mt-2">

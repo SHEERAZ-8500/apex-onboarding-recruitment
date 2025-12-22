@@ -132,7 +132,7 @@
         background-color: var(--second-primary-color) !important;
         color: var(--text-primary) !important;
         border-bottom: 0.5px solid var(--border-color) !important;
-
+ white-space: nowrap;
         &:nth-child(even) {
           background-color: var(--second-primary-color) !important;
         }
@@ -146,6 +146,8 @@
           text-align: center;
           /* Header text center */
           vertical-align: middle;
+           white-space: normal;   /* text wrap hoga */
+  word-break: break-word;
         }
       }
     }
@@ -212,7 +214,7 @@
 
   .job-title-table tbody td.action-col .fa-edit:hover,
   .job-title-table tbody td.action-col .fa-trash:hover {
-    color: var(--primary-color);
+    color: var(--light-purple);
   }
 
   /* Pagination */

@@ -222,24 +222,6 @@
 
       </div>
 
-      <!-- Requisition Summary -->
-      <div class="leave-summary-card" *ngIf="isFormValid()">
-        <h6>Requisition Summary</h6>
-        <div class="summary-details">
-          <div><strong>Requisition Number:</strong> {{ requisitionNumber }}</div>
-          <div><strong>Requisition Name:</strong> {{ requisitionName }}</div>
-          <div><strong>Designation:</strong> {{ designationName }}</div>
-          <div><strong>Total Employees:</strong> {{ (intraCountryEmployees || 0) + (interCountryEmployees || 0) }}</div>
-          <div><strong>Interviews:</strong> {{ numberOfInterviews }}</div>
-          <div><strong>Required Date:</strong> {{ formatDate(requiredDate) }}</div>
-          <div><strong>Status:</strong>
-            <span class="badge" [ngClass]="status === 'Active' ? 'badge-success' : 'badge-danger'">
-              {{ status }}
-            </span>
-          </div>
-        </div>
-      </div>
-
       <!-- Buttons -->
       <div class="btn-row text-end mt-2">
         <button class="btn btn-primary" (click)="isEdit ? updateRequisition() : createRequisition()" 
