@@ -129,15 +129,7 @@
             <i class="fa fa-refresh"></i> Reset
           </button>
         </div>
-        <div class="btn-row text-end mt-4">
-          <button type="submit" class="btn btn-primary" [disabled]="!isFormValid()" (click)="saveEmployee()">
-            <i class="fa fa-check-circle"></i>
-            {{ isEdit ? "Update Employee" : "Create Employee" }}
-          </button>
-          <button type="button" class="btn btn-danger ms-2" (click)="cancelForm()">
-            <i class="fa fa-ban"></i> Cancel
-          </button>
-        </div>
+  
       </div>
 
       <hr class="divider" />
@@ -185,66 +177,200 @@
               <div *ngIf="activeTabId === 1" class="tab-content form-tab-scroll">
                 <form>
                   <!-- Row 1: 3 fields -->
-                  <div class="row">
-                    <div class="col-md-4 mb-3">
-                      <label>Code <span class="text-danger">*</span></label>
-                      <input type="text" class="form-control" placeholder="Enter Employee Code"
-                        [(ngModel)]="employeeFormData.code" name="code" required>
+                  <div class="basic-info section">
+                    <h2>Basic Information</h2>
+                    <div class="row">
+                      <div class="col-md-6 mb-4">
+                        <label>Code <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="Enter Employee Code"
+                          [(ngModel)]="employeeFormData.code" name="code" required>
+                      </div>
+                      <div class="col-md-6 mb-4">
+                        <label>Legacy Code</label>
+                        <input type="text" class="form-control" placeholder="Enter Legacy Code"
+                          [(ngModel)]="employeeFormData.legacyCode" name="legacyCode">
+                      </div>
+                      <div class="col-md-6 mb-4">
+                        <label>Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="Enter Full Name"
+                          [(ngModel)]="employeeFormData.name" name="name" required>
+                      </div>
+                      <div class="col-md-6 mb-4">
+                        <label>Father Name</label>
+                        <input type="text" class="form-control" placeholder="Enter Father's Name"
+                          [(ngModel)]="employeeFormData.fatherName" name="fatherName">
+                      </div>
+                      <div class="col-md-6 mb-4">
+                        <label>Gender</label>
+                        <select class="form-select" [(ngModel)]="employeeFormData.gender" name="gender">
+                          <option value="">Select Gender</option>
+                          <option *ngFor="let gender of dropdownOptions.genders" [value]="gender">{{ gender }}</option>
+                        </select>
+                      </div>
+                      <div class="col-md-6 mb-4">
+                        <label>Date of Birth</label>
+                        <input type="date" class="form-control" [(ngModel)]="employeeFormData.dob" name="dob">
+                      </div>
+                      <div class="col-md-6 mb-4">
+                        <label>Mobile Number</label>
+                        <input type="text" class="form-control" placeholder="Enter Mobile Number"
+                          [(ngModel)]="employeeFormData.mobileNumber" name="mobileNumber">
+                      </div>
+                      <div class="col-md-6 mb-4">
+                        <label>Email Address <span class="text-danger">*</span></label>
+                        <input type="email" class="form-control" placeholder="Enter Email Address"
+                          [(ngModel)]="employeeFormData.email" name="email" required>
+                      </div>
+                      <div class="col-md-6 mb-4">
+                        <label>Blood Group</label>
+                        <input type="text" class="form-control" placeholder="Enter Blood Group"
+                          [(ngModel)]="employeeFormData.bloodGroup" name="bloodGroup">
+                      </div>
+                      <div class="col-md-6 mb-4">
+                        <label>Marital Status</label>
+                        <select class="form-select" [(ngModel)]="employeeFormData.maritalStatus" name="maritalStatus">
+                          <option value="">Select Status</option>
+                          <option *ngFor="let status of dropdownOptions.maritalStatuses" [value]="status">{{ status }}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="col-md-6 mb-4">
+                        <label>Disability</label>
+                        <select class="form-select" [(ngModel)]="employeeFormData.disability" name="disability">
+                          <option value="">Select</option>
+                          <option *ngFor="let disability of dropdownOptions.disabilities" [value]="disability">{{
+                            disability }}</option>
+                        </select>
+                      </div>
+                      <div class="col-md-6 mb-4">
+                        <label>Religion</label>
+                        <input type="text" class="form-control" placeholder="Enter Religion"
+                          [(ngModel)]="employeeFormData.religion" name="religion">
+                      </div>
+                      <div class="col-md-6 mb-4">
+                        <label>Nationality</label>
+                        <select class="form-select" [(ngModel)]="employeeFormData.nationality" name="nationality">
+                          <option value="">Select Nationality</option>
+                          <option *ngFor="let nation of dropdownOptions.nationalities" [value]="nation">{{ nation }}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="col-md-6 mb-4">
+                        <label>Country</label>
+                        <select class="form-select" [(ngModel)]="employeeFormData.country" name="country">
+                          <option value="">Select Country</option>
+                          <option *ngFor="let country of dropdownOptions.countries" [value]="country">{{ country }}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="col-md-6 mb-4">
+                        <label>Country Code</label>
+                        <input type="text" class="form-control" placeholder="Enter Country Code"
+                          [(ngModel)]="employeeFormData.countryCode" name="countryCode">
+                      </div>
+                      <div class="col-md-6 mb-4">
+
+                        <label>City</label>
+                        <select class="form-select" [(ngModel)]="employeeFormData.city" name="city">
+                          <option value="">Select City</option>
+                          <option *ngFor="let city of dropdownOptions.cities" [value]="city">{{ city }}</option>
+                        </select>
+                      </div>
+                      <div class="col-md-6 mb-4">
+                        <label>District Name</label>
+                        <input type="text" class="form-control" placeholder="Enter District Name"
+                          [(ngModel)]="employeeFormData.districtName" name="districtName">
+                      </div>
+                      <div class="col-md-6 mb-4">
+                        <label>Home Address</label>
+                        <input type="text" class="form-control" placeholder="Enter Home Address"
+                          [(ngModel)]="employeeFormData.homeAddress" name="homeAddress">
+                      </div>
+                      <div class="col-md-6 mb-4">
+                        <label>Street Name</label>
+                        <input type="text" class="form-control" placeholder="Enter Street Name"
+                          [(ngModel)]="employeeFormData.streetName" name="streetName">
+                      </div>
+                      <div class="col-md-6 mb-4">
+                        <label>Street Name</label>
+                        <input type="text" class="form-control" placeholder="Enter Street Name"
+                          [(ngModel)]="employeeFormData.streetName" name="streetName">
+                      </div>
+                      <div class="col-md-6 mb-4">
+                      <label>Building Number</label>
+                      <input type="text" class="form-control" placeholder="Enter Building Number"
+                        [(ngModel)]="employeeFormData.buildingNumber" name="buildingNumber">
                     </div>
-                    <div class="col-md-4 mb-3">
-                      <label>Legacy Code</label>
-                      <input type="text" class="form-control" placeholder="Enter Legacy Code"
-                        [(ngModel)]="employeeFormData.legacyCode" name="legacyCode">
-                    </div>
-                    <div class="col-md-4 mb-3">
-                      <label>Name <span class="text-danger">*</span></label>
-                      <input type="text" class="form-control" placeholder="Enter Full Name"
-                        [(ngModel)]="employeeFormData.name" name="name" required>
+                      <div class="col-md-6 mb-4">
+                        <label>Emergency Contact</label>
+                        <input type="text" class="form-control" placeholder="Enter Emergency Contact"
+                          [(ngModel)]="employeeFormData.emergencyContact" name="emergencyContact">
+                      </div>
                     </div>
                   </div>
+
 
                   <!-- Row 2: 3 fields -->
+
+                  <div class="bank-details section">
+                    <h2>Visa & Banking Details</h2>
                   <div class="row">
-                    <div class="col-md-4 mb-3">
-                      <label>Father Name</label>
-                      <input type="text" class="form-control" placeholder="Enter Father's Name"
-                        [(ngModel)]="employeeFormData.fatherName" name="fatherName">
-                    </div>
-                    <div class="col-md-4 mb-3">
-                      <label>Employee Category</label>
-                      <select class="form-select" [(ngModel)]="employeeFormData.employeeCategory"
-                        name="employeeCategory">
-                        <option value="">Select Category</option>
-                        <option *ngFor="let cat of dropdownOptions.employeeCategories" [value]="cat">{{ cat }}</option>
+                      <div class="col-md-6 mb-4">
+                      <label>Visa Type</label>
+                      <select class="form-select" [(ngModel)]="employeeFormData.visaType" name="visaType">
+                        <option value="">Select Visa Type</option>
+                        <option *ngFor="let visa of dropdownOptions.visaTypes" [value]="visa">{{ visa }}</option>
                       </select>
                     </div>
-                    <div class="col-md-4 mb-3">
-                      <label>Gender</label>
-                      <select class="form-select" [(ngModel)]="employeeFormData.gender" name="gender">
-                        <option value="">Select Gender</option>
-                        <option *ngFor="let gender of dropdownOptions.genders" [value]="gender">{{ gender }}</option>
-                      </select>
+                      <div class="col-md-6 mb-4">
+                      <label>Visa/Iqama/ID</label>
+                      <input type="text" class="form-control" placeholder="Enter Visa/Iqama/ID"
+                        [(ngModel)]="employeeFormData.visaIqamaId" name="visaIqamaId">
                     </div>
+                      <div class="col-md-6 mb-4">
+                      <label>Visa/Iqama/ID Expiry Date</label>
+                      <input type="date" class="form-control" [(ngModel)]="employeeFormData.visaExpiryDate"
+                        name="visaExpiryDate">
+                    </div>
+                      <div class="col-md-6 mb-4">
+                      <label>Bank Name</label>
+                      <input type="text" class="form-control" placeholder="Enter Bank Name"
+                        [(ngModel)]="employeeFormData.bankName" name="bankName">
+                    </div>
+                      <div class="col-md-6 mb-4">
+                      <label>Account Number</label>
+                      <input type="text" class="form-control" placeholder="Enter Account Number"
+                        [(ngModel)]="employeeFormData.accountNumber" name="accountNumber">
+                    </div>
+                      <div class="col-md-6 mb-4">
+                      <label>Medical Insurance No.</label>
+                      <input type="text" class="form-control" placeholder="Enter Insurance Number"
+                        [(ngModel)]="employeeFormData.medicalInsuranceNo" name="medicalInsuranceNo">
+                    </div>
+
                   </div>
+                  </div>
+              
 
                   <!-- Row 3: 3 fields -->
+                     <div class="bank-details section">
+                    <h2>Employment Details</h2>
                   <div class="row">
-                    <div class="col-md-4 mb-3">
+                      <div class="col-md-6 mb-4">
                       <label>Select Job Title</label>
                       <select class="form-select" [(ngModel)]="employeeFormData.jobTitle" name="jobTitle">
                         <option value="">Select Job Title</option>
                         <option *ngFor="let title of dropdownOptions.jobTitles" [value]="title">{{ title }}</option>
                       </select>
                     </div>
-                    <div class="col-md-4 mb-3">
-                      <label>Manager</label>
-                      <select class="form-select" [(ngModel)]="employeeFormData.manager" name="manager">
-                        <option value="">Select Manager</option>
-                        <option *ngFor="let manager of dropdownOptions.managers" [value]="manager">{{ manager }}
-                        </option>
+                      <div class="col-md-6 mb-4">
+                      <label>Select Department</label>
+                      <select class="form-select" [(ngModel)]="employeeFormData.department" name="department">
+                        <option value="">Select Department</option>
+                        <option *ngFor="let dept of dropdownOptions.departments" [value]="dept">{{ dept }}</option>
                       </select>
                     </div>
-                    <div class="col-md-4 mb-3">
+                      <div class="col-md-6 mb-4">
                       <label>Select Company</label>
                       <select class="form-select" [(ngModel)]="employeeFormData.company" name="company">
                         <option value="">Select Company</option>
@@ -252,18 +378,95 @@
                         </option>
                       </select>
                     </div>
-                  </div>
-
-                  <!-- Row 4: 3 fields -->
-                  <div class="row">
-                    <div class="col-md-4 mb-3">
-                      <label>Select Department</label>
-                      <select class="form-select" [(ngModel)]="employeeFormData.department" name="department">
-                        <option value="">Select Department</option>
-                        <option *ngFor="let dept of dropdownOptions.departments" [value]="dept">{{ dept }}</option>
+                      <div class="col-md-6 mb-4">
+                      <label>Manager</label>
+                      <select class="form-select" [(ngModel)]="employeeFormData.manager" name="manager">
+                        <option value="">Select Manager</option>
+                        <option *ngFor="let manager of dropdownOptions.managers" [value]="manager">{{ manager }}
+                        </option>
                       </select>
                     </div>
-                    <div class="col-md-4 mb-3">
+                      <div class="col-md-6 mb-4">
+                      <label>Employee Category</label>
+                      <select class="form-select" [(ngModel)]="employeeFormData.employeeCategory"
+                        name="employeeCategory">
+                        <option value="">Select Category</option>
+                        <option *ngFor="let cat of dropdownOptions.employeeCategories" [value]="cat">{{ cat }}</option>
+                      </select>
+                    </div>
+                      <div class="col-md-6 mb-4">
+                      <label>Employee Type</label>
+                      <select class="form-select" [(ngModel)]="employeeFormData.employeeType" name="employeeType">
+                        <option value="">Select Type</option>
+                        <option *ngFor="let type of dropdownOptions.employeeTypes" [value]="type">{{ type }}</option>
+                      </select>
+                    </div>
+                      <div class="col-md-6 mb-4">
+                      <label>Employee Grade</label>
+                      <select class="form-select" [(ngModel)]="employeeFormData.employeeGrade" name="employeeGrade">
+                        <option value="">Select Grade</option>
+                        <option *ngFor="let grade of dropdownOptions.employeeGrades" [value]="grade">{{ grade }}
+                        </option>
+                      </select>
+                    </div>
+                      <div class="col-md-6 mb-4">
+                      <label>Current Status</label>
+                      <select class="form-select" [(ngModel)]="employeeFormData.currentStatus" name="currentStatus">
+                        <option value="">Select Status</option>
+                        <option *ngFor="let status of dropdownOptions.currentStatuses" [value]="status">{{ status }}
+                        </option>
+                      </select>
+                    </div>
+                      <div class="col-md-6 mb-4">
+                      <label>Select Project</label>
+                      <select class="form-select" [(ngModel)]="employeeFormData.project" name="project">
+                        <option value="">Select Project</option>
+                        <option *ngFor="let project of dropdownOptions.projects" [value]="project">{{ project }}
+                        </option>
+                      </select>
+                    </div>
+                      <div class="col-md-6 mb-4">
+                      <label>Sponsor</label>
+                      <select class="form-select" [(ngModel)]="employeeFormData.sponsor" name="sponsor">
+                        <option value="">Select Sponsor</option>
+                        <option *ngFor="let sponsor of dropdownOptions.sponsors" [value]="sponsor">{{ sponsor }}
+                        </option>
+                      </select>
+                    </div>
+                      <div class="col-md-6 mb-4">
+                      <label>Contract No</label>
+                      <input type="text" class="form-control" placeholder="Enter Contract Number"
+                        [(ngModel)]="employeeFormData.contractNo" name="contractNo">
+                    </div>
+                      <div class="col-md-6 mb-4">
+                      <label>Date of Joining</label>
+                      <input type="date" class="form-control" [(ngModel)]="employeeFormData.dateOfJoining"
+                        name="dateOfJoining">
+                    </div>
+                      <div class="col-md-6 mb-4">
+                      <label>Payment Method</label>
+                      <select class="form-select" [(ngModel)]="employeeFormData.paymentMethod" name="paymentMethod">
+                        <option value="">Select Method</option>
+                        <option *ngFor="let method of dropdownOptions.paymentMethods" [value]="method">{{ method }}
+                        </option>
+                      </select>
+                    </div>
+                      <div class="col-md-6 mb-4">
+                      <label>Last Increment Date</label>
+                      <input type="date" class="form-control" [(ngModel)]="employeeFormData.lastIncrementDate"
+                        name="lastIncrementDate">
+                    </div>
+                      <div class="col-md-6 mb-4">
+                      <label>Last Increment Amount</label>
+                      <input type="number" class="form-control" placeholder="Enter Amount"
+                        [(ngModel)]="employeeFormData.lastIncrementAmount" name="lastIncrementAmount">
+                    </div>
+                      <div class="col-md-6 mb-4">
+                      <label>Remarks</label>
+                      <input type="text" class="form-control" placeholder="Enter Remarks"
+                        [(ngModel)]="employeeFormData.remarks" name="remarks">
+                    </div>
+                     <div class="col-md-6 mb-4">
                       <label>Active/In Active</label>
                       <div class="form-check form-switch mt-2">
                         <input class="form-check-input" type="checkbox" id="activeSwitch"
@@ -273,248 +476,19 @@
                         </label>
                       </div>
                     </div>
-                    <div class="col-md-4 mb-3">
-                      <label>Date of Birth</label>
-                      <input type="date" class="form-control" [(ngModel)]="employeeFormData.dob" name="dob">
-                    </div>
+
+                  </div>
                   </div>
 
-                  <!-- Row 5: 3 fields -->
+
+                  <!-- Row 4: 3 fields -->
                   <div class="row">
-                    <div class="col-md-4 mb-3">
-                      <label>Nationality</label>
-                      <select class="form-select" [(ngModel)]="employeeFormData.nationality" name="nationality">
-                        <option value="">Select Nationality</option>
-                        <option *ngFor="let nation of dropdownOptions.nationalities" [value]="nation">{{ nation }}
-                        </option>
-                      </select>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                      <label>Mobile Number</label>
-                      <input type="text" class="form-control" placeholder="Enter Mobile Number"
-                        [(ngModel)]="employeeFormData.mobileNumber" name="mobileNumber">
-                    </div>
-                    <div class="col-md-4 mb-3">
-                      <label>Email Address <span class="text-danger">*</span></label>
-                      <input type="email" class="form-control" placeholder="Enter Email Address"
-                        [(ngModel)]="employeeFormData.email" name="email" required>
-                    </div>
+
+                     
+
                   </div>
 
-                  <!-- Row 6: 3 fields -->
-                  <div class="row">
-                    <div class="col-md-4 mb-3">
-                      <label>Date of Joining</label>
-                      <input type="date" class="form-control" [(ngModel)]="employeeFormData.dateOfJoining"
-                        name="dateOfJoining">
-                    </div>
-                    <div class="col-md-4 mb-3">
-                      <label>Home Address</label>
-                      <input type="text" class="form-control" placeholder="Enter Home Address"
-                        [(ngModel)]="employeeFormData.homeAddress" name="homeAddress">
-                    </div>
-                    <div class="col-md-4 mb-3">
-                      <label>Blood Group</label>
-                      <input type="text" class="form-control" placeholder="Enter Blood Group"
-                        [(ngModel)]="employeeFormData.bloodGroup" name="bloodGroup">
-                    </div>
-                  </div>
 
-                  <!-- Row 7: 3 fields -->
-                  <div class="row">
-                    <div class="col-md-4 mb-3">
-                      <label>Sponsor</label>
-                      <select class="form-select" [(ngModel)]="employeeFormData.sponsor" name="sponsor">
-                        <option value="">Select Sponsor</option>
-                        <option *ngFor="let sponsor of dropdownOptions.sponsors" [value]="sponsor">{{ sponsor }}
-                        </option>
-                      </select>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                      <label>Contract No</label>
-                      <input type="text" class="form-control" placeholder="Enter Contract Number"
-                        [(ngModel)]="employeeFormData.contractNo" name="contractNo">
-                    </div>
-                    <div class="col-md-4 mb-3">
-                      <label>Employee Grade</label>
-                      <select class="form-select" [(ngModel)]="employeeFormData.employeeGrade" name="employeeGrade">
-                        <option value="">Select Grade</option>
-                        <option *ngFor="let grade of dropdownOptions.employeeGrades" [value]="grade">{{ grade }}
-                        </option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <!-- Row 8: 3 fields -->
-                  <div class="row">
-                    <div class="col-md-4 mb-3">
-                      <label>Religion</label>
-                      <input type="text" class="form-control" placeholder="Enter Religion"
-                        [(ngModel)]="employeeFormData.religion" name="religion">
-                    </div>
-                    <div class="col-md-4 mb-3">
-                      <label>Marital Status</label>
-                      <select class="form-select" [(ngModel)]="employeeFormData.maritalStatus" name="maritalStatus">
-                        <option value="">Select Status</option>
-                        <option *ngFor="let status of dropdownOptions.maritalStatuses" [value]="status">{{ status }}
-                        </option>
-                      </select>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                      <label>Medical Insurance No.</label>
-                      <input type="text" class="form-control" placeholder="Enter Insurance Number"
-                        [(ngModel)]="employeeFormData.medicalInsuranceNo" name="medicalInsuranceNo">
-                    </div>
-                  </div>
-
-                  <!-- Row 9: 3 fields -->
-                  <div class="row">
-                    <div class="col-md-4 mb-3">
-                      <label>Emergency Contact</label>
-                      <input type="text" class="form-control" placeholder="Enter Emergency Contact"
-                        [(ngModel)]="employeeFormData.emergencyContact" name="emergencyContact">
-                    </div>
-                    <div class="col-md-4 mb-3">
-                      <label>Visa Type</label>
-                      <select class="form-select" [(ngModel)]="employeeFormData.visaType" name="visaType">
-                        <option value="">Select Visa Type</option>
-                        <option *ngFor="let visa of dropdownOptions.visaTypes" [value]="visa">{{ visa }}</option>
-                      </select>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                      <label>Visa/Iqama/ID</label>
-                      <input type="text" class="form-control" placeholder="Enter Visa/Iqama/ID"
-                        [(ngModel)]="employeeFormData.visaIqamaId" name="visaIqamaId">
-                    </div>
-                  </div>
-
-                  <!-- Row 10: 3 fields -->
-                  <div class="row">
-                    <div class="col-md-4 mb-3">
-                      <label>Visa/Iqama/ID Expiry Date</label>
-                      <input type="date" class="form-control" [(ngModel)]="employeeFormData.visaExpiryDate"
-                        name="visaExpiryDate">
-                    </div>
-                    <div class="col-md-4 mb-3">
-                      <label>Bank Name</label>
-                      <input type="text" class="form-control" placeholder="Enter Bank Name"
-                        [(ngModel)]="employeeFormData.bankName" name="bankName">
-                    </div>
-                    <div class="col-md-4 mb-3">
-                      <label>Account Number</label>
-                      <input type="text" class="form-control" placeholder="Enter Account Number"
-                        [(ngModel)]="employeeFormData.accountNumber" name="accountNumber">
-                    </div>
-                  </div>
-
-                  <!-- Row 11: 3 fields -->
-                  <div class="row">
-                    <div class="col-md-4 mb-3">
-                      <label>Remarks</label>
-                      <input type="text" class="form-control" placeholder="Enter Remarks"
-                        [(ngModel)]="employeeFormData.remarks" name="remarks">
-                    </div>
-                    <div class="col-md-4 mb-3">
-                      <label>Current Status</label>
-                      <select class="form-select" [(ngModel)]="employeeFormData.currentStatus" name="currentStatus">
-                        <option value="">Select Status</option>
-                        <option *ngFor="let status of dropdownOptions.currentStatuses" [value]="status">{{ status }}
-                        </option>
-                      </select>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                      <label>Select Project</label>
-                      <select class="form-select" [(ngModel)]="employeeFormData.project" name="project">
-                        <option value="">Select Project</option>
-                        <option *ngFor="let project of dropdownOptions.projects" [value]="project">{{ project }}
-                        </option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <!-- Row 12: 3 fields -->
-                  <div class="row">
-                    <div class="col-md-4 mb-3">
-                      <label>Last Increment Date</label>
-                      <input type="date" class="form-control" [(ngModel)]="employeeFormData.lastIncrementDate"
-                        name="lastIncrementDate">
-                    </div>
-                    <div class="col-md-4 mb-3">
-                      <label>Last Increment Amount</label>
-                      <input type="number" class="form-control" placeholder="Enter Amount"
-                        [(ngModel)]="employeeFormData.lastIncrementAmount" name="lastIncrementAmount">
-                    </div>
-                    <div class="col-md-4 mb-3">
-                      <label>Payment Method</label>
-                      <select class="form-select" [(ngModel)]="employeeFormData.paymentMethod" name="paymentMethod">
-                        <option value="">Select Method</option>
-                        <option *ngFor="let method of dropdownOptions.paymentMethods" [value]="method">{{ method }}
-                        </option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <!-- Row 13: 3 fields -->
-                  <div class="row">
-                    <div class="col-md-4 mb-3">
-                      <label>Disability</label>
-                      <select class="form-select" [(ngModel)]="employeeFormData.disability" name="disability">
-                        <option value="">Select</option>
-                        <option *ngFor="let disability of dropdownOptions.disabilities" [value]="disability">{{
-                          disability }}</option>
-                      </select>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                      <label>Employee Type</label>
-                      <select class="form-select" [(ngModel)]="employeeFormData.employeeType" name="employeeType">
-                        <option value="">Select Type</option>
-                        <option *ngFor="let type of dropdownOptions.employeeTypes" [value]="type">{{ type }}</option>
-                      </select>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                      <label>Building Number</label>
-                      <input type="text" class="form-control" placeholder="Enter Building Number"
-                        [(ngModel)]="employeeFormData.buildingNumber" name="buildingNumber">
-                    </div>
-                  </div>
-
-                  <!-- Row 14: 3 fields -->
-                  <div class="row">
-                    <div class="col-md-4 mb-3">
-                      <label>Street Name</label>
-                      <input type="text" class="form-control" placeholder="Enter Street Name"
-                        [(ngModel)]="employeeFormData.streetName" name="streetName">
-                    </div>
-                    <div class="col-md-4 mb-3">
-                      <label>District Name</label>
-                      <input type="text" class="form-control" placeholder="Enter District Name"
-                        [(ngModel)]="employeeFormData.districtName" name="districtName">
-                    </div>
-                    <div class="col-md-4 mb-3">
-                      <label>Country</label>
-                      <select class="form-select" [(ngModel)]="employeeFormData.country" name="country">
-                        <option value="">Select Country</option>
-                        <option *ngFor="let country of dropdownOptions.countries" [value]="country">{{ country }}
-                        </option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <!-- Row 15: 3 fields -->
-                  <div class="row">
-                    <div class="col-md-4 mb-3">
-                      <label>City</label>
-                      <select class="form-select" [(ngModel)]="employeeFormData.city" name="city">
-                        <option value="">Select City</option>
-                        <option *ngFor="let city of dropdownOptions.cities" [value]="city">{{ city }}</option>
-                      </select>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                      <label>Country Code</label>
-                      <input type="text" class="form-control" placeholder="Enter Country Code"
-                        [(ngModel)]="employeeFormData.countryCode" name="countryCode">
-                    </div>
-                  </div>
 
                   <!-- Dynamic Fields Section -->
                   <div class="dynamic-fields-section" *ngIf="dynamicFields.length > 0">
@@ -613,6 +587,15 @@
                   </div>
 
                   <!-- Buttons -->
+                         <div class="btn-row text-end mt-4">
+          <button type="submit" class="btn btn-primary" [disabled]="!isFormValid()" (click)="saveEmployee()">
+            <i class="fa fa-check-circle"></i>
+            {{ isEdit ? "Update Employee" : "Create Employee" }}
+          </button>
+          <button type="button" class="btn btn-danger ms-2" (click)="cancelForm()">
+            <i class="fa fa-ban"></i> Cancel
+          </button>
+        </div>
 
                 </form>
               </div>
