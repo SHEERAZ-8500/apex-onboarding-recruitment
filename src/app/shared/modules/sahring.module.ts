@@ -2,9 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { PaginationComponent } from '../components/pagination/pagination.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    PaginationComponent
+  ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -13,10 +16,10 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
   ],
   exports: [
     CommonModule,
-
     ReactiveFormsModule,
     FormsModule,
-    NgbDropdownModule
+    NgbDropdownModule,
+    PaginationComponent
   ]
 })
 export class SahringModule { }
