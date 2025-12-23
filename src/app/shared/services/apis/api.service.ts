@@ -23,6 +23,12 @@ export class ApiService {
     });
     return this.http.post('auth/login', userCredentials, { headers });
   }
+  // In ApiService
+  logout() {
+
+    return this.http.post('auth/logout', {});
+  }
+
   refreshToken(refreshToken: any) {
     return this.http.post('auth/refresh', { refreshToken });
   }
@@ -113,7 +119,7 @@ export class ApiService {
   }
   // forms apis
   manageFieldsVisibility(formCode: any, status: any, data: any) {
-    return this.http.patch(`admin/forms/${formCode}/fields/${data}/${status}`,  {});
+    return this.http.patch(`admin/forms/${formCode}/fields/${data}/${status}`, {});
   }
   saveFormData(formCode: any, data: any) {
     return this.http.post(`forms/${formCode}`, data);
@@ -124,7 +130,7 @@ export class ApiService {
   createNewUDF(formCode: any, data: any) {
     return this.http.post(`admin/forms/${formCode}/fields/basic`, data);
   }
-  getFormById(id: any,filter: any = 'ALL') {
+  getFormById(id: any, filter: any = 'ALL') {
     return this.http.get(`forms/${id}?filter=${filter}`);
   }
   createNewUDDLookupTable(formCode: any, data: any) {
