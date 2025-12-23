@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ApiService } from '../../shared/services/apis/api.service';
 import { LoaderService } from '../../shared/services/loader.service';
 import { ToastrService } from 'ngx-toastr';
+import { Location } from '@angular/common';
 
 interface TableColumn {
   name: string;
@@ -55,7 +56,8 @@ export class CreateNewRowInTableComponent {
     private router: Router,
     private apiService: ApiService,
     private loader: LoaderService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private location: Location
   ) {}
 
   // Add new column
@@ -243,7 +245,7 @@ export class CreateNewRowInTableComponent {
   // Cancel
   onCancel(): void {
     this.resetForm();
-    this.router.navigate(['/panel/table/table-listing']);
+    this.location.back();
   }
 
   // Reset Form

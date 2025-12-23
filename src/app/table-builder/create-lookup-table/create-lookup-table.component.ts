@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ApiService } from '../../shared/services/apis/api.service';
 import { LoaderService } from '../../shared/services/loader.service';
 import { ToastrService } from 'ngx-toastr';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-create-lookup-table',
@@ -18,7 +19,8 @@ export class CreateLookupTableComponent {
     private router: Router,
     private apiService: ApiService,
     private loader: LoaderService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private location: Location
   ) { }
 
   // Submit Form
@@ -62,7 +64,7 @@ export class CreateLookupTableComponent {
   // Cancel
   onCancel(): void {
     this.resetForm();
-    this.router.navigate(['/panel/table/table-listing']);
+    this.location.back();
   }
 
   // Reset Form
