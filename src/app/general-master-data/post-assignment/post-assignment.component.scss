@@ -325,20 +325,46 @@
         }
 
         &.btn-primary {
-          background: #198754;
-          color: #fff;
+          padding: 8px 16px;
+          border-radius: 4px;
+          border: none;
+          font-size: 14px;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          height: 36px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          background-color: var(--purple-1);
+          color: white;
+
+
 
           &:hover {
-            background: #157347; // subtle darken
+            transform: translateY(-2px);
           }
         }
 
         &.btn-danger {
-          background: #dc3545;
-          color: #fff;
+          padding: 8px 16px;
+          border-radius: 4px;
+          border: none;
+          font-size: 14px;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          height: 36px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          background-color: var(--red-color);
+          color: white;
+
+
 
           &:hover {
-            background: #c12738; // subtle darken
+            transform: translateY(-2px);
           }
         }
       }

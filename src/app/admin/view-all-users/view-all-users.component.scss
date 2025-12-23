@@ -197,8 +197,8 @@ table tbody tr td {
     
     &:hover {
       cursor: pointer;
-      background: rgba(112, 71, 238, 0.1) !important;
-      color: var(--purple-1) !important;
+      background: var(--light-purple)!important;
+    color: white !important;
     }
   }
 
@@ -208,8 +208,8 @@ table tbody tr td {
 
   li a:hover {
     cursor: pointer;
-    background: rgba(112, 71, 238, 0.1) !important;
-    color: #7047ee !important;
+      background: var(--light-purple)!important;
+    color: white !important;
   }
 }
 
