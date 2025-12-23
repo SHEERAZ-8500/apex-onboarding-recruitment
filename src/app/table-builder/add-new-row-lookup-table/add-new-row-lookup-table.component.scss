@@ -5,6 +5,7 @@
     padding: 20px;
     width: 100%;
     background-color: var(--primary-color);
+    margin-top: -8px;
 }
 
 .row-form-card {
@@ -13,7 +14,6 @@
     padding: 40px;
     width: 100%;
     // max-width: 900px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.052);
 
     @media (max-width: 768px) {
         padding: 30px 20px;
@@ -22,8 +22,9 @@
 }
 
 .form-header {
-    text-align: center;
+    text-align: left;
     margin-bottom: 40px;
+
 
     @media (max-width: 768px) {
         margin-bottom: 30px;
@@ -32,7 +33,7 @@
 
 .form-title {
     color: var(--white-color-1);
-    font-size: 28px;
+    font-size: 23px;
     font-weight: 600;
     margin: 0 0 12px 0;
 
@@ -99,7 +100,7 @@
 
 .form-input {
     width: 100%;
-    padding: 14px 16px;
+    padding: 9px 16px;
     border-radius: 6px;
     border: 1px solid var(--border-color);
     background-color: var(--second-primary-color);
