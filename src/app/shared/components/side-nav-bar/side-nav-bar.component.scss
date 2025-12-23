@@ -316,3 +316,12 @@ a.router-link-active {
     height: calc(100vh - 180px);
   }
 }
+
+
+.dropdown-btn{
+  background: none;
+  border: none;
+}
+.dropdown-menu{
+  transform: translate3d(127.4px, 73.2px, 0px)!important;
+}

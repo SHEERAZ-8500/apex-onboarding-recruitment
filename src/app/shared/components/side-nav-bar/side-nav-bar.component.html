@@ -8,14 +8,23 @@
     <img src="../../../../assets/apex-logo.svg" alt="not-found" style="width: 60px; height: 40px" />
 
   </div>
-  <div class="d-flex align-items-center justify-content-center my-3">
-    <div class="user-card">
+  <div class="d-flex align-items-center justify-content-center my-3" ngbDropdown>
+    <div class="user-card" id="dropdownBasic" ngbDropdownToggle>
       <img src="../../../../assets/nb (2).png" alt="User Avatar" />
       <div class="user-info">
         <h4>Nil Yeager</h4>
         <p>Super Admin</p>
       </div>
-      <i class="fa-solid fa-chevron-down"></i>
+      <div class="btn-group " >
+        <button class="dropdown-btn " >
+          <!-- <i class="fa-solid fa-expand"></i> -->
+        </button>
+        <ul id="dropdown-basic" ngbDropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
+          <li role="menuitem"><a class="dropdown-item">Log-Out</a></li>
+
+        </ul>
+
+      </div>
     </div>
   </div>
 
@@ -44,9 +53,9 @@
 
       <div #table="ngbCollapse" [(ngbCollapse)]="tableCollapsed" class="collapseStyling" [class.open]="!tableCollapsed">
         <div class="collapseDiv">
-          <a routerLink="/panel/table/table-listing">
+          <!-- <a routerLink="/panel/table/table-listing">
             <span>View All Tables</span>
-          </a>
+          </a> -->
 
 
           <a routerLink="/panel/table/view-all-lookup-tables">
