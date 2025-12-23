@@ -6,7 +6,10 @@ import {
 } from '@angular/core';
 import { ToggleService } from '../../services/ToggleService';
 import { ThemeService } from '../../services/Theme.service';
-
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { ApiService } from '../../services/apis/api.service';
+import { SessionService } from '../../services/Session.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -32,14 +35,30 @@ export class HeaderComponent {
   showChat = false;
 
   constructor(
+        private SessionService: SessionService,
+
     private toggleService: ToggleService,
-    public themeService: ThemeService
-  ) {}
+    public themeService: ThemeService,
+    private apiService: ApiService,
+    private router: Router,
+    private toastr: ToastrService
+  ) { }
+
 
   ngOnInit() {
     this.themeService.isLightTheme$.subscribe(value => {
       this.isDarkMode = !value;
     });
+  }
+  logoutUser() {
+
+    this.apiService.logout().subscribe((res) => {
+      this.toastr.success("Logout Successfully")
+     this.SessionService.clearStorage()
+     this.router.navigate(["/"])
+    }, (error) => {
+
+    })
   }
 
   toggleSidebar() {
@@ -96,4 +115,5 @@ export class HeaderComponent {
   closeChat() {
     this.showChat = false;
   }
+
 }
