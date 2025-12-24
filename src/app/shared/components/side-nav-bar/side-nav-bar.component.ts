@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ToggleService } from '../../services/ToggleService';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { ApiService } from '../../services/apis/api.service';
+import { SessionService } from '../../services/Session.service';
 
 @Component({
   selector: 'app-side-nav-bar',
@@ -8,9 +12,26 @@ import { ToggleService } from '../../services/ToggleService';
 })
 export class SideNavBarComponent implements OnInit {
   isOpen = true;
-  constructor(private toggleService: ToggleService) { }
+  constructor(private toggleService: ToggleService,
+    private apiService: ApiService,
+    private router: Router,
+    private toastr: ToastrService,
+            private SessionService: SessionService,
 
-  // top-level groups
+  ) { }
+
+    logoutUser() {
+
+    this.apiService.logout().subscribe((res) => {
+      this.toastr.success("Logout Successfully")
+     this.SessionService.clearStorage()
+     this.router.navigate(["/"])
+    }, (error) => {
+      
+
+    })
+  }
+    // top-level groups
   assesment = true;
   masterdata = true;
   employees = true;
@@ -25,7 +46,7 @@ export class SideNavBarComponent implements OnInit {
   employeesCollapsed = true;
   recruitmentCollapsed = true;
   recruitmentFormsCollapsed = true;
-    SelectionFormsCollapsed = true
+  SelectionFormsCollapsed = true
 
 
   // other groups
@@ -42,7 +63,7 @@ export class SideNavBarComponent implements OnInit {
   toggleAssessment() { this.assesment = !this.assesment; }
 
   toggleMasterData() { this.masterdataCollapsed = !this.masterdataCollapsed; }
-    toggleEmployees() { this.employeesCollapsed = !this.employeesCollapsed; }
+  toggleEmployees() { this.employeesCollapsed = !this.employeesCollapsed; }
 
 
   toggleGeneralMaster() { this.generalMasterdataCollapsed = !this.generalMasterdataCollapsed; }
@@ -60,7 +81,7 @@ export class SideNavBarComponent implements OnInit {
   toggleRecruitment() { this.recruitmentCollapsed = !this.recruitmentCollapsed; }
   toggleRecruitmentForms() { this.recruitmentFormsCollapsed = !this.recruitmentFormsCollapsed; }
   toggleSelectionForms() { this.SelectionFormsCollapsed = !this.SelectionFormsCollapsed; }
-  
+
   toggleTable() { this.tableCollapsed = !this.tableCollapsed; }
-  
+
 }
