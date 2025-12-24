@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ApiService } from '../../shared/services/apis/api.service';
 import { LoaderService } from '../../shared/services/loader.service';
 import { ToastrService } from 'ngx-toastr';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-create-loopup-enums',
@@ -19,7 +20,8 @@ export class CreateLoopupEnumsComponent {
     private router: Router,
     private apiService: ApiService,
     private loader: LoaderService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private location: Location
   ) {}
 
   // Add new value field
@@ -89,7 +91,7 @@ export class CreateLoopupEnumsComponent {
   // Cancel
   onCancel(): void {
     this.resetForm();
-    this.router.navigate(['/panel/requisition-lookups']);
+    this.location.back();
   }
 
   // Reset Form

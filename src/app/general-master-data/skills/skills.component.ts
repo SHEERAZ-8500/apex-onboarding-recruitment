@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-skills',
@@ -6,7 +7,19 @@ import { Component } from '@angular/core';
   styleUrls: ['./skills.component.scss'],
 })
 export class SkillsComponent {
+  title = 'view';
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title'];
+      if (this.title === 'view') {
+        // set view mode loigc
+      //  this.fetchSkills()
+      }else{
 
+      }
+    });
+  }
   // ✅ Skills Data (cleaned duplicates)
   skills = [
     { code: 'SK001', name: 'HTML' },
@@ -22,12 +35,16 @@ export class SkillsComponent {
     { code: 'SK002', name: 'CSS' },
     { code: 'SK003', name: 'JavaScript' },
     { code: 'SK004', name: 'Angular' },
-   
+
     { code: 'SK006', name: 'PHP' },
     { code: 'SK007', name: 'Bootstrap' },
     { code: 'SK008', name: 'UI Design' },
     { code: 'SK009', name: 'Git' }
   ];
+
+  fetchSkills() {
+    return this.skills;
+  }
 
   // ✅ Form + State
   showForm = false;
@@ -80,6 +97,7 @@ export class SkillsComponent {
   onNew() {
     this.resetForm();
     this.showForm = true;
+    this.router.navigate(['/panel/general-master-data/create-new-skill']);
   }
 
   createSkill() {
@@ -125,7 +143,8 @@ export class SkillsComponent {
 
   // ✅ Form Control
   cancelForm() {
-    this.hideForm();
+    // this.hideForm();
+    this.router.navigate(['/panel/general-master-data/view-all-skills']);
   }
 
   resetForm() {

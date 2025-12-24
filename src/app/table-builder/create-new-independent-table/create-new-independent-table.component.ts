@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ApiService } from '../../shared/services/apis/api.service';
 import { LoaderService } from '../../shared/services/loader.service';
 import { ToastrService } from 'ngx-toastr';
+import { Location } from '@angular/common';
 
 interface TableColumn {
   name: string;
@@ -67,7 +68,8 @@ export class CreateNewIndependentTableComponent implements OnInit {
     private router: Router,
     private apiService: ApiService,
     private loader: LoaderService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private location: Location
   ) { }
 
   ngOnInit(): void { }
@@ -330,7 +332,7 @@ export class CreateNewIndependentTableComponent implements OnInit {
 
   // Cancel
   onCancel(): void {
-    this.router.navigate(['/panel/table-builder/view-all-independent-table']);
+    this.location.back();
   }
 
   // Reset Form

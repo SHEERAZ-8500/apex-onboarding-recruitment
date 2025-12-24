@@ -3,7 +3,7 @@
   <!-- ============================= -->
   <!--   LIST VIEW (When showForm = false)  -->
   <!-- ============================= -->
-  <ng-container *ngIf="!showForm; else formPage">
+  <ng-container *ngIf="title === 'view'">
 
     <div class="card-container">
 
@@ -100,8 +100,7 @@
   <!-- ============================= -->
   <!--   FORM VIEW (NEW / EDIT)     -->
   <!-- ============================= -->
-  <ng-template #formPage>
-    <div class="card-container">
+    <div class="card-container" *ngIf = 'title === "create" '>
 
       <!-- Header Row -->
       <div class="header-row">
@@ -160,5 +159,4 @@
         
       </div>
     </div>
-  </ng-template>
 </div>

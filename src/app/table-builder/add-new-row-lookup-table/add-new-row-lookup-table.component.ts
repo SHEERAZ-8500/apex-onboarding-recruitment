@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../shared/services/apis/api.service';
 import { LoaderService } from '../../shared/services/loader.service';
 import { ToastrService } from 'ngx-toastr';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-add-new-row-lookup-table',
@@ -24,8 +25,9 @@ export class AddNewRowLookupTableComponent implements OnInit {
     private route: ActivatedRoute,
     private apiService: ApiService,
     private loader: LoaderService,
-    private toastr: ToastrService
-  ) {}
+    private toastr: ToastrService,
+    private location: Location
+  ) { }
 
   ngOnInit(): void {
     // Get componentCode from URL query params
@@ -54,7 +56,7 @@ export class AddNewRowLookupTableComponent implements OnInit {
     this.loader.show();
 
     // Uncomment when API is ready
-    this.apiService.createRowInLookUpTable(this.componentCode,payload).subscribe({
+    this.apiService.createRowInLookUpTable(this.componentCode, payload).subscribe({
       next: (response: any) => {
         this.loader.hide();
         this.toastr.success('Row added successfully');
@@ -76,8 +78,9 @@ export class AddNewRowLookupTableComponent implements OnInit {
 
   // Cancel
   onCancel(): void {
+    
     this.resetForm();
-    this.router.navigate(['/panel/table/table-listing']);
+    this.location.back();
   }
 
   // Reset Form
