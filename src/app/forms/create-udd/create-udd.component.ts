@@ -77,23 +77,24 @@ export class CreateUddComponent implements OnInit {
           this.loader.hide();
         }
       });
-    } else if (stepValue === '3') {
-      this.loader.show();
-      // Uncomment when API is ready
-      this.apiService.getAllIndependentTables().subscribe({
-        next: (response: any) => {
-          console.log('Independent Row Tables:', response);
-          this.selectTable = response.data;
-          this.loader.hide();
-        },
-        error: (error: any) => {
-          console.error('Error fetching independent row tables:', error);
-          this.loader.hide();
-        }
-      });
+    } 
+    // else if (stepValue === '3') {
+    //   this.loader.show();
+    //   // Uncomment when API is ready
+    //   this.apiService.getAllIndependentTables().subscribe({
+    //     next: (response: any) => {
+    //       console.log('Independent Row Tables:', response);
+    //       this.selectTable = response.data;
+    //       this.loader.hide();
+    //     },
+    //     error: (error: any) => {
+    //       console.error('Error fetching independent row tables:', error);
+    //       this.loader.hide();
+    //     }
+    //   });
       
 
-    }
+    // }
   }
 
   // Change step (go back to selection)

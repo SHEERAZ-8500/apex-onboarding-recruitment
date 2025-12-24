@@ -7,6 +7,7 @@ import { ViewAllFormsComponent } from './view-all-forms/view-all-forms.component
 import { CreateNewUdfComponent } from './create-new-udf/create-new-udf.component';
 import { CreateUddComponent } from './create-udd/create-udd.component';
 import { ManageFiledsVisibilityComponent } from './manage-fileds-visibility/manage-fileds-visibility.component';
+import { CreateNewRowComponent } from './create-new-row/create-new-row.component';
 const routes: Routes = [
   {
     path: 'view-all-forms',
@@ -26,9 +27,14 @@ const routes: Routes = [
     path: 'manage-fields-visibility',
     component: ManageFiledsVisibilityComponent
   }
+  ,
+  {
+    path: 'create-new-tabs-row',
+    component: CreateNewRowComponent
+  }
 ]
 @NgModule({
-  declarations: [ViewAllFormsComponent, CreateNewUdfComponent, CreateUddComponent, ManageFiledsVisibilityComponent],
+  declarations: [ViewAllFormsComponent, CreateNewUdfComponent, CreateUddComponent, ManageFiledsVisibilityComponent, CreateNewRowComponent],
   imports: [
     RouterModule.forChild(routes),
     SahringModule,

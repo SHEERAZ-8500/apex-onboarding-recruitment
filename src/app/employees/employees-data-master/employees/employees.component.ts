@@ -190,13 +190,17 @@ export class EmployeesComponent {
 
       // Add ROW fields as new tabs in sidebar
       this.rowTableFields.forEach((field: DynamicFieldDto, index: number) => {
-        this.sidebarTabs.push({
-          id: 13 + index,
-          name: field.label,
-          icon: 'fa-table',
-          active: false,
-          rowTableField: field // Store reference to the field
-        });
+
+        if (field.active) {
+          this.sidebarTabs.push({
+            id: 13 + index,
+            name: field.label,
+            icon: 'fa-table',
+            active: field.active,
+            rowTableField: field // Store reference to the field
+          });
+        }
+
       });
     });
   }
