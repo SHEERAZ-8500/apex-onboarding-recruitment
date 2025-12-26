@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-company',
@@ -6,6 +8,28 @@ import { Component } from '@angular/core';
   styleUrls: ['./company.component.scss'],
 })
 export class CompanyComponent {
+    title = 'view';
+  formTitle=""
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title'];
+      if (this.title === 'view') {
+        
+        // set view mode loigc
+      //  this.fetchSkills()
+      }
+      if  (this.title === 'edit'){
+        this.formTitle="Edit Company"
+
+      }
+       if  (this.title === 'create'){
+                this.formTitle="Create New Company"
+
+
+      }
+    });
+  }
 
   // ✅ Dropdown Options
   dropdownOptions = {
@@ -100,6 +124,10 @@ export class CompanyComponent {
       signature4: ''
     }
   ];
+
+   fetchCompany() {
+    return this.companies;
+  }
 
   // ✅ Form Fields
   companiesCode = '';
@@ -251,6 +279,8 @@ export class CompanyComponent {
   onNew() {
     this.resetForm();
     this.showForm = true;
+            this.router.navigate(['/panel/out-sourcing-master-data/create-new-company']);
+
   }
 
   createCompany() {
@@ -286,34 +316,10 @@ export class CompanyComponent {
   }
 
   // ✅ Edit
-  editCompany(index: number) {
-    this.isEdit = true;
-    this.editIndex = index;
-    this.showForm = true;
+  editCompany() {
+                this.router.navigate(['/panel/out-sourcing-master-data/edit-company']);
 
-    const company = this.companies[index];
-    this.companiesCode = company.companiesCode;
-    this.companyName = company.companyName;
-    this.street = company.street;
-    this.block = company.block;
-    this.building = company.building;
-    this.city = company.city;
-    this.zipCode = company.zipCode;
-    this.country = company.country;
-    this.state = company.state;
-    this.internetAddress = company.internetAddress;
-    this.printingHeader = company.printingHeader;
-    this.manager = company.manager;
-    this.aliasName = company.aliasName;
-    this.telephoneNo1 = company.telephoneNo1;
-    this.telephone2 = company.telephone2;
-    this.fax = company.fax;
-    this.emailAddress = company.emailAddress;
-    this.gln = company.gln;
-    this.signature1FileName = company.signature1;
-    this.signature2FileName = company.signature2;
-    this.signature3FileName = company.signature3;
-    this.signature4FileName = company.signature4;
+    
   }
 
   updateCompany() {
@@ -362,6 +368,8 @@ export class CompanyComponent {
   // ✅ Form Control
   cancelForm() {
     this.hideForm();
+                this.router.navigate(['/panel/out-sourcing-master-data/view-all-company']);
+
   }
 
   resetForm() {

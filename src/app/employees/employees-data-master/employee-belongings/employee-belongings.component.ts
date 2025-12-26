@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-employees-belongings',
@@ -6,6 +8,30 @@ import { Component } from '@angular/core';
   styleUrls: ['./employee-belongings.component.scss'],
 })
 export class EmployeeBelongingsComponent {
+
+   title = 'view';
+  formTitle = ""
+    constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title'];
+      if (this.title === 'view') {
+
+        // set view mode loigc
+        //  this.fetchSkills()
+      }
+      if (this.title === 'edit') {
+        this.formTitle = "Edit Employee Belonging"
+
+      }
+      if (this.title === 'create') {
+        this.formTitle = "Create New  Employee Belonging"
+
+
+      }
+    });
+  }
 
   // ✅ Ownership Types dropdown options (a to e)
   ownershipTypes = ['Company Owned', 'Employee Owned', 'Leased', 'Rented', 'Donated'];
@@ -137,6 +163,10 @@ export class EmployeeBelongingsComponent {
     }
   ];
 
+  fetchEmployeeBelongings() {
+    return this.belongings;
+  }
+
   // ✅ Form + State
   showForm = false;
   belongingCode = '';
@@ -193,6 +223,8 @@ export class EmployeeBelongingsComponent {
   onNew() {
     this.resetForm();
     this.showForm = true;
+            this.router.navigate(['/panel/employees-master-data/create-new-employee-belongings']);
+
   }
 
   createBelonging() {
@@ -233,6 +265,8 @@ export class EmployeeBelongingsComponent {
     this.belongingRent = belonging.rent;
     this.belongingSpecifications = belonging.specifications;
     this.belongingManufacturer = belonging.manufacturer;
+            this.router.navigate(['/panel/employees-master-data/edit-employee-belongings']);
+
   }
 
   updateBelonging() {
@@ -302,6 +336,8 @@ export class EmployeeBelongingsComponent {
   // ✅ Form Control
   cancelForm() {
     this.hideForm();
+            this.router.navigate(['/panel/employees-master-data/view-all-employee-belongings']);
+
   }
 
   resetForm() {

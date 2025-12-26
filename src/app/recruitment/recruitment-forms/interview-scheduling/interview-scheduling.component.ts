@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-interview-scheduling',
@@ -6,6 +8,28 @@ import { Component } from '@angular/core';
   styleUrls: ['./interview-scheduling.component.scss']
 })
 export class InterviewSchedulingComponent {
+    title = 'view';
+  formTitle=""
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title'];
+      if (this.title === 'view') {
+        
+        // set view mode loigc
+      //  this.fetchSkills()
+      }
+      if  (this.title === 'edit'){
+        this.formTitle="Edit Interview Scehdule"
+
+      }
+       if  (this.title === 'create'){
+                this.formTitle="Create New Interview Scehdule"
+
+
+      }
+    });
+  }
 
   // ✅ Date Configuration
   today = new Date();
@@ -56,6 +80,9 @@ export class InterviewSchedulingComponent {
       'Jennifer Taylor - Recruiter'
     ]
   };
+   fetchInterviews() {
+    return this.interviews;
+  }
 
   // ✅ Interviews Data
   interviews = [
@@ -221,6 +248,8 @@ export class InterviewSchedulingComponent {
   onNew() {
     this.resetForm();
     this.showForm = true;
+                this.router.navigate(['/panel/recruitment-forms/create-new-interview-scheduling']);
+
   }
 
   createInterview() {
@@ -242,21 +271,9 @@ export class InterviewSchedulingComponent {
   }
 
   // ✅ Edit
-  editInterview(index: number) {
-    this.isEdit = true;
-    this.editIndex = index;
-    this.showForm = true;
+  editInterview() {
+                    this.router.navigate(['/panel/recruitment-forms/edit-interview-scheduling']);
 
-    const interview = this.interviews[index];
-    this.interviewCode = interview.interviewCode;
-    this.requisitionId = interview.requisitionId;
-    this.assignedLocation = interview.assignedLocation;
-    this.interviewDescription = interview.interviewDescription;
-    this.date = interview.date;
-    this.interviewerName = interview.interviewerName;
-    this.interviewFromTime = interview.interviewFromTime;
-    this.interviewToTime = interview.interviewToTime;
-    this.perCandidateAvgTime = interview.perCandidateAvgTime;
   }
 
   updateInterview() {
@@ -291,6 +308,8 @@ export class InterviewSchedulingComponent {
   // ✅ Form Control
   cancelForm() {
     this.hideForm();
+                        this.router.navigate(['/panel/recruitment-forms/view-all-interview-scheduling']);
+
   }
 
   resetForm() {

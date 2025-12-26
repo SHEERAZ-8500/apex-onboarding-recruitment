@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 interface Post {
   code: string;
@@ -23,6 +25,29 @@ interface PostDetail {
   styleUrls: ['./post-assignment.component.scss'],
 })
 export class PostAssignmentComponent {
+   title = 'view';
+  formTitle=""
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title'];
+      if (this.title === 'view') {
+        
+        // set view mode loigc
+      //  this.fetchSkills()
+      }
+      if  (this.title === 'edit'){
+        this.formTitle="Edit Post Assignment"
+
+      }
+       if  (this.title === 'create'){
+                this.formTitle="Create New Post Assignment"
+
+
+      }
+    });
+  }
+
 
   // ✅ Posts Data
   posts: Post[] = [
@@ -54,7 +79,9 @@ export class PostAssignmentComponent {
     'Analyst',
     'Technician'
   ];
-
+ fetchpostAssignment() {
+    return this.posts;
+  }
   // ✅ Form + State
   showForm = false;
   postCode = '';
@@ -106,6 +133,10 @@ export class PostAssignmentComponent {
   onNew() {
     this.resetForm();
     this.showForm = true;
+        this.router.navigate(['/panel/general-master-data/create-new-post-assignment']);
+
+    
+
   }
 
   createPost() {
@@ -123,17 +154,9 @@ export class PostAssignmentComponent {
   }
 
   // ✅ Edit
-  editPost(index: number) {
-    this.isEdit = true;
-    this.editIndex = index;
-    this.showForm = true;
+  editPost() {
+       this.router.navigate(['/panel/general-master-data/edit-post-assignment']);
 
-    const post = this.posts[index];
-    this.postCode = post.code;
-    this.selectedPost = post.name;
-    this.location = post.location || '';
-    this.postType = post.postType || '';
-    this.postCodeField = post.postCode || '';
   }
 
   updatePost() {
@@ -162,6 +185,8 @@ export class PostAssignmentComponent {
   // ✅ Form Control
   cancelForm() {
     this.hideForm();
+        this.router.navigate(['/panel/general-master-data/view-all-post-assignment']);
+
   }
 
   resetForm() {

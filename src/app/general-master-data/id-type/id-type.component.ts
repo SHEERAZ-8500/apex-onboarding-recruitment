@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-id-type',
@@ -6,6 +8,28 @@ import { Component } from '@angular/core';
   styleUrls: ['./id-type.component.scss'],
 })
 export class IdTypeComponent {
+   title = 'view';
+  formTitle=""
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title'];
+      if (this.title === 'view') {
+        
+        // set view mode loigc
+      //  this.fetchSkills()
+      }
+      if  (this.title === 'edit'){
+        this.formTitle="Edit Id Type"
+
+      }
+       if  (this.title === 'create'){
+                this.formTitle="Create New Id Type"
+
+
+      }
+    });
+  }
   idTypes = [
     { code: 'ID001', name: 'Passport', alertDays: 30, isActive: true },
     { code: 'ID002', name: 'Driver License', alertDays: 15, isActive: false },
@@ -24,6 +48,9 @@ export class IdTypeComponent {
     { code: 'ID003', name: 'National ID', alertDays: 60, isActive: true },
     // add more dummy data as needed
   ];
+   fetchIdTypes() {
+    return this.idTypes;
+  }
 
   showForm = false;
   idTypeCode = '';
@@ -75,6 +102,8 @@ export class IdTypeComponent {
   onNew() {
     this.resetForm();
     this.showForm = true;
+        this.router.navigate(['/panel/general-master-data/create-new-id-type']);
+
   }
 
   createIdType() {
@@ -88,15 +117,10 @@ export class IdTypeComponent {
     this.hideForm();
   }
 
-  editIdType(index: number) {
-    this.isEdit = true;
-    this.editIndex = index;
-    this.showForm = true;
-    const item = this.idTypes[index];
-    this.idTypeCode = item.code;
-    this.idTypeName = item.name;
-    this.alertDays = item.alertDays;
-    this.isActive = item.isActive;
+  editIdType() {
+        this.router.navigate(['/panel/general-master-data/edit-id-type']);
+
+   
   }
 
   updateIdType() {
@@ -118,6 +142,8 @@ export class IdTypeComponent {
 
   cancelForm() {
     this.hideForm();
+        this.router.navigate(['/panel/general-master-data/view-all-id-type']);
+
   }
 
   resetForm() {

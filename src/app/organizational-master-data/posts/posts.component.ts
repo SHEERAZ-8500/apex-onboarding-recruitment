@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
+
 
 @Component({
   selector: 'app-posts',
@@ -6,6 +9,28 @@ import { Component } from '@angular/core';
   styleUrls: ['./posts.component.scss'],
 })
 export class PostsComponent {
+    title = 'view';
+  formTitle=""
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title'];
+      if (this.title === 'view') {
+        
+        // set view mode loigc
+      //  this.fetchSkills()
+      }
+      if  (this.title === 'edit'){
+        this.formTitle="Edit Post"
+
+      }
+       if  (this.title === 'create'){
+                this.formTitle="Create New Post"
+
+
+      }
+    });
+  }
 
   // ✅ Dropdown Options
   dropdownOptions = {
@@ -121,6 +146,10 @@ export class PostsComponent {
     }
   ];
 
+ fetchPosts() {
+    return this.posts;
+  }
+  
   // ✅ Form Fields
   postsCode = '';
   postName = '';
@@ -205,6 +234,8 @@ export class PostsComponent {
   onNew() {
     this.resetForm();
     this.showForm = true;
+            this.router.navigate(['/panel/organizational-master-data/create-new-posts']);
+
   }
 
   createPost() {
@@ -232,27 +263,9 @@ export class PostsComponent {
   }
 
   // ✅ Edit
-  editPost(index: number) {
-    this.isEdit = true;
-    this.editIndex = index;
-    this.showForm = true;
+  editPost() {
+            this.router.navigate(['/panel/organizational-master-data/edit-posts']);
 
-    const post = this.posts[index];
-    this.postsCode = post.postsCode;
-    this.postName = post.postName;
-    this.locationName = post.locationName;
-    this.customerName = post.customerName;
-    this.dayConcept = post.dayConcept;
-    this.swingConcept = post.swingConcept;
-    this.postType = post.postType;
-    this.shift = post.shift;
-    this.noOfDC = post.noOfDC;
-    this.noOfShifts = post.noOfShifts;
-    this.noOfEmployeesPerShift = post.noOfEmployeesPerShift;
-    this.totalPostTiming = post.totalPostTiming;
-    this.noOfDays = post.noOfDays;
-    this.totalManPower = post.totalManPower;
-    this.supervisorName = post.supervisorName;
   }
 
   updatePost() {
@@ -293,6 +306,8 @@ export class PostsComponent {
   // ✅ Form Control
   cancelForm() {
     this.hideForm();
+                this.router.navigate(['/panel/organizational-master-data/view-all-posts']);
+
   }
 
   resetForm() {

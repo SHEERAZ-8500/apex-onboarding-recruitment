@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-customer-master',
@@ -6,6 +8,29 @@ import { Component } from '@angular/core';
   styleUrls: ['./customer-master.component.scss'],
 })
 export class CustomerMasterComponent {
+
+    title = 'view';
+  formTitle=""
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title'];
+      if (this.title === 'view') {
+        
+        // set view mode loigc
+      //  this.fetchSkills()
+      }
+      if  (this.title === 'edit'){
+        this.formTitle="Edit Customer Master"
+
+      }
+       if  (this.title === 'create'){
+                this.formTitle="Create New Customer Master"
+
+
+      }
+    });
+  }
 
   // ✅ Dropdown Options
   dropdownOptions = {
@@ -183,6 +208,10 @@ export class CustomerMasterComponent {
     }
   ];
 
+   fetchCustomerMaster() {
+    return this.customers;
+  }
+
   // ✅ Form Fields
   custCode = '';
   custName = '';
@@ -260,6 +289,8 @@ export class CustomerMasterComponent {
   onNew() {
     this.resetForm();
     this.showForm = true;
+            this.router.navigate(['/panel/out-sourcing-master-data/create-new-customer-master']);
+
   }
 
   createCustomer() {
@@ -294,31 +325,10 @@ export class CustomerMasterComponent {
   }
 
   // ✅ Edit
-  editCustomer(index: number) {
-    this.isEdit = true;
-    this.editIndex = index;
-    this.showForm = true;
+  editCustomer() {
+            this.router.navigate(['/panel/out-sourcing-master-data/edit-customer-master']);
 
-    const customer = this.customers[index];
-    this.custCode = customer.custCode;
-    this.custName = customer.custName;
-    this.arabicName = customer.arabicName;
-    this.requiredService = customer.custType;
-    this.vatNo = customer.vatNo;
-    this.phoneNo = customer.phoneNo;
-    this.mobileNo = customer.mobileNo;
-    this.contactPerson = customer.contactPerson;
-    this.bankName = customer.bankName;
-    this.iban = customer.iban;
-    this.swiftCode = customer.swiftCode;
-    this.beneficiaryName = customer.beneficiaryName;
-    this.paymentTerms = customer.paymentTerms;
-    this.paymentFrequency = customer.paymentFrequency;
-    this.status = customer.status;
-    this.contractNo = customer.contractNo;
-    this.noOfAreas = customer.noOfAreas;
-    this.noOfLocations = customer.noOfLocations;
-    this.noOfPosts = customer.noOfPosts;
+    
   }
 
   updateCustomer() {
@@ -366,6 +376,8 @@ export class CustomerMasterComponent {
   // ✅ Form Control
   cancelForm() {
     this.hideForm();
+                this.router.navigate(['/panel/out-sourcing-master-data/view-all-customer-master']);
+
   }
 
   resetForm() {

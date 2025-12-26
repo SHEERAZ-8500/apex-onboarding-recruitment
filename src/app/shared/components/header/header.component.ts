@@ -35,8 +35,7 @@ export class HeaderComponent {
   showChat = false;
 
   constructor(
-        private SessionService: SessionService,
-
+    private SessionService: SessionService,
     private toggleService: ToggleService,
     public themeService: ThemeService,
     private apiService: ApiService,
@@ -54,8 +53,8 @@ export class HeaderComponent {
 
     this.apiService.logout().subscribe((res) => {
       this.toastr.success("Logout Successfully")
-     this.SessionService.clearStorage()
-     this.router.navigate(["/"])
+      this.SessionService.clearStorage()
+      this.router.navigate(["/"])
     }, (error) => {
 
     })

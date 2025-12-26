@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 interface Customer {
   id: string;
@@ -42,12 +44,34 @@ interface ContractDetail {
   styleUrls: ['./outsource-contract.component.scss'],
 })
 export class OutsourceContractComponent {
+  title = 'view';
+  formTitle = ""
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title'];
+      if (this.title === 'view') {
+
+        // set view mode loigc
+        //  this.fetchSkills()
+      }
+      if (this.title === 'edit') {
+        this.formTitle = "Edit Outsource Contract"
+
+      }
+      if (this.title === 'create') {
+        this.formTitle = "Create New Outsource Contract"
+
+
+      }
+    });
+  }
 
   // ✅ Contracts Data
   contracts: Contract[] = [
-    { 
-      id: 1, 
-      documentNo: 'OUTSC0000001', 
+    {
+      id: 1,
+      documentNo: 'OUTSC0000001',
       postingDate: new Date('2025-12-01'),
       requestorName: 'John Smith',
       customerId: 'CUST001',
@@ -60,9 +84,9 @@ export class OutsourceContractComponent {
       paymentTerm: 'Net 30',
       signature: 'J. Smith'
     },
-    { 
-      id: 2, 
-      documentNo: 'OUTSC0000002', 
+    {
+      id: 2,
+      documentNo: 'OUTSC0000002',
       postingDate: new Date('2025-12-05'),
       requestorName: 'Sarah Johnson',
       customerId: 'CUST002',
@@ -75,9 +99,9 @@ export class OutsourceContractComponent {
       paymentTerm: 'Net 60',
       signature: 'S. Johnson'
     },
-    { 
-      id: 3, 
-      documentNo: 'OUTSC0000003', 
+    {
+      id: 3,
+      documentNo: 'OUTSC0000003',
       postingDate: new Date('2025-12-08'),
       requestorName: 'Michael Brown',
       customerId: 'CUST003',
@@ -90,9 +114,9 @@ export class OutsourceContractComponent {
       paymentTerm: 'COD',
       signature: 'M. Brown'
     },
-    { 
-      id: 4, 
-      documentNo: 'OUTSC0000004', 
+    {
+      id: 4,
+      documentNo: 'OUTSC0000004',
       postingDate: new Date('2025-12-10'),
       requestorName: 'Emily Davis',
       customerId: 'CUST004',
@@ -105,9 +129,9 @@ export class OutsourceContractComponent {
       paymentTerm: 'Advance',
       signature: 'E. Davis'
     },
-    { 
-      id: 5, 
-      documentNo: 'OUTSC0000005', 
+    {
+      id: 5,
+      documentNo: 'OUTSC0000005',
       postingDate: new Date('2025-12-12'),
       requestorName: 'Robert Wilson',
       customerId: 'CUST005',
@@ -147,6 +171,9 @@ export class OutsourceContractComponent {
     { id: 'CUST007', name: 'Future Tech', bankName: 'Digital Bank', phoneNo: '111-222-3333', contactPerson: 'Grace Brown', vatNo: 'VAT00789012' },
     { id: 'CUST008', name: 'Digital Solutions', bankName: 'Online Bank', phoneNo: '999-888-7777', contactPerson: 'Henry Taylor', vatNo: 'VAT00890123' }
   ];
+  fetchcontracts() {
+    return this.contracts;
+  }
 
   // ✅ Form + State
   showForm = false;
@@ -208,14 +235,16 @@ export class OutsourceContractComponent {
   onNew() {
     this.resetForm();
     // Generate new document number
-    const lastDocNo = this.contracts.length > 0 ? 
+    const lastDocNo = this.contracts.length > 0 ?
       parseInt(this.contracts[this.contracts.length - 1].documentNo.replace('OUTSC', '')) : 0;
     this.documentNo = `OUTSC${(lastDocNo + 1).toString().padStart(7, '0')}`;
-    
+
     // Set today's date
     this.postingDate = this.formatDate(new Date());
-    
+
     this.showForm = true;
+    this.router.navigate(['/panel/organizational-master-data/create-new-outsource-contract']);
+
   }
 
   // ✅ Add new row to details table
@@ -239,7 +268,7 @@ export class OutsourceContractComponent {
     }
 
     const selectedCustomer = this.customers.find(c => c.id === this.selectedCustomer);
-    
+
     this.contracts.push({
       id: this.contracts.length + 1,
       documentNo: this.documentNo,
@@ -260,25 +289,16 @@ export class OutsourceContractComponent {
   }
 
   // ✅ Edit
-  editContract(index: number) {
-    this.isEdit = true;
-    this.editIndex = index;
-    this.showForm = true;
+  editContract() {
+    this.router.navigate(['/panel/organizational-master-data/edit-outsource-contract']);
 
-    const contract = this.contracts[index];
-    this.documentNo = contract.documentNo;
-    this.requestorName = contract.requestorName;
-    this.selectedCustomer = contract.customerId;
-    this.paymentTerm = contract.paymentTerm;
-    this.postingDate = this.formatDate(contract.postingDate);
-    this.signature = contract.signature;
   }
 
   updateContract() {
     if (this.editIndex === null) return;
 
     const selectedCustomer = this.customers.find(c => c.id === this.selectedCustomer);
-    
+
     this.contracts[this.editIndex] = {
       id: this.contracts[this.editIndex].id,
       documentNo: this.documentNo,
@@ -312,6 +332,8 @@ export class OutsourceContractComponent {
   // ✅ Form Control
   cancelForm() {
     this.hideForm();
+    this.router.navigate(['/panel/organizational-master-data/view-all-outsource-contract']);
+
   }
 
   resetForm() {

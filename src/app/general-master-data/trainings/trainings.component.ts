@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-trainings',
@@ -6,11 +8,35 @@ import { Component } from '@angular/core';
   styleUrls: ['./trainings.component.scss'],
 })
 export class TrainingsComponent {
+    title = 'view';
+  formTitle=""
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title'];
+      if (this.title === 'view') {
+        
+        // set view mode loigc
+      //  this.fetchSkills()
+      }
+      if  (this.title === 'edit'){
+        this.formTitle="Edit Trainings"
+
+      }
+       if  (this.title === 'create'){
+                this.formTitle="Create New Trainings"
+
+
+      }
+    });
+  }
   trainings = [
     { code: 'T001', name: 'Angular Basics', provider: 'ABC Training', duration: 3, createdBy: 'Admin' },
     { code: 'T002', name: 'React Advanced', provider: 'XYZ Training', duration: 5, createdBy: 'Admin' }
   ];
-
+ fetchTrainings() {
+    return this.trainings;
+  }
   showForm = false;
   code = '';
   name = '';
@@ -54,6 +80,8 @@ export class TrainingsComponent {
   onNew() {
     this.resetForm();
     this.showForm = true;
+        this.router.navigate(['/panel/general-master-data/create-new-trainings']);
+
   }
 
   createTraining() {
@@ -68,16 +96,9 @@ export class TrainingsComponent {
     this.hideForm();
   }
 
-  editTraining(index: number) {
-    this.isEdit = true;
-    this.editIndex = index;
-    this.showForm = true;
-    const item = this.trainings[index];
-    this.code = item.code;
-    this.name = item.name;
-    this.provider = item.provider;
-    this.duration = item.duration;
-    this.createdBy = item.createdBy;
+  editTraining() {
+         this.router.navigate(['/panel/general-master-data/edit-trainings']);
+
   }
 
   updateTraining() {
@@ -100,6 +121,8 @@ export class TrainingsComponent {
 
   cancelForm() {
     this.hideForm();
+        this.router.navigate(['/panel/general-master-data/view-all-trainings']);
+
   }
 
   resetForm() {

@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-pay-element',
@@ -6,6 +8,28 @@ import { Component } from '@angular/core';
   styleUrls: ['./pay-element.component.scss'],
 })
 export class PayElementComponent {
+    title = 'view';
+  formTitle=""
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title'];
+      if (this.title === 'view') {
+        
+        // set view mode loigc
+      //  this.fetchSkills()
+      }
+      if  (this.title === 'edit'){
+        this.formTitle="Edit Pay Element"
+
+      }
+       if  (this.title === 'create'){
+                this.formTitle="Create New Pay Element"
+
+
+      }
+    });
+  }
 
   // ✅ Dropdown Options
   dropdownOptions = {
@@ -129,7 +153,9 @@ export class PayElementComponent {
       status: 'InActive'
     }
   ];
-
+ fetchPayElement() {
+    return this.payElements;
+  }
   // ✅ Form Fields
   payElementCode = '';
   payElementDescription = '';
@@ -212,6 +238,8 @@ export class PayElementComponent {
   onNew() {
     this.resetForm();
     this.showForm = true;
+            this.router.navigate(['/panel/organizational-master-data/create-new-pay-element']);
+
   }
 
   createPayElement() {
@@ -233,21 +261,9 @@ export class PayElementComponent {
   }
 
   // ✅ Edit
-  editPayElement(index: number) {
-    this.isEdit = true;
-    this.editIndex = index;
-    this.showForm = true;
+  editPayElement() {
+                this.router.navigate(['/panel/organizational-master-data/edit-pay-element']);
 
-    const payElement = this.payElements[index];
-    this.payElementCode = payElement.code;
-    this.payElementDescription = payElement.description;
-    this.type = payElement.type;
-    this.amount = payElement.amount;
-    this.elementType = payElement.elementType;
-    this.status = payElement.status;
-    this.baseElement = payElement.baseElement;
-    this.percentage = payElement.percentage;
-    this.fixed = payElement.fixed;
   }
 
   updatePayElement() {
@@ -282,6 +298,8 @@ export class PayElementComponent {
   // ✅ Form Control
   cancelForm() {
     this.hideForm();
+                this.router.navigate(['/panel/organizational-master-data/view-all-pay-element']);
+
   }
 
   resetForm() {

@@ -8,14 +8,23 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class SkillsComponent {
   title = 'view';
+  formTitle=""
   constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(data => {
       this.title = data['title'];
       if (this.title === 'view') {
+        
         // set view mode loigc
       //  this.fetchSkills()
-      }else{
+      }
+      if  (this.title === 'edit'){
+        this.formTitle="Edit Skill"
+
+      }
+       if  (this.title === 'create'){
+                this.formTitle="Create New Skill"
+
 
       }
     });
@@ -112,13 +121,10 @@ export class SkillsComponent {
   }
 
   // ✅ Edit
-  editSkill(index: number) {
-    this.isEdit = true;
-    this.editIndex = index;
-    this.showForm = true;
+  editSkill () {
+        this.router.navigate(['/panel/general-master-data/edit-skill']);
 
-    this.skillCode = this.skills[index].code;
-    this.skillName = this.skills[index].name;
+   
   }
 
   updateSkill() {

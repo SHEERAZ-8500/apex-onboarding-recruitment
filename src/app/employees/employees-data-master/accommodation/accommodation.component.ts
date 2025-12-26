@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-accomodation',
@@ -6,6 +8,29 @@ import { Component } from '@angular/core';
   styleUrls: ['./accommodation.component.scss'],
 })
 export class AccommodationComponent {
+  title = 'view';
+  formTitle = ""
+    constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title'];
+      if (this.title === 'view') {
+
+        // set view mode loigc
+        //  this.fetchSkills()
+      }
+      if (this.title === 'edit') {
+        this.formTitle = "Edit Accommodation"
+
+      }
+      if (this.title === 'create') {
+        this.formTitle = "Create New Accommodation"
+
+
+      }
+    });
+  }
 
   // ✅ Active Tab
   activeTab: 'roomDetail' | 'equipment' = 'roomDetail';
@@ -39,6 +64,11 @@ export class AccommodationComponent {
     { code: 'EQ011', name: 'Projector', quantity: 3, type: 'Electronics', remarks: 'HD projector' },
     { code: 'EQ012', name: 'Whiteboard', quantity: 8, type: 'Office Supplies', remarks: 'Magnetic whiteboard' }
   ];
+
+
+  fetchAccommodation() {
+    return this.rooms,this.equipments;
+  }
 
   // ✅ Form + State
   showForm = false;
@@ -145,6 +175,9 @@ export class AccommodationComponent {
   onNew() {
     this.resetForm();
     this.showForm = true;
+        this.router.navigate(['/panel/employees-master-data/create-new-accommodation']);
+
+
   }
 
   // ✅ Edit Room
@@ -153,6 +186,8 @@ export class AccommodationComponent {
     this.editIndex = index;
     this.activeTab = 'roomDetail';
     this.showForm = true;
+            this.router.navigate(['/panel/employees-master-data/edit-accommodation']);
+
     // In real implementation, you would load the room data into form fields
   }
 
@@ -196,6 +231,8 @@ export class AccommodationComponent {
   // ✅ Form Control
   cancelForm() {
     this.hideForm();
+        this.router.navigate(['/panel/employees-master-data/view-all-accommodation']);
+
   }
 
   resetForm() {

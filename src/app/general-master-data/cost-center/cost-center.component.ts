@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-cost-center',
@@ -6,6 +8,28 @@ import { Component } from '@angular/core';
   styleUrls: ['./cost-center.component.scss'],
 })
 export class CostCenterComponent {
+  title = 'view';
+  formTitle=""
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title'];
+      if (this.title === 'view') {
+        
+        // set view mode loigc
+      //  this.fetchSkills()
+      }
+      if  (this.title === 'edit'){
+        this.formTitle="Edit Cost Center"
+
+      }
+       if  (this.title === 'create'){
+                this.formTitle="Create New Cost Center"
+
+
+      }
+    });
+  }
 
   // ✅ Cost Centers Data (5 dummy values)
   costCenters = [
@@ -50,6 +74,10 @@ export class CostCenterComponent {
       createdBy: 'Operations Manager'
     }
   ];
+  fetchCostCenter() {
+    return this.costCenters;
+  }
+
 
   // ✅ Form + State
   showForm = false;
@@ -107,6 +135,8 @@ export class CostCenterComponent {
   onNew() {
     this.resetForm();
     this.showForm = true;
+        this.router.navigate(['/panel/general-master-data/create-new-cost-center']);
+
   }
 
   createCostCenter() {
@@ -125,18 +155,10 @@ export class CostCenterComponent {
   }
 
   // ✅ Edit
-  editCostCenter(index: number) {
-    this.isEdit = true;
-    this.editIndex = index;
-    this.showForm = true;
+  editCostCenter() {
+  
+        this.router.navigate(['/panel/general-master-data/edit-cost-center']);
 
-    const costCenter = this.costCenters[index];
-    this.code = costCenter.code;
-    this.name = costCenter.name;
-    this.effectiveDate = costCenter.effectiveDate;
-    this.chargeableTo = costCenter.chargeableTo;
-    this.includeInSalary = costCenter.includeInSalary;
-    this.createdBy = costCenter.createdBy;
   }
 
   updateCostCenter() {
@@ -166,6 +188,8 @@ export class CostCenterComponent {
   // ✅ Form Control
   cancelForm() {
     this.hideForm();
+        this.router.navigate(['/panel/general-master-data/view-all-cost-center']);
+
   }
 
   resetForm() {

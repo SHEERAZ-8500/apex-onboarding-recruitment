@@ -3,6 +3,8 @@ import { ApiService } from '../../../shared/services/apis/api.service';
 import { DynamicFieldDto } from '../../../shared/dtos/Dto';
 import { LoaderService } from '../../../shared/services/loader.service';
 import { ToastrService } from 'ngx-toastr';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-employees',
@@ -10,6 +12,29 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./employees.component.scss']
 })
 export class EmployeesComponent {
+  title = 'view';
+  formTitle = ""
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title'];
+      if (this.title === 'view') {
+
+        // set view mode loigc
+        //  this.fetchSkills()
+      }
+      if (this.title === 'edit') {
+        this.formTitle = "Edit Employee"
+
+      }
+      if (this.title === 'create') {
+        this.formTitle = "Create New Employee"
+
+
+      }
+    });
+  }
+
+
   // View States
   showForm = false;
   isEdit = false;
@@ -165,6 +190,10 @@ export class EmployeesComponent {
     }
   ];
 
+  fetchEmployees() {
+    return this.employees;
+  }
+
   // Dynamic Fields
   dynamicFields: DynamicFieldDto[] = [];
   dynamicFieldsData: { [key: string]: any } = {};
@@ -177,7 +206,7 @@ export class EmployeesComponent {
     { name: 'Jane Smith', email: 'jane@example.com', contact: '0987654321', address: '456 Avenue' }
   ];
 
-  constructor(private api: ApiService, private toastr: ToastrService, private loader: LoaderService) {
+  constructor(private api: ApiService, private toastr: ToastrService, private loader: LoaderService,private router: Router, private activatedRoute: ActivatedRoute) {
     this.api.getFormById('EMPLOYEE_REQUISITION', 'USER_DEFINED').subscribe((res: any) => {
       const allFields = res.data.fields || [];
 
@@ -235,6 +264,9 @@ export class EmployeesComponent {
     this.isEdit = false;
     this.resetForm();
     this.setActiveTab(1); // Reset to Personal Details tab
+    this.router.navigate(['/panel/employees-master-data/create-new-employees']);
+
+
   }
 
   editEmployee(index: number) {
@@ -251,6 +283,8 @@ export class EmployeesComponent {
     this.employeeFormData.mobileNumber = emp.mobileNo;
     this.employeeFormData.currentStatus = emp.status;
     this.setActiveTab(1); // Reset to Personal Details tab
+    this.router.navigate(['/panel/employees-master-data/edit-employees']);
+
   }
 
   viewEmployee(index: number) {
@@ -393,6 +427,8 @@ export class EmployeesComponent {
 
   cancelForm() {
     this.showForm = false;
+    this.router.navigate(['/panel/employees-master-data/view-all-employees']);
+
   }
 
   setActiveTab(tabId: number) {

@@ -10,28 +10,77 @@ import { SelectionComponent } from './selection/selection.component';
 
 const routes: Routes = [
   {
+    path: 'view-all-contract',
+    component: ContractComponent, data: { title: 'view' }
+  }, 
+  {
+    path: 'create-new-contract',
+    component: ContractComponent, data: { title: 'create' }
+  }, 
+  {
     path: 'contract',
-    component: ContractComponent
+    component: ContractComponent, data: { title: 'edit' }
+  }, 
+  
+  {
+    path: 'view-all-interview-report',
+    component: InterviewReportComponent, data: { title: 'view' }
   }, 
   {
-    path: 'interview-report',
-    component: InterviewReportComponent
+    path: 'create-new-interview-report',
+    component: InterviewReportComponent, data: { title: 'create' }
+  }, 
+   {
+    path: 'edit-interview-report',
+    component: InterviewReportComponent, data: { title: 'edit' }
   }, 
   {
-    path: 'offer-letter',
-    component: OfferLetterComponent
+    path: 'view-all-offer-letter',
+    component: OfferLetterComponent, data: { title: 'view' }
+  },
+  {
+    path: 'create-new-offer-letter',
+    component: OfferLetterComponent, data: { title: 'create' }
+  },
+  {
+    path: 'edit-offer-letter',
+    component: OfferLetterComponent, data: { title: 'edit' }
   },
    {
-    path: 'mobilization',
-    component: MobilizationComponent
+    path: 'view-all-mobilization',
+    component: MobilizationComponent, data: { title: 'view' }
   }, 
   {
-    path: 'joining',
-    component: JoiningComponent
+    path: 'create-new-mobilization',
+    component: MobilizationComponent, data: { title: 'create' }
   }, 
   {
-    path: 'selection',
-    component: SelectionComponent
+    path: 'edit-mobilization',
+    component: MobilizationComponent, data: { title: 'edit' }
+  }, 
+  {
+    path: 'view-all-joining',
+    component: JoiningComponent, data: { title: 'view' }
+  }, 
+   {
+    path: 'create-new-joining',
+    component: JoiningComponent, data: { title: 'create' }
+  }, 
+   {
+    path: 'edit-joining',
+    component: JoiningComponent, data: { title: 'edit' }
+  }, 
+  {
+    path: 'view-all-selection',
+    component: SelectionComponent, data: { title: 'view' }
+  },
+   {
+    path: 'create-new-selection',
+    component: SelectionComponent, data: { title: 'create' }
+  },
+   {
+    path: 'edit-selection',
+    component: SelectionComponent , data: { title: 'edit' }
   }
   
 ];

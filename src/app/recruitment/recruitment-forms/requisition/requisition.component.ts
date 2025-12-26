@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-requisition',
@@ -6,6 +8,30 @@ import { Component } from '@angular/core';
   styleUrls: ['./requisition.component.scss']
 })
 export class RequisitionComponent {
+
+   title = 'view';
+  formTitle = ""
+    constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title'];
+      if (this.title === 'view') {
+
+        // set view mode loigc
+        //  this.fetchSkills()
+      }
+      if (this.title === 'edit') {
+        this.formTitle = "Edit Interview Result"
+
+      }
+      if (this.title === 'create') {
+        this.formTitle = "Create New Interview Result"
+
+
+      }
+    });
+  }
 
   // ✅ Date Configuration
   today = new Date();
@@ -101,6 +127,11 @@ export class RequisitionComponent {
     }
   ];
 
+
+  fetchInterviewResults() {
+    return this.requisitions;
+  }
+
   // ✅ Form Fields
   requisitionNumber: number | null = null;
   requisitionName = '';
@@ -180,6 +211,8 @@ export class RequisitionComponent {
   onNew() {
     this.resetForm();
     this.showForm = true;
+            this.router.navigate(['/panel/recruitment-forms/create-new-requisition']);
+
   }
 
   createRequisition() {
@@ -202,22 +235,10 @@ export class RequisitionComponent {
   }
 
   // ✅ Edit
-  editRequisition(index: number) {
-    this.isEdit = true;
-    this.editIndex = index;
-    this.showForm = true;
+  editRequisition() {
+                this.router.navigate(['/panel/recruitment-forms/edit-requisition']);
 
-    const requisition = this.requisitions[index];
-    this.requisitionNumber = requisition.requisitionNumber;
-    this.requisitionName = requisition.requisitionName;
-    this.designationName = requisition.designationName;
-    this.numberOfInterviews = requisition.numberOfInterviews;
-    this.intraCountryEmployees = requisition.intraCountryEmployees;
-    this.interCountryEmployees = requisition.interCountryEmployees;
-    this.requiredDate = requisition.requiredDate;
-    this.trainingRequired = requisition.trainingRequired;
-    this.description = requisition.description;
-    this.status = requisition.status;
+   
   }
 
   updateRequisition() {
@@ -253,6 +274,8 @@ export class RequisitionComponent {
   // ✅ Form Control
   cancelForm() {
     this.hideForm();
+                this.router.navigate(['/panel/recruitment-forms/view-all-requisition']);
+
   }
 
   resetForm() {

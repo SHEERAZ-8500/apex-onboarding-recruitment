@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-employee-cost',
@@ -6,11 +8,39 @@ import { Component } from '@angular/core';
   styleUrls: ['./employee-cost.component.scss'],
 })
 export class EmployeeCostComponent {
+    title = 'view';
+  formTitle=""
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title'];
+      if (this.title === 'view') {
+        
+        // set view mode loigc
+      //  this.fetchSkills()
+      }
+      if  (this.title === 'edit'){
+        this.formTitle="Edit Employee Cost"
+
+      }
+       if  (this.title === 'create'){
+                this.formTitle="Create New Employee Cost"
+
+
+      }
+    });
+  }
+
+  // emloyee data
   employeeCosts = [
     { code: 'EC001', description: 'Basic Salary', fixed: true, amount: 50000 },
     { code: 'EC002', description: 'Transport Allowance', fixed: false, amount: 5000 },
     { code: 'EC003', description: 'Medical Allowance', fixed: true, amount: 3000 },
   ];
+   fetchemployeeCosts() {
+    return this.employeeCosts;
+  }
+
 
   showForm = false;
   code = '';
@@ -54,6 +84,8 @@ export class EmployeeCostComponent {
   onNew() {
     this.resetForm();
     this.showForm = true;
+        this.router.navigate(['/panel/general-master-data/create-new-employee-cost']);
+
   }
 
   createEmployeeCost() {
@@ -67,15 +99,9 @@ export class EmployeeCostComponent {
     this.hideForm();
   }
 
-  editEmployeeCost(index: number) {
-    this.isEdit = true;
-    this.editIndex = index;
-    this.showForm = true;
-    const item = this.employeeCosts[index];
-    this.code = item.code;
-    this.description = item.description;
-    this.fixed = item.fixed;
-    this.amount = item.amount;
+  editEmployeeCost() {
+        this.router.navigate(['/panel/general-master-data/edit-employee-cost']);
+
   }
 
   updateEmployeeCost() {
@@ -97,6 +123,8 @@ export class EmployeeCostComponent {
 
   cancelForm() {
     this.hideForm();
+        this.router.navigate(['/panel/general-master-data/view-all-employee-cost']);
+
   }
 
   resetForm() {

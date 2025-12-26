@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-joining',
@@ -6,6 +8,30 @@ import { Component } from '@angular/core';
   styleUrls: ['./joining.component.scss']
 })
 export class JoiningComponent {
+
+   title = 'view';
+  formTitle = ""
+    constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title'];
+      if (this.title === 'view') {
+
+        // set view mode loigc
+        //  this.fetchSkills()
+      }
+      if (this.title === 'edit') {
+        this.formTitle = "Edit Joining"
+
+      }
+      if (this.title === 'create') {
+        this.formTitle = "Create New Joining"
+
+
+      }
+    });
+  }
 
   // ✅ Date Configuration
   today = new Date();
@@ -137,6 +163,10 @@ export class JoiningComponent {
     }
   ];
 
+  fetchJoinings() {
+    return this.joinings;
+  }
+
   // ✅ Form Fields
   joiningCode = '';
   joiningDescription = '';
@@ -227,6 +257,8 @@ export class JoiningComponent {
   onNew() {
     this.resetForm();
     this.showForm = true;
+                this.router.navigate(['/panel/selection/create-new-joining']);
+
   }
 
   createJoining() {
@@ -244,7 +276,9 @@ export class JoiningComponent {
       joiningDescription: this.joiningDescription,
       mobilizerName: this.mobilizerName,
       assignedEmployeeCode: this.assignedEmployeeCode,
-      expectedJoiningDate: this.expectedJoiningDate
+      expectedJoiningDate: this.expectedJoiningDate,
+                    
+
     });
 
     this.hideForm();
@@ -268,6 +302,7 @@ export class JoiningComponent {
     this.assignedEmployeeCode = joining.assignedEmployeeCode;
     this.expectedJoiningDate = joining.expectedJoiningDate;
     this.isActive = joining.isActive;
+      this.router.navigate(['/panel/selection/edit-joining']);
   }
 
   updateJoining() {
@@ -305,6 +340,8 @@ export class JoiningComponent {
   // ✅ Form Control
   cancelForm() {
     this.hideForm();
+                    this.router.navigate(['/panel/selection/view-all-joining']);
+
   }
 
   resetForm() {

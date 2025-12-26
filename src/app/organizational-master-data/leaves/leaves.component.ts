@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-leave',
@@ -6,6 +8,28 @@ import { Component } from '@angular/core';
   styleUrls: ['./leaves.component.scss'],
 })
 export class LeavesComponent {
+    title = 'view';
+  formTitle=""
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title'];
+      if (this.title === 'view') {
+        
+        // set view mode loigc
+      //  this.fetchSkills()
+      }
+      if  (this.title === 'edit'){
+        this.formTitle="Edit Leaves"
+
+      }
+       if  (this.title === 'create'){
+                this.formTitle="Create New Leaves"
+
+
+      }
+    });
+  }
 
   // ✅ Date Configuration
   today = new Date();
@@ -48,6 +72,9 @@ export class LeavesComponent {
       'InActive'
     ]
   };
+   fetchLeaves() {
+    return this.leaves;
+  }
 
   // ✅ Leaves Data
   leaves = [
@@ -240,6 +267,8 @@ export class LeavesComponent {
   onNew() {
     this.resetForm();
     this.showForm = true;
+        this.router.navigate(['/panel/organizational-master-data/create-new-leaves']);
+
   }
 
   createLeave() {
@@ -267,27 +296,9 @@ export class LeavesComponent {
   }
 
   // ✅ Edit
-  editLeave(index: number) {
-    this.isEdit = true;
-    this.editIndex = index;
-    this.showForm = true;
+  editLeave() {
+    this.router.navigate(['/panel/organizational-master-data/edit-leaves']);
 
-    const leave = this.leaves[index];
-    this.leaveCode = leave.code;
-    this.leaveDescription = leave.description;
-    this.totalLeavesPerYear = leave.totalLeavesPerYear;
-    this.leaveType = leave.leaveType;
-    this.payableLeave = leave.payableLeave;
-    this.encashableLeave = leave.encashableLeave;
-    this.applicableEmployeeType = leave.applicableEmployeeType;
-    this.status = leave.status;
-    this.minLeaveForEncashment = leave.minLeaveForEncashment;
-    this.maxLeaveForEncashment = leave.maxLeaveForEncashment;
-    this.leavePaidInAdvance = leave.leavePaidInAdvance;
-    this.carryForwardToNextYear = leave.carryForwardToNextYear;
-    this.fromDate = leave.fromDate;
-    this.toDate = leave.toDate;
-    this.remarks = leave.remarks;
   }
 
   updateLeave() {
@@ -328,6 +339,8 @@ export class LeavesComponent {
   // ✅ Form Control
   cancelForm() {
     this.hideForm();
+            this.router.navigate(['/panel/organizational-master-data/view-all-leaves']);
+
   }
 
   resetForm() {

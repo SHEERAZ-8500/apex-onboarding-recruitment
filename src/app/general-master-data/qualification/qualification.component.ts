@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-qualification',
@@ -6,6 +8,29 @@ import { Component } from '@angular/core';
   styleUrls: ['./qualification.component.scss'],
 })
 export class QualificationComponent {
+  title = 'view';
+  formTitle=""
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title'];
+      if (this.title === 'view') {
+        
+        // set view mode loigc
+      //  this.fetchSkills()
+      }
+      if  (this.title === 'edit'){
+        this.formTitle="Edit Qualification"
+
+      }
+       if  (this.title === 'create'){
+                this.formTitle="Create New Qualification"
+
+
+      }
+    });
+  }
+
   qualification = [
     { code: 'SK008', name: 'IT Professional' },
     { code: 'SK011', name: '1213' },
@@ -45,6 +70,10 @@ export class QualificationComponent {
     { code: 'SK015', name: 'qualification 6' },
     { code: 'SK016', name: 'qualification 7' }
   ];
+
+   fetchQualification() {
+    return this.qualification;
+  }
 
   showForm = false;
   qualificationCode: string = '';
@@ -100,6 +129,8 @@ export class QualificationComponent {
   onNew() {
     this.resetForm();
     this.showForm = true;
+        this.router.navigate(['/panel/general-master-data/create-new-qualification']);
+
   }
 
   createqualification() {
@@ -108,12 +139,9 @@ export class QualificationComponent {
     this.hideForm();
   }
 
-  editqualification(index: number) {
-    this.isEdit = true;
-    this.editIndex = index;
-    this.showForm = true;
-    this.qualificationCode = this.qualification[index].code;
-    this.qualificationName = this.qualification[index].name;
+  editqualification() {
+        this.router.navigate(['/panel/general-master-data/edit-qualification']);
+
   }
 
   updatequalification() {
@@ -133,6 +161,8 @@ export class QualificationComponent {
 
   cancelForm() {
     this.hideForm();
+        this.router.navigate(['/panel/general-master-data/view-all-qualification']);
+
   }
 
   resetForm() {

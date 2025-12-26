@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
+
 
 @Component({
   selector: 'app-selection',
@@ -6,6 +9,30 @@ import { Component } from '@angular/core';
   styleUrls: ['./selection.component.scss']
 })
 export class SelectionComponent {
+
+   title = 'view';
+  formTitle = ""
+    constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title'];
+      if (this.title === 'view') {
+
+        // set view mode loigc
+        //  this.fetchSkills()
+      }
+      if (this.title === 'edit') {
+        this.formTitle = "Edit Selection"
+
+      }
+      if (this.title === 'create') {
+        this.formTitle = "Create New Selection"
+
+
+      }
+    });
+  }
 
   // ✅ Date Configuration
   today = new Date();
@@ -162,6 +189,11 @@ export class SelectionComponent {
     }
   ];
 
+
+  fetchSelection() {
+    return this.selections;
+  }
+
   // ✅ Form Fields
   selectionCode = '';
   requisitionId = '';
@@ -256,6 +288,7 @@ export class SelectionComponent {
   onNew() {
     this.resetForm();
     this.showForm = true;
+      this.router.navigate(['/panel/selection/create-new-selection']);
   }
 
   createSelection() {
@@ -282,26 +315,10 @@ export class SelectionComponent {
   }
 
   // ✅ Edit
-  editSelection(index: number) {
-    this.isEdit = true;
-    this.editIndex = index;
-    this.showForm = true;
+  editSelection() {
 
-    const selection = this.selections[index];
-    this.selectionCode = selection.selectionCode;
-    this.requisitionId = selection.requisitionId;
-    this.selectionDescription = selection.selectionDescription;
-    this.date = selection.date;
-    this.selectorName = selection.selectorName;
-    this.supervisorName = selection.supervisorName;
-    this.assignedDepartment = selection.assignedDepartment;
-    this.assignedLocation = selection.assignedLocation;
-    this.expectedJoiningDate = selection.expectedJoiningDate;
-    this.candidateName = selection.candidateName;
-    this.totalAgreedSalary = selection.totalAgreedSalary;
-    this.documentNo = selection.documentNo;
-    this.isActive = selection.isActive;
-    // this.description = selection.description;
+      this.router.navigate(['/panel/selection/edit-selection']);
+
   }
 
   updateSelection() {
@@ -341,6 +358,7 @@ export class SelectionComponent {
   // ✅ Form Control
   cancelForm() {
     this.hideForm();
+      this.router.navigate(['/panel/selection/view-all-selection']);
   }
 
   resetForm() {

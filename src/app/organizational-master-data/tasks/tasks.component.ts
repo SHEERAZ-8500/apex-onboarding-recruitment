@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
+
+
 
 @Component({
   selector: 'app-tasks',
@@ -6,6 +10,28 @@ import { Component } from '@angular/core';
   styleUrls: ['./tasks.component.scss'],
 })
 export class TasksComponent {
+    title = 'view';
+  formTitle=""
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title'];
+      if (this.title === 'view') {
+        
+        // set view mode loigc
+      //  this.fetchSkills()
+      }
+      if  (this.title === 'edit'){
+        this.formTitle="Edit Tasks"
+
+      }
+       if  (this.title === 'create'){
+                this.formTitle="Create New Tasks"
+
+
+      }
+    });
+  }
 
   // ✅ Dropdown Options
   dropdownOptions = {
@@ -99,6 +125,10 @@ export class TasksComponent {
     }
   ];
 
+   fetchTasks() {
+    return this.tasks;
+  }
+
   // ✅ Form Fields
   taskCode = '';
   selectedProject = '';
@@ -191,6 +221,8 @@ export class TasksComponent {
   onNew() {
     this.resetForm();
     this.showForm = true;
+            this.router.navigate(['/panel/organizational-master-data/create-new-tasks']);
+
   }
 
   createTask() {
@@ -212,20 +244,12 @@ export class TasksComponent {
   }
 
   // ✅ Edit
-  editTask(index: number) {
-    this.isEdit = true;
-    this.editIndex = index;
-    this.showForm = true;
+  editTask() {
+   
+                this.router.navigate(['/panel/organizational-master-data/edit-tasks']);
 
-    const task = this.tasks[index];
-    this.taskCode = task.code;
-    this.taskName = task.name;
-    this.assignedTo = task.assignToCode;
-    this.days = task.days;
-    this.hours = task.hours;
     
-    // Note: selectedProject is not in tasks data, so we leave it empty
-    // In a real application, you would store project info in tasks
+   
   }
 
   updateTask() {
@@ -260,6 +284,8 @@ export class TasksComponent {
   // ✅ Form Control
   cancelForm() {
     this.hideForm();
+        this.router.navigate(['/panel/organizational-master-data/view-all-tasks']);
+
   }
 
   resetForm() {

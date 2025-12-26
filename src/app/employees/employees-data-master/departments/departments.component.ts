@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-departments',
@@ -6,7 +8,31 @@ import { Component } from '@angular/core';
   styleUrls: ['./departments.component.scss'],
 })
 export class DepartmentsComponent {
+   title = 'view';
+  formTitle = ""
+    constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
 
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title'];
+      if (this.title === 'view') {
+
+        // set view mode loigc
+        //  this.fetchSkills()
+      }
+      if (this.title === 'edit') {
+        this.formTitle = "Edit Department"
+
+      }
+      if (this.title === 'create') {
+        this.formTitle = "Create New Department"
+
+
+      }
+    });
+  }
+
+  
   departments = [
     { code: 'DEPT001', name: 'Human Resources', description: 'Handles recruitment, employee relations, and benefits' },
     { code: 'DEPT002', name: 'Information Technology', description: 'Manages IT infrastructure and software development' },
@@ -19,6 +45,10 @@ export class DepartmentsComponent {
     { code: 'DEPT009', name: 'Quality Assurance', description: 'Ensures product quality and compliance' },
     { code: 'DEPT010', name: 'Legal', description: 'Handles legal matters and compliance issues' }
   ];
+
+fetchDepartments() {
+    return this.departments;
+  }
 
   // ✅ Form + State
   showForm = false;
@@ -69,6 +99,8 @@ export class DepartmentsComponent {
   onNew() {
     this.resetForm();
     this.showForm = true;
+        this.router.navigate(['/panel/employees-master-data/create-new-departments']);
+
   }
 
   createDepartment() {
@@ -93,6 +125,8 @@ export class DepartmentsComponent {
     this.deptCode = dept.code;
     this.deptName = dept.name;
     this.deptDescription = dept.description;
+        this.router.navigate(['/panel/employees-master-data/edit-departments']);
+
   }
 
   updateDepartment() {
@@ -119,6 +153,8 @@ export class DepartmentsComponent {
   // ✅ Form Control
   cancelForm() {
     this.hideForm();
+        this.router.navigate(['/panel/employees-master-data/view-all-departments']);
+
   }
 
   resetForm() {

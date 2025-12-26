@@ -1,6 +1,6 @@
 <div class="customer-master-wrapper col-md-12">
 
-  <ng-container *ngIf="!showForm; else formPage">
+  <ng-container *ngIf="title === 'view'">
 
     <div class="card-container">
 
@@ -88,7 +88,7 @@
                 <td>{{ item.createdBy }}</td>
 
                 <td class="action-col">
-                  <i class="fa fa-edit action-icon" (click)="editCustomer(currentPageStart + i)"></i>
+                  <i class="fa fa-edit action-icon" (click)="editCustomer()"></i>
                   <i class="fa fa-trash action-icon" (click)="deleteCustomer(currentPageStart + i)"></i>
                 </td>
               </tr>
@@ -126,12 +126,11 @@
     </div>
   </ng-container>
 
-  <ng-template #formPage>
-    <div class="card-container">
+    <div class="card-container" *ngIf = 'title === "create" || title === "edit" '>
 
       <div class="header-row">
         <h4 class="main-title">
-          {{ isEdit ? "Edit Customer" : "Add Customer" }}
+          {{ formTitle }}
         </h4>
 
         <button class="reset-btn" (click)="resetForm()">
@@ -276,5 +275,4 @@
         </button>
       </div>
     </div>
-  </ng-template>
 </div>

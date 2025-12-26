@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
+
+
 
 @Component({
   selector: 'app-job-title',
@@ -7,6 +11,30 @@ import { Component } from '@angular/core';
 })
 export class JobTitleComponent {
 
+   title = 'view';
+  formTitle=""
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title'];
+      if (this.title === 'view') {
+        
+        // set view mode loigc
+      //  this.fetchSkills()
+      }
+      if  (this.title === 'edit'){
+        this.formTitle="Edit Job Title"
+
+      }
+       if  (this.title === 'create'){
+                this.formTitle="Create New Job Title"
+
+
+      }
+    });
+  }
+
+  
   // ✅ Job Titles Data (EXACT same structure as skills)
   jobTitles = [
     { code: 'JT001', title: 'Software Developer', workingHours: 8, trainingRequired: 'required' },
@@ -20,6 +48,10 @@ export class JobTitleComponent {
     { code: 'JT009', title: 'Business Analyst', workingHours: 8, trainingRequired: 'not required' },
     { code: 'JT010', title: 'Technical Writer', workingHours: 7, trainingRequired: 'not required' },
   ];
+
+   fetchjobTitle() {
+    return this.jobTitles;
+  }
 
   // ✅ Form + State (EXACT same structure as skills)
   showForm = false;
@@ -71,6 +103,8 @@ export class JobTitleComponent {
   onNew() {
     this.resetForm();
     this.showForm = true;
+        this.router.navigate(['/panel/general-master-data/create-new-job-title']);
+
   }
 
   createJobTitle() {
@@ -87,15 +121,9 @@ export class JobTitleComponent {
   }
 
   // ✅ Edit (EXACT same method as skills)
-  editJobTitle(index: number) {
-    this.isEdit = true;
-    this.editIndex = index;
-    this.showForm = true;
+  editJobTitle() {
+        this.router.navigate(['/panel/general-master-data/edit-job-title']);
 
-    this.jobTitleCode = this.jobTitles[index].code;
-    this.jobTitle = this.jobTitles[index].title;
-    this.workingHours = this.jobTitles[index].workingHours.toString();
-    this.trainingRequired = this.jobTitles[index].trainingRequired;
   }
 
   updateJobTitle() {
@@ -123,6 +151,8 @@ export class JobTitleComponent {
   // ✅ Form Control (EXACT same methods as skills)
   cancelForm() {
     this.hideForm();
+        this.router.navigate(['/panel/general-master-data/view-all-job-title']);
+
   }
 
   resetForm() {

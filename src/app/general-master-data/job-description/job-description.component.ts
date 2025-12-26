@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-job-description',
@@ -6,6 +8,30 @@ import { Component } from '@angular/core';
   styleUrls: ['./job-description.component.scss'],
 })
 export class JobDescriptionComponent {
+    title = 'view';
+  formTitle=""
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title'];
+      if (this.title === 'view') {
+        
+        // set view mode loigc
+      //  this.fetchSkills()
+      }
+      if  (this.title === 'edit'){
+        this.formTitle="Edit Job Description"
+
+      }
+       if  (this.title === 'create'){
+                this.formTitle="Create New Job Description"
+
+
+      }
+    });
+  }
+
+
   dummyValues = ['A', 'B', 'C', 'D', 'E'];
 
   jobDescs = [
@@ -20,6 +46,9 @@ export class JobDescriptionComponent {
       location: 'B', createdBy: 'B'
     }
   ];
+  fetchjobDescs() {
+    return this.jobDescs;
+  }
 
   showForm = false;
   code = '';
@@ -54,7 +83,10 @@ export class JobDescriptionComponent {
 
   changePage(page: number) { if (page < 1 || page > this.totalPages) return; this.currentPage = page; }
 
-  onNew() { this.resetForm(); this.showForm = true; }
+  onNew() { this.resetForm(); this.showForm = true; 
+        this.router.navigate(['/panel/general-master-data/create-new-job-description']);
+
+  }
 
   createJobDesc() {
     if (!this.name || !this.skillDescription || !this.qualificationName) return;
@@ -66,12 +98,10 @@ export class JobDescriptionComponent {
     this.hideForm();
   }
 
-  editJobDesc(index: number) {
-    this.isEdit = true;
-    this.editIndex = index;
-    this.showForm = true;
-    const item = this.jobDescs[index];
-    Object.assign(this, item);
+  editJobDesc() {
+   
+        this.router.navigate(['/panel/general-master-data/edit-job-description']);
+
   }
 
   updateJobDesc() {
@@ -90,7 +120,10 @@ export class JobDescriptionComponent {
     if (this.currentPage > this.totalPages) this.currentPage = this.totalPages;
   }
 
-  cancelForm() { this.hideForm(); }
+  cancelForm() { this.hideForm();
+        this.router.navigate(['/panel/general-master-data/view-all-job-description']);
+
+   }
 
   resetForm() {
     this.code = ''; this.name = ''; this.jobTitle = ''; this.skillCode = ''; this.skillDescription = '';

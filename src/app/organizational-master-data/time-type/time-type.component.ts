@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-time-type',
@@ -6,6 +8,28 @@ import { Component } from '@angular/core';
   styleUrls: ['./time-type.component.scss'],
 })
 export class TimeTypeComponent {
+    title = 'view';
+  formTitle=""
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title'];
+      if (this.title === 'view') {
+        
+        // set view mode loigc
+      //  this.fetchSkills()
+      }
+      if  (this.title === 'edit'){
+        this.formTitle="Edit Time Type"
+
+      }
+       if  (this.title === 'create'){
+                this.formTitle="Create New Time Type"
+
+
+      }
+    });
+  }
 
   // ✅ Time Options
   hours = Array.from({ length: 12 }, (_, i) => i + 1);
@@ -88,6 +112,10 @@ export class TimeTypeComponent {
       workSchedule: 'Flexible Hours'
     }
   ];
+
+  fetchTimeType() {
+    return this.timeTypes;
+  }
 
   // ✅ Form Fields
   timeTypeCode = '';
@@ -221,6 +249,8 @@ export class TimeTypeComponent {
   onNew() {
     this.resetForm();
     this.showForm = true;
+            this.router.navigate(['/panel/organizational-master-data/create-new-time-type']);
+
   }
 
   createTimeType() {
@@ -240,34 +270,9 @@ export class TimeTypeComponent {
   }
 
   // ✅ Edit
-  editTimeType(index: number) {
-    this.isEdit = true;
-    this.editIndex = index;
-    this.showForm = true;
+  editTimeType() {
+               this.router.navigate(['/panel/organizational-master-data/edit-time-type']);
 
-    const timeType = this.timeTypes[index];
-    this.timeTypeCode = timeType.code;
-    this.timeTypeDescription = timeType.description;
-    
-    // Parse start time
-    const startMatch = timeType.startTime.match(/(\d+):(\d+)\s+(AM|PM)/);
-    if (startMatch) {
-      this.startTimeHour = parseInt(startMatch[1]).toString();
-      this.startTimeMinute = startMatch[2];
-      this.startTimePeriod = startMatch[3];
-    }
-    
-    // Parse end time
-    const endMatch = timeType.endTime.match(/(\d+):(\d+)\s+(AM|PM)/);
-    if (endMatch) {
-      this.endTimeHour = parseInt(endMatch[1]).toString();
-      this.endTimeMinute = endMatch[2];
-      this.endTimePeriod = endMatch[3];
-    }
-    
-    this.breakHours = timeType.breakHours;
-    this.weekdaysOff = timeType.weekOff;
-    this.workSchedule = timeType.workSchedule;
   }
 
   updateTimeType() {
@@ -309,6 +314,8 @@ export class TimeTypeComponent {
   // ✅ Form Control
   cancelForm() {
     this.hideForm();
+                this.router.navigate(['/panel/organizational-master-data/view-all-time-type']);
+
   }
 
   resetForm() {

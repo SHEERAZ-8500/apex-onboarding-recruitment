@@ -3,7 +3,7 @@
   <!-- ============================= -->
   <!--   LIST VIEW (When showForm = false)  -->
   <!-- ============================= -->
-  <ng-container *ngIf="!showForm; else formPage">
+  <ng-container *ngIf="title === 'view'">
 
     <div class="card-container">
 
@@ -65,7 +65,7 @@
               <td>{{ formatTime(item.endTime) }}</td>
 
               <td class="action-col">
-                <i class="fa fa-edit action-icon" (click)="editInterview(currentPageStart + i)"></i>
+                <i class="fa fa-edit action-icon" (click)="editInterview()"></i>
                 <i class="fa fa-trash action-icon" (click)="deleteInterview(currentPageStart + i)"></i>
               </td>
             </tr>
@@ -108,13 +108,12 @@
   <!-- ============================= -->
   <!--   FORM VIEW (NEW / EDIT)     -->
   <!-- ============================= -->
-  <ng-template #formPage>
-    <div class="card-container">
+    <div class="card-container" *ngIf = 'title === "create" || title === "edit" '>
 
       <!-- Header Row -->
       <div class="header-row">
         <h4 class="main-title">
-          {{ isEdit ? "Edit Interview Result" : "Add Interview Result" }}
+          {{ formTitle}}
         </h4>
 
         <button class="reset-btn" (click)="resetForm()">
@@ -207,5 +206,4 @@
         </button>
       </div>
     </div>
-  </ng-template>
 </div>
