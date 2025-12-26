@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-gosiid',
@@ -6,6 +8,30 @@ import { Component } from '@angular/core';
   styleUrls: ['./gosiid.component.scss'],
 })
 export class GOSIIDComponent {
+
+   title = 'view';
+  formTitle = ""
+    constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title'];
+      if (this.title === 'view') {
+
+        // set view mode loigc
+        //  this.fetchSkills()
+      }
+      if (this.title === 'edit') {
+        this.formTitle = "Edit Gosiid"
+
+      }
+      if (this.title === 'create') {
+        this.formTitle = "Create New Gosiid"
+
+
+      }
+    });
+  }
 
   // ✅ Data (with your required fields: code and name)
   items = [
@@ -20,6 +46,10 @@ export class GOSIIDComponent {
     { code: 'GO009', name: 'Item Nine' },
     { code: 'GO010', name: 'Item Ten' }
   ];
+
+  fetchGosiid() {
+    return this.items;
+  }
 
   // ✅ Form + State
   showForm = false;
@@ -69,6 +99,8 @@ export class GOSIIDComponent {
   onNew() {
     this.resetForm();
     this.showForm = true;
+            this.router.navigate(['/panel/employees-master-data/create-new-gosiid']);
+
   }
 
   createItem() {
@@ -83,13 +115,10 @@ export class GOSIIDComponent {
   }
 
   // ✅ Edit
-  editItem(index: number) {
-    this.isEdit = true;
-    this.editIndex = index;
-    this.showForm = true;
+  editItem() {
+ 
+            this.router.navigate(['/panel/employees-master-data/edit-gosiid']);
 
-    this.itemCode = this.items[index].code;
-    this.itemName = this.items[index].name;
   }
 
   updateItem() {
@@ -115,6 +144,8 @@ export class GOSIIDComponent {
   // ✅ Form Control
   cancelForm() {
     this.hideForm();
+            this.router.navigate(['/panel/employees-master-data/view-all-gosiid']);
+
   }
 
   resetForm() {

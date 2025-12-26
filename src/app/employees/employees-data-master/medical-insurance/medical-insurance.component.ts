@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
+
 
 @Component({
   selector: 'app-medical-insurance',
@@ -6,6 +9,30 @@ import { Component } from '@angular/core';
   styleUrls: ['./medical-insurance.component.scss'],
 })
 export class MedicalInsuranceComponent {
+
+   title = 'view';
+  formTitle = ""
+    constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title'];
+      if (this.title === 'view') {
+
+        // set view mode loigc
+        //  this.fetchSkills()
+      }
+      if (this.title === 'edit') {
+        this.formTitle = "Edit Medical Insurance"
+
+      }
+      if (this.title === 'create') {
+        this.formTitle = "Create New Medical Insurance"
+
+
+      }
+    });
+  }
 
   // ✅ Medical Insurance Data with 5 fields
   medicalInsurances = [
@@ -20,6 +47,10 @@ export class MedicalInsuranceComponent {
     { code: 'MI009', description: 'International Travel Insurance', fromDate: '2024-01-01', toDate: '2024-12-31', provider: 'TravelSafe Inc.' },
     { code: 'MI010', description: 'Student Health Plan', fromDate: '2024-08-01', toDate: '2025-07-31', provider: 'EduHealth Insurance' }
   ];
+
+  fetchMedicalInsurance() {
+    return this.medicalInsurances;
+  }
 
   // ✅ Form + State
   showForm = false;
@@ -72,6 +103,8 @@ export class MedicalInsuranceComponent {
   onNew() {
     this.resetForm();
     this.showForm = true;
+    this.router.navigate(['/panel/employees-master-data/create-new-medical-insurance']);
+
   }
 
   createItem() {
@@ -98,17 +131,10 @@ export class MedicalInsuranceComponent {
   }
 
   // ✅ Edit
-  editItem(index: number) {
-    this.isEdit = true;
-    this.editIndex = index;
-    this.showForm = true;
+  editItem() {
+    
+            this.router.navigate(['/panel/employees-master-data/edit-medical-insurance']);
 
-    const item = this.medicalInsurances[index];
-    this.itemCode = item.code;
-    this.itemDescription = item.description;
-    this.itemFromDate = item.fromDate;
-    this.itemToDate = item.toDate;
-    this.itemProvider = item.provider;
   }
 
   updateItem() {
@@ -145,6 +171,9 @@ export class MedicalInsuranceComponent {
   // ✅ Form Control
   cancelForm() {
     this.hideForm();
+            this.router.navigate(['/panel/employees-master-data/view-all-medical-insurance']);
+
+
   }
 
   resetForm() {

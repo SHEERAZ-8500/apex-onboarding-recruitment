@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-mobilization',
@@ -6,6 +8,30 @@ import { Component } from '@angular/core';
   styleUrls: ['./mobilization.component.scss']
 })
 export class MobilizationComponent {
+
+   title = 'view';
+  formTitle = ""
+    constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title'];
+      if (this.title === 'view') {
+
+        // set view mode loigc
+        //  this.fetchSkills()
+      }
+      if (this.title === 'edit') {
+        this.formTitle = "Edit Mobilization"
+
+      }
+      if (this.title === 'create') {
+        this.formTitle = "Create New Mobilization"
+
+
+      }
+    });
+  }
 
   // ✅ Date Configuration
   today = new Date();
@@ -154,6 +180,10 @@ export class MobilizationComponent {
     }
   ];
 
+  fetchMobilization() {
+    return this.mobilizations;
+  }
+
   // ✅ Form Fields
   mobilizationCode = '';
   requisitionId = '';
@@ -248,6 +278,7 @@ export class MobilizationComponent {
   onNew() {
     this.resetForm();
     this.showForm = true;
+      this.router.navigate(['/panel/selection/create-new-mobilization']);
   }
 
   createMobilization() {
@@ -273,25 +304,10 @@ export class MobilizationComponent {
   }
 
   // ✅ Edit
-  editMobilization(index: number) {
-    this.isEdit = true;
-    this.editIndex = index;
-    this.showForm = true;
+  editMobilization() {
 
-    const mobilization = this.mobilizations[index];
-    this.mobilizationCode = mobilization.mobilizationCode;
-    this.requisitionId = mobilization.requisitionId;
-    this.mobilizationDescription = mobilization.mobilizationDescription;
-    this.date = mobilization.date;
-    this.mobilizerName = mobilization.mobilizerName;
-    this.candidateName = mobilization.candidateName;
-    this.expectedJoiningDate = mobilization.expectedJoiningDate;
-    this.departmentName = mobilization.departmentName;
-    this.locationName = mobilization.locationName;
-    this.supervisorName = mobilization.supervisorName;
-    this.assignedEmployeeCode = mobilization.assignedEmployeeCode;
-    this.totalAgreedSalary = mobilization.totalAgreedSalary;
-    this.isActive = mobilization.isActive;
+      this.router.navigate(['/panel/selection/edit-mobilization']);
+  
   }
 
   updateMobilization() {
@@ -330,6 +346,7 @@ export class MobilizationComponent {
   // ✅ Form Control
   cancelForm() {
     this.hideForm();
+      this.router.navigate(['/panel/selection/view-all-mobilization']);
   }
 
   resetForm() {

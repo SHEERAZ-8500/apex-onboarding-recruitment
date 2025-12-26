@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-projects',
@@ -6,6 +8,28 @@ import { Component } from '@angular/core';
   styleUrls: ['./projects.component.scss'],
 })
 export class ProjectsComponent {
+    title = 'view';
+  formTitle=""
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title'];
+      if (this.title === 'view') {
+        
+        // set view mode loigc
+      //  this.fetchSkills()
+      }
+      if  (this.title === 'edit'){
+        this.formTitle="Edit Projects"
+
+      }
+       if  (this.title === 'create'){
+                this.formTitle="Create New Projects"
+
+
+      }
+    });
+  }
 
   // ✅ Projects Data with Status field
   projects = [
@@ -25,7 +49,9 @@ export class ProjectsComponent {
     { code: 'PR014', name: 'Event Management', status: 'active' },
     { code: 'PR015', name: 'Blog Platform', status: 'active' }
   ];
-
+ fetchProjects() {
+    return this.projects;
+  }
   // ✅ Form + State
   showForm = false;
   projectCode = '';
@@ -75,6 +101,8 @@ export class ProjectsComponent {
   onNew() {
     this.resetForm();
     this.showForm = true;
+            this.router.navigate(['/panel/organizational-master-data/create-new-projects']);
+
   }
 
   createProject() {
@@ -90,15 +118,9 @@ export class ProjectsComponent {
   }
 
   // ✅ Edit
-  editProject(index: number) {
-    this.isEdit = true;
-    this.editIndex = index;
-    this.showForm = true;
+  editProject() {
+               this.router.navigate(['/panel/organizational-master-data/edit-projects']);
 
-    const project = this.projects[index];
-    this.projectCode = project.code;
-    this.projectName = project.name;
-    this.projectStatus = project.status;
   }
 
   updateProject() {
@@ -127,6 +149,8 @@ export class ProjectsComponent {
   // ✅ Form Control
   cancelForm() {
     this.hideForm();
+                this.router.navigate(['/panel/organizational-master-data/view-all-projects']);
+
   }
 
   resetForm() {

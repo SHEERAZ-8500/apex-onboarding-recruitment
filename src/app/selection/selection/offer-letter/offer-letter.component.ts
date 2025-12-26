@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-offer-letter',
@@ -6,6 +8,31 @@ import { Component } from '@angular/core';
   styleUrls: ['./offer-letter.component.scss']
 })
 export class OfferLetterComponent {
+
+ title = 'view';
+  formTitle = ""
+    constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title'];
+      if (this.title === 'view') {
+
+        // set view mode loigc
+        //  this.fetchSkills()
+      }
+      if (this.title === 'edit') {
+        this.formTitle = "Edit Offer Letter"
+
+      }
+      if (this.title === 'create') {
+        this.formTitle = "Create New Offer Letter"
+
+
+      }
+    });
+  }
+
   // ✅ Offer Letters Data
   offerLetters = [
     {
@@ -90,6 +117,10 @@ export class OfferLetterComponent {
     }
   ];
 
+fetchOfferLeter() {
+    return this.offerLetters;
+  }
+
   // ✅ Form Fields
   requisitionId = '';
   candidate = '';
@@ -171,6 +202,7 @@ export class OfferLetterComponent {
   onNew() {
     this.resetForm();
     this.showForm = true;
+      this.router.navigate(['/panel/selection/create-new-offer-letter']);
   }
 
   createOfferLetter() {
@@ -191,19 +223,9 @@ export class OfferLetterComponent {
   }
 
   // ✅ Edit
-  editOfferLetter(index: number) {
-    this.isEdit = true;
-    this.editIndex = index;
-    this.showForm = true;
+  editOfferLetter() {
 
-    const offer = this.offerLetters[index];
-    this.requisitionId = offer.requisitionId;
-    this.candidate = offer.candidate;
-    this.offerLetterStatus = offer.offerLetterStatus;
-    this.name = offer.name;
-    this.designationName = offer.designationName;
-    this.departmentName = offer.departmentName;
-    this.reason = offer.reason;
+      this.router.navigate(['/panel/selection/edit-offer-letter']);
   }
 
   updateOfferLetter() {
@@ -237,6 +259,7 @@ export class OfferLetterComponent {
   // ✅ Form Control
   cancelForm() {
     this.hideForm();
+      this.router.navigate(['/panel/selection/view-all-offer-letter']);
   }
 
   resetForm() {

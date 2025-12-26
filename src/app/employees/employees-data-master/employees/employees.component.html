@@ -1,6 +1,6 @@
 <div class="employees-wrapper col-md-12">
   <!-- LIST VIEW -->
-  <ng-container *ngIf="!showForm; else formPage">
+  <ng-container *ngIf="title === 'view'">
     <div class="card-container">
       <!-- Header Row -->
       <div class="header-row">
@@ -117,12 +117,11 @@
   </ng-container>
 
   <!-- FORM VIEW WITH SIDEBAR -->
-  <ng-template #formPage>
-    <div class="card-container form-view-container">
-      <!-- Header Row -->
+ <div class="card-container form-view-container  " *ngIf="title === 'create' || title === 'edit'">
+        <!-- Header Row -->
       <div class="header-row">
         <h4 class="main-title">
-          {{ isEdit ? "Edit Employee" : "Add Employee" }}
+          {{ formTitle }}
         </h4>
         <div class="d-flex gap-2">
           <button class="reset-btn" (click)="resetForm()">
@@ -763,7 +762,6 @@
         </div>
       </div>
     </div>
-  </ng-template>
 </div>
 
 <!-- View Employee Modal (Only view modal, no tabs modal) -->

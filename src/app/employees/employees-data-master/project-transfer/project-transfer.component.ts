@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-project',
@@ -7,115 +9,139 @@ import { Component } from '@angular/core';
 })
 export class ProjectTransferComponent {
 
+  title = 'view';
+  formTitle = ""
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title'];
+      if (this.title === 'view') {
+
+        // set view mode loigc
+        //  this.fetchSkills()
+      }
+      if (this.title === 'edit') {
+        this.formTitle = "Edit Project Trasnfer"
+
+      }
+      if (this.title === 'create') {
+        this.formTitle = "Create New Project Trasnfer"
+
+
+      }
+    });
+  }
+
   // ✅ Projects dropdown options (a to e)
   projects = ['Project Alpha', 'Project Beta', 'Project Gamma', 'Project Delta', 'Project Epsilon'];
 
   // ✅ Project Transfers Data
   transfers = [
-    { 
-      code: 'PT001', 
-      legacyCode: 'LC-001', 
-      name: 'John Doe', 
-      jobTitle: 'Senior Developer', 
+    {
+      code: 'PT001',
+      legacyCode: 'LC-001',
+      name: 'John Doe',
+      jobTitle: 'Senior Developer',
       department: 'IT Department',
       fromProject: 'Project Alpha',
       toProject: 'Project Beta',
       transferDate: '2024-03-15',
       employeeCode: 'EMP001'
     },
-    { 
-      code: 'PT002', 
-      legacyCode: 'LC-002', 
-      name: 'Jane Smith', 
-      jobTitle: 'Project Manager', 
+    {
+      code: 'PT002',
+      legacyCode: 'LC-002',
+      name: 'Jane Smith',
+      jobTitle: 'Project Manager',
       department: 'Project Management',
       fromProject: 'Project Beta',
       toProject: 'Project Gamma',
       transferDate: '2024-02-28',
       employeeCode: 'EMP002'
     },
-    { 
-      code: 'PT003', 
-      legacyCode: 'LC-003', 
-      name: 'Robert Johnson', 
-      jobTitle: 'QA Engineer', 
+    {
+      code: 'PT003',
+      legacyCode: 'LC-003',
+      name: 'Robert Johnson',
+      jobTitle: 'QA Engineer',
       department: 'Quality Assurance',
       fromProject: 'Project Gamma',
       toProject: 'Project Delta',
       transferDate: '2024-04-10',
       employeeCode: 'EMP003'
     },
-    { 
-      code: 'PT004', 
-      legacyCode: 'LC-004', 
-      name: 'Emily Davis', 
-      jobTitle: 'UX Designer', 
+    {
+      code: 'PT004',
+      legacyCode: 'LC-004',
+      name: 'Emily Davis',
+      jobTitle: 'UX Designer',
       department: 'Design',
       fromProject: 'Project Delta',
       toProject: 'Project Epsilon',
       transferDate: '2024-03-22',
       employeeCode: 'EMP004'
     },
-    { 
-      code: 'PT005', 
-      legacyCode: 'LC-005', 
-      name: 'Michael Wilson', 
-      jobTitle: 'DevOps Engineer', 
+    {
+      code: 'PT005',
+      legacyCode: 'LC-005',
+      name: 'Michael Wilson',
+      jobTitle: 'DevOps Engineer',
       department: 'Operations',
       fromProject: 'Project Epsilon',
       toProject: 'Project Alpha',
       transferDate: '2024-04-05',
       employeeCode: 'EMP005'
     },
-    { 
-      code: 'PT006', 
-      legacyCode: 'LC-006', 
-      name: 'Sarah Brown', 
-      jobTitle: 'Business Analyst', 
+    {
+      code: 'PT006',
+      legacyCode: 'LC-006',
+      name: 'Sarah Brown',
+      jobTitle: 'Business Analyst',
       department: 'Business Analysis',
       fromProject: 'Project Alpha',
       toProject: 'Project Gamma',
       transferDate: '2024-03-30',
       employeeCode: 'EMP006'
     },
-    { 
-      code: 'PT007', 
-      legacyCode: 'LC-007', 
-      name: 'David Miller', 
-      jobTitle: 'Database Administrator', 
+    {
+      code: 'PT007',
+      legacyCode: 'LC-007',
+      name: 'David Miller',
+      jobTitle: 'Database Administrator',
       department: 'IT Department',
       fromProject: 'Project Beta',
       toProject: 'Project Delta',
       transferDate: '2024-04-12',
       employeeCode: 'EMP007'
     },
-    { 
-      code: 'PT008', 
-      legacyCode: 'LC-008', 
-      name: 'Lisa Anderson', 
-      jobTitle: 'Technical Lead', 
+    {
+      code: 'PT008',
+      legacyCode: 'LC-008',
+      name: 'Lisa Anderson',
+      jobTitle: 'Technical Lead',
       department: 'IT Department',
       fromProject: 'Project Gamma',
       toProject: 'Project Epsilon',
       transferDate: '2024-02-20',
       employeeCode: 'EMP008'
     },
-    { 
-      code: 'PT009', 
-      legacyCode: 'LC-009', 
-      name: 'James Taylor', 
-      jobTitle: 'System Architect', 
+    {
+      code: 'PT009',
+      legacyCode: 'LC-009',
+      name: 'James Taylor',
+      jobTitle: 'System Architect',
       department: 'Architecture',
       fromProject: 'Project Delta',
       toProject: 'Project Alpha',
       transferDate: '2024-03-18',
       employeeCode: 'EMP009'
     },
-    { 
-      code: 'PT010', 
-      legacyCode: 'LC-010', 
-      name: 'Amanda Clark', 
-      jobTitle: 'Scrum Master', 
+    {
+      code: 'PT010',
+      legacyCode: 'LC-010',
+      name: 'Amanda Clark',
+      jobTitle: 'Scrum Master',
       department: 'Project Management',
       fromProject: 'Project Epsilon',
       toProject: 'Project Beta',
@@ -123,6 +149,10 @@ export class ProjectTransferComponent {
       employeeCode: 'EMP010'
     }
   ];
+
+  fetchProjects() {
+    return this.projects;
+  }
 
   // ✅ Form + State
   showForm = false;
@@ -178,6 +208,8 @@ export class ProjectTransferComponent {
   onNew() {
     this.resetForm();
     this.showForm = true;
+    this.router.navigate(['/panel/employees-master-data/create-new-project-transfer']);
+
   }
 
   createTransfer() {
@@ -204,20 +236,11 @@ export class ProjectTransferComponent {
   }
 
   // ✅ Edit
-  editTransfer(index: number) {
-    this.isEdit = true;
-    this.editIndex = index;
-    this.showForm = true;
+  editTransfer() {
+    this.router.navigate(['/panel/employees-master-data/edit-project-transfer']);
 
-    const transfer = this.transfers[index];
-    this.fromProject = transfer.fromProject;
-    this.toProject = transfer.toProject;
-    this.transferDate = transfer.transferDate;
-    this.employeeName = transfer.name;
-    this.employeeCode = transfer.employeeCode;
-    this.legacyCode = transfer.legacyCode;
-    this.jobTitle = transfer.jobTitle;
-    this.department = transfer.department;
+
+
   }
 
   updateTransfer() {
@@ -253,8 +276,8 @@ export class ProjectTransferComponent {
 
   // ✅ Form Validation
   validateForm(): boolean {
-    if (!this.fromProject || !this.toProject || !this.transferDate || 
-        !this.employeeName || !this.employeeCode || !this.jobTitle || !this.department) {
+    if (!this.fromProject || !this.toProject || !this.transferDate ||
+      !this.employeeName || !this.employeeCode || !this.jobTitle || !this.department) {
       alert('Please fill all required fields');
       return false;
     }
@@ -269,7 +292,7 @@ export class ProjectTransferComponent {
       const transferDate = new Date(this.transferDate);
       const today = new Date();
       today.setHours(0, 0, 0, 0);
-      
+
       if (transferDate > today) {
         alert('Transfer date cannot be in the future');
         return false;
@@ -291,6 +314,8 @@ export class ProjectTransferComponent {
   // ✅ Form Control
   cancelForm() {
     this.hideForm();
+    this.router.navigate(['/panel/employees-master-data/view-all-project-transfer']);
+
   }
 
   resetForm() {

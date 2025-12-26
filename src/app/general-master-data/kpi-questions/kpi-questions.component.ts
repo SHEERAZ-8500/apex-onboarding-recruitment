@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-kpi-questions',
@@ -6,7 +8,28 @@ import { Component } from '@angular/core';
   styleUrls: ['./kpi-questions.component.scss'],
 })
 export class KpiQuestionsComponent {
+  title = 'view';
+  formTitle=""
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title'];
+      if (this.title === 'view') {
+        
+        // set view mode loigc
+      //  this.fetchSkills()
+      }
+      if  (this.title === 'edit'){
+        this.formTitle="Edit KPI Question"
 
+      }
+       if  (this.title === 'create'){
+                this.formTitle="Create New KPI Question"
+
+
+      }
+    });
+  }
   // ✅ KPI Questions Data (EXACT same structure as skills)
   kpiQuestions = [
     { code: 'KPI001', question: 'How well did you meet project deadlines?' },
@@ -22,6 +45,9 @@ export class KpiQuestionsComponent {
     { code: 'KPI011', question: 'Customer service excellence?' },
     { code: 'KPI012', question: 'Sales target achievement?' },
   ];
+   fetchkpiQuestion() {
+    return this.kpiQuestions;
+  }
 
   // ✅ Form + State (EXACT same structure as skills)
   showForm = false;
@@ -71,6 +97,8 @@ export class KpiQuestionsComponent {
   onNew() {
     this.resetForm();
     this.showForm = true;
+        this.router.navigate(['/panel/general-master-data/create-new-kpi-questions']);
+
   }
 
   createKPIQuestion() {
@@ -85,13 +113,9 @@ export class KpiQuestionsComponent {
   }
 
   // ✅ Edit (EXACT same method as skills)
-  editKPIQuestion(index: number) {
-    this.isEdit = true;
-    this.editIndex = index;
-    this.showForm = true;
+  editKPIQuestion() {
+        this.router.navigate(['/panel/general-master-data/edit-kpi-questions']);
 
-    this.kpiCode = this.kpiQuestions[index].code;
-    this.kpiQuestion = this.kpiQuestions[index].question;
   }
 
   updateKPIQuestion() {
@@ -117,6 +141,8 @@ export class KpiQuestionsComponent {
   // ✅ Form Control (EXACT same methods as skills)
   cancelForm() {
     this.hideForm();
+        this.router.navigate(['/panel/general-master-data/view-all-kpi-questions']);
+
   }
 
   resetForm() {

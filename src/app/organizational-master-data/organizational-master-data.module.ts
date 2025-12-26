@@ -15,39 +15,104 @@ import { TimeTypeComponent } from './time-type/time-type.component';
 const routes: Routes = [
   {
     path: 'hierarchy',
-    component: HierarchyComponent 
+    component: HierarchyComponent
+  },
+
+   {
+    path: 'view-all-outsource-contract',
+    component: OutsourceContractComponent , data: { title: 'view' }
+  },
+  {
+    path: 'create-new-outsource-contract',
+    component: OutsourceContractComponent , data: { title: 'create' }
+  },
+  {
+    path: 'edit-outsource-contract',
+    component: OutsourceContractComponent , data: { title: 'edit' }
   },
    {
-    path: 'outsource-contarct',
-    component: OutsourceContractComponent 
+    path: 'view-all-projects',
+    component: ProjectsComponent , data: { title: 'view' }
   },
    {
-    path: 'projects',
-    component: ProjectsComponent 
+    path: 'create-new-projects',
+    component: ProjectsComponent , data: { title: 'create' }
   },
    {
-    path: 'posts',
-    component: PostsComponent 
+    path: 'edit-projects',
+    component: ProjectsComponent , data: { title: 'edit' }
   },
    {
-    path: 'location',
-    component: LocationComponent 
+    path: 'view-all-posts',
+    component: PostsComponent , data: { title: 'view' }
+  },
+  {
+    path: 'create-new-posts',
+    component: PostsComponent , data: { title: 'create' }
+  },
+  {
+    path: 'edit-posts',
+    component: PostsComponent , data: { title: 'edit' }
   },
    {
-    path: 'tasks',
-    component: TasksComponent 
+    path: 'view-all-location',
+    component: LocationComponent , data: { title: 'view' }
+  },
+  {
+    path: 'create-new-location',
+    component: LocationComponent , data: { title: 'create' }
+  },
+  {
+    path: 'edit-location',
+    component: LocationComponent , data: { title: 'edit' }
   },
    {
-    path: 'leaves',
-    component: LeavesComponent 
+    path: 'view-all-tasks',
+    component: TasksComponent , data: { title: 'view' }
+  },
+  {
+    path: 'create-new-tasks',
+    component: TasksComponent , data: { title: 'create' }
+  },
+  {
+    path: 'edit-tasks',
+    component: TasksComponent , data: { title: 'edit' }
   },
    {
-    path: 'pay-element',
-    component: PayElementComponent 
+    path: 'view-all-leaves',
+    component: LeavesComponent , data: { title: 'view' }
   },
    {
-    path: 'time-type',
-    component: TimeTypeComponent 
+    path: 'create-new-leaves',
+    component: LeavesComponent , data: { title: 'create' }
+  },
+   {
+    path: 'edit-leaves',
+    component: LeavesComponent , data: { title: 'edit' }
+  },
+   {
+    path: 'view-all-pay-element',
+    component: PayElementComponent , data: { title: 'view' }
+  },
+  {
+    path: 'create-new-pay-element',
+    component: PayElementComponent , data: { title: 'create' }
+  },
+  {
+    path: 'edit-pay-element',
+    component: PayElementComponent , data: { title: 'edit' }
+  },
+   {
+    path: 'view-all-time-type',
+    component: TimeTypeComponent , data: { title: 'view' }
+  },
+    {
+    path: 'create-new-time-type',
+    component: TimeTypeComponent , data: { title: 'create' }
+  },
+    {
+    path: 'edit-time-type',
+    component: TimeTypeComponent , data: { title: 'edit' }
   }
 ];
 @NgModule({

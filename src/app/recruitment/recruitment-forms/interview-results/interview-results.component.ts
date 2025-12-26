@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
+
 
 @Component({
   selector: 'app-interview-results',
@@ -6,6 +9,28 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./interview-results.component.scss']
 })
 export class InterviewResultsComponent implements OnInit {
+    title = 'view';
+  formTitle=""
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title'];
+      if (this.title === 'view') {
+        
+        // set view mode loigc
+      //  this.fetchSkills()
+      }
+      if  (this.title === 'edit'){
+        this.formTitle="Edit Interview Result"
+
+      }
+       if  (this.title === 'create'){
+                this.formTitle="Create New Interview Result"
+
+
+      }
+    });
+  }
 
   // ✅ Interview Results Data
   interviews = [
@@ -114,7 +139,9 @@ export class InterviewResultsComponent implements OnInit {
       action: 'Selected' 
     }
   ];
-
+ fetchInterviews() {
+    return this.interviews;
+  }
   // ✅ Form + State
   showForm = false;
   candidate = '';
@@ -141,9 +168,7 @@ export class InterviewResultsComponent implements OnInit {
   currentPage = 1;
   itemsPerPage = 8;
 
-  ngOnInit() {
-    this.calculateTotalTime();
-  }
+ 
 
   get currentPageStart() {
     return (this.currentPage - 1) * this.itemsPerPage;
@@ -203,6 +228,8 @@ export class InterviewResultsComponent implements OnInit {
   onNew() {
     this.resetForm();
     this.showForm = true;
+            this.router.navigate(['/panel/recruitment-forms/create-new-interview-results']);
+
   }
 
   createInterview() {
@@ -226,23 +253,9 @@ export class InterviewResultsComponent implements OnInit {
   }
 
   // ✅ Edit
-  editInterview(index: number) {
-    const interview = this.interviews[index];
-    this.isEdit = true;
-    this.editIndex = index;
-    this.showForm = true;
+  editInterview() {
+                this.router.navigate(['/panel/recruitment-forms/edit-interview-results']);
 
-    this.candidate = interview.candidateName;
-    this.interviewCode = interview.interviewCode;
-    this.interviewDescription = interview.description;
-    this.interviewDate = interview.date;
-    this.interviewerName = interview.interviewerName;
-    this.interviewLocation = interview.location;
-    this.interviewStartTime = interview.startTime;
-    this.interviewEndTime = interview.endTime;
-    this.interviewerComments = interview.comments;
-    this.totalInterviewTime = interview.totalTime;
-    this.interviewAction = interview.action;
   }
 
   updateInterview() {
@@ -296,6 +309,8 @@ export class InterviewResultsComponent implements OnInit {
   // ✅ Form Control
   cancelForm() {
     this.hideForm();
+                    this.router.navigate(['/panel/recruitment-forms/view-all-interview-results']);
+
   }
 
   resetForm() {

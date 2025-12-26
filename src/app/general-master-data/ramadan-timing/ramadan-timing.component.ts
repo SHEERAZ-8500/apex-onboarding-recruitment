@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-ramadan-timings',
@@ -6,11 +7,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./ramadan-timing.component.scss'],
 })
 export class RamadanTimingComponent {
+  title = 'view';
+  formTitle = "";
+  
   ramadanList = [
     { name: 'Ramadan', islamicYear: '1446', currentYear: 2025, startDate: '2025-03-12', endDate: '2025-04-10' },
     { name: 'Ramadan', islamicYear: '1447', currentYear: 2026, startDate: '2026-03-02', endDate: '2026-03-31' }
   ];
-
+  
   showForm = false;
   name = '';
   islamicYear = '';
@@ -20,16 +24,38 @@ export class RamadanTimingComponent {
   isEdit = false;
   editIndex: number | null = null;
   searchText = '';
-
+  
   currentPage = 1;
   itemsPerPage = 7;
-
+  
   // Gregorian years dropdown
   gregorianYears: number[] = [];
-  constructor() {
+
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) { 
+    // Initialize gregorianYears array
     const start = 2025;
     const end = 2035;
     for (let y = start; y <= end; y++) this.gregorianYears.push(y);
+  }
+
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title'];
+      if (this.title === 'view') {
+        // set view mode logic
+        // this.fetchRamadanList();
+      }
+      if (this.title === 'edit') {
+        this.formTitle = "Edit Ramadan Timings";
+      }
+      if (this.title === 'create') {
+        this.formTitle = "Create New Ramadan Timings";
+      }
+    });
+  }
+
+  fetchRamadanList() {
+    return this.ramadanList;
   }
 
   get currentPageStart() {
@@ -62,6 +88,7 @@ export class RamadanTimingComponent {
   onNew() {
     this.resetForm();
     this.showForm = true;
+    this.router.navigate(['/panel/general-master-data/create-new-ramadan-timing']);
   }
 
   createRamadan() {
@@ -76,16 +103,8 @@ export class RamadanTimingComponent {
     this.hideForm();
   }
 
-  editRamadan(index: number) {
-    this.isEdit = true;
-    this.editIndex = index;
-    this.showForm = true;
-    const item = this.ramadanList[index];
-    this.name = item.name;
-    this.islamicYear = item.islamicYear;
-    this.currentYear = item.currentYear;
-    this.startDate = item.startDate;
-    this.endDate = item.endDate;
+  editRamadan() {
+    this.router.navigate(['/panel/general-master-data/edit-ramadan-timing']);
   }
 
   updateRamadan() {
@@ -108,6 +127,7 @@ export class RamadanTimingComponent {
 
   cancelForm() {
     this.hideForm();
+    this.router.navigate(['/panel/general-master-data/view-all-ramadan-timing']);
   }
 
   resetForm() {

@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-employee-grade',
@@ -6,6 +8,28 @@ import { Component } from '@angular/core';
   styleUrls: ['./employees-grade.component.scss'],
 })
 export class EmployeesGradeComponent {
+    title = 'view';
+  formTitle=""
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title'];
+      if (this.title === 'view') {
+        
+        // set view mode loigc
+      //  this.fetchSkills()
+      }
+      if  (this.title === 'edit'){
+        this.formTitle="Edit Employee Grade"
+
+      }
+       if  (this.title === 'create'){
+                this.formTitle="Create New Employee Grade"
+
+
+      }
+    });
+  }
 
   // ✅ Employee Grades Data (EXACT same structure as skills)
   employeeGrades = [
@@ -22,6 +46,9 @@ export class EmployeesGradeComponent {
     { code: 'EG011', grade: 'Intern' },
     { code: 'EG012', grade: 'Director' },
   ];
+   fetchSkills() {
+    return this.employeeGrades;
+  }
 
   // ✅ Form + State (EXACT same structure as skills)
   showForm = false;
@@ -71,6 +98,9 @@ export class EmployeesGradeComponent {
   onNew() {
     this.resetForm();
     this.showForm = true;
+        this.router.navigate(['/panel/general-master-data/create-new-employees-grade']);
+
+
   }
 
   createEmployeeGrade() {
@@ -85,13 +115,9 @@ export class EmployeesGradeComponent {
   }
 
   // ✅ Edit (EXACT same method as skills)
-  editEmployeeGrade(index: number) {
-    this.isEdit = true;
-    this.editIndex = index;
-    this.showForm = true;
+  editEmployeeGrade() {
+        this.router.navigate(['/panel/general-master-data/edit-employees-grade']);
 
-    this.gradeCode = this.employeeGrades[index].code;
-    this.employeeGrade = this.employeeGrades[index].grade;
   }
 
   updateEmployeeGrade() {
@@ -117,6 +143,8 @@ export class EmployeesGradeComponent {
   // ✅ Form Control (EXACT same methods as skills)
   cancelForm() {
     this.hideForm();
+            this.router.navigate(['/panel/general-master-data/view-all-employees-grade']);
+
   }
 
   resetForm() {

@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-employee-category',
@@ -6,6 +8,29 @@ import { Component } from '@angular/core';
   styleUrls: ['./employees-category.component.scss'],
 })
 export class EmployeesCategoryComponent {
+   title = 'view';
+  formTitle = ""
+    constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title'];
+      if (this.title === 'view') {
+
+        // set view mode loigc
+        //  this.fetchSkills()
+      }
+      if (this.title === 'edit') {
+        this.formTitle = "Edit Employee Category"
+
+      }
+      if (this.title === 'create') {
+        this.formTitle = "Create New Employee Category"
+
+
+      }
+    });
+  }
 
   // ✅ Employee Categories Data
   categories = [
@@ -25,6 +50,10 @@ export class EmployeesCategoryComponent {
     { code: 'EC014', name: 'Administrative Staff' },
     { code: 'EC015', name: 'Support Staff' }
   ];
+
+fetchEmployeesctegory() {
+    return this.categories;
+  }
 
   // ✅ Form + State
   showForm = false;
@@ -74,6 +103,8 @@ export class EmployeesCategoryComponent {
   onNew() {
     this.resetForm();
     this.showForm = true;
+            this.router.navigate(['/panel/employees-master-data/create-new-employees-category']);
+
   }
 
   createCategory() {
@@ -113,6 +144,8 @@ export class EmployeesCategoryComponent {
     const category = this.categories[index];
     this.categoryCode = category.code;
     this.categoryName = category.name;
+            this.router.navigate(['/panel/employees-master-data/edit-employees-category']);
+
   }
 
   updateCategory() {
@@ -152,6 +185,8 @@ export class EmployeesCategoryComponent {
   // ✅ Form Control
   cancelForm() {
     this.hideForm();
+            this.router.navigate(['/panel/employees-master-data/view-all-employees-category']);
+
   }
 
   resetForm() {

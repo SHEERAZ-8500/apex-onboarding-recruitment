@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
+
 
 @Component({
   selector: 'app-loans',
@@ -6,11 +9,37 @@ import { Component } from '@angular/core';
   styleUrls: ['./loans.component.scss'],
 })
 export class LoansComponent {
+
+  title = 'view';
+  formTitle = ""
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title'];
+      if (this.title === 'view') {
+
+        // set view mode loigc
+        //  this.fetchSkills()
+      }
+      if (this.title === 'edit') {
+        this.formTitle = "Edit Loan"
+
+      }
+      if (this.title === 'create') {
+        this.formTitle = "Create New Loan"
+
+
+      }
+    });
+  }
+
+
   // ✅ Loans Data (5 dummy values)
   loans = [
-    { 
-      code: 'LN001', 
-      description: 'Employee Personal Loan', 
+    {
+      code: 'LN001',
+      description: 'Employee Personal Loan',
       maxAmount: 500000,
       loanType: 'Personal',
       minRepaymentAmount: 5000,
@@ -18,9 +47,9 @@ export class LoansComponent {
       status: 'Active',
       createdBy: 'Admin User'
     },
-    { 
-      code: 'LN002', 
-      description: 'House Building Loan', 
+    {
+      code: 'LN002',
+      description: 'House Building Loan',
       maxAmount: 2000000,
       loanType: 'Housing',
       minRepaymentAmount: 15000,
@@ -28,9 +57,9 @@ export class LoansComponent {
       status: 'Active',
       createdBy: 'HR Manager'
     },
-    { 
-      code: 'LN003', 
-      description: 'Vehicle Loan', 
+    {
+      code: 'LN003',
+      description: 'Vehicle Loan',
       maxAmount: 1000000,
       loanType: 'Vehicle',
       minRepaymentAmount: 10000,
@@ -38,9 +67,9 @@ export class LoansComponent {
       status: 'Active',
       createdBy: 'Finance Head'
     },
-    { 
-      code: 'LN004', 
-      description: 'Education Loan', 
+    {
+      code: 'LN004',
+      description: 'Education Loan',
       maxAmount: 800000,
       loanType: 'Education',
       minRepaymentAmount: 4000,
@@ -48,9 +77,9 @@ export class LoansComponent {
       status: 'Inactive',
       createdBy: 'Admin'
     },
-    { 
-      code: 'LN005', 
-      description: 'Medical Emergency Loan', 
+    {
+      code: 'LN005',
+      description: 'Medical Emergency Loan',
       maxAmount: 300000,
       loanType: 'Medical',
       minRepaymentAmount: 3000,
@@ -59,6 +88,10 @@ export class LoansComponent {
       createdBy: 'Operations Manager'
     }
   ];
+
+  fetchLoans() {
+    return this.loans;
+  }
 
   // ✅ Form + State
   showForm = false;
@@ -118,11 +151,13 @@ export class LoansComponent {
   onNew() {
     this.resetForm();
     this.showForm = true;
+    this.router.navigate(['/panel/employees-master-data/create-new-loans']);
+
   }
 
   createLoan() {
-    if (!this.code || !this.description || !this.maxAmount || !this.loanType || 
-        !this.minRepaymentAmount || !this.maxNoOfInstallments || !this.createdBy) {
+    if (!this.code || !this.description || !this.maxAmount || !this.loanType ||
+      !this.minRepaymentAmount || !this.maxNoOfInstallments || !this.createdBy) {
       return;
     }
 
@@ -155,6 +190,8 @@ export class LoansComponent {
     this.maxNoOfInstallments = loan.maxNoOfInstallments;
     this.status = loan.status;
     this.createdBy = loan.createdBy;
+    this.router.navigate(['/panel/employees-master-data/edit-loans']);
+
   }
 
   updateLoan() {
@@ -188,6 +225,8 @@ export class LoansComponent {
   // ✅ Form Control
   cancelForm() {
     this.hideForm();
+     this.router.navigate(['/panel/employees-master-data/view-all-loans']);
+
   }
 
   resetForm() {

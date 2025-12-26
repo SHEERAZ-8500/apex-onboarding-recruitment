@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-belonging-type',
@@ -6,6 +8,28 @@ import { Component } from '@angular/core';
   styleUrls: ['./belonging-types.component.scss'],
 })
 export class BelongingTypesComponent {
+ title = 'view';
+  formTitle=""
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title'];
+      if (this.title === 'view') {
+        
+        // set view mode loigc
+      //  this.fetchSkills()
+      }
+      if  (this.title === 'edit'){
+        this.formTitle="Edit Belonging Types"
+
+      }
+       if  (this.title === 'create'){
+                this.formTitle="Create New Belonging Types"
+
+
+      }
+    });
+  }
 
   // ✅ Belonging Types Data (5 dummy values)
   belongingTypes = [
@@ -15,6 +39,11 @@ export class BelongingTypesComponent {
     { code: 'BT004', name: 'IT Equipment' },
     { code: 'BT005', name: 'Furniture' }
   ];
+  
+  fetchBelongingTypes() {
+    return this.belongingTypes;
+  }
+
 
   // ✅ Form + State
   showForm = false;
@@ -64,6 +93,8 @@ export class BelongingTypesComponent {
   onNew() {
     this.resetForm();
     this.showForm = true;
+        this.router.navigate(['/panel/general-master-data/create-new-belonging-types']);
+
   }
 
   createBelongingType() {
@@ -78,14 +109,10 @@ export class BelongingTypesComponent {
   }
 
   // ✅ Edit
-  editBelongingType(index: number) {
-    this.isEdit = true;
-    this.editIndex = index;
-    this.showForm = true;
-
-    this.belongingTypeCode = this.belongingTypes[index].code;
-    this.belongingTypeName = this.belongingTypes[index].name;
+  editBelongingType() {
+      this.router.navigate(['/panel/general-master-data/edit-belonging-types']);
   }
+
 
   updateBelongingType() {
     if (this.editIndex === null) return;
@@ -110,6 +137,7 @@ export class BelongingTypesComponent {
   // ✅ Form Control
   cancelForm() {
     this.hideForm();
+     this.router.navigate(['/panel/general-master-data/view-all-belonging-types']);
   }
 
   resetForm() {

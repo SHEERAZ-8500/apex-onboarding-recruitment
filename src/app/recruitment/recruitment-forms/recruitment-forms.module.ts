@@ -9,21 +9,43 @@ import { InterviewResultsComponent } from './interview-results/interview-results
 const routes: Routes = [
 
 {
-    path: 'requisition',
-    component: RequisitionComponent
+    path: 'view-all-requisition',
+    component: RequisitionComponent , data: { title: 'view' }
+  },
+  {
+    path: 'create-new-requisition',
+    component: RequisitionComponent , data: { title: 'create' }
+  },
+  {
+    path: 'edit-requisition',
+    component: RequisitionComponent, data: { title: 'edit' }
   },
   { path: 'candidate-information',
     component: CandidateInformationComponent
   },
+
   {
     path: 'screening',
     component: ScreeningComponent
   },
-  { path: 'interview-scheduling',
-    component: InterviewSchedulingComponent
+ 
+  { path: 'view-all-interview-scheduling',
+    component: InterviewSchedulingComponent, data: { title: 'view' }
   },
-  { path: 'interview-results',
-    component: InterviewResultsComponent
+  { path: 'create-new-interview-scheduling',
+    component: InterviewSchedulingComponent, data: { title: 'create' }
+  },
+  { path: 'edit-interview-scheduling',
+    component: InterviewSchedulingComponent, data: { title: 'edit' }
+  },
+  { path: 'view-all-interview-results',
+    component: InterviewResultsComponent, data: { title: 'view' }
+  },
+  { path: 'create-new-interview-results',
+    component: InterviewResultsComponent, data: { title: 'create' }
+  },
+  { path: 'edit-interview-results',
+    component: InterviewResultsComponent , data: { title: 'edit' }
   }
 ]
 

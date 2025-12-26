@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-pre-requisites',
@@ -6,6 +8,28 @@ import { Component } from '@angular/core';
   styleUrls: ['./pre-requisites.component.scss']
 })
 export class PreRequisitesComponent {
+    title = 'view';
+  formTitle=""
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title'];
+      if (this.title === 'view') {
+        
+        // set view mode loigc
+      //  this.fetchSkills()
+      }
+      if  (this.title === 'edit'){
+        this.formTitle="Edit Pre Requisites"
+
+      }
+       if  (this.title === 'create'){
+                this.formTitle="Create New Pre Requisites"
+
+
+      }
+    });
+  }
 
   // ---------- Dummy Data ----------
   prereqList = [
@@ -15,6 +39,9 @@ export class PreRequisitesComponent {
     { name: 'Requirement D', isActive: false },
     { name: 'Requirement E', isActive: true }
   ];
+   fetchPreReq() {
+    return this.prereqList;
+  }
 
   // ---------- Form Fields ----------
   name: string = '';
@@ -32,7 +59,6 @@ export class PreRequisitesComponent {
   currentPage: number = 1;
   itemsPerPage: number = 5;
 
-  constructor() {}
 
   // -------------------------
   // Pagination Helpers
@@ -78,6 +104,8 @@ export class PreRequisitesComponent {
     this.showForm = true;
     this.isEdit = false;
     this.resetForm();
+        this.router.navigate(['/panel/general-master-data/create-new-pre-requisites']);
+
   }
 
   createPrereq() {
@@ -93,14 +121,9 @@ export class PreRequisitesComponent {
   // -------------------------
   // EDIT
   // -------------------------
-  editPrereq(index: number) {
-    this.editIndex = index;
-    this.isEdit = true;
-    this.showForm = true;
+  editPrereq() {
+       this.router.navigate(['/panel/general-master-data/edit-pre-requisites']);
 
-    const data = this.prereqList[index];
-    this.name = data.name;
-    this.isActive = data.isActive;
   }
 
   updatePrereq() {
@@ -128,6 +151,8 @@ export class PreRequisitesComponent {
     this.isEdit = false;
     this.editIndex = null;
     this.resetForm();
+        this.router.navigate(['/panel/general-master-data/view-all-pre-requisites']);
+
   }
 
   resetForm() {

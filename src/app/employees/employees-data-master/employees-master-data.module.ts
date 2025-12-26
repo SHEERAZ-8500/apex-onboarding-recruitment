@@ -14,40 +14,112 @@ import { ProjectTransferComponent } from './project-transfer/project-transfer.co
 
 const routes: Routes = [
   {
-    path: 'employees',
-    component: EmployeesComponent
+    path: 'view-all-employees',
+    component: EmployeesComponent , data: { title: 'view' }
   }, 
   {
-    path: 'gosiid',
-    component: GOSIIDComponent
+    path: 'create-new-employees',
+    component: EmployeesComponent , data: { title: 'create' }
   }, 
   {
-    path: 'departments',
-    component: DepartmentsComponent
+    path: 'edit-employees',
+    component: EmployeesComponent , data: { title: 'edit' }
+  }, 
+  {
+    path: 'view-all-gosiid',
+    component: GOSIIDComponent, data: { title: 'view' }
+  }, 
+  {
+    path: 'create-new-gosiid',
+    component: GOSIIDComponent, data: { title: 'create' }
+  }, 
+  {
+    path: 'edit-gosiid',
+    component: GOSIIDComponent, data: { title: 'edit' }
+  }, 
+  {
+    path: 'view-all-departments',
+    component: DepartmentsComponent, data: { title: 'view' }
+  },
+  {
+    path: 'create-new-departments',
+    component: DepartmentsComponent, data: { title: 'create' }
+  },
+  {
+    path: 'edit-departments',
+    component: DepartmentsComponent, data: { title: 'edit' }
   },
    {
-    path: 'medical-insurance',
-    component: MedicalInsuranceComponent
+    path: 'view-all-medical-insurance',
+    component: MedicalInsuranceComponent, data: { title: 'view' }
+  }, 
+   {
+    path: 'create-new-medical-insurance',
+    component: MedicalInsuranceComponent, data: { title: 'create' }
+  }, 
+   {
+    path: 'edit-medical-insurance',
+    component: MedicalInsuranceComponent, data: { title: 'edit' }
   }, 
   {
-    path: 'accommodation',
-    component: AccommodationComponent
+    path: 'view-all-accommodation',
+    component: AccommodationComponent, data: { title: 'view' }
+  }, 
+   {
+    path: 'create-new-accommodation',
+    component: AccommodationComponent, data: { title: 'create' }
+  }, 
+   {
+    path: 'edit-accommodation',
+    component: AccommodationComponent, data: { title: 'edit' }
   }, 
   {
-    path: 'loans',
-    component: LoansComponent
+    path: 'view-all-loans',
+    component: LoansComponent, data: { title: 'view' }
+  }, 
+   {
+    path: 'create-new-loans',
+    component: LoansComponent, data: { title: 'create' }
+  }, 
+   {
+    path: 'edit-loans',
+    component: LoansComponent, data: { title: 'edit' }
   }, 
   {
-    path: 'employee-belongings',
-    component: EmployeeBelongingsComponent
+    path: 'view-all-employee-belongings',
+    component: EmployeeBelongingsComponent, data: { title: 'view' }
+  }, 
+   {
+    path: 'create-new-employee-belongings',
+    component: EmployeeBelongingsComponent, data: { title: 'create' }
+  }, 
+   {
+    path: 'edit-employee-belongings',
+    component: EmployeeBelongingsComponent, data: { title: 'edit' }
   }, 
   {
-    path: 'employees-category',
-    component: EmployeesCategoryComponent
+    path: 'view-all-employees-category',
+    component: EmployeesCategoryComponent, data: { title: 'view' }
+  }, 
+   {
+    path: 'create-new-employees-category',
+    component: EmployeesCategoryComponent, data: { title: 'create' }
+  }, 
+   {
+    path: 'edit-employees-category',
+    component: EmployeesCategoryComponent, data: { title: 'edit' }
   }, 
   {
-    path: 'project-transfer',
-    component: ProjectTransferComponent
+    path: 'view-all-project-transfer',
+    component: ProjectTransferComponent, data: { title: 'view' }
+  },
+  {
+    path: 'create-new-project-transfer',
+    component: ProjectTransferComponent, data: { title: 'create' }
+  },
+  {
+    path: 'edit-project-transfer',
+    component: ProjectTransferComponent, data: { title: 'edit' }
   }
 ];
 @NgModule({

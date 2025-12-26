@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 interface WorkSchedule {
   year: number;
@@ -21,6 +23,28 @@ interface ScheduleDay {
   styleUrls: ['./work-schedule.component.scss']
 })
 export class WorkScheduleComponent implements OnInit {
+    title = 'view';
+  formTitle=""
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title'];
+      if (this.title === 'view') {
+        
+        // set view mode loigc
+      //  this.fetchSkills()
+      }
+      if  (this.title === 'edit'){
+        this.formTitle="Edit Work Schedule"
+
+      }
+       if  (this.title === 'create'){
+                this.formTitle="Create New Work Schedule"
+
+
+      }
+    });
+  }
   // ✅ Work Schedules Data
   workSchedules: WorkSchedule[] = [
     { year: 2024, month: 'September' },
@@ -33,6 +57,9 @@ export class WorkScheduleComponent implements OnInit {
     { year: 2026, month: 'July' },
     { year: 2026, month: 'October' }
   ];
+   fetchWorkSchedule() {
+    return this.workSchedules;
+  }
 
   // ✅ Form + State
   showForm = false;
@@ -58,9 +85,7 @@ export class WorkScheduleComponent implements OnInit {
   currentPage = 1;
   itemsPerPage = 8;
 
-  ngOnInit() {
-    this.generateYearDropdown();
-  }
+  
 
   // ✅ Generate years from 2025 onwards
   generateYearDropdown() {
@@ -119,6 +144,8 @@ export class WorkScheduleComponent implements OnInit {
   onNew() {
     this.resetForm();
     this.showForm = true;
+        this.router.navigate(['/panel/general-master-data/create-new-work-schedule']);
+
   }
 
   createSchedule() {
@@ -143,14 +170,9 @@ export class WorkScheduleComponent implements OnInit {
   }
 
   // ✅ Edit Schedule
-  editSchedule(index: number) {
-    this.isEdit = true;
-    this.editIndex = index;
-    this.showForm = true;
+  editSchedule() {
+          this.router.navigate(['/panel/general-master-data/edit-work-schedule']);
 
-    const schedule = this.workSchedules[index];
-    this.selectedYear = schedule.year;
-    this.selectedMonth = schedule.month;
   }
 
   updateSchedule() {
@@ -222,6 +244,8 @@ export class WorkScheduleComponent implements OnInit {
   // ✅ Form Control Methods
   cancelForm() {
     this.hideForm();
+        this.router.navigate(['/panel/general-master-data/view-all-work-schedule']);
+
   }
 
   resetForm() {

@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-client',
@@ -6,6 +8,28 @@ import { Component } from '@angular/core';
   styleUrls: ['./client.component.scss'],
 })
 export class ClientComponent {
+    title = 'view';
+  formTitle=""
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title'];
+      if (this.title === 'view') {
+        
+        // set view mode loigc
+      //  this.fetchSkills()
+      }
+      if  (this.title === 'edit'){
+        this.formTitle="Edit Client"
+
+      }
+       if  (this.title === 'create'){
+                this.formTitle="Create New Client"
+
+
+      }
+    });
+  }
 
   // ✅ Clients Data
   clients = [
@@ -83,6 +107,10 @@ export class ClientComponent {
     }
   ];
 
+   fetchClient() {
+    return this.clients;
+  }
+
   // ✅ Form Fields
   customerNo = '';
   customerName = '';
@@ -148,6 +176,8 @@ export class ClientComponent {
   onNew() {
     this.resetForm();
     this.showForm = true;
+            this.router.navigate(['/panel/out-sourcing-master-data/create-new-client']);
+
   }
 
   createClient() {
@@ -167,19 +197,9 @@ export class ClientComponent {
   }
 
   // ✅ Edit
-  editClient(index: number) {
-    this.isEdit = true;
-    this.editIndex = index;
-    this.showForm = true;
+  editClient() {
+                this.router.navigate(['/panel/out-sourcing-master-data/edit-client']);
 
-    const client = this.clients[index];
-    this.customerNo = client.customerNo;
-    this.customerName = client.customerName;
-    this.bankName = client.bankName;
-    this.accountNo = client.accountNo;
-    this.city = client.city;
-    this.toAddress = client.toAddress;
-    this.vatNo = client.vatNo;
   }
 
   updateClient() {
@@ -212,6 +232,8 @@ export class ClientComponent {
   // ✅ Form Control
   cancelForm() {
     this.hideForm();
+            this.router.navigate(['/panel/out-sourcing-master-data/view-all-client']);
+
   }
 
   resetForm() {
