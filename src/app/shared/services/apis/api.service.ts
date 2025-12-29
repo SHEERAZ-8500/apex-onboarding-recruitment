@@ -65,6 +65,12 @@ export class ApiService {
     return this.http.get(`admin/roles/${publicId}`);
   }
 
+  // create new form
+createNewForm(data: any) {
+  return this.http.post('admin/forms', data);
+}
+
+
 
   // roles
   getUserAllroles() {

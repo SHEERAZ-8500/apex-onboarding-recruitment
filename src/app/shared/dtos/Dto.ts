@@ -74,3 +74,12 @@ export class DynamicFieldDto {
     }
   }
 }
+
+export class CreateFormDto{
+   code: string = '';
+  name: string = '';
+
+  constructor(init?: Partial<CreateFormDto>) {
+    Object.assign(this, init);
+  }
+}
