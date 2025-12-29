@@ -28,7 +28,31 @@ export class EmployeesComponent {
       }
       if (this.title === 'create') {
         this.formTitle = "Create New Employee"
+        this.api.getFormById('EMPLOYEE_REQUISITION', 'USER_DEFINED').subscribe((res: any) => {
+          const allFields = res.data.fields || [];
 
+          // Map to DTOs to ensure all properties have default values
+          const mappedFields = allFields.map((f: any) => new DynamicFieldDto(f));
+
+          // Separate ROW fields for tabs and other fields for display
+          this.dynamicFields = mappedFields.filter((f: DynamicFieldDto) => f.fieldType !== 'ROW');
+          this.rowTableFields = mappedFields.filter((f: DynamicFieldDto) => f.fieldType === 'ROW');
+
+          // Add ROW fields as new tabs in sidebar
+          this.rowTableFields.forEach((field: DynamicFieldDto, index: number) => {
+
+            if (field.active) {
+              this.sidebarTabs.push({
+                id: 13 + index,
+                name: field.label,
+                icon: 'fa-table',
+                active: field.active,
+                rowTableField: field // Store reference to the field
+              });
+            }
+
+          });
+        });
 
       }
     });
@@ -206,32 +230,8 @@ export class EmployeesComponent {
     { name: 'Jane Smith', email: 'jane@example.com', contact: '0987654321', address: '456 Avenue' }
   ];
 
-  constructor(private api: ApiService, private toastr: ToastrService, private loader: LoaderService,private router: Router, private activatedRoute: ActivatedRoute) {
-    this.api.getFormById('EMPLOYEE_REQUISITION', 'USER_DEFINED').subscribe((res: any) => {
-      const allFields = res.data.fields || [];
+  constructor(private api: ApiService, private toastr: ToastrService, private loader: LoaderService, private router: Router, private activatedRoute: ActivatedRoute) {
 
-      // Map to DTOs to ensure all properties have default values
-      const mappedFields = allFields.map((f: any) => new DynamicFieldDto(f));
-
-      // Separate ROW fields for tabs and other fields for display
-      this.dynamicFields = mappedFields.filter((f: DynamicFieldDto) => f.fieldType !== 'ROW');
-      this.rowTableFields = mappedFields.filter((f: DynamicFieldDto) => f.fieldType === 'ROW');
-
-      // Add ROW fields as new tabs in sidebar
-      this.rowTableFields.forEach((field: DynamicFieldDto, index: number) => {
-
-        if (field.active) {
-          this.sidebarTabs.push({
-            id: 13 + index,
-            name: field.label,
-            icon: 'fa-table',
-            active: field.active,
-            rowTableField: field // Store reference to the field
-          });
-        }
-
-      });
-    });
   }
   // Pagination Methods
   get paginatedEmployees() {
