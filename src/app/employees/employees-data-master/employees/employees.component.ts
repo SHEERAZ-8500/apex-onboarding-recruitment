@@ -258,7 +258,7 @@ export class EmployeesComponent {
     return (this.currentPage - 1) * this.itemsPerPage;
   }
 
-  // Form Methods
+  // Form Method
   onNew() {
     this.showForm = true;
     this.isEdit = false;
