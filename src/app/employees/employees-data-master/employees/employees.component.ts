@@ -366,19 +366,7 @@ export class EmployeesComponent {
       rows: this.getRowTableFieldsData() // Get data from all row table tabs
     };
 
-    if (this.isEdit) {
-      console.log('Updating employee:');
-      console.log('Static Fields:', this.employeeFormData);
-      console.log('Dynamic Fields:', this.dynamicFieldsData);
-      console.log('Row Table Fields (rows):', this.getRowTableFieldsData());
-      console.log('Complete Data:', completeData);
-    } else {
-      console.log('Creating employee:');
-      console.log('Static Fields:', this.employeeFormData);
-      console.log('Dynamic Fields:', this.dynamicFieldsData);
-      console.log('Row Table Fields (rows):', this.getRowTableFieldsData());
-      console.log('Complete Data:', completeData);
-    }
+
     this.showForm = false;
     this.loader.show();
     this.api.saveFormData('EMPLOYEE_REQUISITION', completeData).subscribe({
