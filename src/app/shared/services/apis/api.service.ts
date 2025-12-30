@@ -105,7 +105,13 @@ createNewForm(data: any) {
   }
 
   // tables
-  createLookUpTable(data: any) {
+
+createNewColumnInLookupTable (lookupName:string, data : any) {
+  return this.http.patch(`admin/lookups/tables/${lookupName}/columns` , data)
+}
+
+
+createLookUpTable(data: any) {
     return this.http.post('admin/lookups/tables', data);
   }
   createRowInLookUpTable(componentCode: any, data: any) {

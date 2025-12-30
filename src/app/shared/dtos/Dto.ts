@@ -18,10 +18,10 @@ export class FormSubmissionDto {
   publicId!: string;
   formDefinitionPublicId!: string;
   formName!: string;
-  submittedAt!: string; 
+  submittedAt!: string;
   submittedBy!: string;
 
- 
+
   constructor(data?: Partial<FormSubmissionDto>) {
     if (data) {
       Object.assign(this, data);
@@ -62,7 +62,7 @@ export class DynamicFieldDto {
   enumClass: string = '';
   enumValues: string[] = [];
   rowColumns: any[] = [];
-  
+
   // UI state properties
   isDropdownOpen?: boolean = false;
   options?: any[] = [];
@@ -75,11 +75,26 @@ export class DynamicFieldDto {
   }
 }
 
-export class CreateFormDto{
-   code: string = '';
+export class CreateFormDto {
+  code: string = '';
   name: string = '';
 
   constructor(init?: Partial<CreateFormDto>) {
+    Object.assign(this, init);
+  }
+}
+
+
+export class CreateColumnDto {
+  fieldCode: string = '';
+  fieldType: string = '';
+  maxLength: number | null = null;
+  precision: number | null = null;
+  scale: number | null = null;
+  nullable: boolean = true;
+  displayOrder: number | null = null;
+
+  constructor(init?: Partial<CreateColumnDto>) {
     Object.assign(this, init);
   }
 }

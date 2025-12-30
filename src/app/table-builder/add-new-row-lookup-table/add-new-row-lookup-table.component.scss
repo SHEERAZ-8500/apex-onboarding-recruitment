@@ -5,7 +5,6 @@
     padding: 20px;
     width: 100%;
     background-color: var(--primary-color);
-    margin-top: -8px;
 }
 
 .row-form-card {
@@ -13,7 +12,7 @@
     border-radius: 16px;
     padding: 40px;
     width: 100%;
-    // max-width: 900px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.052);
 
     @media (max-width: 768px) {
         padding: 30px 20px;
@@ -24,7 +23,6 @@
 .form-header {
     text-align: left;
     margin-bottom: 40px;
-
 
     @media (max-width: 768px) {
         margin-bottom: 30px;
@@ -56,7 +54,7 @@
 .row-form {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 20px;
 }
 
 .form-row {
@@ -119,8 +117,98 @@
         box-shadow: 0 0 0 3px rgba(112, 71, 238, 0.1);
     }
 
+   
+}
+
+.input-hint {
+    color: var(--white-color-1);
+    opacity: 0.6;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+/* Custom Dropdown */
+.custom-dropdown {
+    position: relative;
+    cursor: pointer;
+}
+
+.dropdown-selected {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 9px 16px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background-color: var(--second-primary-color);
+    color: var(--white-color-1);
+    font-size: 15px;
+    transition: all 0.3s ease;
+
     &:hover {
-        border-color: rgba(112, 71, 238, 0.5);
+        border-color: rgba(98, 180, 239, 0.5);
+    }
+
+    span {
+        opacity: 0.9;
+    }
+}
+
+.dropdown-arrow {
+    font-size: 14px;
+    transition: transform 0.3s ease;
+    opacity: 0.7;
+
+    &.rotate {
+        transform: rotate(180deg);
+    }
+}
+
+.dropdown-options {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: var(--second-primary-color);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    z-index: 100;
+
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: var(--border-color);
+        border-radius: 3px;
+
+        &:hover {
+            background: var(--purple-1);
+        }
+    }
+}
+
+.dropdown-option {
+    padding: 12px 16px;
+    color: var(--text-primary);
+    font-size: 13px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+        background-color: var(--light-purple);
+        color: white;
+    }
+
+    &:not(:last-child) {
+        border-bottom: 1px solid var(--border-color);
     }
 }
 
@@ -182,26 +270,39 @@
 }
 
 .btn-cancel {
-    background-color: transparent;
-    color: var(--white-color-1);
-    border: 1px solid var(--border-color);
-
-    &:hover {
-        background-color: rgba(255, 255, 255, 0.05);
-        border-color: var(--purple-1);
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+    background-color: var(--red-color);
+    color: white;
+      &:hover {
+       transform: translateY(-2px);
     }
 }
 
 .btn-submit {
-    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+    background-color: var(--purple-1);
     color: white;
-
-    &:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 16px rgba(34, 197, 94, 0.3);
-    }
-
-    &:active {
-        transform: translateY(0);
+      &:hover {
+       transform: translateY(-2px);
     }
 }

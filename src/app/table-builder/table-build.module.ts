@@ -30,6 +30,10 @@ const routes: Routes = [
     path: 'add-new-row-lookup-table',
     component: AddNewRowLookupTableComponent
   },
+   {
+    path: 'add-new-column-lookup-table',
+    component: AddNewRowLookupTableComponent
+  },
   {
     path: 'create-new-row-in-table',
     component: CreateNewRowInTableComponent

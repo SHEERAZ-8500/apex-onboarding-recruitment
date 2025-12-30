@@ -1,9 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../shared/services/apis/api.service';
 import { LoaderService } from '../../shared/services/loader.service';
 import { ToastrService } from 'ngx-toastr';
 import { Location } from '@angular/common';
+import { CreateColumnDto } from '../../shared/dtos/Dto';
+
+
+
 
 @Component({
   selector: 'app-add-new-row-lookup-table',
@@ -11,14 +15,49 @@ import { Location } from '@angular/common';
   styleUrl: './add-new-row-lookup-table.component.scss'
 })
 export class AddNewRowLookupTableComponent implements OnInit {
+
+  createColumnDto = new CreateColumnDto()
+
+  componentTitle = ""
+
+
+
+
+  // Field Type options
+  fieldTypes: string[] = [
+    'STRING',
+    'NUMBER',
+    'DATE',
+    'BOOLEAN',
+    'EMAIL',
+    'PHONE',
+    'URL',
+    'TEXTAREA'
+  ];
+
+
   // Component Code from URL
   componentCode: string = '';
 
-  // Form Fields
+  // Form Fields tableName
   code: string = '';
   name: string = '';
   description: string = '';
   isActive: boolean = true;
+
+  // Form Fields lookupName
+  fieldCode: string = '';
+  fieldType: string = '';
+  maxLength: number | null = null;
+  precision: number | null = null;
+  scale: number | null = null;
+  nullable: boolean = true;
+  displayOrder: number | null = null;
+
+  // Dropdown state
+  isFieldTypeDropdownOpen: boolean = false;
+  selectedFieldType: string = '';
+
 
   constructor(
     private router: Router,
@@ -30,64 +69,127 @@ export class AddNewRowLookupTableComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
+
     // Get componentCode from URL query params
     this.route.queryParams.subscribe(params => {
-      this.componentCode = params['tableName'] || '';
+      if (params['tableName']) {
+        this.componentCode = params['tableName'] || '';
+        this.componentTitle = "Add New Row to Lookup Table";
+
+      } else if (params['lookupName']) {
+        this.componentCode = params['lookupName'] || '';
+        this.componentTitle = "Add New Column to Lookup Table";
+
+      } 
+
+      
     });
   }
+
 
   // Submit Form
   onSubmit(): void {
-    // Validation
-    if (!this.code || !this.name || !this.description) {
-      this.toastr.error('Please fill in all required fields');
-      return;
-    }
+    
 
-    const payload = {
-      code: this.code,
-      name: this.name,
-      description: this.description,
-      isActive: this.isActive
-    };
 
-    console.log('Payload:', payload);
+    let payload: any;
 
-    this.loader.show();
+    if (this.componentCode === 'tableName') {
 
-    // Uncomment when API is ready
-    this.apiService.createRowInLookUpTable(this.componentCode, payload).subscribe({
-      next: (response: any) => {
-        this.loader.hide();
-        this.toastr.success('Row added successfully');
-        this.resetForm();
-      },
-      error: (error: any) => {
-        this.loader.hide();
-        this.toastr.error(error?.error?.message || 'Failed to add row');
+
+      if (!this.code || !this.description) {
+        this.toastr.error('Please fill in all required fields');
+        return;
       }
-    });
 
-    // Temporary - remove when API is ready
-    setTimeout(() => {
-      this.loader.hide();
-      this.toastr.success('Row added successfully');
-      this.resetForm();
-    }, 1000);
+      payload = {
+        code: this.code,
+        name: this.name,
+        description: this.description,
+        isActive: this.isActive
+      };
+
+      this.apiService.createRowInLookUpTable(this.componentCode, payload).subscribe({
+        next: (response: any) => {
+          this.loader.hide();
+          this.toastr.success('Row added successfully');
+          this.resetForm();
+        },
+        error: (error: any) => {
+          this.loader.hide();
+          this.toastr.error(error?.error?.message || 'Failed to add row');
+        }
+      });
+
+    } else {
+      // lookupName payload
+      this.createColumnDto.fieldType = this.fieldType
+
+      this.apiService.createNewColumnInLookupTable(this.componentCode, this.createColumnDto).subscribe({
+        next: (response: any) => {
+          this.loader.hide();
+          this.toastr.success('Column added successfully');
+          this.resetForm();
+        },
+        error: (error: any) => {
+          this.loader.hide();
+          this.toastr.error(error?.error?.message || 'Failed to add column');
+        }
+      });
+    }
   }
+
 
   // Cancel
   onCancel(): void {
-    
+
     this.resetForm();
     this.location.back();
   }
 
   // Reset Form
   resetForm(): void {
+    // tableName fields
     this.code = '';
     this.name = '';
     this.description = '';
     this.isActive = true;
+
+    // lookupName fields
+    this.fieldCode = '';
+    this.fieldType = '';
+    this.selectedFieldType = '';
+    this.maxLength = null;
+    this.precision = null;
+    this.scale = null;
+    this.nullable = true;
+    this.displayOrder = null;
   }
+
+
+  // Toggle dropdown
+  toggleFieldTypeDropdown(event: Event): void {
+    event.stopPropagation();
+    this.isFieldTypeDropdownOpen = !this.isFieldTypeDropdownOpen;
+  }
+
+  // Select dropdown option
+  selectFieldType(type: string, event: Event): void {
+    event.stopPropagation();
+    this.selectedFieldType = type;
+    this.fieldType = type;
+    this.isFieldTypeDropdownOpen = false;
+  }
+
+  // Close dropdown on outside click
+  @HostListener('document:click', ['$event'])
+  closeDropdown(event: Event): void {
+    this.isFieldTypeDropdownOpen = false;
+  }
+
+  onFieldCodeInput(): void {
+    this.fieldCode = this.fieldCode.replace(/\s+/g, '_');
+  }
+
 }
