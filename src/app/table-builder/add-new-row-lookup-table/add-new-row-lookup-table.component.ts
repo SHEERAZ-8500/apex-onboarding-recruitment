@@ -124,13 +124,18 @@ export class AddNewRowLookupTableComponent implements OnInit {
 
     } else {
       // lookupName payload
-      this.createColumnDto.fieldType = this.fieldType
+      this.createColumnDto.type = this.fieldType
 
+      if (!this.createColumnDto.name || !this.fieldType || this.createColumnDto.displayOrder === null) {
+        this.toastr.error('Please fill in all required fields');
+        return;
+      }
       this.apiService.createNewColumnInLookupTable(this.componentCode, this.createColumnDto).subscribe({
         next: (response: any) => {
           this.loader.hide();
           this.toastr.success('Column added successfully');
           this.resetForm();
+          this.location.back();
         },
         error: (error: any) => {
           this.loader.hide();

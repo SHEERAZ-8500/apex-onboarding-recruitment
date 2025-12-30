@@ -86,8 +86,8 @@ export class CreateFormDto {
 
 
 export class CreateColumnDto {
-  fieldCode: string = '';
-  fieldType: string = '';
+  name: string = '';
+  type: string = '';
   maxLength: number | null = null;
   precision: number | null = null;
   scale: number | null = null;
