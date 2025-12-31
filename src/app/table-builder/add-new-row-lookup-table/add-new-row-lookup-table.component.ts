@@ -70,7 +70,7 @@ export class AddNewRowLookupTableComponent implements OnInit {
 
   ngOnInit(): void {
 
-debugger
+
     // Get componentCode from URL query params
     this.route.queryParams.subscribe(params => {
       if (params['tableName']) {

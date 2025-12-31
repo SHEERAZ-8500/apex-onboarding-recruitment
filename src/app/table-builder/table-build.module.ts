@@ -55,7 +55,12 @@ const routes: Routes = [
   {
     path: 'view-all-independent-tables',
     component: ViewAllIndependentTableComponent
-  }
+  },
+  {
+    path: 'create-new-independent-table',
+    component: CreateNewIndependentTableComponent
+  },
+
 
 ];
 @NgModule({

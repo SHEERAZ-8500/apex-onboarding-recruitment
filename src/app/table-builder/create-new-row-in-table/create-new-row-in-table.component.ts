@@ -26,7 +26,7 @@ interface TableColumn {
   templateUrl: './create-new-row-in-table.component.html',
   styleUrl: './create-new-row-in-table.component.scss'
 })
-export class CreateNewRowInTableComponent {
+export class CreateNewRowInTableComponent implements OnInit {
 
   createNewColumnInIndependentTableDto = new createNewColumnInIndependentTableDto()
 
@@ -106,7 +106,7 @@ export class CreateNewRowInTableComponent {
     // Get componentCode from URL query params
     this.route.queryParams.subscribe(params => {
       if (params['tableName']) {
-        this.componentCode = params['TableColumn'] || '';
+        this.componentCode = params['tableName'] || '';
         this.componentTitle = "Add New Row to Independent Table";
 
       } else if (params['lookupName']) {
@@ -304,6 +304,10 @@ export class CreateNewRowInTableComponent {
         } else {
       // lookupName payload
       this.createNewColumnInIndependentTableDto.type = this.fieldType
+        if (!this.createNewColumnInIndependentTableDto.name || !this.fieldType || this.createNewColumnInIndependentTableDto.displayOrder === null) {
+        this.toastr.error('Please fill in all required fields');
+        return;
+      }
 
       this.apiService.createNewColumnInIndependentTable(this.componentCode, this.createNewColumnInIndependentTableDto).subscribe({
         next: (response: any) => {
@@ -322,6 +326,7 @@ export class CreateNewRowInTableComponent {
       this.loader.hide();
       this.toastr.success('Row table created successfully');
       this.resetForm();
+      this.location.back();
     }, 1000);
   }
 }
