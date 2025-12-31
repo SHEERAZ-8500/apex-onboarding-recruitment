@@ -29,18 +29,18 @@
 
                         <td class="px-3 py-3 text-gray-400">
 
-                            <div class="dropdown" *ngIf="routeNUmber === 1">
-                                <span class="cursor-pointer" data-bs-toggle="dropdown" aria-expanded="false"
-                                    style="cursor: pointer;"><i class="fa-solid fa-ellipsis-vertical"></i></span>
+                            <div ngbDropdown [autoClose]="true" class="d-inline-block" *ngIf="routeNUmber === 1">
+                                <span class="cursor-pointer" ngbDropdownToggle
+                                    style="cursor: pointer; border: none; background: none; padding: 0;"><i class="fa-solid fa-ellipsis-vertical"></i></span>
 
-                                <ul class="dropdown-menu"ngbDropdownMenu >
-                                    <li><a class="dropdown-item"
+                                <div ngbDropdownMenu class="dropdown-menu">
+                                    <a class="dropdown-item"
                                             [routerLink]="['/panel/table/create-new-row-in-table']"
-                                            [queryParams]="{tableName: c.tableName}">Create New Row</a></li>
-                                               <li><a class="dropdown-item"
+                                            [queryParams]="{tableName: c.tableName}">Create New Row</a>
+                                    <a class="dropdown-item"
                                             [routerLink]="['/panel/table/create-new-column-in-table']"
-                                            [queryParams]="{lookupName: c.lookupName}">Create New Column</a></li>
-                                </ul>
+                                            [queryParams]="{lookupName: c.lookupName}">Create New Column</a>
+                                </div>
                             </div>
 
                         </td>

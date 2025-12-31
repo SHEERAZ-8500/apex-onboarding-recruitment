@@ -216,3 +216,7 @@ table tbody tr td {
     transform: translateY(-2px);
   }
 }
+/* Hide dropdown arrow/caret */
+::ng-deep .dropdown-toggle::after {
+  display: none !important;
+}

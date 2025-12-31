@@ -11,6 +11,7 @@ import { ViewAllLookupTablesComponent } from './view-all-lookup-tables/view-all-
 import { ViewAllLookupEnumsComponent } from './view-all-lookup-enums/view-all-lookup-enums.component';
 import { ViewAllIndependentTableComponent } from './view-all-independent-table/view-all-independent-table.component';
 import { CreateNewIndependentTableComponent } from './create-new-independent-table/create-new-independent-table.component';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 const routes: Routes = [
@@ -70,9 +71,9 @@ const routes: Routes = [
      CreateNewIndependentTableComponent
   ],
   imports: [
-
     RouterModule.forChild(routes),
     SahringModule,
+    NgbDropdownModule
   ]
 })
 export class TableBuildModule { }
