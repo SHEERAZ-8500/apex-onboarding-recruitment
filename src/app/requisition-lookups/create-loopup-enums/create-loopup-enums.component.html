@@ -1,11 +1,11 @@
 <div class="enum-form-container">
     <div class="enum-form-card">
         <div class="form-header">
-            <h2 class="form-title">Create Lookup Enum</h2>
-            <p class="form-subtitle">Define a new lookup enumeration with values</p>
+            <h2 class="form-title">{{ pageTitle }}</h2>
+            <p class="form-subtitle">{{ pageSubtitle }}</p>
         </div>
 
-        <form class="enum-form">
+        <form class="enum-form" *ngIf = "currentPath === 'create-lookup-enums'">
             <!-- Row 1: Enum Name & Description -->
             <div class="form-row">
                 <div class="form-group">
@@ -52,6 +52,43 @@
                 <button type="submit" class="btn btn-submit" (click)="onSubmit()">
                     <i class="fa-solid fa-check"></i>
                     Create Lookup Enum
+                </button>
+            </div>
+        </form>
+
+        <!-- Add Values Only Form -->
+        <form class="enum-form" *ngIf="currentPath === 'add-new-enum-value'">
+            <!-- Enum Values Section -->
+            <div class="values-section">
+                <div class="values-header">
+                    <label class="input-label">Enum Values <span class="required">*</span></label>
+                    <button type="button" class="btn-add-value" (click)="addValue()">
+                        <i class="fa-solid fa-plus"></i>
+                        Add More Value
+                    </button>
+                </div>
+
+                <div class="values-list">
+                    <div class="value-item" *ngFor="let value of values; let i = index; trackBy: trackByIndex">
+                        <input type="text" class="form-input value-input" [(ngModel)]="values[i]"
+                            [name]="'value_' + i" placeholder="Enter enum value" required />
+                        <button type="button" class="btn-remove-value" (click)="removeValue(i)"
+                            *ngIf="values.length > 1">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="form-actions">
+                <button type="button" class="btn btn-cancel" (click)="onCancel()">
+                    <i class="fa-solid fa-times"></i>
+                    Cancel
+                </button>
+                <button type="submit" class="btn btn-submit" (click)="onSubmitValues()">
+                    <i class="fa-solid fa-check"></i>
+                    Add Values
                 </button>
             </div>
         </form>

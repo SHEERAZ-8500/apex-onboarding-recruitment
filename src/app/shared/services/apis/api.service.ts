@@ -66,9 +66,9 @@ export class ApiService {
   }
 
   // create new form
-  createNewForm(data: any) {
-    return this.http.post('admin/forms', data);
-  }
+    createNewForm(data: any) {
+      return this.http.post('admin/forms', data);
+    }
 
 
 
@@ -115,8 +115,11 @@ export class ApiService {
     return this.http.patch(`admin/lookups/tables/${lookupName}/columns`, data)
   }
 
-
-  createLookUpTable(data: any) {
+// enmus
+  addNewEnum(enumComponentCode:string,data: any) {
+    return this.http.patch(`admin/lookups/enums/${enumComponentCode}/values`, data);
+  }
+    createLookUpTable(data: any) {
     return this.http.post('admin/lookups/tables', data);
   }
   createRowInLookUpTable(componentCode: any, data: any) {
