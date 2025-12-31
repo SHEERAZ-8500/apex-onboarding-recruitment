@@ -1,4 +1,4 @@
-import { Component, HostListener,OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from '../../shared/services/apis/api.service';
 import { LoaderService } from '../../shared/services/loader.service';
@@ -30,10 +30,10 @@ export class CreateNewRowInTableComponent implements OnInit {
 
   createNewColumnInIndependentTableDto = new createNewColumnInIndependentTableDto()
 
-    componentCode: string = '';
+  componentCode: string = '';
 
 
-    componentTitle = ""
+  componentTitle = ""
   // Field Type options
   fieldTypes: string[] = [
     'STRING',
@@ -70,8 +70,8 @@ export class CreateNewRowInTableComponent implements OnInit {
   displayOrder: number | null = null;
   active: boolean = true;
   lookupComponentCode: string = '';
-
-
+  currentPath: string | undefined
+  rowTableCode: string = '';
   // Dropdown state
   isFieldTypeDropdownOpen: boolean = false;
   selectedFieldType: string = '';
@@ -96,27 +96,26 @@ export class CreateNewRowInTableComponent implements OnInit {
     private loader: LoaderService,
     private toastr: ToastrService,
     private location: Location,
-    private route: ActivatedRoute,
-  ) {}
+    private activatedRoute: ActivatedRoute,
+  ) { }
 
 
   ngOnInit(): void {
 
+    this.currentPath = this.activatedRoute.snapshot.routeConfig?.path;
+    console.log(this.currentPath);
 
-    // Get componentCode from URL query params
-    this.route.queryParams.subscribe(params => {
-      if (params['tableName']) {
-        this.componentCode = params['tableName'] || '';
-        this.componentTitle = "Add New Row to Independent Table";
-
-      } else if (params['lookupName']) {
-        this.componentCode = params['lookupName'] || '';
-        this.componentTitle = "Add New Column to Independent Table";
-
-      } 
-
-      
+    // Get query parameter
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.rowTableCode = params['tableName'] || '';
+      console.log('Selected Enum:', this.rowTableCode);
     });
+
+    if (this.currentPath === 'create-new-row-in-table') {
+      this.componentTitle = "Add New Row to Independent Table";
+    } else {
+      this.componentTitle = "Add New Column to Independent Table";
+    }
   }
 
 
@@ -189,13 +188,13 @@ export class CreateNewRowInTableComponent implements OnInit {
   selectLookupOption(index: number, option: any, event: Event): void {
     event.stopPropagation();
     const column = this.columns[index];
-    
+
     if (column.type === 'LOOKUP_TABLE') {
       column.lookupComponentCode = option.componentCode || option.code;
     } else if (column.type === 'LOOKUP_ENUM') {
       column.lookupComponentCode = option.enumComponentCode || option.code;
     }
-    
+
     column.isLookupDropdownOpen = false;
   }
 
@@ -230,106 +229,98 @@ export class CreateNewRowInTableComponent implements OnInit {
   // Submit Form
   onSubmit(): void {
 
-     let payload: any;
+    let payload: any;
 
-    if (this.componentCode === 'tableName') {
+    if (this.currentPath === 'create-new-row-in-table') {
 
-    
-    // Validation
-    if (!this.rowTableName || !this.description) {
-      this.toastr.error('Please fill in table name and description');
-      return;
-    }
 
-    if (this.columns.length === 0) {
-      this.toastr.error('Please add at least one column');
-      return;
-    }
-
-    // Validate columns
-    for (let i = 0; i < this.columns.length; i++) {
-      const col = this.columns[i];
-      if (!col.name || !col.type || col.displayOrder === null) {
-        this.toastr.error(`Please fill all required fields for Column ${i + 1}`);
+      // Validation
+      if (!this.rowTableName || !this.description) {
+        this.toastr.error('Please fill in table name and description');
         return;
       }
 
-      if (col.type === 'LOOKUP_ENUM' && !col.lookupComponentCode) {
-        this.toastr.error(`Lookup Component Code is required for Column ${i + 1}`);
+      if (this.columns.length === 0) {
+        this.toastr.error('Please add at least one column');
         return;
       }
-    }
 
-    // Build payload
-     const payload: any = {
-      rowTableName: this.rowTableName,
-      description: this.description,
-      columns: this.columns.map(col => {
-        const column: any = {
-          name: col.name,
-          type: col.type,
-          nullable: col.nullable,
-          displayOrder: col.displayOrder
-        };
-
-        if (col.maxLength) {
-          column.maxLength = col.maxLength;
+      // Validate columns
+      for (let i = 0; i < this.columns.length; i++) {
+        const col = this.columns[i];
+        if (!col.name || !col.type || col.displayOrder === null) {
+          this.toastr.error(`Please fill all required fields for Column ${i + 1}`);
+          return;
         }
 
-        if (col.lookupComponentCode) {
-          column.lookupComponentCode = col.lookupComponentCode;
+        if (col.type === 'LOOKUP_ENUM' && !col.lookupComponentCode) {
+          this.toastr.error(`Lookup Component Code is required for Column ${i + 1}`);
+          return;
         }
-
-        return column;
-      })
-    };
-
-    console.log('Payload:', payload);
-
-    this.loader.show();
-
-    // Uncomment when API is ready
-    this.apiService.createRowInTable(payload).subscribe({
-      next: (response: any) => {
-        this.loader.hide();
-        this.toastr.success('Row table created successfully');
-        this.resetForm();
-      },
-      error: (error: any) => {
-        this.loader.hide();
-        this.toastr.error(error?.error?.message || 'Failed to create row table');
-      }
-    });
-
-        } else {
-      // lookupName payload
-      this.createNewColumnInIndependentTableDto.type = this.fieldType
-        if (!this.createNewColumnInIndependentTableDto.name || !this.fieldType || this.createNewColumnInIndependentTableDto.displayOrder === null) {
-        this.toastr.error('Please fill in all required fields');
-        return;
       }
 
-      this.apiService.createNewColumnInIndependentTable(this.componentCode, this.createNewColumnInIndependentTableDto).subscribe({
+      // Build payload
+      const payload: any = {
+        rowTableName: this.rowTableName,
+        description: this.description,
+        columns: this.columns.map(col => {
+          const column: any = {
+            name: col.name,
+            type: col.type,
+            nullable: col.nullable,
+            displayOrder: col.displayOrder
+          };
+
+          if (col.maxLength) {
+            column.maxLength = col.maxLength;
+          }
+
+          if (col.lookupComponentCode) {
+            column.lookupComponentCode = col.lookupComponentCode;
+          }
+
+          return column;
+        })
+      };
+
+      console.log('Payload:', payload);
+
+      this.loader.show();
+
+      // Uncomment when API is ready
+      this.apiService.createRowInTable(payload).subscribe({
         next: (response: any) => {
           this.loader.hide();
-          this.toastr.success('Column added successfully');
+          this.toastr.success('Row table created successfully');
           this.resetForm();
         },
         error: (error: any) => {
           this.loader.hide();
-          this.toastr.error(error?.error?.message || 'Failed to add column');
+          this.toastr.error(error?.error?.message || 'Failed to create row table');
         }
       });
 
-    // Temporary - remove when API is ready
-    setTimeout(() => {
-      this.loader.hide();
-      this.toastr.success('Row table created successfully');
-      this.resetForm();
-      this.location.back();
-    }, 1000);
+    } else {
+      
+      this.createNewColumnInIndependentTableDto.type =  this.selectedFieldType
+      if (this.createNewColumnInIndependentTableDto.name === '' || this.createNewColumnInIndependentTableDto.type === '' || this.rowTableCode === '') {
+        this.toastr.error('Please fill all required fields');
+        return;
+      }
+      this.loader.show();
+      this.apiService.createNewColumnInIndependentTable(this.rowTableCode, this.createNewColumnInIndependentTableDto).subscribe((respnose) => {
+        this.loader.hide();
+        this.toastr.success('New column added successfully');
+        this.resetForm();
+        this.location.back();
+      }, error => {
+        this.loader.hide();
+        this.toastr.error(error?.error?.message || 'Failed to create new column in independent table');
+      })
+    }
+
+
   }
-}
 
   // Cancel
   onCancel(): void {
@@ -354,7 +345,7 @@ export class CreateNewRowInTableComponent implements OnInit {
 
 
 
-// Toggle dropdown
+  // Toggle dropdown
   toggleFieldTypeDropdown(event: Event): void {
     event.stopPropagation();
     this.isFieldTypeDropdownOpen = !this.isFieldTypeDropdownOpen;
@@ -374,12 +365,12 @@ export class CreateNewRowInTableComponent implements OnInit {
     this.isFieldTypeDropdownOpen = false;
   }
 
- onFieldCodeInput(): void {
-  if (this.createNewColumnInIndependentTableDto.name) {
-    this.createNewColumnInIndependentTableDto.name =
-      this.createNewColumnInIndependentTableDto.name.replace(/\s+/g, '_');
+  onFieldCodeInput(): void {
+    if (this.createNewColumnInIndependentTableDto.name) {
+      this.createNewColumnInIndependentTableDto.name =
+        this.createNewColumnInIndependentTableDto.name.replace(/\s+/g, '_');
+    }
   }
-}
 
 
 

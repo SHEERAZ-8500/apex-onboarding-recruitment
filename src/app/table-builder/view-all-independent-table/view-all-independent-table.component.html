@@ -34,12 +34,12 @@
                                     style="cursor: pointer; border: none; background: none; padding: 0;"><i class="fa-solid fa-ellipsis-vertical"></i></span>
 
                                 <div ngbDropdownMenu class="dropdown-menu">
-                                    <a class="dropdown-item"
+                                    <!-- <a class="dropdown-item"
                                             [routerLink]="['/panel/table/create-new-row-in-table']"
-                                            [queryParams]="{tableName: c.tableName}">Create New Row</a>
+                                            [queryParams]="{tableName: c.rowComponentCode}">Create New Row</a> -->
                                     <a class="dropdown-item"
                                             [routerLink]="['/panel/table/create-new-column-in-table']"
-                                            [queryParams]="{lookupName: c.lookupName}">Create New Column</a>
+                                            [queryParams]="{tableName: c.rowComponentCode}">Create New Column</a>
                                 </div>
                             </div>
 

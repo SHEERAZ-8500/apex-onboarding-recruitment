@@ -5,7 +5,7 @@
             <p class="form-subtitle">Define a new table with custom columns</p>
         </div>
 
-        <form class="table-form" *ngIf="componentTitle === 'Add New Row to Independent Table'">
+        <form class="table-form" *ngIf="currentPath === 'create-new-row-in-table'">
             <!-- Row 1: Table Name & Description -->
             <div class="form-row">
                 <div class="form-group">
@@ -158,7 +158,7 @@
                 </button>
             </div>
         </form>
-        <form class="row-form" *ngIf="componentTitle === 'Add New Column to Independent Table'">
+        <form class="row-form" *ngIf="currentPath === 'create-new-column-in-table'">
             <!-- Row 1: Code & Name -->
             <div class="form-row">
                 <div class="form-group">

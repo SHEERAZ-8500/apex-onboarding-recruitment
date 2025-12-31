@@ -107,7 +107,7 @@ export class ApiService {
   // tables
 
   createNewColumnInIndependentTable(rowComponentCode: string, data: any) {
-    return this.http.patch(`/admin/row-tables/${rowComponentCode}/columns`, data)
+    return this.http.patch(`admin/row-tables/${rowComponentCode}/columns`, data)
   }
 
 
