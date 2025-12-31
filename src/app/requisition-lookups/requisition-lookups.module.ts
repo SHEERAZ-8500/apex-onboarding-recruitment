@@ -24,12 +24,17 @@ const routes: Routes = [
     path: 'create-lookup-enums',
     component: CreateLoopupEnumsComponent
   }
+  ,
+  {
+    path: 'add-new-enum-value',
+    component: CreateLoopupEnumsComponent
+  }
 ];
 @NgModule({
   declarations: [
     CreateJobTitleComponent,
     CreateLoopupEnumsComponent,
-    
+
   ],
   imports: [
     RouterModule.forChild(routes),
