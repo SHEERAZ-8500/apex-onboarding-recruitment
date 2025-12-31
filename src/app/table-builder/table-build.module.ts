@@ -12,6 +12,7 @@ import { ViewAllLookupEnumsComponent } from './view-all-lookup-enums/view-all-lo
 import { ViewAllIndependentTableComponent } from './view-all-independent-table/view-all-independent-table.component';
 import { CreateNewIndependentTableComponent } from './create-new-independent-table/create-new-independent-table.component';
 
+
 const routes: Routes = [
   {
     path: 'table-listing',
@@ -24,8 +25,7 @@ const routes: Routes = [
   {
     path: 'create-lookup-table',
     component: CreateLookupTableComponent
-  }
-  ,
+  },
   {
     path: 'add-new-row-lookup-table',
     component: AddNewRowLookupTableComponent
@@ -39,6 +39,10 @@ const routes: Routes = [
     component: CreateNewRowInTableComponent
   }
   ,
+    {
+    path: 'create-new-column-in-table',
+    component: CreateNewRowInTableComponent
+  },
   {
     path: 'view-all-lookup-tables',
     component: ViewAllLookupTablesComponent
@@ -51,11 +55,7 @@ const routes: Routes = [
     path: 'view-all-independent-tables',
     component: ViewAllIndependentTableComponent
   }
-  ,
-  {
-    path: 'create-new-independent-table',
-    component: CreateNewIndependentTableComponent
-  }
+
 ];
 @NgModule({
   declarations: [
@@ -67,7 +67,7 @@ const routes: Routes = [
     ViewAllLookupTablesComponent,
     ViewAllLookupEnumsComponent,
     ViewAllIndependentTableComponent,
-    CreateNewIndependentTableComponent
+     CreateNewIndependentTableComponent
   ],
   imports: [
 

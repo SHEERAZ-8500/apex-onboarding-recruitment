@@ -33,16 +33,13 @@
                                 <span class="cursor-pointer" data-bs-toggle="dropdown" aria-expanded="false"
                                     style="cursor: pointer;"><i class="fa-solid fa-ellipsis-vertical"></i></span>
 
-                                <ul class="dropdown-menu">
+                                <ul class="dropdown-menu"ngbDropdownMenu >
                                     <li><a class="dropdown-item"
-                                            [routerLink]="['/panel/view-all-submissions', c.publicId]">View All
-                                            Submissions</a></li>
-                                    <li><a class="dropdown-item" [routerLink]="['/panel/form-render', c.publicId]">View
-                                            Form</a></li>
-                                    <li><a class="dropdown-item"
-                                            [routerLink]="['/panel/update-form', c.publicId]">Update
-                                            Form</a></li>
-                                    <!-- <li><a class="dropdown-item" href="#">Something else here</a></li> -->
+                                            [routerLink]="['/panel/table/create-new-row-in-table']"
+                                            [queryParams]="{tableName: c.tableName}">Create New Row</a></li>
+                                               <li><a class="dropdown-item"
+                                            [routerLink]="['/panel/table/create-new-column-in-table']"
+                                            [queryParams]="{lookupName: c.lookupName}">Create New Column</a></li>
                                 </ul>
                             </div>
 

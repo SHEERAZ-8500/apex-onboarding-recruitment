@@ -1,9 +1,11 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener,OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from '../../shared/services/apis/api.service';
 import { LoaderService } from '../../shared/services/loader.service';
 import { ToastrService } from 'ngx-toastr';
 import { Location } from '@angular/common';
+import { createNewColumnInIndependentTableDto } from '../../shared/dtos/Dto';
+import { ActivatedRoute } from '@angular/router';
 
 interface TableColumn {
   name: string;
@@ -25,6 +27,26 @@ interface TableColumn {
   styleUrl: './create-new-row-in-table.component.scss'
 })
 export class CreateNewRowInTableComponent {
+
+  createNewColumnInIndependentTableDto = new createNewColumnInIndependentTableDto()
+
+    componentCode: string = '';
+
+
+    componentTitle = ""
+  // Field Type options
+  fieldTypes: string[] = [
+    'STRING',
+    'NUMBER',
+    'DATE',
+    'BOOLEAN',
+    'EMAIL',
+    'PHONE',
+    'URL',
+    'TEXTAREA'
+  ];
+
+
   // Form Fields
   rowTableName: string = '';
   description: string = '';
@@ -37,6 +59,22 @@ export class CreateNewRowInTableComponent {
       isTypeDropdownOpen: false
     }
   ];
+
+  //form fields column
+  name: string = '';
+  fieldType: string = '';
+  maxLength: number | null = null;
+  precision: number | null = null;
+  scale: number | null = null;
+  nullable: boolean = true;
+  displayOrder: number | null = null;
+  active: boolean = true;
+  lookupComponentCode: string = '';
+
+
+  // Dropdown state
+  isFieldTypeDropdownOpen: boolean = false;
+  selectedFieldType: string = '';
 
   // Column Type Options
   columnTypes: string[] = [
@@ -57,8 +95,31 @@ export class CreateNewRowInTableComponent {
     private apiService: ApiService,
     private loader: LoaderService,
     private toastr: ToastrService,
-    private location: Location
+    private location: Location,
+    private route: ActivatedRoute,
   ) {}
+
+
+  ngOnInit(): void {
+
+
+    // Get componentCode from URL query params
+    this.route.queryParams.subscribe(params => {
+      if (params['tableName']) {
+        this.componentCode = params['TableColumn'] || '';
+        this.componentTitle = "Add New Row to Independent Table";
+
+      } else if (params['lookupName']) {
+        this.componentCode = params['lookupName'] || '';
+        this.componentTitle = "Add New Column to Independent Table";
+
+      } 
+
+      
+    });
+  }
+
+
 
   // Add new column
   addColumn(): void {
@@ -168,6 +229,12 @@ export class CreateNewRowInTableComponent {
 
   // Submit Form
   onSubmit(): void {
+
+     let payload: any;
+
+    if (this.componentCode === 'tableName') {
+
+    
     // Validation
     if (!this.rowTableName || !this.description) {
       this.toastr.error('Please fill in table name and description');
@@ -194,7 +261,7 @@ export class CreateNewRowInTableComponent {
     }
 
     // Build payload
-    const payload: any = {
+     const payload: any = {
       rowTableName: this.rowTableName,
       description: this.description,
       columns: this.columns.map(col => {
@@ -234,6 +301,22 @@ export class CreateNewRowInTableComponent {
       }
     });
 
+        } else {
+      // lookupName payload
+      this.createNewColumnInIndependentTableDto.type = this.fieldType
+
+      this.apiService.createNewColumnInIndependentTable(this.componentCode, this.createNewColumnInIndependentTableDto).subscribe({
+        next: (response: any) => {
+          this.loader.hide();
+          this.toastr.success('Column added successfully');
+          this.resetForm();
+        },
+        error: (error: any) => {
+          this.loader.hide();
+          this.toastr.error(error?.error?.message || 'Failed to add column');
+        }
+      });
+
     // Temporary - remove when API is ready
     setTimeout(() => {
       this.loader.hide();
@@ -241,6 +324,7 @@ export class CreateNewRowInTableComponent {
       this.resetForm();
     }, 1000);
   }
+}
 
   // Cancel
   onCancel(): void {
@@ -262,4 +346,37 @@ export class CreateNewRowInTableComponent {
       }
     ];
   }
+
+
+
+// Toggle dropdown
+  toggleFieldTypeDropdown(event: Event): void {
+    event.stopPropagation();
+    this.isFieldTypeDropdownOpen = !this.isFieldTypeDropdownOpen;
+  }
+
+  // Select dropdown option
+  selectFieldType(type: string, event: Event): void {
+    event.stopPropagation();
+    this.selectedFieldType = type;
+    this.fieldType = type;
+    this.isFieldTypeDropdownOpen = false;
+  }
+
+  // Close dropdown on outside click
+  @HostListener('document:click', ['$event'])
+  closeDropdown(event: Event): void {
+    this.isFieldTypeDropdownOpen = false;
+  }
+
+ onFieldCodeInput(): void {
+  if (this.createNewColumnInIndependentTableDto.name) {
+    this.createNewColumnInIndependentTableDto.name =
+      this.createNewColumnInIndependentTableDto.name.replace(/\s+/g, '_');
+  }
+}
+
+
+
+
 }

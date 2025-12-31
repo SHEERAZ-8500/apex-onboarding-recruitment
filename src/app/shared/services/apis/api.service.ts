@@ -66,9 +66,9 @@ export class ApiService {
   }
 
   // create new form
-createNewForm(data: any) {
-  return this.http.post('admin/forms', data);
-}
+  createNewForm(data: any) {
+    return this.http.post('admin/forms', data);
+  }
 
 
 
@@ -106,12 +106,17 @@ createNewForm(data: any) {
 
   // tables
 
-createNewColumnInLookupTable (lookupName:string, data : any) {
-  return this.http.patch(`admin/lookups/tables/${lookupName}/columns` , data)
-}
+  createNewColumnInIndependentTable(rowComponentCode: string, data: any) {
+    return this.http.patch(`/admin/row-tables/${rowComponentCode}/columns`, data)
+  }
 
 
-createLookUpTable(data: any) {
+  createNewColumnInLookupTable(lookupName: string, data: any) {
+    return this.http.patch(`admin/lookups/tables/${lookupName}/columns`, data)
+  }
+
+
+  createLookUpTable(data: any) {
     return this.http.post('admin/lookups/tables', data);
   }
   createRowInLookUpTable(componentCode: any, data: any) {

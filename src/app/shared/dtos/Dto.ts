@@ -98,3 +98,22 @@ export class CreateColumnDto {
     Object.assign(this, init);
   }
 }
+
+
+export class createNewColumnInIndependentTableDto {
+ name: string = '';
+  type: string = '';
+  maxLength: number | null = null;
+  precision: number | null = null;
+  scale: number | null = null;
+  nullable: boolean = true;
+  displayOrder: number | null = null;
+  active: boolean = true;
+  lookupComponentCode: string = '';
+
+
+
+  constructor(init?: Partial<createNewColumnInIndependentTableDto>) {
+    Object.assign(this, init);
+  }
+}
