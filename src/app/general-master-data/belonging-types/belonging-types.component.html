@@ -35,9 +35,8 @@
 
         <!-- Search -->
         <div class="search-wrapper ms-auto">
-          <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="searchText2"
-            (keyup.enter)=" onSearch()" />
-
+          <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="searchText"
+            (ngModelChange)="updatePagination()" />
           <i class="fa fa-search search-icon"></i>
         </div>
       </div>

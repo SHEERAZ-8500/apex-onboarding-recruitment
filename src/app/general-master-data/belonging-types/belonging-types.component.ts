@@ -34,21 +34,24 @@ export class BelongingTypesComponent {
     });
   }
 
-  // ✅ Belonging Types Data (5 dummy values)
+  // ✅ Belonging Types Data (Unique values only)
   belongingTypes = [
     { code: 'BT001', name: 'Personal Items' },
     { code: 'BT002', name: 'Office Equipment' },
     { code: 'BT003', name: 'Company Vehicle' },
-
-    { code: 'BT003', name: 'Company Vehicle' },
     { code: 'BT004', name: 'IT Equipment' },
-    { code: 'BT005', name: 'Furniture' }
+    { code: 'BT005', name: 'Furniture' },
+    { code: 'BT006', name: 'Mobile Devices' },
+    { code: 'BT007', name: 'Access Cards' },
+    { code: 'BT008', name: 'Safety Equipment' },
+    { code: 'BT009', name: 'Uniform & PPE' },
+    { code: 'BT010', name: 'Documents & Files' },
+    { code: 'BT011', name: 'Tools & Machinery' },
+    { code: 'BT012', name: 'Software Licenses' },
+    { code: 'BT013', name: 'Keys & Lockers' },
+    { code: 'BT014', name: 'Communication Devices' },
+    { code: 'BT015', name: 'Company Assets' }
   ];
-
-  fetchBelongingTypes() {
-    return this.belongingTypes;
-  }
-
 
   // ✅ Form + State
   showForm = false;
@@ -57,14 +60,13 @@ export class BelongingTypesComponent {
   isEdit = false;
   editIndex: number | null = null;
   searchText = '';
-    searchText2 = '';
 
 
   // ✅ Pagination
   currentPage = 1;
   itemsPerPage = 8;
   paginatedBelongingTypesList: any[] = [];
-  
+
 
   get currentPageStart() {
     return (this.currentPage - 1) * this.itemsPerPage;
@@ -90,13 +92,12 @@ export class BelongingTypesComponent {
   updatePagination() {
     const start = (this.currentPage - 1) * this.itemsPerPage;
     const end = start + this.itemsPerPage;
-    this.paginatedBelongingTypesList = this.belongingTypes.slice(start, end);
-
+    const filtered = this.filteredBelongingTypes();
+    this.paginatedBelongingTypesList = filtered.slice(start, end);
   }
 
   onItemsPerChange(event: any) {
-    let value = event.target.value
-    this.currentPage = 1
+    this.currentPage = 1;
     this.updatePagination();
   }
 
@@ -124,14 +125,6 @@ export class BelongingTypesComponent {
     this.router.navigate(['/panel/general-master-data/edit-belonging-types']);
   }
 
-
-  onSearch() {
-    let filter = this.belongingTypes.filter((items) => items.name.toLowerCase().includes(this.searchText2.toLowerCase()));
-    this.paginatedBelongingTypesList = filter 
-    this.updatePagination();
-  }
-
-
   updateBelongingType() {
     if (this.editIndex === null) return;
 
@@ -146,10 +139,10 @@ export class BelongingTypesComponent {
   // ✅ Delete
   deleteBelongingType(index: number) {
     this.belongingTypes.splice(index, 1);
-
-    if (this.currentPage > this.totalPages) {
+    if (this.currentPage > this.totalPages && this.totalPages > 0) {
       this.currentPage = this.totalPages;
     }
+    this.updatePagination();
   }
 
   // ✅ Form Control
