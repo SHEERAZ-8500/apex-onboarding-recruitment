@@ -8,23 +8,26 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./belonging-types.component.scss'],
 })
 export class BelongingTypesComponent {
- title = 'view';
-  formTitle=""
+  title = 'view';
+  formTitle = ""
   constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
   ngOnInit(): void {
+
+    this.updatePagination();
+
     this.activatedRoute.data.subscribe(data => {
       this.title = data['title'];
       if (this.title === 'view') {
-        
+
         // set view mode loigc
-      //  this.fetchSkills()
+        //  this.fetchSkills()
       }
-      if  (this.title === 'edit'){
-        this.formTitle="Edit Belonging Types"
+      if (this.title === 'edit') {
+        this.formTitle = "Edit Belonging Types"
 
       }
-       if  (this.title === 'create'){
-                this.formTitle="Create New Belonging Types"
+      if (this.title === 'create') {
+        this.formTitle = "Create New Belonging Types"
 
 
       }
@@ -36,10 +39,12 @@ export class BelongingTypesComponent {
     { code: 'BT001', name: 'Personal Items' },
     { code: 'BT002', name: 'Office Equipment' },
     { code: 'BT003', name: 'Company Vehicle' },
+
+    { code: 'BT003', name: 'Company Vehicle' },
     { code: 'BT004', name: 'IT Equipment' },
     { code: 'BT005', name: 'Furniture' }
   ];
-  
+
   fetchBelongingTypes() {
     return this.belongingTypes;
   }
@@ -52,10 +57,14 @@ export class BelongingTypesComponent {
   isEdit = false;
   editIndex: number | null = null;
   searchText = '';
+    searchText2 = '';
+
 
   // ✅ Pagination
   currentPage = 1;
   itemsPerPage = 8;
+  paginatedBelongingTypesList: any[] = [];
+  
 
   get currentPageStart() {
     return (this.currentPage - 1) * this.itemsPerPage;
@@ -66,34 +75,36 @@ export class BelongingTypesComponent {
   }
 
   get totalPagesArray() {
-    const total = this.totalPages;
-
-    if (total <= 3) {
-      return Array.from({ length: total }, (_, i) => i + 1);
-    }
-
-    if (this.currentPage === 1) return [1, 2, 3];
-    if (this.currentPage === total) return [total - 2, total - 1, total];
-
-    return [this.currentPage - 1, this.currentPage, this.currentPage + 1];
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
 
   // ✅ Pagination Data
-  paginatedBelongingTypes() {
-    const start = (this.currentPage - 1) * this.itemsPerPage;
-    return this.filteredBelongingTypes().slice(start, start + this.itemsPerPage);
-  }
+
 
   changePage(page: number) {
     if (page < 1 || page > this.totalPages) return;
     this.currentPage = page;
+    this.updatePagination();
+  }
+
+  updatePagination() {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    this.paginatedBelongingTypesList = this.belongingTypes.slice(start, end);
+
+  }
+
+  onItemsPerChange(event: any) {
+    let value = event.target.value
+    this.currentPage = 1
+    this.updatePagination();
   }
 
   // ✅ Add New
   onNew() {
     this.resetForm();
     this.showForm = true;
-        this.router.navigate(['/panel/general-master-data/create-new-belonging-types']);
+    this.router.navigate(['/panel/general-master-data/create-new-belonging-types']);
 
   }
 
@@ -110,7 +121,14 @@ export class BelongingTypesComponent {
 
   // ✅ Edit
   editBelongingType() {
-      this.router.navigate(['/panel/general-master-data/edit-belonging-types']);
+    this.router.navigate(['/panel/general-master-data/edit-belonging-types']);
+  }
+
+
+  onSearch() {
+    let filter = this.belongingTypes.filter((items) => items.name.toLowerCase().includes(this.searchText2.toLowerCase()));
+    this.paginatedBelongingTypesList = filter 
+    this.updatePagination();
   }
 
 
@@ -137,7 +155,7 @@ export class BelongingTypesComponent {
   // ✅ Form Control
   cancelForm() {
     this.hideForm();
-     this.router.navigate(['/panel/general-master-data/view-all-belonging-types']);
+    this.router.navigate(['/panel/general-master-data/view-all-belonging-types']);
   }
 
   resetForm() {

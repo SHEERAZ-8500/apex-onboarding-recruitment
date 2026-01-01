@@ -30,14 +30,14 @@
                         <td class="px-3 py-3 text-gray-400">
 
                             <div class="dropdown" ngbDropdown placement="bottom-right">
-                                <span class="cursor-pointer" ngbDropdownToggle
-                                    style="cursor: pointer;"><i class="fa-solid fa-ellipsis-vertical"></i></span>
+                                <span class="cursor-pointer" ngbDropdownToggle style="cursor: pointer;"><i
+                                        class="fa-solid fa-ellipsis-vertical"></i></span>
 
                                 <ul class="dropdown-menu" ngbDropdownMenu>
                                     <li><a class="dropdown-item"
                                             [routerLink]="['/panel/table/add-new-row-lookup-table']"
                                             [queryParams]="{tableName: c.tableName}">Create New Row</a></li>
-                                               <li><a class="dropdown-item"
+                                    <li><a class="dropdown-item"
                                             [routerLink]="['/panel/table/add-new-column-lookup-table']"
                                             [queryParams]="{lookupName: c.lookupName}">Create New Column</a></li>
 
@@ -53,11 +53,8 @@
         </div>
 
         <!-- ✅ Pagination -->
-        <app-pagination 
-          [currentPage]="currentPage" 
-          [totalPages]="totalPages" 
-          [totalPagesArray]="totalPagesArray"
-          (pageChange)="changePage($event)">
+        <app-pagination [currentPage]="currentPage" [totalPages]="totalPages" [totalPagesArray]="totalPagesArray"
+            (pageChange)="changePage($event)">
         </app-pagination>
     </section>
 </section>
