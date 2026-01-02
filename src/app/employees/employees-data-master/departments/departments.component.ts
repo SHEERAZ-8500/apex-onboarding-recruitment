@@ -13,6 +13,8 @@ export class DepartmentsComponent {
     constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
+        this.updatePagination();
+
     this.activatedRoute.data.subscribe(data => {
       this.title = data['title'];
       if (this.title === 'view') {
@@ -46,9 +48,6 @@ export class DepartmentsComponent {
     { code: 'DEPT010', name: 'Legal', description: 'Handles legal matters and compliance issues' }
   ];
 
-fetchDepartments() {
-    return this.departments;
-  }
 
   // ✅ Form + State
   showForm = false;
@@ -62,6 +61,8 @@ fetchDepartments() {
   // ✅ Pagination
   currentPage = 1;
   itemsPerPage = 8;
+     paginatedDepartmentsList: any[] = [];
+
 
   get currentPageStart() {
     return (this.currentPage - 1) * this.itemsPerPage;
@@ -71,28 +72,32 @@ fetchDepartments() {
     return Math.ceil(this.filteredDepartments().length / this.itemsPerPage);
   }
 
-  get totalPagesArray() {
-    const total = this.totalPages;
-
-    if (total <= 3) {
-      return Array.from({ length: total }, (_, i) => i + 1);
-    }
-
-    if (this.currentPage === 1) return [1, 2, 3];
-    if (this.currentPage === total) return [total - 2, total - 1, total];
-
-    return [this.currentPage - 1, this.currentPage, this.currentPage + 1];
+    get totalPagesArray() {
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
 
   // ✅ Pagination Data
-  paginatedDepartments() {
-    const start = (this.currentPage - 1) * this.itemsPerPage;
-    return this.filteredDepartments().slice(start, start + this.itemsPerPage);
-  }
+
 
   changePage(page: number) {
     if (page < 1 || page > this.totalPages) return;
     this.currentPage = page;
+       this.updatePagination();
+
+  }
+
+      updatePagination() {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    const filtered = this.filteredDepartments();
+    this.paginatedDepartmentsList = filtered.slice(start, end);
+  }
+
+
+
+  onItemsPerChange(event: any) {
+    this.currentPage = 1;
+    this.updatePagination();
   }
 
   // ✅ Add New
@@ -145,9 +150,10 @@ fetchDepartments() {
   deleteDepartment(index: number) {
     this.departments.splice(index, 1);
 
-    if (this.currentPage > this.totalPages) {
+    if (this.currentPage > this.totalPages && this.totalPages > 0) {
       this.currentPage = this.totalPages;
     }
+    this.updatePagination();
   }
 
   // ✅ Form Control

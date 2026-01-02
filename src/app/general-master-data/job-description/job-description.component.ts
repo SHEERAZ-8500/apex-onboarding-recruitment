@@ -8,23 +8,24 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./job-description.component.scss'],
 })
 export class JobDescriptionComponent {
-    title = 'view';
-  formTitle=""
+  title = 'view';
+  formTitle = ""
   constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
   ngOnInit(): void {
+
     this.activatedRoute.data.subscribe(data => {
       this.title = data['title'];
       if (this.title === 'view') {
-        
+
         // set view mode loigc
-      //  this.fetchSkills()
+        //  this.fetchSkills()
       }
-      if  (this.title === 'edit'){
-        this.formTitle="Edit Job Description"
+      if (this.title === 'edit') {
+        this.formTitle = "Edit Job Description"
 
       }
-       if  (this.title === 'create'){
-                this.formTitle="Create New Job Description"
+      if (this.title === 'create') {
+        this.formTitle = "Create New Job Description"
 
 
       }
@@ -46,9 +47,7 @@ export class JobDescriptionComponent {
       location: 'B', createdBy: 'B'
     }
   ];
-  fetchjobDescs() {
-    return this.jobDescs;
-  }
+
 
   showForm = false;
   code = '';
@@ -68,23 +67,40 @@ export class JobDescriptionComponent {
 
   currentPage = 1;
   itemsPerPage = 7;
+  paginatedJobDescsList: any[] = [];
+
 
   get currentPageStart() { return (this.currentPage - 1) * this.itemsPerPage; }
   get totalPages() { return Math.ceil(this.filteredJobDescs().length / this.itemsPerPage); }
-  get totalPagesArray() {
-    const total = this.totalPages;
-    if (total <= 3) return Array.from({ length: total }, (_, i) => i + 1);
-    if (this.currentPage === 1) return [1, 2, 3];
-    if (this.currentPage === total) return [total - 2, total - 1, total];
-    return [this.currentPage - 1, this.currentPage, this.currentPage + 1];
+   get totalPagesArray() {
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
 
   paginatedJobDescs() { return this.filteredJobDescs().slice(this.currentPageStart, this.currentPageStart + this.itemsPerPage); }
 
-  changePage(page: number) { if (page < 1 || page > this.totalPages) return; this.currentPage = page; }
+  changePage(page: number) { if (page < 1 || page > this.totalPages) return; this.currentPage = page; 
+    this.updatePagination();
+  }
 
-  onNew() { this.resetForm(); this.showForm = true; 
-        this.router.navigate(['/panel/general-master-data/create-new-job-description']);
+
+      updatePagination() {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    const filtered = this.filteredJobDescs();
+    this.paginatedJobDescsList
+     = filtered.slice(start, end);
+  }
+
+
+
+  onItemsPerChange(event: any) {
+    this.currentPage = 1;
+    this.updatePagination();
+  }
+
+  onNew() {
+    this.resetForm(); this.showForm = true;
+    this.router.navigate(['/panel/general-master-data/create-new-job-description']);
 
   }
 
@@ -99,8 +115,8 @@ export class JobDescriptionComponent {
   }
 
   editJobDesc() {
-   
-        this.router.navigate(['/panel/general-master-data/edit-job-description']);
+
+    this.router.navigate(['/panel/general-master-data/edit-job-description']);
 
   }
 
@@ -117,13 +133,17 @@ export class JobDescriptionComponent {
   deleteJobDesc(index: number) {
     this.jobDescs.splice(index, 1);
     if (this.editIndex === index) this.hideForm();
-    if (this.currentPage > this.totalPages) this.currentPage = this.totalPages;
+   if (this.currentPage > this.totalPages && this.totalPages > 0) {
+      this.currentPage = this.totalPages;
+    }
+    this.updatePagination();
   }
 
-  cancelForm() { this.hideForm();
-        this.router.navigate(['/panel/general-master-data/view-all-job-description']);
+  cancelForm() {
+    this.hideForm();
+    this.router.navigate(['/panel/general-master-data/view-all-job-description']);
 
-   }
+  }
 
   resetForm() {
     this.code = ''; this.name = ''; this.jobTitle = ''; this.skillCode = ''; this.skillDescription = '';

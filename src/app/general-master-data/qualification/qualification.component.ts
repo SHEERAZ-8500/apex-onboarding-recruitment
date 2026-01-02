@@ -12,6 +12,8 @@ export class QualificationComponent {
   formTitle=""
   constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
   ngOnInit(): void {
+        this.updatePagination();
+
     this.activatedRoute.data.subscribe(data => {
       this.title = data['title'];
       if (this.title === 'view') {
@@ -71,10 +73,7 @@ export class QualificationComponent {
     { code: 'SK016', name: 'qualification 7' }
   ];
 
-   fetchQualification() {
-    return this.qualification;
-  }
-
+ 
   showForm = false;
   qualificationCode: string = '';
   qualificationName: string = '';
@@ -90,6 +89,8 @@ export class QualificationComponent {
   // ⭐ GLOBAL PAGINATION (same as Candidate Table)
   currentPage = 1;
   itemsPerPage = 7;
+     paginatedQualificationlist: any[] = [];
+
 
   get currentPageStart() {
     return (this.currentPage - 1) * this.itemsPerPage;
@@ -100,29 +101,31 @@ export class QualificationComponent {
   }
 
   get totalPagesArray() {
-  const total = this.totalPages;
-
-  if (total <= 3) {
-    return Array.from({ length: total }, (_, i) => i + 1);
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
 
-  // Always show only 3 pages
-  if (this.currentPage === 1) return [1, 2, 3];
-  if (this.currentPage === total) return [total - 2,total - 1, total];
-
-  return [this.currentPage - 1, this.currentPage, this.currentPage + 1];
-}
 
 
-  paginatedQualification() {
-    const start = (this.currentPage - 1) * this.itemsPerPage;
-    const end = start + this.itemsPerPage;
-    return this.filteredQualification().slice(start, end);
-  }
 
   changePage(page: number) {
     if (page < 1 || page > this.totalPages) return;
     this.currentPage = page;
+        this.updatePagination();
+
+  }
+
+      updatePagination() {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    const filtered = this.filteredQualification();
+    this.paginatedQualificationlist = filtered.slice(start, end);
+  }
+
+
+
+  onItemsPerChange(event: any) {
+    this.currentPage = 1;
+    this.updatePagination();
   }
 
   // ⭐ Show form as a dedicated page
@@ -156,7 +159,10 @@ export class QualificationComponent {
   deletequalification(index: number) {
     this.qualification.splice(index, 1);
     if (this.editIndex === index) this.hideForm();
-    if (this.currentPage > this.totalPages) this.currentPage = this.totalPages;
+   if (this.currentPage > this.totalPages && this.totalPages > 0) {
+      this.currentPage = this.totalPages;
+    }
+    this.updatePagination();
   }
 
   cancelForm() {

@@ -25,23 +25,25 @@ interface PostDetail {
   styleUrls: ['./post-assignment.component.scss'],
 })
 export class PostAssignmentComponent {
-   title = 'view';
-  formTitle=""
+  title = 'view';
+  formTitle = ""
   constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
   ngOnInit(): void {
+    this.updatePagination();
+
     this.activatedRoute.data.subscribe(data => {
       this.title = data['title'];
       if (this.title === 'view') {
-        
+
         // set view mode loigc
-      //  this.fetchSkills()
+        //  this.fetchSkills()
       }
-      if  (this.title === 'edit'){
-        this.formTitle="Edit Post Assignment"
+      if (this.title === 'edit') {
+        this.formTitle = "Edit Post Assignment"
 
       }
-       if  (this.title === 'create'){
-                this.formTitle="Create New Post Assignment"
+      if (this.title === 'create') {
+        this.formTitle = "Create New Post Assignment"
 
 
       }
@@ -79,9 +81,8 @@ export class PostAssignmentComponent {
     'Analyst',
     'Technician'
   ];
- fetchpostAssignment() {
-    return this.posts;
-  }
+
+
   // ✅ Form + State
   showForm = false;
   postCode = '';
@@ -96,6 +97,8 @@ export class PostAssignmentComponent {
   // ✅ Pagination
   currentPage = 1;
   itemsPerPage = 8;
+     paginatedPostsList: any[] = [];
+
 
   get currentPageStart() {
     return (this.currentPage - 1) * this.itemsPerPage;
@@ -106,36 +109,39 @@ export class PostAssignmentComponent {
   }
 
   get totalPagesArray() {
-    const total = this.totalPages;
-
-    if (total <= 3) {
-      return Array.from({ length: total }, (_, i) => i + 1);
-    }
-
-    if (this.currentPage === 1) return [1, 2, 3];
-    if (this.currentPage === total) return [total - 2, total - 1, total];
-
-    return [this.currentPage - 1, this.currentPage, this.currentPage + 1];
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
 
-  // ✅ Pagination Data
-  paginatedPosts() {
-    const start = (this.currentPage - 1) * this.itemsPerPage;
-    return this.filteredPosts().slice(start, start + this.itemsPerPage);
-  }
+
 
   changePage(page: number) {
     if (page < 1 || page > this.totalPages) return;
-    this.currentPage = page;
+    this.currentPage = page; 
+    this.updatePagination();
+
+  }
+
+      updatePagination() {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    const filtered = this.filteredPosts();
+    this.paginatedPostsList = filtered.slice(start, end);
+  }
+
+
+
+  onItemsPerChange(event: any) {
+    this.currentPage = 1;
+    this.updatePagination();
   }
 
   // ✅ Add New
   onNew() {
     this.resetForm();
     this.showForm = true;
-        this.router.navigate(['/panel/general-master-data/create-new-post-assignment']);
+    this.router.navigate(['/panel/general-master-data/create-new-post-assignment']);
 
-    
+
 
   }
 
@@ -155,7 +161,7 @@ export class PostAssignmentComponent {
 
   // ✅ Edit
   editPost() {
-       this.router.navigate(['/panel/general-master-data/edit-post-assignment']);
+    this.router.navigate(['/panel/general-master-data/edit-post-assignment']);
 
   }
 
@@ -177,15 +183,16 @@ export class PostAssignmentComponent {
   deletePost(index: number) {
     this.posts.splice(index, 1);
 
-    if (this.currentPage > this.totalPages) {
+   if (this.currentPage > this.totalPages && this.totalPages > 0) {
       this.currentPage = this.totalPages;
     }
+    this.updatePagination();
   }
 
   // ✅ Form Control
   cancelForm() {
     this.hideForm();
-        this.router.navigate(['/panel/general-master-data/view-all-post-assignment']);
+    this.router.navigate(['/panel/general-master-data/view-all-post-assignment']);
 
   }
 

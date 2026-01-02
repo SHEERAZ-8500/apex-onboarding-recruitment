@@ -8,23 +8,26 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./employees-grade.component.scss'],
 })
 export class EmployeesGradeComponent {
-    title = 'view';
-  formTitle=""
+  title = 'view';
+  formTitle = ""
   constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
   ngOnInit(): void {
+
+    this.updatePagination();
+
     this.activatedRoute.data.subscribe(data => {
       this.title = data['title'];
       if (this.title === 'view') {
-        
+
         // set view mode loigc
-      //  this.fetchSkills()
+        //  this.fetchSkills()
       }
-      if  (this.title === 'edit'){
-        this.formTitle="Edit Employee Grade"
+      if (this.title === 'edit') {
+        this.formTitle = "Edit Employee Grade"
 
       }
-       if  (this.title === 'create'){
-                this.formTitle="Create New Employee Grade"
+      if (this.title === 'create') {
+        this.formTitle = "Create New Employee Grade"
 
 
       }
@@ -46,9 +49,6 @@ export class EmployeesGradeComponent {
     { code: 'EG011', grade: 'Intern' },
     { code: 'EG012', grade: 'Director' },
   ];
-   fetchSkills() {
-    return this.employeeGrades;
-  }
 
   // ✅ Form + State (EXACT same structure as skills)
   showForm = false;
@@ -61,6 +61,8 @@ export class EmployeesGradeComponent {
   // ✅ Pagination (EXACT same structure as skills)
   currentPage = 1;
   itemsPerPage = 8;
+    paginatedEmployeeGradesList: any[] = [];
+
 
   get currentPageStart() {
     return (this.currentPage - 1) * this.itemsPerPage;
@@ -71,34 +73,39 @@ export class EmployeesGradeComponent {
   }
 
   get totalPagesArray() {
-    const total = this.totalPages;
-
-    if (total <= 3) {
-      return Array.from({ length: total }, (_, i) => i + 1);
-    }
-
-    if (this.currentPage === 1) return [1, 2, 3];
-    if (this.currentPage === total) return [total - 2, total - 1, total];
-
-    return [this.currentPage - 1, this.currentPage, this.currentPage + 1];
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
 
-  // ✅ Pagination Data (EXACT same method as skills)
-  paginatedEmployeeGrades() {
-    const start = (this.currentPage - 1) * this.itemsPerPage;
-    return this.filteredEmployeeGrades().slice(start, start + this.itemsPerPage);
-  }
+
 
   changePage(page: number) {
     if (page < 1 || page > this.totalPages) return;
     this.currentPage = page;
+    this.updatePagination();
+
   }
+
+  
+    updatePagination() {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    const filtered = this.filteredEmployeeGrades();
+    this.paginatedEmployeeGradesList = filtered.slice(start, end);
+  }
+
+
+
+  onItemsPerChange(event: any) {
+    this.currentPage = 1;
+    this.updatePagination();
+  }
+
 
   // ✅ Add New (EXACT same method as skills)
   onNew() {
     this.resetForm();
     this.showForm = true;
-        this.router.navigate(['/panel/general-master-data/create-new-employees-grade']);
+    this.router.navigate(['/panel/general-master-data/create-new-employees-grade']);
 
 
   }
@@ -116,7 +123,7 @@ export class EmployeesGradeComponent {
 
   // ✅ Edit (EXACT same method as skills)
   editEmployeeGrade() {
-        this.router.navigate(['/panel/general-master-data/edit-employees-grade']);
+    this.router.navigate(['/panel/general-master-data/edit-employees-grade']);
 
   }
 
@@ -135,15 +142,16 @@ export class EmployeesGradeComponent {
   deleteEmployeeGrade(index: number) {
     this.employeeGrades.splice(index, 1);
 
-    if (this.currentPage > this.totalPages) {
+   if (this.currentPage > this.totalPages && this.totalPages > 0) {
       this.currentPage = this.totalPages;
     }
+    this.updatePagination();
   }
 
   // ✅ Form Control (EXACT same methods as skills)
   cancelForm() {
     this.hideForm();
-            this.router.navigate(['/panel/general-master-data/view-all-employees-grade']);
+    this.router.navigate(['/panel/general-master-data/view-all-employees-grade']);
 
   }
 

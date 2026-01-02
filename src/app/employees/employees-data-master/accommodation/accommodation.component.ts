@@ -13,6 +13,8 @@ export class AccommodationComponent {
     constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
+        this.updatePagination();
+
     this.activatedRoute.data.subscribe(data => {
       this.title = data['title'];
       if (this.title === 'view') {
@@ -79,11 +81,17 @@ export class AccommodationComponent {
   // ✅ Pagination
   currentPage = 1;
   itemsPerPage = 8;
+     paginatedEquipmentsList: any[] = [];
+        paginatedRoomsList: any[] = [];
+
+
 
   // ✅ Tab Switching
   switchTab(tab: 'roomDetail' | 'equipment') {
     this.activeTab = tab;
     this.currentPage = 1; // Reset to first page when switching tabs
+        this.updatePagination();
+
   }
 
   // ✅ Current Data based on active tab
@@ -99,34 +107,41 @@ export class AccommodationComponent {
     return Math.ceil(this.filteredData().length / this.itemsPerPage);
   }
 
-  get totalPagesArray() {
-    const total = this.totalPages;
-
-    if (total <= 3) {
-      return Array.from({ length: total }, (_, i) => i + 1);
-    }
-
-    if (this.currentPage === 1) return [1, 2, 3];
-    if (this.currentPage === total) return [total - 2, total - 1, total];
-
-    return [this.currentPage - 1, this.currentPage, this.currentPage + 1];
+    get totalPagesArray() {
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
 
   // ✅ Pagination Data - Room Detail
-  paginatedRooms() {
-    const start = (this.currentPage - 1) * this.itemsPerPage;
-    return this.filteredRooms().slice(start, start + this.itemsPerPage);
-  }
+
 
   // ✅ Pagination Data - Equipment
-  paginatedEquipments() {
-    const start = (this.currentPage - 1) * this.itemsPerPage;
-    return this.filteredEquipments().slice(start, start + this.itemsPerPage);
-  }
-
+ 
   changePage(page: number) {
     if (page < 1 || page > this.totalPages) return;
     this.currentPage = page;
+        this.updatePagination();
+
+  }
+
+updatePagination() {
+  const start = (this.currentPage - 1) * this.itemsPerPage;
+  const end = start + this.itemsPerPage;
+
+  if (this.activeTab === 'roomDetail') {
+    const filteredRooms = this.filteredRooms();
+    this.paginatedRoomsList = filteredRooms.slice(start, end);
+  } else {
+    const filteredEquipments = this.filteredEquipments();
+    this.paginatedEquipmentsList = filteredEquipments.slice(start, end);
+  }
+}
+
+
+
+
+  onItemsPerChange(event: any) {
+    this.currentPage = 1;
+    this.updatePagination();
   }
 
   // ✅ Filtered Data based on active tab
@@ -205,10 +220,11 @@ export class AccommodationComponent {
     if (confirm('Are you sure you want to delete this room detail?')) {
       this.rooms.splice(index, 1);
 
-      if (this.currentPage > this.totalPages) {
-        this.currentPage = this.totalPages;
-      }
+      if (this.currentPage > this.totalPages && this.totalPages > 0) {
+      this.currentPage = this.totalPages;
     }
+    this.updatePagination();
+  }
   }
 
   // ✅ Delete Equipment
@@ -216,10 +232,11 @@ export class AccommodationComponent {
     if (confirm('Are you sure you want to delete this equipment?')) {
       this.equipments.splice(index, 1);
 
-      if (this.currentPage > this.totalPages) {
-        this.currentPage = this.totalPages;
-      }
+      if (this.currentPage > this.totalPages && this.totalPages > 0) {
+      this.currentPage = this.totalPages;
     }
+    this.updatePagination();
+  }
   }
 
   // ✅ Form Save (Placeholder)

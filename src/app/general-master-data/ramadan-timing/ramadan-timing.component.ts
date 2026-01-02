@@ -27,6 +27,8 @@ export class RamadanTimingComponent {
   
   currentPage = 1;
   itemsPerPage = 7;
+     paginatedRamadanList: any[] = [];
+
   
   // Gregorian years dropdown
   gregorianYears: number[] = [];
@@ -40,6 +42,8 @@ export class RamadanTimingComponent {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(data => {
+          this.updatePagination();
+
       this.title = data['title'];
       if (this.title === 'view') {
         // set view mode logic
@@ -54,9 +58,7 @@ export class RamadanTimingComponent {
     });
   }
 
-  fetchRamadanList() {
-    return this.ramadanList;
-  }
+
 
   get currentPageStart() {
     return (this.currentPage - 1) * this.itemsPerPage;
@@ -67,22 +69,30 @@ export class RamadanTimingComponent {
   }
 
   get totalPagesArray() {
-    const total = this.totalPages;
-    if (total <= 3) return Array.from({ length: total }, (_, i) => i + 1);
-    if (this.currentPage === 1) return [1, 2, 3];
-    if (this.currentPage === total) return [total - 2, total - 1, total];
-    return [this.currentPage - 1, this.currentPage, this.currentPage + 1];
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
 
-  paginatedRamadan() {
-    const start = (this.currentPage - 1) * this.itemsPerPage;
-    const end = start + this.itemsPerPage;
-    return this.filteredRamadan().slice(start, end);
-  }
 
   changePage(page: number) {
     if (page < 1 || page > this.totalPages) return;
     this.currentPage = page;
+        this.updatePagination();
+
+  }
+
+
+      updatePagination() {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    const filtered = this.filteredRamadan();
+    this.paginatedRamadanList = filtered.slice(start, end);
+  }
+
+
+
+  onItemsPerChange(event: any) {
+    this.currentPage = 1;
+    this.updatePagination();
   }
 
   onNew() {
@@ -122,7 +132,10 @@ export class RamadanTimingComponent {
   deleteRamadan(index: number) {
     this.ramadanList.splice(index, 1);
     if (this.editIndex === index) this.hideForm();
-    if (this.currentPage > this.totalPages) this.currentPage = this.totalPages;
+  if (this.currentPage > this.totalPages && this.totalPages > 0) {
+      this.currentPage = this.totalPages;
+    }
+    this.updatePagination();
   }
 
   cancelForm() {

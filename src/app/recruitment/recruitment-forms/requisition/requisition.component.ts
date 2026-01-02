@@ -14,6 +14,9 @@ export class RequisitionComponent {
     constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
+
+    this.updatePagination();
+
     this.activatedRoute.data.subscribe(data => {
       this.title = data['title'];
       if (this.title === 'view') {
@@ -128,10 +131,6 @@ export class RequisitionComponent {
   ];
 
 
-  fetchInterviewResults() {
-    return this.requisitions;
-  }
-
   // ✅ Form Fields
   requisitionNumber: number | null = null;
   requisitionName = '';
@@ -153,6 +152,8 @@ export class RequisitionComponent {
   // ✅ Pagination
   currentPage = 1;
   itemsPerPage = 5;
+     paginatedRequisitionsList: any[] = [];
+
 
   get currentPageStart() {
     return (this.currentPage - 1) * this.itemsPerPage;
@@ -197,15 +198,32 @@ export class RequisitionComponent {
   }
 
   // ✅ Pagination Data
-  paginatedRequisitions() {
-    const start = (this.currentPage - 1) * this.itemsPerPage;
-    return this.filteredRequisitions().slice(start, start + this.itemsPerPage);
-  }
+
 
   changePage(page: number) {
     if (page < 1 || page > this.totalPages) return;
     this.currentPage = page;
+        this.updatePagination();
+
   }
+
+
+
+    updatePagination() {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    const filtered = this.filteredRequisitions();
+    this.paginatedRequisitionsList = filtered.slice(start, end);
+  }
+
+
+
+  onItemsPerChange(event: any) {
+    this.currentPage = 1;
+    this.updatePagination();
+  }
+
+
 
   // ✅ Add New
   onNew() {
@@ -265,10 +283,11 @@ export class RequisitionComponent {
     if (confirm('Are you sure you want to delete this requisition?')) {
       this.requisitions.splice(index, 1);
 
-      if (this.currentPage > this.totalPages && this.currentPage > 1) {
-        this.currentPage = this.totalPages;
-      }
+    if (this.currentPage > this.totalPages && this.totalPages > 0) {
+      this.currentPage = this.totalPages;
     }
+    this.updatePagination();
+  }
   }
 
   // ✅ Form Control

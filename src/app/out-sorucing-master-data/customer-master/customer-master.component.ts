@@ -14,6 +14,8 @@ export class CustomerMasterComponent {
   constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(data => {
+          this.updatePagination();
+
       this.title = data['title'];
       if (this.title === 'view') {
         
@@ -208,9 +210,6 @@ export class CustomerMasterComponent {
     }
   ];
 
-   fetchCustomerMaster() {
-    return this.customers;
-  }
 
   // ✅ Form Fields
   custCode = '';
@@ -242,6 +241,8 @@ export class CustomerMasterComponent {
   // ✅ Pagination
   currentPage = 1;
   itemsPerPage = 5;
+     paginatedCustomersList: any[] = [];
+
 
   get currentPageStart() {
     return (this.currentPage - 1) * this.itemsPerPage;
@@ -252,16 +253,7 @@ export class CustomerMasterComponent {
   }
 
   get totalPagesArray() {
-    const total = this.totalPages;
-
-    if (total <= 3) {
-      return Array.from({ length: total }, (_, i) => i + 1);
-    }
-
-    if (this.currentPage === 1) return [1, 2, 3];
-    if (this.currentPage === total) return [total - 2, total - 1, total];
-
-    return [this.currentPage - 1, this.currentPage, this.currentPage + 1];
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
 
   // ✅ Form Validation
@@ -275,14 +267,27 @@ export class CustomerMasterComponent {
   }
 
   // ✅ Pagination Data
-  paginatedCustomers() {
-    const start = (this.currentPage - 1) * this.itemsPerPage;
-    return this.filteredCustomers().slice(start, start + this.itemsPerPage);
-  }
 
   changePage(page: number) {
     if (page < 1 || page > this.totalPages) return;
     this.currentPage = page;
+        this.updatePagination();
+
+  }
+
+
+      updatePagination() {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    const filtered = this.filteredCustomers();
+    this.paginatedCustomersList = filtered.slice(start, end);
+  }
+
+
+
+  onItemsPerChange(event: any) {
+    this.currentPage = 1;
+    this.updatePagination();
   }
 
   // ✅ Add New
@@ -367,10 +372,11 @@ export class CustomerMasterComponent {
     if (confirm('Are you sure you want to delete this customer?')) {
       this.customers.splice(index, 1);
 
-      if (this.currentPage > this.totalPages && this.currentPage > 1) {
-        this.currentPage = this.totalPages;
-      }
+      if (this.currentPage > this.totalPages && this.totalPages > 0) {
+      this.currentPage = this.totalPages;
     }
+    this.updatePagination();
+  }
   }
 
   // ✅ Form Control

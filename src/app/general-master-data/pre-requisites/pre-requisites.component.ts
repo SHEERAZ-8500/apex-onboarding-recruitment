@@ -12,6 +12,8 @@ export class PreRequisitesComponent {
   formTitle=""
   constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
   ngOnInit(): void {
+          this.updatePagination();
+
     this.activatedRoute.data.subscribe(data => {
       this.title = data['title'];
       if (this.title === 'view') {
@@ -39,9 +41,6 @@ export class PreRequisitesComponent {
     { name: 'Requirement D', isActive: false },
     { name: 'Requirement E', isActive: true }
   ];
-   fetchPreReq() {
-    return this.prereqList;
-  }
 
   // ---------- Form Fields ----------
   name: string = '';
@@ -58,6 +57,8 @@ export class PreRequisitesComponent {
   // ---------- Pagination ----------
   currentPage: number = 1;
   itemsPerPage: number = 5;
+     paginatedPrereqsList: any[] = [];
+
 
 
   // -------------------------
@@ -67,23 +68,36 @@ export class PreRequisitesComponent {
     return Math.ceil(this.filteredPrereqs().length / this.itemsPerPage);
   }
 
-  get totalPagesArray(): number[] {
-    return Array(this.totalPages).fill(0).map((_, i) => i + 1);
+   get totalPagesArray() {
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
 
   get currentPageStart(): number {
     return (this.currentPage - 1) * this.itemsPerPage;
   }
 
-  paginatedPrereqs() {
-    const start = this.currentPageStart;
-    return this.filteredPrereqs().slice(start, start + this.itemsPerPage);
-  }
+
 
   changePage(page: number) {
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
+          this.updatePagination();
+
     }
+  }
+
+      updatePagination() {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    const filtered = this.filteredPrereqs();
+    this.paginatedPrereqsList = filtered.slice(start, end);
+  }
+
+
+
+  onItemsPerChange(event: any) {
+    this.currentPage = 1;
+    this.updatePagination();
   }
 
   // -------------------------
@@ -141,7 +155,12 @@ export class PreRequisitesComponent {
   // -------------------------
   deletePrereq(index: number) {
     this.prereqList.splice(index, 1);
+     if (this.currentPage > this.totalPages && this.totalPages > 0) {
+      this.currentPage = this.totalPages;
+    }
+    this.updatePagination();
   }
+  
 
   // -------------------------
   // FORM RESET & CANCEL

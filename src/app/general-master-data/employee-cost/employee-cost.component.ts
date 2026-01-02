@@ -8,23 +8,26 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./employee-cost.component.scss'],
 })
 export class EmployeeCostComponent {
-    title = 'view';
-  formTitle=""
+  title = 'view';
+  formTitle = ""
+
   constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
   ngOnInit(): void {
+    this.updatePagination();
+
     this.activatedRoute.data.subscribe(data => {
       this.title = data['title'];
       if (this.title === 'view') {
-        
+
         // set view mode loigc
-      //  this.fetchSkills()
+        //  this.fetchSkills()
       }
-      if  (this.title === 'edit'){
-        this.formTitle="Edit Employee Cost"
+      if (this.title === 'edit') {
+        this.formTitle = "Edit Employee Cost"
 
       }
-       if  (this.title === 'create'){
-                this.formTitle="Create New Employee Cost"
+      if (this.title === 'create') {
+        this.formTitle = "Create New Employee Cost"
 
 
       }
@@ -37,9 +40,7 @@ export class EmployeeCostComponent {
     { code: 'EC002', description: 'Transport Allowance', fixed: false, amount: 5000 },
     { code: 'EC003', description: 'Medical Allowance', fixed: true, amount: 3000 },
   ];
-   fetchemployeeCosts() {
-    return this.employeeCosts;
-  }
+
 
 
   showForm = false;
@@ -53,6 +54,9 @@ export class EmployeeCostComponent {
 
   currentPage = 1;
   itemsPerPage = 7;
+  paginatedEmployeeCostsList: any[] = [];
+
+
 
   get currentPageStart() {
     return (this.currentPage - 1) * this.itemsPerPage;
@@ -63,28 +67,37 @@ export class EmployeeCostComponent {
   }
 
   get totalPagesArray() {
-    const total = this.totalPages;
-    if (total <= 3) return Array.from({ length: total }, (_, i) => i + 1);
-    if (this.currentPage === 1) return [1, 2, 3];
-    if (this.currentPage === total) return [total - 2, total - 1, total];
-    return [this.currentPage - 1, this.currentPage, this.currentPage + 1];
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
 
-  paginatedEmployeeCosts() {
-    const start = (this.currentPage - 1) * this.itemsPerPage;
-    const end = start + this.itemsPerPage;
-    return this.filteredEmployeeCosts().slice(start, end);
-  }
+
 
   changePage(page: number) {
     if (page < 1 || page > this.totalPages) return;
     this.currentPage = page;
+    this.updatePagination();
   }
+
+  updatePagination() {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    const filtered = this.filteredEmployeeCosts();
+    this.paginatedEmployeeCostsList = filtered.slice(start, end);
+  }
+
+
+
+  onItemsPerChange(event: any) {
+    this.currentPage = 1;
+    this.updatePagination();
+  }
+
+
 
   onNew() {
     this.resetForm();
     this.showForm = true;
-        this.router.navigate(['/panel/general-master-data/create-new-employee-cost']);
+    this.router.navigate(['/panel/general-master-data/create-new-employee-cost']);
 
   }
 
@@ -100,7 +113,7 @@ export class EmployeeCostComponent {
   }
 
   editEmployeeCost() {
-        this.router.navigate(['/panel/general-master-data/edit-employee-cost']);
+    this.router.navigate(['/panel/general-master-data/edit-employee-cost']);
 
   }
 
@@ -118,12 +131,17 @@ export class EmployeeCostComponent {
   deleteEmployeeCost(index: number) {
     this.employeeCosts.splice(index, 1);
     if (this.editIndex === index) this.hideForm();
-    if (this.currentPage > this.totalPages) this.currentPage = this.totalPages;
+    if (this.currentPage > this.totalPages && this.totalPages > 0) {
+      this.currentPage = this.totalPages;
+    }
+
+    this.updatePagination();
+
   }
 
   cancelForm() {
     this.hideForm();
-        this.router.navigate(['/panel/general-master-data/view-all-employee-cost']);
+    this.router.navigate(['/panel/general-master-data/view-all-employee-cost']);
 
   }
 

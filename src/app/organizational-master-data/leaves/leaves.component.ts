@@ -12,6 +12,8 @@ export class LeavesComponent {
   formTitle=""
   constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
   ngOnInit(): void {
+        this.updatePagination();
+
     this.activatedRoute.data.subscribe(data => {
       this.title = data['title'];
       if (this.title === 'view') {
@@ -72,9 +74,7 @@ export class LeavesComponent {
       'InActive'
     ]
   };
-   fetchLeaves() {
-    return this.leaves;
-  }
+
 
   // ✅ Leaves Data
   leaves = [
@@ -193,6 +193,8 @@ export class LeavesComponent {
   // ✅ Pagination
   currentPage = 1;
   itemsPerPage = 5;
+     paginatedLeavesList: any[] = [];
+
 
   get currentPageStart() {
     return (this.currentPage - 1) * this.itemsPerPage;
@@ -202,17 +204,8 @@ export class LeavesComponent {
     return Math.ceil(this.filteredLeaves().length / this.itemsPerPage);
   }
 
-  get totalPagesArray() {
-    const total = this.totalPages;
-
-    if (total <= 3) {
-      return Array.from({ length: total }, (_, i) => i + 1);
-    }
-
-    if (this.currentPage === 1) return [1, 2, 3];
-    if (this.currentPage === total) return [total - 2, total - 1, total];
-
-    return [this.currentPage - 1, this.currentPage, this.currentPage + 1];
+   get totalPagesArray() {
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
 
   // ✅ Helper Methods
@@ -253,14 +246,26 @@ export class LeavesComponent {
   }
 
   // ✅ Pagination Data
-  paginatedLeaves() {
-    const start = (this.currentPage - 1) * this.itemsPerPage;
-    return this.filteredLeaves().slice(start, start + this.itemsPerPage);
-  }
 
   changePage(page: number) {
     if (page < 1 || page > this.totalPages) return;
     this.currentPage = page;
+        this.updatePagination();
+
+  }
+
+      updatePagination() {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    const filtered = this.filteredLeaves();
+    this.paginatedLeavesList = filtered.slice(start, end);
+  }
+
+
+
+  onItemsPerChange(event: any) {
+    this.currentPage = 1;
+    this.updatePagination();
   }
 
   // ✅ Add New
@@ -330,10 +335,11 @@ export class LeavesComponent {
     if (confirm('Are you sure you want to delete this leave?')) {
       this.leaves.splice(index, 1);
 
-      if (this.currentPage > this.totalPages && this.currentPage > 1) {
-        this.currentPage = this.totalPages;
-      }
+    if (this.currentPage > this.totalPages && this.totalPages > 0) {
+      this.currentPage = this.totalPages;
     }
+    this.updatePagination();
+  }
   }
 
   // ✅ Form Control

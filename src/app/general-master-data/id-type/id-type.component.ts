@@ -12,6 +12,8 @@ export class IdTypeComponent {
   formTitle=""
   constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
   ngOnInit(): void {
+          this.updatePagination();
+
     this.activatedRoute.data.subscribe(data => {
       this.title = data['title'];
       if (this.title === 'view') {
@@ -48,9 +50,7 @@ export class IdTypeComponent {
     { code: 'ID003', name: 'National ID', alertDays: 60, isActive: true },
     // add more dummy data as needed
   ];
-   fetchIdTypes() {
-    return this.idTypes;
-  }
+
 
   showForm = false;
   idTypeCode = '';
@@ -64,6 +64,8 @@ export class IdTypeComponent {
     // ⭐ GLOBAL PAGINATION (same as Candidate Table)
   currentPage = 1;
   itemsPerPage = 7;
+     paginatedIdTypesList: any[] = [];
+
 
   get currentPageStart() {
     return (this.currentPage - 1) * this.itemsPerPage;
@@ -74,30 +76,32 @@ export class IdTypeComponent {
   }
 
   get totalPagesArray() {
-  const total = this.totalPages;
-
-  if (total <= 3) {
-    return Array.from({ length: total }, (_, i) => i + 1);
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
 
-  // Always show only 3 pages
-   if (this.currentPage === 1) return [1, 2, 3];
-  if (this.currentPage === total) return [total - 2,total - 1, total];
 
-  return [this.currentPage - 1, this.currentPage, this.currentPage + 1];
-}
-
-
-  paginatedIdTypes() {
-    const start = (this.currentPage - 1) * this.itemsPerPage;
-    const end = start + this.itemsPerPage;
-    return this.filteredIdTypes().slice(start, end);
-  }
 
   changePage(page: number) {
     if (page < 1 || page > this.totalPages) return;
     this.currentPage = page;
+    this.updatePagination();
   }
+
+    updatePagination() {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    const filtered = this.filteredIdTypes();
+    this.paginatedIdTypesList = filtered.slice(start, end);
+  }
+
+
+
+  onItemsPerChange(event: any) {
+    this.currentPage = 1;
+    this.updatePagination();
+  }
+
+
 
   onNew() {
     this.resetForm();
@@ -137,8 +141,12 @@ export class IdTypeComponent {
   deleteIdType(index: number) {
     this.idTypes.splice(index, 1);
     if (this.editIndex === index) this.hideForm();
-    if (this.currentPage > this.totalPages) this.currentPage = this.totalPages;
-  }
+
+    if (this.currentPage > this.totalPages && this.totalPages > 0) {
+      this.currentPage = this.totalPages;
+    }
+    this.updatePagination();
+  }  
 
   cancelForm() {
     this.hideForm();

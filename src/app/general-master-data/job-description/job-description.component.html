@@ -24,7 +24,7 @@
         <!-- Items Per Page -->
         <div class="items-per-page">
           <label>Items per page:</label>
-          <select class="form-select" [(ngModel)]="itemsPerPage">
+          <select class="form-select" [(ngModel)]="itemsPerPage" (change)="onItemsPerChange($event)">
             <option [ngValue]="5">5</option>
             <option [ngValue]="8">8</option>
             <option [ngValue]="10">10</option>
@@ -34,12 +34,8 @@
 
         <!-- Search -->
         <div class="search-wrapper ms-auto">
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Search..."
-            [(ngModel)]="searchText"
-          />
+          <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="searchText"
+            (ngModelChange)="updatePagination()" />
           <i class="fa fa-search search-icon"></i>
         </div>
       </div>
@@ -66,10 +62,8 @@
             </thead>
 
             <tbody>
-              <tr
-                *ngFor="let item of paginatedJobDescs(); let i = index"
-                [class.edit-row]="editIndex === currentPageStart + i"
-              >
+              <tr *ngFor="let item of paginatedJobDescsList; let i = index"
+                [class.edit-row]="editIndex === currentPageStart + i">
                 <td>{{ item.code }}</td>
                 <td>{{ item.name }}</td>
                 <td>{{ item.jobTitle }}</td>
@@ -82,14 +76,8 @@
                 <td>{{ item.location }}</td>
                 <td>{{ item.createdBy }}</td>
                 <td class="action-col">
-                  <i
-                    class="fa fa-edit action-icon"
-                    (click)="editJobDesc()"
-                  ></i>
-                  <i
-                    class="fa fa-trash action-icon"
-                    (click)="deleteJobDesc(currentPageStart + i)"
-                  ></i>
+                  <i class="fa fa-edit action-icon" (click)="editJobDesc()"></i>
+                  <i class="fa fa-trash action-icon" (click)="deleteJobDesc(currentPageStart + i)"></i>
                 </td>
               </tr>
             </tbody>
@@ -97,35 +85,9 @@
         </div>
 
         <!-- Pagination -->
-        <div class="d-flex justify-content-end mt-3 me-3">
-          <nav aria-label="Page navigation">
-            <ul class="pagination">
-
-              <li class="page-item" [class.disabled]="currentPage === 1">
-                <a class="page-link" (click)="changePage(currentPage - 1)">
-                  &laquo;
-                </a>
-              </li>
-
-              <li
-                class="page-item"
-                *ngFor="let page of totalPagesArray"
-                [class.active]="page === currentPage"
-              >
-                <a class="page-link" (click)="changePage(page)">
-                  {{ page }}
-                </a>
-              </li>
-
-              <li class="page-item" [class.disabled]="currentPage === totalPages">
-                <a class="page-link" (click)="changePage(currentPage + 1)">
-                  &raquo;
-                </a>
-              </li>
-
-            </ul>
-          </nav>
-        </div>
+            <app-pagination [currentPage]="currentPage" [totalPages]="totalPages" [totalPagesArray]="totalPagesArray"
+          (pageChange)="changePage($event)">
+        </app-pagination>
 
       </div>
     </div>
@@ -136,124 +98,107 @@
   <!-- ============================= -->
   <!--   FORM VIEW (NEW / EDIT)     -->
   <!-- ============================= -->
-    <div class="card-container" *ngIf = 'title === "create" || title === "edit" '>
+  <div class="card-container" *ngIf='title === "create" || title === "edit" '>
 
-      <!-- Header Row -->
-      <div class="header-row">
-        <h4 class="main-title">
-          {{ formTitle }}
-        </h4>
+    <!-- Header Row -->
+    <div class="header-row">
+      <h4 class="main-title">
+        {{ formTitle }}
+      </h4>
 
-        <button class="reset-btn" (click)="resetForm()">
-          <i class="fa fa-refresh"></i> Reset
-        </button>
-      </div>
-
-      <hr class="divider" />
-
-      <!-- Form -->
-      <div class="form-row row">
-
-        <div class="col-md-4 mb-3">
-          <label>Code <span class="text-danger">*</span></label>
-          <select class="form-control" [(ngModel)]="code">
-            <option *ngFor="let opt of dummyValues" [value]="opt">{{ opt }}</option>
-          </select>
-        </div>
-
-        <div class="col-md-4 mb-3">
-          <label>Name <span class="text-danger">*</span></label>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Enter Name"
-            [(ngModel)]="name"
-          />
-        </div>
-
-        <div class="col-md-4 mb-3">
-          <label>Job Title <span class="text-danger">*</span></label>
-          <select class="form-control" [(ngModel)]="jobTitle">
-            <option *ngFor="let opt of dummyValues" [value]="opt">{{ opt }}</option>
-          </select>
-        </div>
-
-        <div class="col-md-4 mb-3">
-          <label>Skill Code <span class="text-danger">*</span></label>
-          <select class="form-control" [(ngModel)]="skillCode">
-            <option *ngFor="let opt of dummyValues" [value]="opt">{{ opt }}</option>
-          </select>
-        </div>
-
-        <div class="col-md-4 mb-3">
-          <label>Skill Description <span class="text-danger">*</span></label>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Enter Skill Description"
-            [(ngModel)]="skillDescription"
-          />
-        </div>
-
-        
-
-        <div class="col-md-4 mb-3">
-          <label>Qualification Code <span class="text-danger">*</span></label>
-          <select class="form-control" [(ngModel)]="qualificationCode">
-            <option *ngFor="let opt of dummyValues" [value]="opt">{{ opt }}</option>
-          </select>
-        </div>
-
-        <div class="col-md-4 mb-3">
-          <label>Qualification Name <span class="text-danger">*</span></label>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Enter Qualification Name"
-            [(ngModel)]="qualificationName"
-          />
-        </div>
-
-        <div class="col-md-4 mb-3">
-          <label>Department <span class="text-danger">*</span></label>
-          <select class="form-control" [(ngModel)]="department">
-            <option *ngFor="let opt of dummyValues" [value]="opt">{{ opt }}</option>
-          </select>
-        </div>
-
-        <div class="col-md-4 mb-3">
-          <label>Location <span class="text-danger">*</span></label>
-          <select class="form-control" [(ngModel)]="location">
-            <option *ngFor="let opt of dummyValues" [value]="opt">{{ opt }}</option>
-          </select>
-        </div>
-
-        <div class="col-md-4 mb-3">
-          <label>Created By <span class="text-danger">*</span></label>
-          <select class="form-control" [(ngModel)]="createdBy">
-            <option *ngFor="let opt of dummyValues" [value]="opt">{{ opt }}</option>
-          </select>
-        </div>
-        <div class="col-md-4 mb-3 checkbox-group">
-          <label class="me-2">Mandatory <span class="text-danger">*</span></label>
-          <input type="checkbox" [(ngModel)]="mandatory"/>
-        </div>
-
-      </div>
-
-      <!-- Buttons -->
-      <div class="btn-row text-end mt-2">
-        <button
-          class="btn btn-primary"
-          (click)="isEdit ? updateJobDesc() : createJobDesc()"
-        >
-          <i class="fa fa-check-circle"></i>
-          {{ isEdit ? "Update" : "Create" }}
-        </button>
-
-        <button class="btn btn-danger ms-2" (click)="cancelForm()">
-          <i class="fa fa-ban"></i> Cancel
-        </button>
-      </div>
+      <button class="reset-btn" (click)="resetForm()">
+        <i class="fa fa-refresh"></i> Reset
+      </button>
     </div>
+
+    <hr class="divider" />
+
+    <!-- Form -->
+    <div class="form-row row">
+
+      <div class="col-md-4 mb-3">
+        <label>Code <span class="text-danger">*</span></label>
+        <select class="form-control" [(ngModel)]="code">
+          <option *ngFor="let opt of dummyValues" [value]="opt">{{ opt }}</option>
+        </select>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <label>Name <span class="text-danger">*</span></label>
+        <input type="text" class="form-control" placeholder="Enter Name" [(ngModel)]="name" />
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <label>Job Title <span class="text-danger">*</span></label>
+        <select class="form-control" [(ngModel)]="jobTitle">
+          <option *ngFor="let opt of dummyValues" [value]="opt">{{ opt }}</option>
+        </select>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <label>Skill Code <span class="text-danger">*</span></label>
+        <select class="form-control" [(ngModel)]="skillCode">
+          <option *ngFor="let opt of dummyValues" [value]="opt">{{ opt }}</option>
+        </select>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <label>Skill Description <span class="text-danger">*</span></label>
+        <input type="text" class="form-control" placeholder="Enter Skill Description" [(ngModel)]="skillDescription" />
+      </div>
+
+
+
+      <div class="col-md-4 mb-3">
+        <label>Qualification Code <span class="text-danger">*</span></label>
+        <select class="form-control" [(ngModel)]="qualificationCode">
+          <option *ngFor="let opt of dummyValues" [value]="opt">{{ opt }}</option>
+        </select>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <label>Qualification Name <span class="text-danger">*</span></label>
+        <input type="text" class="form-control" placeholder="Enter Qualification Name"
+          [(ngModel)]="qualificationName" />
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <label>Department <span class="text-danger">*</span></label>
+        <select class="form-control" [(ngModel)]="department">
+          <option *ngFor="let opt of dummyValues" [value]="opt">{{ opt }}</option>
+        </select>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <label>Location <span class="text-danger">*</span></label>
+        <select class="form-control" [(ngModel)]="location">
+          <option *ngFor="let opt of dummyValues" [value]="opt">{{ opt }}</option>
+        </select>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <label>Created By <span class="text-danger">*</span></label>
+        <select class="form-control" [(ngModel)]="createdBy">
+          <option *ngFor="let opt of dummyValues" [value]="opt">{{ opt }}</option>
+        </select>
+      </div>
+      <div class="col-md-4 mb-3 checkbox-group">
+        <label class="me-2">Mandatory <span class="text-danger">*</span></label>
+        <input type="checkbox" [(ngModel)]="mandatory" />
+      </div>
+
+    </div>
+
+    <!-- Buttons -->
+    <div class="btn-row text-end mt-2">
+      <button class="btn btn-primary" (click)="isEdit ? updateJobDesc() : createJobDesc()">
+        <i class="fa fa-check-circle"></i>
+        {{ isEdit ? "Update" : "Create" }}
+      </button>
+
+      <button class="btn btn-danger ms-2" (click)="cancelForm()">
+        <i class="fa fa-ban"></i> Cancel
+      </button>
+    </div>
+  </div>
 </div>

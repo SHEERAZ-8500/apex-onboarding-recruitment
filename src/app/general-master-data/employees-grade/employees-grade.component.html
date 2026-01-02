@@ -24,7 +24,7 @@
         <!-- Items Per Page -->
         <div class="items-per-page">
           <label>Items per page:</label>
-          <select class="form-select" [(ngModel)]="itemsPerPage">
+          <select class="form-select" [(ngModel)]="itemsPerPage"  (change)="onItemsPerChange($event)">
             <option [ngValue]="5">5</option>
             <option [ngValue]="8">8</option>
             <option [ngValue]="10">10</option>
@@ -39,6 +39,7 @@
             class="form-control"
             placeholder="Search..."
             [(ngModel)]="searchText"
+             (ngModelChange)="updatePagination()"
           />
           <i class="fa fa-search search-icon"></i>
         </div>
@@ -57,7 +58,7 @@
 
           <tbody>
             <tr
-              *ngFor="let item of paginatedEmployeeGrades(); let i = index"
+              *ngFor="let item of paginatedEmployeeGradesList; let i = index"
               [class.edit-row]="editIndex === currentPageStart + i"
             >
               <td>{{ item.code }}</td>
@@ -78,35 +79,9 @@
         </table>
 
         <!-- Pagination -->
-        <div class="d-flex justify-content-end mt-3 me-3">
-          <nav aria-label="Page navigation">
-            <ul class="pagination">
-
-              <li class="page-item" [class.disabled]="currentPage === 1">
-                <a class="page-link" (click)="changePage(currentPage - 1)">
-                  &laquo;
-                </a>
-              </li>
-
-              <li
-                class="page-item"
-                *ngFor="let page of totalPagesArray"
-                [class.active]="page === currentPage"
-              >
-                <a class="page-link" (click)="changePage(page)">
-                  {{ page }}
-                </a>
-              </li>
-
-              <li class="page-item" [class.disabled]="currentPage === totalPages">
-                <a class="page-link" (click)="changePage(currentPage + 1)">
-                  &raquo;
-                </a>
-              </li>
-
-            </ul>
-          </nav>
-        </div>
+       <app-pagination [currentPage]="currentPage" [totalPages]="totalPages" [totalPagesArray]="totalPagesArray"
+          (pageChange)="changePage($event)">
+        </app-pagination>
 
       </div>
     </div>

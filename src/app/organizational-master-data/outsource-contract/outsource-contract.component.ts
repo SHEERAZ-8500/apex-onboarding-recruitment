@@ -48,6 +48,8 @@ export class OutsourceContractComponent {
   formTitle = ""
   constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
   ngOnInit(): void {
+        this.updatePagination();
+
     this.activatedRoute.data.subscribe(data => {
       this.title = data['title'];
       if (this.title === 'view') {
@@ -171,9 +173,7 @@ export class OutsourceContractComponent {
     { id: 'CUST007', name: 'Future Tech', bankName: 'Digital Bank', phoneNo: '111-222-3333', contactPerson: 'Grace Brown', vatNo: 'VAT00789012' },
     { id: 'CUST008', name: 'Digital Solutions', bankName: 'Online Bank', phoneNo: '999-888-7777', contactPerson: 'Henry Taylor', vatNo: 'VAT00890123' }
   ];
-  fetchcontracts() {
-    return this.contracts;
-  }
+ 
 
   // ✅ Form + State
   showForm = false;
@@ -190,6 +190,8 @@ export class OutsourceContractComponent {
   // ✅ Pagination
   currentPage = 1;
   itemsPerPage = 8;
+     paginatedContractsList: any[] = [];
+
 
   // ✅ Helper function to format date
   formatDate(date: Date): string {
@@ -208,27 +210,32 @@ export class OutsourceContractComponent {
   }
 
   get totalPagesArray() {
-    const total = this.totalPages;
-
-    if (total <= 3) {
-      return Array.from({ length: total }, (_, i) => i + 1);
-    }
-
-    if (this.currentPage === 1) return [1, 2, 3];
-    if (this.currentPage === total) return [total - 2, total - 1, total];
-
-    return [this.currentPage - 1, this.currentPage, this.currentPage + 1];
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
 
   // ✅ Pagination Data
-  paginatedContracts() {
-    const start = (this.currentPage - 1) * this.itemsPerPage;
-    return this.filteredContracts().slice(start, start + this.itemsPerPage);
-  }
+
 
   changePage(page: number) {
     if (page < 1 || page > this.totalPages) return;
     this.currentPage = page;
+        this.updatePagination();
+
+  }
+
+
+      updatePagination() {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    const filtered = this.filteredContracts();
+    this.paginatedContractsList = filtered.slice(start, end);
+  }
+
+
+
+  onItemsPerChange(event: any) {
+    this.currentPage = 1;
+    this.updatePagination();
   }
 
   // ✅ Add New
@@ -323,10 +330,11 @@ export class OutsourceContractComponent {
     if (confirm('Are you sure you want to delete this contract?')) {
       this.contracts.splice(index, 1);
 
-      if (this.currentPage > this.totalPages) {
-        this.currentPage = this.totalPages;
-      }
+       if (this.currentPage > this.totalPages && this.totalPages > 0) {
+      this.currentPage = this.totalPages;
     }
+    this.updatePagination();
+  }
   }
 
   // ✅ Form Control

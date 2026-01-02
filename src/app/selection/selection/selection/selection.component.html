@@ -24,7 +24,8 @@
         <!-- Items Per Page -->
         <div class="items-per-page">
           <label>Items per page:</label>
-          <select class="form-select" [(ngModel)]="itemsPerPage">
+          <select class="form-select" [(ngModel)]="itemsPerPage"
+          (change)="onItemsPerChange($event)">
             <option [ngValue]="5">5</option>
             <option [ngValue]="8">8</option>
             <option [ngValue]="10">10</option>
@@ -34,7 +35,9 @@
 
         <!-- Search -->
         <div class="search-wrapper ms-auto">
-          <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="searchText" />
+          <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="searchText"
+                       (ngModelChange)="updatePagination()"
+ />
           <i class="fa fa-search search-icon"></i>
         </div>
       </div>
@@ -60,7 +63,7 @@
             </thead>
 
             <tbody>
-              <tr *ngFor="let item of paginatedSelections(); let i = index"
+              <tr *ngFor="let item of paginatedSelectionsList; let i = index"
                 [class.edit-row]="editIndex === currentPageStart + i">
                 <td>{{ currentPageStart + i + 1 }}</td>
                 <td>{{ item.candidateName }}</td>
