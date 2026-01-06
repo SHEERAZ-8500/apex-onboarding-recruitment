@@ -12,17 +12,17 @@
     </div>
   </div>
   <div class="button-group">
-    <button class="bell-btn" (click)="toggleNotifications($event)">
+    <!-- <button class="bell-btn" (click)="toggleNotifications($event)">
       <i class="fa-solid fa-bell"></i>
       <span class="wave"></span>
-    </button>
+    </button> -->
 
-    <button data-bs-toggle="offcanvas" data-bs-target="#quickactions" aria-controls="quickactions">
+    <!-- <button data-bs-toggle="offcanvas" data-bs-target="#quickactions" aria-controls="quickactions">
       <i class="fa-solid fa-radiation"> </i>
     </button>
     <button class="display-none-style" data-bs-toggle="offcanvas" data-bs-target="#setting" aria-controls="setting">
       <i class="fa-solid fa-file"></i>
-    </button>
+    </button> -->
     <button (click)="themeService.toggleLightTheme()">
       <img [src]="
           isDarkMode
@@ -34,9 +34,9 @@
             : 'invert(0%) sepia(0%) saturate(100%) hue-rotate(0deg) brightness(100%) contrast(100%)'
         " />
     </button>
-    <button class="display-none-style" (click)="openChat()">
+    <!-- <button class="display-none-style" (click)="openChat()">
       <i class="fa-solid fa-comment-dots"></i>
-    </button>
+    </button> -->
     <!-- <button><i class="fa-solid fa-earth-americas"></i></button> -->
 
     <div class="btn-group display-none-style" ngbDropdown>
