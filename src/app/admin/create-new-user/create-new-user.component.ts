@@ -90,4 +90,8 @@ export class CreateNewUserComponent {
       }
     });
   }
+
+   cancel() {
+    this.router.navigate(['/panel/admin/view-all-users']); 
+  }
 }

@@ -4,6 +4,7 @@ import { RequestionLookupDto } from '../../shared/dtos/Dto';
 import { ApiService } from '../../shared/services/apis/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { LoaderService } from '../../shared/services/loader.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-job-title',
@@ -17,7 +18,8 @@ export class CreateJobTitleComponent implements OnInit {
     private route: ActivatedRoute,
     private apiService: ApiService,
     private toaster: ToastrService,
-    private loader: LoaderService
+    private loader: LoaderService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -127,5 +129,9 @@ export class CreateJobTitleComponent implements OnInit {
   }
   onReset() {
     this.formData = new RequestionLookupDto();
+  }
+
+    cancel() {
+    this.router.navigate(['/panel']); 
   }
 }

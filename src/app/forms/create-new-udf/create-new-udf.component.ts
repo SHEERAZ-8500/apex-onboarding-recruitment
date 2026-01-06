@@ -115,8 +115,10 @@ export class CreateNewUdfComponent implements OnInit {
 
   // Cancel
   onCancel(): void {
-    this.resetForm();
+    this.router.navigate(['/panel/forms/view-all-forms']); 
   }
+
+   
 
   // Reset Form
   resetForm(): void {

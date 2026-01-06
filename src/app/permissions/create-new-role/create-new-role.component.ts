@@ -75,6 +75,12 @@ export class CreateNewRoleComponent {
         this.toastr.error("Failed to create role!");
       }
     });
+    
 
+  
+  }
+
+   cancel() {
+    this.router.navigate(['/panel/permissions/view-all-rols']); 
   }
 }
