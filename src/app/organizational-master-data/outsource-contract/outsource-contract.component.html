@@ -260,13 +260,14 @@
 
         <!-- Submit/Cancel Buttons -->
         <div class="submit-buttons text-end mt-4 pt-3 border-top">
+            <button class="btn btn-danger ms-2" (click)="cancelForm()">
+            <i class="fa fa-ban"></i> Cancel
+          </button>
           <button class="btn btn-success" (click)="isEdit ? updateContract() : createContract()">
             <i class="fa fa-check-circle"></i> Submit
           </button>
 
-          <button class="btn btn-danger ms-2" (click)="cancelForm()">
-            <i class="fa fa-ban"></i> Cancel
-          </button>
+        
         </div>
       </div>
     </div>

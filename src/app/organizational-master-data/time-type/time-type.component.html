@@ -254,6 +254,10 @@
    
       <!-- Buttons -->
       <div class="btn-row text-end mt-2">
+
+          <button class="btn btn-danger ms-2" (click)="cancelForm()">
+          <i class="fa fa-ban"></i> Cancel
+        </button>
         <button
           class="btn btn-primary"
           (click)="isEdit ? updateTimeType() : createTimeType()"
@@ -263,9 +267,7 @@
           {{ isEdit ? "Update" : "Create" }}
         </button>
 
-        <button class="btn btn-danger ms-2" (click)="cancelForm()">
-          <i class="fa fa-ban"></i> Cancel
-        </button>
+      
       </div>
     </div>
 </div>

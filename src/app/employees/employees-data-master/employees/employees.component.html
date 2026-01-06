@@ -587,13 +587,14 @@
 
                   <!-- Buttons -->
                          <div class="btn-row text-end mt-4">
+                          <button type="button" class="btn btn-danger ms-2" (click)="cancelForm()">
+            <i class="fa fa-ban"></i> Cancel
+          </button>
           <button type="submit" class="btn btn-primary" [disabled]="!isFormValid()" (click)="saveEmployee()">
             <i class="fa fa-check-circle"></i>
             {{ isEdit ? "Update Employee" : "Create Employee" }}
           </button>
-          <button type="button" class="btn btn-danger ms-2" (click)="cancelForm()">
-            <i class="fa fa-ban"></i> Cancel
-          </button>
+          
         </div>
 
                 </form>

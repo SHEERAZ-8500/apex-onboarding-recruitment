@@ -199,16 +199,56 @@ table tbody tr td {
   color: #ffffff !important;
 }
 
-.dropdown .dropdown-menu {
-  background-color: var(--primary-color) !important;
-
-  li a {
-    color: var(--gray-color-1) !important;
-  }
-
-  li a:hover {
+.dropdown {
+  position: relative;
+  
+  .dropdown-toggle {
     cursor: pointer;
-    background: rgba(86, 111, 158, 0.2) !important;
+    padding: 4px 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+    
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    i {
+      font-size: 1rem;
+      color: var(--gray-color-1);
+    }
+  }
+  
+  .dropdown-menu {
+    background-color: var(--primary-color) !important;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 4px 0;
+    min-width: 150px;
+    margin-top: 4px;
+    z-index: 1000;
+    
+    .dropdown-item {
+      padding: 8px 16px;
+      font-size: 0.875rem;
+      color: var(--gray-color-1) !important;
+      text-decoration: none;
+      display: block;
+      transition: all 0.2s ease;
+      background: none;
+      border: none;
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+      
+      &:hover {
+        background-color: var(--light-purple);
+        color: white !important;
+      }
+    }
   }
 }
 
