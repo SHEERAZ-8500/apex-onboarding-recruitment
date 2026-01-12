@@ -93,7 +93,8 @@
     </div> -->
 
     <!-- Master Data (three-level with toggles on each level) -->
-    <div class="nav-item-with-toggle">
+
+    <div class="nav-item-with-toggle" hidden>
       <a class="top-link" (click)="toggleMasterData()" [attr.aria-expanded]="!masterdataCollapsed"
         aria-controls="masterdataExample">
         <i class="fa-solid fa-database"></i>
@@ -207,6 +208,7 @@
         </div>
       </div>
     </div>
+    
     <!-- employees (one-level with toggles on each level) -->
     <div class="nav-item-with-toggle">
       <a class="top-link" (click)="toggleEmployees()" [attr.aria-expanded]="!employeesCollapsed"
@@ -379,7 +381,7 @@
       </div>
     </div>
     <!-- Requisition Lookups -->
-    <div class="nav-item-with-toggle">
+    <div class="nav-item-with-toggle" hidden>
       <a class="top-link" (click)="toggleRequisitionLookups()" [attr.aria-expanded]="!requisitionLookupsCollapsed"
         aria-controls="requisitionLookupsExample">
         <i class="fa-solid fa-arrows-rotate"></i>
