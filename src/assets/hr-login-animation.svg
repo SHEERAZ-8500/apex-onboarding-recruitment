@@ -275,7 +275,7 @@
   <!-- Bottom text -->
   <g class="fade-in" style="animation-delay: 0.3s">
     <text x="500" y="890" text-anchor="middle" font-family="'Segoe UI', sans-serif" 
-          font-size="36" font-weight="700" fill="#4f89ab">
+          font-size="28" font-weight="700" fill="#4f89ab">
       APEX Innovation
     </text>
     <text x="500" y="925" text-anchor="middle" font-family="'Segoe UI', sans-serif" 

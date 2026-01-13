@@ -285,7 +285,7 @@
   
   <!-- Bottom branding -->
    <text x="500" y="890" text-anchor="middle" font-family="'Segoe UI', sans-serif" 
-          font-size="36" font-weight="700" fill="#1274ac">
+          font-size="28" font-weight="700" fill="#1274ac">
       APEX Innovation
     </text>
   
