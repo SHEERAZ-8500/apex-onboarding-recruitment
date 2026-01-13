@@ -372,6 +372,13 @@ background: linear-gradient(to right, #7fb0d1, #4f89ab, #3a6e8f);
   transition: all 0.3s ease;
   margin-bottom: 24px;
 
+   &:hover,
+  &:focus,
+  &:active,
+  &:focus-visible {
+    color: #ffffff !important;
+  }
+
   &:hover:not(:disabled) {
     transform: translateY(-2px);
   }

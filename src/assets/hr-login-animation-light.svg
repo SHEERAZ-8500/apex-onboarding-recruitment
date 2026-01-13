@@ -162,7 +162,8 @@
             fill="#f7fafc" stroke="#cbd5e0" stroke-width="1.5"/>
       
       <!-- Lock Icon -->
-      <g transform="translate(-187.5, 26)">
+      <g transform="translate(-195, 26)">
+
         <rect x="-5.5" y="-4" width="11" height="8" rx="1.5" 
               fill="none" stroke="#1274ac" stroke-width="1.8"/>
         <path d="M -2,-4 L -2,-7 Q -2,-9 0,-9 Q 2,-9 2,-7 L 2,-4" 
@@ -187,18 +188,16 @@
     <!-- Remember me & Forgot password -->
     <g class="fade-in" style="animation-delay: 0.7s">
       <!-- Checkbox -->
-      <rect x="-220" y="60" width="16" height="16" rx="4" 
-            fill="#f7fafc" stroke="#1274ac" stroke-width="1.8"/>
-      <path d="M -215,66 L -212,70 L -207,63" 
-            fill="none" stroke="#6c5ce7" stroke-width="2" 
-            stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="-219" y="76.5" width="17" height="17" rx="4" fill="#f7fafc" stroke="#1274ac" stroke-width="1.8"/>
+
+     <path d="M -214,86 L -211,89 L -207,80" fill="none" stroke="#6c5ce7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
       
-      <text x="-195" y="72" font-family="'Segoe UI', sans-serif" 
-            font-size="13" fill="#4a5568">
+      <text x="-195" y="88.5" font-family="'Segoe UI', sans-serif" 
+            font-size="14" fill="#4a5568">
         Remember me
       </text>
       
-      <text x="220" y="72" text-anchor="end" font-family="'Segoe UI', sans-serif" 
+      <text x="220" y="88.5" text-anchor="end" font-family="'Segoe UI', sans-serif" 
             font-size="13" fill="#1274ac" style="cursor: pointer">
         Forgot Password?
       </text>
