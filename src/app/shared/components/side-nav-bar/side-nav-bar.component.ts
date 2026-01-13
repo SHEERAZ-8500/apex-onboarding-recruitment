@@ -4,6 +4,9 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { ApiService } from '../../services/apis/api.service';
 import { SessionService } from '../../services/Session.service';
+import { ThemeService } from '../../../shared/services/Theme.service';
+
+
 
 @Component({
   selector: 'app-side-nav-bar',
@@ -12,26 +15,68 @@ import { SessionService } from '../../services/Session.service';
 })
 export class SideNavBarComponent implements OnInit {
   isOpen = true;
+  isDarkMode = false;
+
   constructor(private toggleService: ToggleService,
     private apiService: ApiService,
     private router: Router,
     private toastr: ToastrService,
-            private SessionService: SessionService,
+    private SessionService: SessionService,
+    private themeService: ThemeService
 
   ) { }
 
-    logoutUser() {
+
+ngOnInit() {
+  this.themeService.isLightTheme$.subscribe(value => {
+    this.isDarkMode = !value;
+  });
+
+  this.toggleService.sidebarOpen$.subscribe(open => {
+    this.isOpen = open;
+
+    // 👇 IMPORTANT PART
+    if (!open) {
+      this.collapseAllMenus();
+    }
+  });
+}
+
+
+
+  private collapseAllMenus() {
+    this.tableCollapsed = true;
+    this.assesment = true;
+
+    this.masterdataCollapsed = true;
+    this.generalMasterdataCollapsed = true;
+    this.organizationalMasterdataCollapsed = true;
+    this.outsourcinggMasterdataCollapsed = true;
+
+    this.employeesCollapsed = true;
+    this.employeesMasterDataCollapsed = true;
+
+    this.recruitmentCollapsed = true;
+    this.recruitmentFormsCollapsed = true;
+    this.SelectionFormsCollapsed = true;
+
+    this.formsCollapsed = true;
+    this.adminCollapsed = true;
+    this.requisitionLookupsCollapsed = true;
+  }
+
+  logoutUser() {
 
     this.apiService.logout().subscribe((res) => {
       this.toastr.success("Logout Successfully")
-     this.SessionService.clearStorage()
-     this.router.navigate(["/"])
+      this.SessionService.clearStorage()
+      this.router.navigate(["/"])
     }, (error) => {
-      
+
 
     })
   }
-    // top-level groups
+  // top-level groups
   assesment = true;
   masterdata = true;
   employees = true;
@@ -55,9 +100,7 @@ export class SideNavBarComponent implements OnInit {
   requisitionLookupsCollapsed = true;
   employeesMasterDataCollapsed = true;
   tableCollapsed = true;
-  ngOnInit() {
-    this.toggleService.sidebarOpen$.subscribe(open => this.isOpen = open);
-  }
+ 
 
   // toggles (bound to click handlers)
   toggleAssessment() { this.assesment = !this.assesment; }

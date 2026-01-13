@@ -96,5 +96,13 @@ export class ViewUserPermissionsComponent {
       this.toastr.error('Failed to load user permissions', 'Error');
     });
 
+
+  }
+
+
+    // Cancel
+  onCancel(): void {
+    this.router.navigate(['/panel/permissions/view-all-rols']);
+
   }
 }

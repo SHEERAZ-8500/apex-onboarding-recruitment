@@ -1,7 +1,7 @@
 <!-- side-nav-bar.component.html -->
 <nav [class.closed]="!isOpen" class="sidebar pt-3">
   <div class="logo gap-1" *ngIf="isOpen">
-    <img src="../../../../assets/apex-logo1.png" alt="not-found" style="width: 200px; height: 40px" />
+                     <img [src]="isDarkMode ? '../../../../assets/company-logo-black.png' : '../../../../assets/company-logo-white.png'" alt="not-found" style="width: 200px; height: 40px">
 
   </div>
   <div *ngIf="!isOpen">
@@ -31,14 +31,14 @@
   <div class="tabslist">
     <!-- Top-level items -->
     <a routerLink="/panel/dashboard" routerLinkActive="active"><i class="fas fa-home"></i> <span>Dashboard</span></a>
-    <a routerLink="/panel/offers" hidden routerLinkActive="active"><i class="fa-solid fa-tag"></i> <span>Offers</span></a>
-    <a routerLink="/panel/employes" hidden routerLinkActive="active"><i
+    <!-- <a routerLink="/panel/offers" routerLinkActive="active"><i class="fa-solid fa-tag"></i> <span>Offers</span></a>
+    <a routerLink="/panel/employes" routerLinkActive="active"><i
         class="fa-solid fa-people-group"></i><span>People</span></a>
-    <a routerLink="/panel/jobs-details" hidden routerLinkActive="active"><i class="fa-solid fa-briefcase"></i> <span>Jobs
+    <a routerLink="/panel/jobs-details" routerLinkActive="active"><i class="fa-solid fa-briefcase"></i> <span>Jobs
         Details</span></a>
-    <a routerLink="/panel/chat" hidden routerLinkActive="active"><i class="fa-regular fa-message"></i> <span>Chat</span></a>
-    <a routerLink="/panel/contact" hidden routerLinkActive="active"><i class="fa-solid fa-address-book"></i>
-      <span>Contacts</span></a>
+    <a routerLink="/panel/chat" routerLinkActive="active"><i class="fa-regular fa-message"></i> <span>Chat</span></a>
+    <a routerLink="/panel/contact" routerLinkActive="active"><i class="fa-solid fa-address-book"></i>
+      <span>Contacts</span></a> -->
 
     <!-- Table -->
     <div class="nav-item-with-toggle">
@@ -71,8 +71,8 @@
       </div>
     </div>
 
-    <!-- Assessment (two-level) -->
-    <div class="nav-item-with-toggle" hidden>
+    <!-- Assessment (two-level)
+    <div class="nav-item-with-toggle">
       <a class="top-link" (click)="toggleAssessment()" [attr.aria-expanded]="!assesment"
         aria-controls="assessmentExample">
         <i class="fa-solid fa-clipboard"></i>
@@ -90,9 +90,10 @@
           <a><span>Received Assesment</span></a>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- Master Data (three-level with toggles on each level) -->
+
     <div class="nav-item-with-toggle" hidden>
       <a class="top-link" (click)="toggleMasterData()" [attr.aria-expanded]="!masterdataCollapsed"
         aria-controls="masterdataExample">
@@ -207,6 +208,7 @@
         </div>
       </div>
     </div>
+    
     <!-- employees (one-level with toggles on each level) -->
     <div class="nav-item-with-toggle">
       <a class="top-link" (click)="toggleEmployees()" [attr.aria-expanded]="!employeesCollapsed"

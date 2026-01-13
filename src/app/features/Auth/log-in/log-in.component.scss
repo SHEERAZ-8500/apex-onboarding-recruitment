@@ -40,7 +40,7 @@
   width: 100%;
   max-width: 400px;
   height: 100vh;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--primary-color);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -301,7 +301,7 @@
   }
 
   &:focus {
-    box-shadow: 0 0 0 4px rgba(112, 71, 238, 0.1);
+    box-shadow: 0 0 0 4px rgba(239, 239, 239, 0.1);
   }
 }
 
@@ -313,8 +313,8 @@
 
 /* Light Mode Checkbox */
 .light-mode .form-check-input {
-  background-color: #ffffff;
-  border: 1.5px solid #d1d5db;
+  background-color: var(--primary-color);
+  border: 1.5px solid var(--border-color);
 
   &:checked {
     background-color: var(--purple-1);
@@ -322,9 +322,7 @@
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e");
   }
 
-  &:focus {
-    box-shadow: 0 0 0 4px rgba(112, 71, 238, 0.12);
-  }
+  
 }
 .logo-image{
   width: 200px;
@@ -356,14 +354,14 @@
   transition: all 0.3s ease;
 
   &:hover {
-    color: #9d4edd;
+    color: var(--purple-1);
     text-decoration: underline;
   }
 }
 
 /* Login Button */
 .login-btn {
-  background: linear-gradient(135deg, var(--purple-1), #9d4edd);
+background: linear-gradient(to right, #7fb0d1, #4f89ab, #3a6e8f);
   color: white;
   font-weight: 600;
   font-size: 16px;
@@ -376,7 +374,6 @@
 
   &:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(112, 71, 238, 0.4);
   }
 
   &:active:not(:disabled) {
