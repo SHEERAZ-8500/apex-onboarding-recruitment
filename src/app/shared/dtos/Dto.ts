@@ -101,7 +101,7 @@ export class CreateColumnDto {
 
 
 export class createNewColumnInIndependentTableDto {
- name: string = '';
+  name: string = '';
   type: string = '';
   maxLength: number | null = null;
   precision: number | null = null;
@@ -114,6 +114,24 @@ export class createNewColumnInIndependentTableDto {
 
 
   constructor(init?: Partial<createNewColumnInIndependentTableDto>) {
+    Object.assign(this, init);
+  }
+}
+
+
+export class ReqFormDto {
+  requisitionNumber: number | null = null;
+  requisitionName: string = '';
+  designationName: string = '';                 
+  noOfInterviews: number | null = null;
+  noOfEmployeeIntraCountry: number | null = null;
+  noOfEmployeeInterCountry: number | null = null; 
+  requiredDate: Date | null = null;              
+  trainingRequired: boolean = true;
+  description: string = '';
+   status: boolean = true;
+
+  constructor(init?: Partial<ReqFormDto>) {
     Object.assign(this, init);
   }
 }

@@ -125,20 +125,20 @@
         <div class="col-md-6 mb-3">
           <label>Requisition Number <span class="text-danger">*</span></label>
           <input type="number" class="form-control" placeholder="Enter Requisition Number" 
-            [(ngModel)]="requisitionNumber" [readonly]="isEdit" min="1" />
+            [(ngModel)]="formData.requisitionNumber" [readonly]="isEdit" min="1" />
         </div>
 
         <!-- Requisition Name (Input Field) -->
         <div class="col-md-6 mb-3">
           <label>Requisition Name <span class="text-danger">*</span></label>
           <input type="text" class="form-control" placeholder="Enter Requisition Name" 
-            [(ngModel)]="requisitionName" />
+            [(ngModel)]="formData.requisitionName" />
         </div>
 
         <!-- Designation Name (Dropdown) -->
         <div class="col-md-6 mb-3">
           <label>Designation Name <span class="text-danger">*</span></label>
-          <select class="form-select" [(ngModel)]="designationName">
+          <select class="form-select" [(ngModel)]="formData.designationName">
             <option value="">Select Designation</option>
             <option *ngFor="let option of dropdownOptions.designations" [value]="option">
               {{ option }}
@@ -150,27 +150,27 @@
         <div class="col-md-6 mb-3">
           <label>No of Interviews <span class="text-danger">*</span></label>
           <input type="number" class="form-control" placeholder="Enter Number of Interviews" 
-            [(ngModel)]="numberOfInterviews" min="0" />
+            [(ngModel)]="formData.noOfInterviews" min="0" />
         </div>
 
         <!-- No Of Employee Intra Country (Numeric Field) -->
         <div class="col-md-6 mb-3">
           <label>No Of Employee Intra Country <span class="text-danger">*</span></label>
           <input type="number" class="form-control" placeholder="Enter Intra Country Employees" 
-            [(ngModel)]="intraCountryEmployees" min="0" />
+            [(ngModel)]="formData.noOfEmployeeIntraCountry" min="0" />
         </div>
 
         <!-- No Of Employee Inter Country (Numeric Field) -->
         <div class="col-md-6 mb-3">
           <label>No Of Employee Inter Country <span class="text-danger">*</span></label>
           <input type="number" class="form-control" placeholder="Enter Inter Country Employees" 
-            [(ngModel)]="interCountryEmployees" min="0" />
+            [(ngModel)]="formData.noOfEmployeeInterCountry" min="0" />
         </div>
 
         <!-- Required Date (Date Picker) -->
         <div class="col-md-6 mb-3">
           <label>Required Date <span class="text-danger">*</span></label>
-          <input type="date" class="form-control" [(ngModel)]="requiredDate" 
+          <input type="date" class="form-control" [(ngModel)]="formData.requiredDate" 
             [min]="minDate" [max]="maxDate" />
         </div>
 
@@ -178,20 +178,20 @@
         <div class="col-md-6 mb-3">
           <label>Training Required</label>
           <input type="text" class="form-control" placeholder="Enter Training Requirements" 
-            [(ngModel)]="trainingRequired" />
+            [(ngModel)]="formData.trainingRequired" />
         </div>
 
         <!-- Description (Textarea) -->
         <div class="col-md-12 mb-3">
           <label>Description</label>
           <textarea class="form-control" placeholder="Enter Description" rows="3" 
-            [(ngModel)]="description"></textarea>
+            [(ngModel)]="formData.description"></textarea>
         </div>
 
         <!-- Status (Dropdown) -->
         <div class="col-md-6 mb-3">
           <label>Status <span class="text-danger">*</span></label>
-          <select class="form-select" [(ngModel)]="status">
+          <select class="form-select" [(ngModel)]="formData.status">
             <option value="">Select Status</option>
             <option *ngFor="let option of dropdownOptions.statusOptions" [value]="option">
               {{ option }}

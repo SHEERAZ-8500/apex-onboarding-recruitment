@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ReqFormDto } from '../../../shared/dtos/Dto';
 
 
 @Component({
@@ -11,6 +12,8 @@ export class RequisitionComponent {
 
    title = 'view';
   formTitle = ""
+formData = new ReqFormDto();
+
     constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
