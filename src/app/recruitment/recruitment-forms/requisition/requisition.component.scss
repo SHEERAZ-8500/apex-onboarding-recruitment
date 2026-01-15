@@ -516,3 +516,46 @@
 
   }
 }
+
+
+.form-switch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  .form-check-input {
+    width: 40px;
+    height: 20px;
+    cursor: pointer;
+    appearance: none;
+    background-color: var(--border-color);
+    border-radius: 20px;
+    position: relative;
+    outline: none;
+    transition: 0.3s;
+
+    &:checked {
+      background-color: var(--purple-1);
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: white;
+      left: 1px;
+      transition: 0.3s;
+    }
+
+    &:checked::before {
+      transform: translateX(20px);
+    }
+  }
+
+  .form-check-label {
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+}

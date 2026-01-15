@@ -173,21 +173,6 @@
           <input type="date" class="form-control" [(ngModel)]="formData.requiredDate" 
             [min]="minDate" [max]="maxDate" />
         </div>
-
-        <!-- Training Required (Input Field) -->
-        <div class="col-md-6 mb-3">
-          <label>Training Required</label>
-          <input type="text" class="form-control" placeholder="Enter Training Requirements" 
-            [(ngModel)]="formData.trainingRequired" />
-        </div>
-
-        <!-- Description (Textarea) -->
-        <div class="col-md-12 mb-3">
-          <label>Description</label>
-          <textarea class="form-control" placeholder="Enter Description" rows="3" 
-            [(ngModel)]="formData.description"></textarea>
-        </div>
-
         <!-- Status (Dropdown) -->
         <div class="col-md-6 mb-3">
           <label>Status <span class="text-danger">*</span></label>
@@ -199,6 +184,27 @@
           </select>
         </div>
 
+                <!-- Description (Textarea) -->
+        <div class="col-md-12 mb-3">
+          <label>Description</label>
+          <textarea class="form-control" placeholder="Enter Description" rows="3" 
+            [(ngModel)]="formData.description"></textarea>
+        </div>
+
+        
+        <!-- Training Required (Input Field) -->
+       <div class="col-md-6 mb-3">
+  <label>Training Required</label>
+  <div class="form-check form-switch">
+    <input class="form-check-input" type="checkbox" [(ngModel)]="formData.trainingRequired" />
+    <label class="form-check-label">
+      {{ formData.trainingRequired ? 'Yes' : 'No' }}
+    </label>
+  </div>
+</div>
+
+
+
       </div>
 
       <!-- Buttons -->
@@ -208,8 +214,8 @@
         <button class="btn btn-danger ms-2" (click)="cancelForm()">
           <i class="fa fa-ban"></i> Cancel
         </button>
-        <button class="btn btn-primary" (click)="isEdit ? updateRequisition() : createRequisition()" 
-          [disabled]="!isFormValid()">
+        <button class="btn btn-primary" (click)="saveRequisition()"
+          >
           <i class="fa fa-check-circle"></i>
           {{ isEdit ? "Update" : "Create" }}
         </button>

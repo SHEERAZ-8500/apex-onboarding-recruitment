@@ -214,3 +214,53 @@ table tbody tr td {
        transform: translateY(-2px);
     }
   }
+
+
+  .switch {
+  position: relative;
+  display: inline-block;
+  width: 24px;
+  height: 14px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(90deg, #4ade80 0%, #3b82f6 100%);
+  border-radius: 34px;
+  transition: background-color 0.4s ease;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 10px;
+  width: 10px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.4s ease;
+  box-shadow: 0 0 5px rgba(0,0,0,0.2);
+}
+
+/* When checked, move the knob to right */
+input:checked + .slider:before {
+  transform: translateX(10px);
+}
+
+/* Optional: change background on checked/unchecked */
+input:not(:checked) + .slider {
+  background: #ccc;
+}
+
+input:checked + .slider {
+  background: var(--purple-1);
+}

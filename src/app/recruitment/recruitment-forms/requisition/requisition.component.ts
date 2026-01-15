@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ReqFormDto } from '../../../shared/dtos/Dto';
+import { DynamicFieldDto, ReqFormDto } from '../../../shared/dtos/Dto';
+import { ToastrService } from 'ngx-toastr';
+import { ApiService } from '../../../shared/services/apis/api.service';
+import { LoaderService } from '../../../shared/services/loader.service';
+
 
 
 @Component({
@@ -14,7 +18,7 @@ export class RequisitionComponent {
   formTitle = ""
 formData = new ReqFormDto();
 
-    constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+    constructor( private api: ApiService, private toastr: ToastrService, private loader: LoaderService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
 
@@ -134,6 +138,10 @@ formData = new ReqFormDto();
   ];
 
 
+
+
+  
+
   // ✅ Form Fields
   requisitionNumber: number | null = null;
   requisitionName = '';
@@ -158,6 +166,37 @@ formData = new ReqFormDto();
      paginatedRequisitionsList: any[] = [];
 
 
+
+
+     
+
+ saveRequisition() {
+    // Prepare complete data with dynamic fields
+    const completeData = {
+      data: {
+        ...this.formData,
+      },
+      rows: [] // Get data from all row table tabs
+    };
+
+
+    this.showForm = false;
+    this.loader.show();
+    this.api.saveFormData('Job_Requisition', completeData).subscribe({
+      next: (res: any) => {
+        console.log('Requisition saved successfully:', res);
+        this.toastr.success('Requisition data saved successfully');
+        this.loader.hide();
+      },
+      error: (err: any) => {
+        console.error('Error saving requisition data:', err);
+        this.toastr.error('Failed to save requisition data');
+        this.loader.hide();
+      }
+    });
+  }
+
+     
   get currentPageStart() {
     return (this.currentPage - 1) * this.itemsPerPage;
   }
@@ -200,6 +239,10 @@ formData = new ReqFormDto();
     );
   }
 
+
+
+  
+
   // ✅ Pagination Data
 
 
@@ -225,6 +268,7 @@ formData = new ReqFormDto();
     this.currentPage = 1;
     this.updatePagination();
   }
+
 
 
 

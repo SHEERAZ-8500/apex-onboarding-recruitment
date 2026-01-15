@@ -4,12 +4,14 @@ export class AllFormsLisitngDto {
   name: string;
   publicId: string;
   version: number;
+  status: string;
 
-  constructor(createdDate: string, name: string, publicId: string, version: number) {
+  constructor(createdDate: string, name: string, publicId: string, version: number, status: string) {
     this.createdDate = createdDate;
     this.name = name;
     this.publicId = publicId;
     this.version = version;
+    this.status = status;
   }
 }
 
@@ -122,14 +124,14 @@ export class createNewColumnInIndependentTableDto {
 export class ReqFormDto {
   requisitionNumber: number | null = null;
   requisitionName: string = '';
-  designationName: string = '';                 
+  designationName: string = '';
   noOfInterviews: number | null = null;
   noOfEmployeeIntraCountry: number | null = null;
-  noOfEmployeeInterCountry: number | null = null; 
-  requiredDate: Date | null = null;              
+  noOfEmployeeInterCountry: number | null = null;
+  requiredDate: Date | null = null;
   trainingRequired: boolean = true;
   description: string = '';
-   status: boolean = true;
+  status: boolean = true;
 
   constructor(init?: Partial<ReqFormDto>) {
     Object.assign(this, init);

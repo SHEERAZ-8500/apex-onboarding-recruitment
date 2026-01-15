@@ -70,6 +70,9 @@ export class ApiService {
       return this.http.post('admin/forms', data);
     }
 
+    activateForm(formCode: string, status: boolean  ) {
+  return this.http.patch(`admin/forms/${formCode}/activation?active=${status}`, {});
+}
 
 
   // roles
