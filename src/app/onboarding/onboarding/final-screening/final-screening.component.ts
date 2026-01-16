@@ -1,11 +1,12 @@
-import { Component, HostListener} from '@angular/core';
+import { Component, HostListener, OnInit} from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-final-screening',
   templateUrl: './final-screening.component.html',
   styleUrls: ['./final-screening.component.scss']
 })
-export class FinalScreeningComponent  {
+export class FinalScreeningComponent implements OnInit {
 
   // Candidate data model
   candidate: any = {
@@ -54,7 +55,8 @@ export class FinalScreeningComponent  {
   payElements: string[] = ['Basic Salary', 'HRA', 'Allowance', 'Bonus', 'Provident Fund'];
   payFrequencies: string[] = ['Monthly', 'Bi-Monthly', 'Weekly', 'Yearly'];
 
- 
+ constructor(private router: Router) { }
+  ngOnInit(): void {}
 
   // Toggle Dropdown open/close
   toggleDropdown(event: Event, field: string): void {
@@ -80,7 +82,9 @@ export class FinalScreeningComponent  {
   }
 
  
-
+  onCancel(): void {
+    this.router.navigate(['/panel']); 
+  }
  
   
 

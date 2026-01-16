@@ -1,11 +1,12 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-candidates',
   templateUrl: './candidates.component.html',
   styleUrls: ['./candidates.component.scss']
 })
-export class CandidatesComponent {
+export class CandidatesComponent implements OnInit {
 
   // Section-wise candidate data
   candidate: any = {
@@ -74,6 +75,8 @@ export class CandidatesComponent {
   candidateStatuses: string[] = ['New', 'In Process', 'Hired', 'Rejected'];
 
   
+constructor(private router: Router) { }
+  ngOnInit(): void {}
 
   // Toggle Dropdown open/close
   toggleDropdown(event: Event, field: string): void {
@@ -98,7 +101,9 @@ export class CandidatesComponent {
     this.activeDropdown = '';
   }
 
-
+  onCancel(): void {
+    this.router.navigate(['/panel']); 
+  }
 
 
 

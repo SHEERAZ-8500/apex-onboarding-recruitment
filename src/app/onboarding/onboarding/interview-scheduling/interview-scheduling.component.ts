@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
@@ -7,7 +7,7 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './interview-scheduling.component.html',
   styleUrls: ['./interview-scheduling.component.scss']
 })
-export class InterviewSchedulingComponent {
+export class InterviewSchedulingComponent implements OnInit {
   // Form Fields
   interviewDate: string = '';
   interviewStartTime: string = '';
@@ -61,8 +61,8 @@ export class InterviewSchedulingComponent {
   ];
 
 
-
- 
+constructor(private router: Router) { }
+  ngOnInit(): void {} 
 
   // Dropdown Handlers
   toggleCandidateDropdown(event: Event): void {
@@ -143,6 +143,8 @@ export class InterviewSchedulingComponent {
     this.isStatusDropdownOpen = false;
   }
 
- 
+    onCancel(): void {
+    this.router.navigate(['/panel']); 
+  }
   }
 

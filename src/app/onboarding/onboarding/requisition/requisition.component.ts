@@ -1,11 +1,12 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-requisition-form',
   templateUrl: './requisition.component.html',
   styleUrls: ['./requisition.component.scss']
 })
-export class RequisitionComponent {
+export class RequisitionComponent implements OnInit{
   // Form fields
   requisitionId!: number;
   requisitionName!: string;
@@ -27,6 +28,10 @@ export class RequisitionComponent {
   designations = ['Junior','Senior','Lead'];
   hiringManagers = ['Alice','Bob','Charlie'];
 
+constructor(private router: Router) { }
+  ngOnInit(): void {}
+
+
   // Dropdown toggle
   toggleDropdown(event: Event, dropdownId: string) {
     event.stopPropagation();
@@ -42,5 +47,9 @@ export class RequisitionComponent {
   @HostListener('document:click', ['$event'])
   closeDropdowns(event: Event) {
     this.activeDropdown = '';
+  }
+
+    onCancel(): void {
+    this.router.navigate(['/panel']); 
   }
 }
