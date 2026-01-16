@@ -180,7 +180,7 @@
     padding: 9px 16px;
     border-radius: 6px;
     border: 1px solid var(--border-color);
-    background-color: var(--primary-color);
+          background: var(--second-primary-color);
     color: var(--white-color-1);
     font-size: 15px;
     transition: all 0.3s ease;
@@ -211,7 +211,7 @@
     right: 0;
     max-height: 200px;
     overflow-y: auto;
-    background-color: var(--second-primary-color);
+    background-color: var(--primary-color);
     border: 1px solid var(--border-color);
     border-radius: 6px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
