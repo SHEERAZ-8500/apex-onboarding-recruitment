@@ -321,7 +321,12 @@ a.router-link-active {
 .dropdown-btn{
   background: none;
   border: none;
+  
 }
 .dropdown-menu{
   transform: translate3d(127.4px, 73.2px, 0px)!important;
+}
+.dropdown-menu .dropdown-item:hover {
+  
+  color: var(--purple-1) !important;
 }

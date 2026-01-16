@@ -56,9 +56,7 @@ ngOnInit() {
     this.employeesCollapsed = true;
     this.employeesMasterDataCollapsed = true;
 
-    this.recruitmentCollapsed = true;
-    this.recruitmentFormsCollapsed = true;
-    this.SelectionFormsCollapsed = true;
+    this.onboardingCollapsed = true;
 
     this.formsCollapsed = true;
     this.adminCollapsed = true;
@@ -80,8 +78,7 @@ ngOnInit() {
   assesment = true;
   masterdata = true;
   employees = true;
-  recruitment = true;
-  selection = true;
+  onboarding = true;
 
   // master data tree state
   masterdataCollapsed = true;
@@ -89,11 +86,7 @@ ngOnInit() {
   organizationalMasterdataCollapsed = true;
   outsourcinggMasterdataCollapsed = true;
   employeesCollapsed = true;
-  recruitmentCollapsed = true;
-  recruitmentFormsCollapsed = true;
-  SelectionFormsCollapsed = true
-
-
+  onboardingCollapsed = true;
   // other groups
   adminCollapsed = true;
   formsCollapsed = true;
@@ -121,9 +114,8 @@ ngOnInit() {
 
   toggleRequisitionLookups() { this.requisitionLookupsCollapsed = !this.requisitionLookupsCollapsed; }
   toggleEmployeesMasterData() { this.employeesMasterDataCollapsed = !this.employeesMasterDataCollapsed; }
-  toggleRecruitment() { this.recruitmentCollapsed = !this.recruitmentCollapsed; }
-  toggleRecruitmentForms() { this.recruitmentFormsCollapsed = !this.recruitmentFormsCollapsed; }
-  toggleSelectionForms() { this.SelectionFormsCollapsed = !this.SelectionFormsCollapsed; }
+
+  toggleOnboarding() { this.onboardingCollapsed = !this.onboardingCollapsed; }
 
   toggleTable() { this.tableCollapsed = !this.tableCollapsed; }
 

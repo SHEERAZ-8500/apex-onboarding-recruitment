@@ -1,0 +1,271 @@
+<div class="candidates-form-container">
+    <div class="candidates-form-card">
+        <div class="form-header">
+      <h2 class="form-title">Final Screening</h2>
+      <p class="form-subtitle">Define a new final screening</p>
+    </div>
+
+        <!-- Section 1: Candidate Info -->
+        <div class="form-section candidate-info">
+            <form class="section-form">
+                <h3 class="section-heading">Candidate Information</h3>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="input-label">ID <span class="required">*</span></label>
+                        <input type="number" class="form-input" [(ngModel)]="candidate.id" name="id" required />
+                    </div>
+                    <div class="form-group">
+                        <label class="input-label">Candidate ID <span class="required">*</span></label>
+                        <div class="custom-dropdown" (click)="toggleDropdown($event,'candidateId')">
+                            <div class="dropdown-selected">
+                                <span>{{ candidate.candidateId || 'Select Candidate ID' }}</span>
+                                <i class="fa-solid fa-chevron-down dropdown-arrow"
+                                    [class.rotate]="activeDropdown==='candidateId'"></i>
+                            </div>
+                            <div class="dropdown-options" *ngIf="activeDropdown==='candidateId'">
+                                <div class="dropdown-option" *ngFor="let id of candidateIds"
+                                    (click)="selectOption('candidateId',id,$event)">
+                                    {{ id }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Section 2: Basic Information -->
+        <div class="form-section basic-info">
+            <form class="section-form">
+                <h3 class="section-heading">Basic Information</h3>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="input-label">First Name <span class="required">*</span></label>
+                        <input type="text" class="form-input" [(ngModel)]="candidate.firstName" name="firstName"
+                            required />
+                    </div>
+                    <div class="form-group">
+                        <label class="input-label">Last Name <span class="required">*</span></label>
+                        <input type="text" class="form-input" [(ngModel)]="candidate.lastName" name="lastName"
+                            required />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="input-label">Requisition <span class="required">*</span></label>
+                        <div class="custom-dropdown" (click)="toggleDropdown($event,'requisition')">
+                            <div class="dropdown-selected">
+                                <span>{{ candidate.requisition || 'Select Requisition' }}</span>
+                                <i class="fa-solid fa-chevron-down dropdown-arrow"
+                                    [class.rotate]="activeDropdown==='requisition'"></i>
+                            </div>
+                            <div class="dropdown-options" *ngIf="activeDropdown==='requisition'">
+                                <div class="dropdown-option" *ngFor="let r of requisitions"
+                                    (click)="selectOption('requisition',r,$event)">
+                                    {{ r }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="input-label">Email</label>
+                        <input type="email" class="form-input" [(ngModel)]="candidate.email" name="email"
+                            placeholder="Enter Email" />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="input-label">Contact Number 1</label>
+                        <input type="text" class="form-input" [(ngModel)]="candidate.contact1" name="contact1"
+                            placeholder="Enter Contact Number" />
+                    </div>
+                    <div class="form-group">
+                        <label class="input-label">Contact Number 2</label>
+                        <input type="text" class="form-input" [(ngModel)]="candidate.contact2" name="contact2"
+                            placeholder="Enter Contact Number" />
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Section 3: Interview Details -->
+        <div class="form-section interview-details">
+            <form class="section-form">
+                <h3 class="section-heading">Interview Details</h3>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="input-label">Interview ID</label>
+                        <input type="text" class="form-input" [(ngModel)]="candidate.interviewId" name="interviewId" />
+                    </div>
+                    <div class="form-group">
+                        <label class="input-label">Interview Date</label>
+                        <input type="date" class="form-input" [(ngModel)]="candidate.interviewDate"
+                            name="interviewDate" />
+                    </div>
+                    <div class="form-group">
+                        <label class="input-label">Interview Time</label>
+                        <input type="time" class="form-input" [(ngModel)]="candidate.interviewTime"
+                            name="interviewTime" />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="input-label">Interviewer Status</label>
+                        <div class="custom-dropdown" (click)="toggleDropdown($event,'interviewerStatus')">
+                            <div class="dropdown-selected">
+                                <span>{{ candidate.interviewerStatus || 'Select Status' }}</span>
+                                <i class="fa-solid fa-chevron-down dropdown-arrow"
+                                    [class.rotate]="activeDropdown==='interviewerStatus'"></i>
+                            </div>
+                            <div class="dropdown-options" *ngIf="activeDropdown==='interviewerStatus'">
+                                <div class="dropdown-option" *ngFor="let status of interviewerStatuses"
+                                    (click)="selectOption('interviewerStatus',status,$event)">
+                                    {{ status }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="input-label">Interviewer Name</label>
+                        <div class="custom-dropdown" (click)="toggleDropdown($event,'interviewerName')">
+                            <div class="dropdown-selected">
+                                <span>{{ candidate.interviewerName || 'Select Interviewer' }}</span>
+                                <i class="fa-solid fa-chevron-down dropdown-arrow"
+                                    [class.rotate]="activeDropdown==='interviewerName'"></i>
+                            </div>
+                            <div class="dropdown-options" *ngIf="activeDropdown==='interviewerName'">
+                                <div class="dropdown-option" *ngFor="let name of interviewerNames"
+                                    (click)="selectOption('interviewerName',name,$event)">
+                                    {{ name }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row full-width">
+                    <div class="form-group">
+                        <label class="input-label">Interviewer Remarks</label>
+                        <textarea class="form-input" [(ngModel)]="candidate.interviewerRemarks"
+                            name="interviewerRemarks" rows="3" placeholder="Enter remarks"></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Section 4: Final Decision -->
+        <div class="form-section final-decision">
+            <form class="section-form">
+                <h3 class="section-heading">Final Decision</h3>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="input-label">Status <span class="required">*</span></label>
+                        <div class="custom-dropdown" (click)="toggleDropdown($event,'finalStatus')">
+                            <div class="dropdown-selected">
+                                <span>{{ candidate.finalStatus || 'Select Status' }}</span>
+                                <i class="fa-solid fa-chevron-down dropdown-arrow"
+                                    [class.rotate]="activeDropdown==='finalStatus'"></i>
+                            </div>
+                            <div class="dropdown-options" *ngIf="activeDropdown==='finalStatus'">
+                                <div class="dropdown-option" *ngFor="let status of finalStatuses"
+                                    (click)="selectOption('finalStatus',status,$event)">
+                                    {{ status }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="input-label">Date of Joining</label>
+                        <input type="date" class="form-input" [(ngModel)]="candidate.dateOfJoining"
+                            name="dateOfJoining" />
+                    </div>
+                </div>
+
+                <div class="form-row full-width">
+                    <div class="form-group">
+                        <label class="input-label">Remarks</label>
+                        <textarea class="form-input" [(ngModel)]="candidate.finalRemarks" name="finalRemarks" rows="3"
+                            placeholder="Enter final remarks"></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Section 5: Salary Details -->
+        <div class="form-section salary-details">
+            <form class="section-form">
+                <h3 class="section-heading">Salary Details</h3>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="input-label">Pay Element</label>
+                        <div class="custom-dropdown" (click)="toggleDropdown($event,'payElement')">
+                            <div class="dropdown-selected">
+                                <span>{{ candidate.payElement || 'Select Pay Element' }}</span>
+                                <i class="fa-solid fa-chevron-down dropdown-arrow"
+                                    [class.rotate]="activeDropdown==='payElement'"></i>
+                            </div>
+                            <div class="dropdown-options" *ngIf="activeDropdown==='payElement'">
+                                <div class="dropdown-option" *ngFor="let element of payElements"
+                                    (click)="selectOption('payElement',element,$event)">
+                                    {{ element }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="input-label">Effective Date</label>
+                        <input type="date" class="form-input" [(ngModel)]="candidate.effectiveDate"
+                            name="effectiveDate" />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="input-label">Pay Frequency</label>
+                        <div class="custom-dropdown" (click)="toggleDropdown($event,'payFrequency')">
+                            <div class="dropdown-selected">
+                                <span>{{ candidate.payFrequency || 'Select Frequency' }}</span>
+                                <i class="fa-solid fa-chevron-down dropdown-arrow"
+                                    [class.rotate]="activeDropdown==='payFrequency'"></i>
+                            </div>
+                            <div class="dropdown-options" *ngIf="activeDropdown==='payFrequency'">
+                                <div class="dropdown-option" *ngFor="let freq of payFrequencies"
+                                    (click)="selectOption('payFrequency',freq,$event)">
+                                    {{ freq }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="input-label">Amount</label>
+                        <input type="number" step="0.01" class="form-input" [(ngModel)]="candidate.amount"
+                            name="amount" placeholder="0.00" />
+                    </div>
+                </div>
+
+                <div class="form-row full-width">
+                    <div class="form-group">
+                        <label class="input-label">Remarks</label>
+                        <textarea class="form-input" [(ngModel)]="candidate.salaryRemarks" name="salaryRemarks"
+                            rows="3" placeholder="Enter salary remarks"></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="form-actions">
+            <button type="button" class="btn btn-cancel" >Cancel</button>
+            <button type="button" class="btn btn-submit" >Save Candidate</button>
+        </div>
+
+    </div>
+</div>

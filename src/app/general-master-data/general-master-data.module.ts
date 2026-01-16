@@ -19,7 +19,7 @@ import { KpiQuestionsComponent } from './kpi-questions/kpi-questions.component';
 import { EmployeesGradeComponent } from './employees-grade/employees-grade.component';
 
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: 'view-all-skills',
     component: SkillsComponent, data: { title: 'view' }
