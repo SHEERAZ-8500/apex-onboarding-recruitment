@@ -28,23 +28,23 @@ const routes: Routes = [
       { path: 'jobs-details', component: JobsComponent },
       { path: 'view-all-submissions/:id', component: ViewAllFormSubmissionsComponent },
       { path: 'view-all-notifications', component: ViewAllNotificationsComponent },
-      { path: 'table', loadChildren: () => import('./table-builder/table-build.module').then(m => m.TableBuildModule) },
-      { path: 'assesment', loadChildren: () => import('./assessments/assesment.module').then(m => m.AssesmentModule) },
+      { path: 'table', loadChildren: () => import('./modules/table-builder/table-build.module').then(m => m.TableBuildModule) },
+      { path: 'assesment', loadChildren: () => import('./modules/assessments/assesment.module').then(m => m.AssesmentModule) },
       { path: 'chat', loadChildren: () => import('./features/chatting/chat.module').then(m => m.ChatModule) },
 
       { path: 'email', loadChildren: () => import('./features/emails/email.module').then(m => m.EmailModule) },
-      { path: 'general-master-data', loadChildren: () => import('./general-master-data/general-master-data.module').then(m => m.GeneralMasterDataModule) },
+      { path: 'general-master-data', loadChildren: () => import('./modules/general-master-data/general-master-data.module').then(m => m.GeneralMasterDataModule) },
 
-      { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) },
+      { path: 'admin', loadChildren: () => import('./modules/admin/admin.module').then(m => m.AdminModule) },
 
-      { path: 'permissions', loadChildren: () => import('./permissions/permissions.module').then(m => m.PermissionsModule) },
+      { path: 'permissions', loadChildren: () => import('./modules/permissions/permissions.module').then(m => m.PermissionsModule) },
 
-      { path: 'requisition-lookups', loadChildren: () => import('./requisition-lookups/requisition-lookups.module').then(m => m.RequisitionLookupsModule) },
-      { path: 'organizational-master-data', loadChildren: () => import('./organizational-master-data/organizational-master-data.module').then(m => m.OrganizationalMasterDataModule) },
-      { path: 'out-sourcing-master-data', loadChildren: () => import('./out-sorucing-master-data/out-sourcing-master-data.module').then(m => m.OutSourcingMasterDataModule) },
-      { path: 'employees-master-data', loadChildren: () => import('./employees/employees-data-master/employees-master-data.module').then(m => m.EmployeesMasterDataModule) },
-      { path: 'forms', loadChildren: () => import('./forms/forms.module').then(m => m.FormsModule) },
-      { path: 'onboarding', loadChildren: () => import('./onboarding/onboarding/onboarding.module').then(m => m.OnboardingModule) },
+      { path: 'requisition-lookups', loadChildren: () => import('./modules/requisition-lookups/requisition-lookups.module').then(m => m.RequisitionLookupsModule) },
+      { path: 'organizational-master-data', loadChildren: () => import('./modules/organizational-master-data/organizational-master-data.module').then(m => m.OrganizationalMasterDataModule) },
+      { path: 'out-sourcing-master-data', loadChildren: () => import('./modules/out-sorucing-master-data/out-sourcing-master-data.module').then(m => m.OutSourcingMasterDataModule) },
+      { path: 'employees-master-data', loadChildren: () => import('./modules/employees/employees-data-master/employees-master-data.module').then(m => m.EmployeesMasterDataModule) },
+      { path: 'forms', loadChildren: () => import('./modules/forms/forms.module').then(m => m.FormsModule) },
+      { path: 'onboarding', loadChildren: () => import('./modules/onboarding/onboarding/onboarding.module').then(m => m.OnboardingModule) },
 
 
 
