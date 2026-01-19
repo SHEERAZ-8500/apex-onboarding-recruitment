@@ -37,11 +37,15 @@ export class RequisitionComponent implements OnInit{
   ngOnInit(): void {
     // Load dynamic fields and tabs
     this.loader.show();
-    this.dynamicFieldsService.loadDynamicFields('REQUISITION_FORM', 'USER_DEFINED', [])
+    this.dynamicFieldsService.loadDynamicFields('EMPLOYEE_REQUISITION', 'USER_DEFINED', [])
       .then(() => {
         // Get tabs from service
         this.sidebarTabs = this.dynamicFieldsService.sidebarTabs;
         this.activeTabId = this.dynamicFieldsService.activeTabId;
+        console.log('sidebarTabs:', this.sidebarTabs);
+        if (this.sidebarTabs.length > 1) {
+          console.log('rowTableField:', this.sidebarTabs[1]?.rowTableField);
+        }
         this.loader.hide();
       })
       .catch((err) => {

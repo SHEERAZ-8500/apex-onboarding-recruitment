@@ -71,7 +71,7 @@ export class InterviewSchedulingComponent implements OnInit {
   ngOnInit(): void {
     // Load dynamic fields and tabs
     this.loader.show();
-    this.dynamicFieldsService.loadDynamicFields('INTERVIEW_SCHEDULING', 'USER_DEFINED', [])
+    this.dynamicFieldsService.loadDynamicFields('EMPLOYEE_REQUISITION', 'USER_DEFINED', [])
       .then(() => {
         // Get tabs from service
         this.sidebarTabs = this.dynamicFieldsService.sidebarTabs;

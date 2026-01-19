@@ -1,137 +1,119 @@
-<div class="interview-form-container">
-    <div class="interview-form-wrapper">
-        <!-- Sidebar for Tabs -->
-        <div class="sidebar-tabs" *ngIf="sidebarTabs.length > 0">
-            <h3 class="sidebar-title">Navigation</h3>
-            <div class="tab-list">
-                <div *ngFor="let tab of sidebarTabs" class="sidebar-tab-item"
-                    [class.active]="activeTabId === tab.id" (click)="setActiveTab(tab.id)">
-                    <i class="fa" [ngClass]="tab.icon || 'fa-file'"></i>
-                    <span>{{ tab.name }}</span>
-                </div>
-            </div>
+<div class="candidates-form-container">
+    <div class="candidates-form-card">
+        <div class="form-header">
+            <h2 class="form-title">Interview Scheduling Form</h2>
+            <p class="form-subtitle">Schedule interview for candidates</p>
         </div>
 
-        <!-- Main Form Content -->
-        <div class="interview-form-card" [class.with-sidebar]="sidebarTabs.length > 0">
-            <div class="form-header">
-                <h2 class="form-title">Interview Scheduling Form</h2>
-                <p class="form-subtitle">Schedule interview for candidates</p>
-            </div>
+        <form class="section-form">
 
-        <form class="interview-form">
-            <!-- Row 1: Candidate ID & Interview Date -->
-            <div class="form-row">
-                <div class="form-group">
-                    <label class="input-label">Candidate ID <span class="required">*</span></label>
-                    <div class="custom-dropdown" (click)="toggleCandidateDropdown($event)">
-                        <div class="dropdown-selected">
-                            <span>{{ interview.selectedCandidate }}</span>
-                            <i class="fa-solid fa-chevron-down dropdown-arrow"
-                                [class.rotate]="isCandidateDropdownOpen"></i>
+            <!-- Section 1: Interview Details -->
+            <div class="form-section interview-details">
+                <h3 class="section-heading">Interview Details</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="input-label">Candidate ID <span class="required">*</span></label>
+                        <div class="custom-dropdown" (click)="toggleCandidateDropdown($event)">
+                            <div class="dropdown-selected">
+                                <span>{{ interview.selectedCandidate }}</span>
+                                <i class="fa-solid fa-chevron-down dropdown-arrow"
+                                    [class.rotate]="isCandidateDropdownOpen"></i>
+                            </div>
+                            <div class="dropdown-options" *ngIf="isCandidateDropdownOpen">
+                                <div class="dropdown-option" *ngFor="let candidate of candidateOptions"
+                                    (click)="selectCandidate(candidate, $event)">
+                                    {{ candidate.name }} ({{ candidate.id }})
+                                </div>
+                            </div>
                         </div>
-                        <div class="dropdown-options" *ngIf="isCandidateDropdownOpen">
-                            <div class="dropdown-option" *ngFor="let candidate of candidateOptions"
-                                (click)="selectCandidate(candidate, $event)">
-                                {{ candidate.name }} ({{ candidate.id }})
+                    </div>
+                    <div class="form-group">
+                        <label class="input-label">Interview Date <span class="required">*</span></label>
+                        <input type="date" class="form-input" [(ngModel)]="interview.interviewDate" name="interviewDate" required />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="input-label">Interview Start Time <span class="required">*</span></label>
+                        <input type="time" class="form-input" [(ngModel)]="interview.interviewStartTime" name="interviewStartTime" required />
+                    </div>
+                    <div class="form-group">
+                        <label class="input-label">Interview Location <span class="required">*</span></label>
+                        <div class="custom-dropdown" (click)="toggleLocationDropdown($event)">
+                            <div class="dropdown-selected">
+                                <span>{{ interview.selectedLocation || 'Select Location' }}</span>
+                                <i class="fa-solid fa-chevron-down dropdown-arrow"
+                                    [class.rotate]="isLocationDropdownOpen"></i>
+                            </div>
+                            <div class="dropdown-options" *ngIf="isLocationDropdownOpen">
+                                <div class="dropdown-option" *ngFor="let location of locationOptions"
+                                    (click)="selectLocation(location, $event)">
+                                    {{ location }}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="form-group">
-                    <label class="input-label">Interview Date <span class="required">*</span></label>
-                    <input type="date" class="form-input" [(ngModel)]="interview.interviewDate" name="interviewDate" required />
-                </div>
-            </div>
-
-            <!-- Row 2: Interview Start Time & Interview Location -->
-            <div class="form-row">
-                <div class="form-group">
-                    <label class="input-label">Interview Start Time <span class="required">*</span></label>
-                    <input type="time" class="form-input" [(ngModel)]="interview.interviewStartTime" name="interviewStartTime" required />
-                </div>
-
-                <div class="form-group">
-                    <label class="input-label">Interview Location <span class="required">*</span></label>
-                    <div class="custom-dropdown" (click)="toggleLocationDropdown($event)">
-                        <div class="dropdown-selected">
-                            <span>{{ interview.selectedLocation || 'Select Location' }}</span>
-                            <i class="fa-solid fa-chevron-down dropdown-arrow"
-                                [class.rotate]="isLocationDropdownOpen"></i>
-                        </div>
-                        <div class="dropdown-options" *ngIf="isLocationDropdownOpen">
-                            <div class="dropdown-option" *ngFor="let location of locationOptions"
-                                (click)="selectLocation(location, $event)">
-                                {{ location }}
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="input-label">Meeting URL</label>
+                        <input type="text" class="form-input" [(ngModel)]="interview.meetingURL" name="meetingURL"
+                            placeholder="https://meet.google.com/abc-xyz" />
+                        <small class="input-hint">Optional - for virtual interviews</small>
+                    </div>
+                    <div class="form-group">
+                        <label class="input-label">Interviewer <span class="required">*</span></label>
+                        <div class="custom-dropdown" (click)="toggleInterviewerDropdown($event)">
+                            <div class="dropdown-selected">
+                                <span>{{ interview.selectedInterviewer || 'Select Interviewer' }}</span>
+                                <i class="fa-solid fa-chevron-down dropdown-arrow"
+                                    [class.rotate]="isInterviewerDropdownOpen"></i>
+                            </div>
+                            <div class="dropdown-options" *ngIf="isInterviewerDropdownOpen">
+                                <div class="dropdown-option" *ngFor="let interviewer of interviewerOptions"
+                                    (click)="selectInterviewer(interviewer, $event)">
+                                    {{ interviewer.name }} - {{ interviewer.department }}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Row 3: Meeting URL & Interviewer -->
-            <div class="form-row">
-                <div class="form-group">
-                    <label class="input-label">Meeting URL</label>
-                    <input type="text" class="form-input" [(ngModel)]="interview.meetingURL" name="meetingURL"
-                        placeholder="https://meet.google.com/abc-xyz" />
-                    <small class="input-hint">Optional - for virtual interviews</small>
-                </div>
-
-                <div class="form-group">
-                    <label class="input-label">Interviewer <span class="required">*</span></label>
-                    <div class="custom-dropdown" (click)="toggleInterviewerDropdown($event)">
-                        <div class="dropdown-selected">
-                            <span>{{ interview.selectedInterviewer || 'Select Interviewer' }}</span>
-                            <i class="fa-solid fa-chevron-down dropdown-arrow"
-                                [class.rotate]="isInterviewerDropdownOpen"></i>
-                        </div>
-                        <div class="dropdown-options" *ngIf="isInterviewerDropdownOpen">
-                            <div class="dropdown-option" *ngFor="let interviewer of interviewerOptions"
-                                (click)="selectInterviewer(interviewer, $event)">
-                                {{ interviewer.name }} - {{ interviewer.department }}
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="input-label">Interview Status <span class="required">*</span></label>
+                        <div class="custom-dropdown" (click)="toggleStatusDropdown($event)">
+                            <div class="dropdown-selected">
+                                <span>{{ interview.selectedStatus || 'Select Status' }}</span>
+                                <i class="fa-solid fa-chevron-down dropdown-arrow"
+                                    [class.rotate]="isStatusDropdownOpen"></i>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Row 4: Interview Status -->
-            <div class="form-row">
-                <div class="form-group">
-                    <label class="input-label">Interview Status <span class="required">*</span></label>
-                    <div class="custom-dropdown" (click)="toggleStatusDropdown($event)">
-                        <div class="dropdown-selected">
-                            <span>{{ interview.selectedStatus || 'Select Status' }}</span>
-                            <i class="fa-solid fa-chevron-down dropdown-arrow"
-                                [class.rotate]="isStatusDropdownOpen"></i>
-                        </div>
-                        <div class="dropdown-options" *ngIf="isStatusDropdownOpen">
-                            <div class="dropdown-option" *ngFor="let status of statusOptions"
-                                (click)="selectStatus(status, $event)">
-                                {{ status }}
+                            <div class="dropdown-options" *ngIf="isStatusDropdownOpen">
+                                <div class="dropdown-option" *ngFor="let status of statusOptions"
+                                    (click)="selectStatus(status, $event)">
+                                    {{ status }}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Row 5: Remarks -->
-            <div class="form-row full-width">
-  <div class="form-group full-width">
-                    <label class="input-label">Remarks</label>
-                    <textarea class="form-textarea" [(ngModel)]="interview.remarks" name="remarks" rows="3"
-                        placeholder="General remarks about the interview..."></textarea>
+            <!-- Section 2: Remarks -->
+            <div class="form-section remarks-section">
+                <h3 class="section-heading">Remarks</h3>
+                <div class="form-row full-width">
+                    <div class="form-group full-width">
+                        <label class="input-label">Remarks</label>
+                        <textarea class="form-textarea" [(ngModel)]="interview.remarks" name="remarks" rows="3"
+                            placeholder="General remarks about the interview..."></textarea>
+                    </div>
                 </div>
-            </div>
-
-            <!-- Row 6: Interview Remarks -->
-            <div class="form-row full-width">
-                <div class="form-group full-width">
-                    <label class="input-label">Interview Remarks</label>
-                    <textarea class="form-textarea" [(ngModel)]="interview.interviewRemarks" name="interviewRemarks" rows="3"
-                        placeholder="Detailed feedback after interview..."></textarea>
+                <div class="form-row full-width">
+                    <div class="form-group full-width">
+                        <label class="input-label">Interview Remarks</label>
+                        <textarea class="form-textarea" [(ngModel)]="interview.interviewRemarks" name="interviewRemarks" rows="3"
+                            placeholder="Detailed feedback after interview..."></textarea>
+                    </div>
                 </div>
             </div>
 
@@ -241,16 +223,25 @@
                     </ng-container>
                 </div>
             </div>
-
+        <!-- Horizontal Tabs for ROW fields -->
+        <div class="horizontal-tabs" *ngIf="sidebarTabs.length > 0">
+            <div class="tabs-container">
+                <button *ngFor="let tab of sidebarTabs" 
+                    class="tab-button"
+                    [class.active]="activeTabId === tab.id" 
+                    (click)="setActiveTab(tab.id)">
+                    {{ tab.name }}
+                </button>
+            </div>
+        </div>
             <!-- ROW TABLE TABS Content -->
-            <div *ngIf="activeTabId > 1 && sidebarTabs[activeTabId - 1]?.rowTableField" class="tab-content-section">
+        <div *ngIf="sidebarTabs[activeTabId - 1]?.rowTableField" class="form-section tab-content-section">
+            <form class="section-form">
                 <h3 class="section-heading">{{ sidebarTabs[activeTabId - 1]?.name }}</h3>
-
                 <div class="alert alert-warning"
                     *ngIf="!sidebarTabs[activeTabId - 1]?.rowTableField?.rowColumns || sidebarTabs[activeTabId - 1]?.rowTableField?.rowColumns.length === 0">
                     <i class="fa fa-exclamation-triangle"></i> No row columns found for this table.
                 </div>
-
                 <div class="form-row"
                     *ngIf="sidebarTabs[activeTabId - 1]?.rowTableField?.rowColumns && sidebarTabs[activeTabId - 1]?.rowTableField?.rowColumns.length > 0">
                     <ng-container *ngFor="let column of sidebarTabs[activeTabId - 1]?.rowTableField?.rowColumns">
@@ -259,52 +250,41 @@
                                 {{ column.label || column.name }}
                                 <span class="required" *ngIf="column.required">*</span>
                             </label>
-
                             <!-- String Input -->
                             <input *ngIf="column.fieldType === 'STRING'" type="text" class="form-input"
                                 [placeholder]="'Enter ' + (column.label || column.name)"
                                 [(ngModel)]="column.selectedValue" [name]="column.fieldCode"
                                 [attr.maxlength]="column.maxLength">
-
                             <!-- Number Input -->
                             <input *ngIf="column.fieldType === 'NUMBER'" type="number" class="form-input"
                                 [placeholder]="'Enter ' + (column.label || column.name)"
                                 [(ngModel)]="column.selectedValue" [name]="column.fieldCode">
-
                             <!-- Date Input -->
                             <input *ngIf="column.fieldType === 'DATE'" type="date" class="form-input"
                                 [(ngModel)]="column.selectedValue" [name]="column.fieldCode">
-
                             <!-- Email Input -->
                             <input *ngIf="column.fieldType === 'EMAIL'" type="email" class="form-input"
                                 [placeholder]="'Enter ' + (column.label || column.name)"
                                 [(ngModel)]="column.selectedValue" [name]="column.fieldCode">
-
                             <!-- Phone Input -->
                             <input *ngIf="column.fieldType === 'PHONE'" type="tel" class="form-input"
                                 [placeholder]="'Enter ' + (column.label || column.name)"
                                 [(ngModel)]="column.selectedValue" [name]="column.fieldCode">
-
                             <!-- URL Input -->
                             <input *ngIf="column.fieldType === 'URL'" type="url" class="form-input"
                                 [placeholder]="'Enter ' + (column.label || column.name)"
                                 [(ngModel)]="column.selectedValue" [name]="column.fieldCode">
-
                             <!-- Textarea -->
-                            <textarea *ngIf="column.fieldType === 'TEXTAREA'" class="form-textarea" rows="3"
+                            <textarea *ngIf="column.fieldType === 'TEXTAREA'" class="form-input" rows="3"
                                 [placeholder]="'Enter ' + (column.label || column.name)"
                                 [(ngModel)]="column.selectedValue" [name]="column.fieldCode"
                                 [attr.maxlength]="column.maxLength"></textarea>
-
                             <!-- Boolean Checkbox -->
-                            <div *ngIf="column.fieldType === 'BOOLEAN'" class="form-check">
-                                <input class="form-check-input" type="checkbox" [(ngModel)]="column.selectedValue"
+                            <div *ngIf="column.fieldType === 'BOOLEAN'" class="checkbox-label">
+                                <input class="checkbox-input" type="checkbox" [(ngModel)]="column.selectedValue"
                                     [name]="column.fieldCode" [id]="'row_' + column.fieldCode">
-                                <label class="form-check-label" [for]="'row_' + column.fieldCode">
-                                    {{ column.label }}
-                                </label>
+                                <span class="checkbox-text">{{ column.label }}</span>
                             </div>
-
                             <!-- Lookup Table Dropdown -->
                             <div *ngIf="column.fieldType === 'LOOKUP_TABLE'" class="custom-dropdown">
                                 <div class="dropdown-selected"
@@ -324,7 +304,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             <!-- Lookup Enum Dropdown -->
                             <div *ngIf="column.fieldType === 'LOOKUP_ENUM'" class="custom-dropdown">
                                 <div class="dropdown-selected"
@@ -347,7 +326,8 @@
                         </div>
                     </ng-container>
                 </div>
-            </div>
+            </form>
+        </div>
 
             <!-- Action Buttons -->
             <div class="form-actions">
@@ -361,6 +341,5 @@
                 </button>
             </div>
         </form>
+        </div>
     </div>
-</div>
-</div>
