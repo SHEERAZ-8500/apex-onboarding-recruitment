@@ -237,3 +237,21 @@ export class CandidateDto {
     Object.assign(this, init);
   }
 }
+
+
+export class FinalScreeningFormDto {
+  id: number | null = null;
+  candidateID: number | null = null;
+  status: string = '';
+  DOJ: string = '';
+  finalDeciosionRemarks: string = '';
+  payElement: string = '';
+  effectiveDate: string = '';
+  payFrequency: string = '';
+  amount: number | null = null;
+  remarks: string = '';
+
+  constructor(init?: Partial<FinalScreeningFormDto>) {
+    Object.assign(this, init);
+  }
+}

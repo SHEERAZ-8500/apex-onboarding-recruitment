@@ -26,7 +26,7 @@
                     <label class="input-label">Candidate ID <span class="required">*</span></label>
                     <div class="custom-dropdown" (click)="toggleCandidateDropdown($event)">
                         <div class="dropdown-selected">
-                            <span>{{ selectedCandidate || 'Select Candidate' }}</span>
+                            <span>{{ interview.selectedCandidate }}</span>
                             <i class="fa-solid fa-chevron-down dropdown-arrow"
                                 [class.rotate]="isCandidateDropdownOpen"></i>
                         </div>
@@ -41,7 +41,7 @@
 
                 <div class="form-group">
                     <label class="input-label">Interview Date <span class="required">*</span></label>
-                    <input type="date" class="form-input" [(ngModel)]="interviewDate" name="interviewDate" required />
+                    <input type="date" class="form-input" [(ngModel)]="interview.interviewDate" name="interviewDate" required />
                 </div>
             </div>
 
@@ -49,14 +49,14 @@
             <div class="form-row">
                 <div class="form-group">
                     <label class="input-label">Interview Start Time <span class="required">*</span></label>
-                    <input type="time" class="form-input" [(ngModel)]="interviewStartTime" name="interviewStartTime" required />
+                    <input type="time" class="form-input" [(ngModel)]="interview.interviewStartTime" name="interviewStartTime" required />
                 </div>
 
                 <div class="form-group">
                     <label class="input-label">Interview Location <span class="required">*</span></label>
                     <div class="custom-dropdown" (click)="toggleLocationDropdown($event)">
                         <div class="dropdown-selected">
-                            <span>{{ selectedLocation || 'Select Location' }}</span>
+                            <span>{{ interview.selectedLocation || 'Select Location' }}</span>
                             <i class="fa-solid fa-chevron-down dropdown-arrow"
                                 [class.rotate]="isLocationDropdownOpen"></i>
                         </div>
@@ -74,7 +74,7 @@
             <div class="form-row">
                 <div class="form-group">
                     <label class="input-label">Meeting URL</label>
-                    <input type="text" class="form-input" [(ngModel)]="meetingURL" name="meetingURL"
+                    <input type="text" class="form-input" [(ngModel)]="interview.meetingURL" name="meetingURL"
                         placeholder="https://meet.google.com/abc-xyz" />
                     <small class="input-hint">Optional - for virtual interviews</small>
                 </div>
@@ -83,7 +83,7 @@
                     <label class="input-label">Interviewer <span class="required">*</span></label>
                     <div class="custom-dropdown" (click)="toggleInterviewerDropdown($event)">
                         <div class="dropdown-selected">
-                            <span>{{ selectedInterviewer || 'Select Interviewer' }}</span>
+                            <span>{{ interview.selectedInterviewer || 'Select Interviewer' }}</span>
                             <i class="fa-solid fa-chevron-down dropdown-arrow"
                                 [class.rotate]="isInterviewerDropdownOpen"></i>
                         </div>
@@ -103,7 +103,7 @@
                     <label class="input-label">Interview Status <span class="required">*</span></label>
                     <div class="custom-dropdown" (click)="toggleStatusDropdown($event)">
                         <div class="dropdown-selected">
-                            <span>{{ selectedStatus || 'Select Status' }}</span>
+                            <span>{{ interview.selectedStatus || 'Select Status' }}</span>
                             <i class="fa-solid fa-chevron-down dropdown-arrow"
                                 [class.rotate]="isStatusDropdownOpen"></i>
                         </div>
@@ -121,7 +121,7 @@
             <div class="form-row full-width">
   <div class="form-group full-width">
                     <label class="input-label">Remarks</label>
-                    <textarea class="form-textarea" [(ngModel)]="remarks" name="remarks" rows="3"
+                    <textarea class="form-textarea" [(ngModel)]="interview.remarks" name="remarks" rows="3"
                         placeholder="General remarks about the interview..."></textarea>
                 </div>
             </div>
@@ -130,7 +130,7 @@
             <div class="form-row full-width">
                 <div class="form-group full-width">
                     <label class="input-label">Interview Remarks</label>
-                    <textarea class="form-textarea" [(ngModel)]="interviewRemarks" name="interviewRemarks" rows="3"
+                    <textarea class="form-textarea" [(ngModel)]="interview.interviewRemarks" name="interviewRemarks" rows="3"
                         placeholder="Detailed feedback after interview..."></textarea>
                 </div>
             </div>

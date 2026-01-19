@@ -20,6 +20,41 @@ export class InterviewSchedulingComponent implements OnInit {
   isInterviewerDropdownOpen: boolean = false;
   isStatusDropdownOpen: boolean = false;
 
+    // Dropdown Options
+  candidateOptions: any[] = [
+    { id: 'CAND001', name: 'John Doe' },
+    { id: 'CAND002', name: 'Jane Smith' },
+    { id: 'CAND003', name: 'Robert Johnson' },
+    { id: 'CAND004', name: 'Emily Davis' },
+    { id: 'CAND005', name: 'Michael Wilson' }
+  ];
+
+  locationOptions: string[] = [
+    'Office - Floor 5',
+    'Office - Conference Room A',
+    'Office - Conference Room B',
+    'Virtual - Google Meet',
+    'Virtual - Zoom',
+    'Client Office'
+  ];
+
+  interviewerOptions: any[] = [
+    { id: 'INT001', name: 'Sarah Williams', department: 'HR' },
+    { id: 'INT002', name: 'David Brown', department: 'Technical' },
+    { id: 'INT003', name: 'Lisa Taylor', department: 'Management' },
+    { id: 'INT004', name: 'Kevin Miller', department: 'Technical' },
+    { id: 'INT005', name: 'Amanda Clark', department: 'HR' }
+  ];
+
+  statusOptions: string[] = [
+    'Scheduled',
+    'Completed',
+    'Cancelled',
+    'Rescheduled',
+    'No Show',
+    'In Progress'
+  ];
+
   // ...existing code for dropdown options...
 
   // Sidebar Tabs Data

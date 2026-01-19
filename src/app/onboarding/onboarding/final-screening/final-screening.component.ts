@@ -1,5 +1,9 @@
-import { Component, HostListener, OnInit} from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { FinalScreeningFormDto } from '../../../shared/dtos/Dto';
+import { ToastrService } from 'ngx-toastr';
+import { LoaderService } from '../../../shared/services/loader.service';
+import { DynamicFieldsSharingService } from '../../../shared/services/dynamic-fields-sharing.service';
 
 @Component({
   selector: 'app-final-screening',
@@ -8,40 +12,8 @@ import { Router } from '@angular/router';
 })
 export class FinalScreeningComponent implements OnInit {
 
-  // Candidate data model
-  candidate: any = {
-    // Candidate Info
-    id: null,
-    candidateId: '',
-    
-    // Basic Information
-    firstName: '',
-    lastName: '',
-    requisition: '',
-    email: '',
-    contact1: '',
-    contact2: '',
-    
-    // Interview Details
-    interviewId: '',
-    interviewDate: null,
-    interviewTime: '',
-    interviewerStatus: '',
-    interviewerRemarks: '',
-    interviewerName: '',
-    
-    // Final Decision
-    finalStatus: '',
-    finalRemarks: '',
-    dateOfJoining: null,
-    
-    // Salary Details
-    payElement: '',
-    effectiveDate: null,
-    payFrequency: '',
-    amount: null,
-    salaryRemarks: ''
-  };
+  finalScreening: FinalScreeningFormDto = new FinalScreeningFormDto();
+
 
   // Dropdown state
   activeDropdown: string = '';
@@ -55,8 +27,30 @@ export class FinalScreeningComponent implements OnInit {
   payElements: string[] = ['Basic Salary', 'HRA', 'Allowance', 'Bonus', 'Provident Fund'];
   payFrequencies: string[] = ['Monthly', 'Bi-Monthly', 'Weekly', 'Yearly'];
 
- constructor(private router: Router) { }
-  ngOnInit(): void {}
+  // Sidebar Tabs Data
+  sidebarTabs: any[] = [];
+  activeTabId: number = 1;
+
+  constructor(private router: Router, public dynamicFieldsService: DynamicFieldsSharingService,
+    private toastr: ToastrService,
+    private loader: LoaderService) { }
+
+
+  ngOnInit(): void {
+    this.loader.show();
+    this.dynamicFieldsService.loadDynamicFields('EMPLOYEE_REQUISITION', 'USER_DEFINED', [])
+      .then(() => {
+        // Get tabs from service
+        this.sidebarTabs = this.dynamicFieldsService.sidebarTabs;
+        this.activeTabId = this.dynamicFieldsService.activeTabId;
+        this.loader.hide();
+      })
+      .catch((err) => {
+        console.error('Error loading dynamic fields:', err);
+        this.toastr.error('Failed to load dynamic fields');
+        this.loader.hide();
+      });
+  }
 
   // Toggle Dropdown open/close
   toggleDropdown(event: Event, field: string): void {
@@ -71,7 +65,7 @@ export class FinalScreeningComponent implements OnInit {
   // Select option from dropdown
   selectOption(field: string, value: any, event: Event): void {
     event.stopPropagation();
-    this.candidate[field] = value;
+    (this.finalScreening as any)[field] = value;
     this.activeDropdown = '';
   }
 
@@ -79,13 +73,36 @@ export class FinalScreeningComponent implements OnInit {
   @HostListener('document:click', ['$event'])
   closeDropdowns(event: Event): void {
     this.activeDropdown = '';
+      this.dynamicFieldsService.closeAllDropdowns();
   }
 
- 
-  onCancel(): void {
-    this.router.navigate(['/panel']); 
+  // Set active tab
+  setActiveTab(tabId: number): void {
+    this.activeTabId = tabId;
+    this.dynamicFieldsService.setActiveTab(tabId);
   }
- 
+
+  // Save candidate data
+  saveFinalScreening(): void {
+
+    
+    const completeData = this.dynamicFieldsService.getCompleteFormData(this.finalScreening);
+    
+    this.loader.show();
   
+    
+    // For now just show success
+    setTimeout(() => {
+      this.toastr.success('Candidate data saved successfully');
+      this.loader.hide();
+    }, 1000);
+  }
+
+
+  onCancel(): void {
+    this.router.navigate(['/panel']);
+  }
+
+
 
 }
