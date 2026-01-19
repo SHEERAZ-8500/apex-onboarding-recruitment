@@ -1,3 +1,20 @@
+// RequisitionDto for RequisitionComponent
+export class RequisitionDto {
+  requisitionId: number | null = null;
+  requisitionName: string = '';
+  department: string = '';
+  jobTitle: string = '';
+  designation: string = '';
+  noOfEmployees: number | null = null;
+  requiredDate: string = '';
+  jobDescription: string = '';
+  hiringManager: string = '';
+  status: boolean = false;
+
+  constructor(init?: Partial<RequisitionDto>) {
+    Object.assign(this, init);
+  }
+}
 // InterviewSchedulingDto for InterviewSchedulingComponent
 export class InterviewSchedulingDto {
   interviewDate: string = '';

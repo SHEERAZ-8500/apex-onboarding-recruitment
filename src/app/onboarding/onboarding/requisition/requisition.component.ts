@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DynamicFieldsSharingService } from '../../../shared/services/dynamic-fields-sharing.service';
+import { RequisitionDto } from '../../../shared/dtos/Dto';
 import { ToastrService } from 'ngx-toastr';
 import { LoaderService } from '../../../shared/services/loader.service';
 
@@ -10,17 +11,8 @@ import { LoaderService } from '../../../shared/services/loader.service';
   styleUrls: ['./requisition.component.scss']
 })
 export class RequisitionComponent implements OnInit{
-  // Form fields
-  requisitionId!: number;
-  requisitionName!: string;
-  department!: string;
-  jobTitle!: string;
-  designation!: string;
-  noOfEmployees!: number;
-  requiredDate!: string;
-  jobDescription!: string;
-  hiringManager!: string;
-  status: boolean = false;
+  // Form fields as DTO
+  requisition: RequisitionDto = new RequisitionDto();
 
   // Dropdown state
   activeDropdown: string = '';
@@ -68,7 +60,7 @@ export class RequisitionComponent implements OnInit{
 
   selectOption(field: string, value: string, event: Event) {
     event.stopPropagation();
-    (this as any)[field] = value;
+    (this.requisition as any)[field] = value;
     this.activeDropdown = '';
   }
 
@@ -86,20 +78,7 @@ export class RequisitionComponent implements OnInit{
 
   // Save requisition data
   saveRequisition(): void {
-    const formData = {
-      requisitionId: this.requisitionId,
-      requisitionName: this.requisitionName,
-      department: this.department,
-      jobTitle: this.jobTitle,
-      designation: this.designation,
-      noOfEmployees: this.noOfEmployees,
-      requiredDate: this.requiredDate,
-      jobDescription: this.jobDescription,
-      hiringManager: this.hiringManager,
-      status: this.status
-    };
-
-    const completeData = this.dynamicFieldsService.getCompleteFormData(formData);
+    const completeData = this.dynamicFieldsService.getCompleteFormData(this.requisition);
     
     this.loader.show();
     // API call to save data
