@@ -1,5 +1,8 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { DynamicFieldsSharingService } from '../../../shared/services/dynamic-fields-sharing.service';
+import { ToastrService } from 'ngx-toastr';
+import { LoaderService } from '../../../shared/services/loader.service';
 
 @Component({
   selector: 'app-requisition-form',
@@ -28,8 +31,33 @@ export class RequisitionComponent implements OnInit{
   designations = ['Junior','Senior','Lead'];
   hiringManagers = ['Alice','Bob','Charlie'];
 
-constructor(private router: Router) { }
-  ngOnInit(): void {}
+  // Sidebar Tabs Data
+  sidebarTabs: any[] = [];
+  activeTabId: number = 1;
+
+  constructor(
+    private router: Router,
+    public dynamicFieldsService: DynamicFieldsSharingService,
+    private toastr: ToastrService,
+    private loader: LoaderService
+  ) { }
+
+  ngOnInit(): void {
+    // Load dynamic fields and tabs
+    this.loader.show();
+    this.dynamicFieldsService.loadDynamicFields('REQUISITION_FORM', 'USER_DEFINED', [])
+      .then(() => {
+        // Get tabs from service
+        this.sidebarTabs = this.dynamicFieldsService.sidebarTabs;
+        this.activeTabId = this.dynamicFieldsService.activeTabId;
+        this.loader.hide();
+      })
+      .catch((err) => {
+        console.error('Error loading dynamic fields:', err);
+        this.toastr.error('Failed to load dynamic fields');
+        this.loader.hide();
+      });
+  }
 
 
   // Dropdown toggle
@@ -47,9 +75,55 @@ constructor(private router: Router) { }
   @HostListener('document:click', ['$event'])
   closeDropdowns(event: Event) {
     this.activeDropdown = '';
+    this.dynamicFieldsService.closeAllDropdowns();
   }
 
-    onCancel(): void {
+  // Set active tab
+  setActiveTab(tabId: number): void {
+    this.activeTabId = tabId;
+    this.dynamicFieldsService.setActiveTab(tabId);
+  }
+
+  // Save requisition data
+  saveRequisition(): void {
+    const formData = {
+      requisitionId: this.requisitionId,
+      requisitionName: this.requisitionName,
+      department: this.department,
+      jobTitle: this.jobTitle,
+      designation: this.designation,
+      noOfEmployees: this.noOfEmployees,
+      requiredDate: this.requiredDate,
+      jobDescription: this.jobDescription,
+      hiringManager: this.hiringManager,
+      status: this.status
+    };
+
+    const completeData = this.dynamicFieldsService.getCompleteFormData(formData);
+    
+    this.loader.show();
+    // API call to save data
+    // this.api.saveFormData('REQUISITION_FORM', completeData).subscribe({
+    //   next: (res: any) => {
+    //     this.toastr.success('Requisition saved successfully');
+    //     this.loader.hide();
+    //     this.router.navigate(['/panel/onboarding/requisition']);
+    //   },
+    //   error: (err: any) => {
+    //     console.error('Error saving requisition:', err);
+    //     this.toastr.error('Failed to save requisition');
+    //     this.loader.hide();
+    //   }
+    // });
+    
+    // For now just show success
+    setTimeout(() => {
+      this.toastr.success('Requisition saved successfully');
+      this.loader.hide();
+    }, 1000);
+  }
+
+  onCancel(): void {
     this.router.navigate(['/panel']); 
   }
 }

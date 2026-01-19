@@ -1,6 +1,9 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { DynamicFieldsSharingService } from '../../../shared/services/dynamic-fields-sharing.service';
+import { LoaderService } from '../../../shared/services/loader.service';
+import { InterviewSchedulingDto } from '../../../shared/dtos/Dto';
 
 @Component({
   selector: 'app-interview-scheduling',
@@ -8,16 +11,8 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./interview-scheduling.component.scss']
 })
 export class InterviewSchedulingComponent implements OnInit {
-  // Form Fields
-  interviewDate: string = '';
-  interviewStartTime: string = '';
-  selectedLocation: string = '';
-  meetingURL: string = '';
-  selectedInterviewer: string = '';
-  selectedStatus: string = '';
-  remarks: string = '';
-  interviewRemarks: string = '';
-  selectedCandidate: string = '';
+  // Form Fields as DTO
+  interview: InterviewSchedulingDto = new InterviewSchedulingDto();
 
   // Dropdown States
   isCandidateDropdownOpen: boolean = false;
@@ -25,44 +20,35 @@ export class InterviewSchedulingComponent implements OnInit {
   isInterviewerDropdownOpen: boolean = false;
   isStatusDropdownOpen: boolean = false;
 
-  // Dropdown Options
-  candidateOptions: any[] = [
-    { id: 'CAND001', name: 'John Doe' },
-    { id: 'CAND002', name: 'Jane Smith' },
-    { id: 'CAND003', name: 'Robert Johnson' },
-    { id: 'CAND004', name: 'Emily Davis' },
-    { id: 'CAND005', name: 'Michael Wilson' }
-  ];
+  // ...existing code for dropdown options...
 
-  locationOptions: string[] = [
-    'Office - Floor 5',
-    'Office - Conference Room A',
-    'Office - Conference Room B',
-    'Virtual - Google Meet',
-    'Virtual - Zoom',
-    'Client Office'
-  ];
+  // Sidebar Tabs Data
+  sidebarTabs: any[] = [];
+  activeTabId: number = 1;
 
-  interviewerOptions: any[] = [
-    { id: 'INT001', name: 'Sarah Williams', department: 'HR' },
-    { id: 'INT002', name: 'David Brown', department: 'Technical' },
-    { id: 'INT003', name: 'Lisa Taylor', department: 'Management' },
-    { id: 'INT004', name: 'Kevin Miller', department: 'Technical' },
-    { id: 'INT005', name: 'Amanda Clark', department: 'HR' }
-  ];
+  constructor(
+    private router: Router,
+    public dynamicFieldsService: DynamicFieldsSharingService,
+    private toastr: ToastrService,
+    private loader: LoaderService
+  ) { }
 
-  statusOptions: string[] = [
-    'Scheduled',
-    'Completed',
-    'Cancelled',
-    'Rescheduled',
-    'No Show',
-    'In Progress'
-  ];
-
-
-constructor(private router: Router) { }
-  ngOnInit(): void {} 
+  ngOnInit(): void {
+    // Load dynamic fields and tabs
+    this.loader.show();
+    this.dynamicFieldsService.loadDynamicFields('INTERVIEW_SCHEDULING', 'USER_DEFINED', [])
+      .then(() => {
+        // Get tabs from service
+        this.sidebarTabs = this.dynamicFieldsService.sidebarTabs;
+        this.activeTabId = this.dynamicFieldsService.activeTabId;
+        this.loader.hide();
+      })
+      .catch((err) => {
+        console.error('Error loading dynamic fields:', err);
+        this.toastr.error('Failed to load dynamic fields');
+        this.loader.hide();
+      });
+  } 
 
   // Dropdown Handlers
   toggleCandidateDropdown(event: Event): void {
@@ -104,34 +90,34 @@ constructor(private router: Router) { }
   // Selection Handlers
   selectCandidate(candidate: any, event: Event): void {
     event.stopPropagation();
-    this.selectedCandidate = `${candidate.name} (${candidate.id})`;
+    this.interview.selectedCandidate = `${candidate.name} (${candidate.id})`;
     this.isCandidateDropdownOpen = false;
   }
 
   selectLocation(location: string, event: Event): void {
     event.stopPropagation();
-    this.selectedLocation = location;
+    this.interview.selectedLocation = location;
     this.isLocationDropdownOpen = false;
     
     // Auto-set meeting URL if virtual location selected
     if (location.includes('Virtual')) {
       if (location.includes('Google Meet')) {
-        this.meetingURL = 'https://meet.google.com/';
+        this.interview.meetingURL = 'https://meet.google.com/';
       } else if (location.includes('Zoom')) {
-        this.meetingURL = 'https://zoom.us/j/';
+        this.interview.meetingURL = 'https://zoom.us/j/';
       }
     }
   }
 
   selectInterviewer(interviewer: any, event: Event): void {
     event.stopPropagation();
-    this.selectedInterviewer = interviewer.name;
+    this.interview.selectedInterviewer = interviewer.name;
     this.isInterviewerDropdownOpen = false;
   }
 
   selectStatus(status: string, event: Event): void {
     event.stopPropagation();
-    this.selectedStatus = status;
+    this.interview.selectedStatus = status;
     this.isStatusDropdownOpen = false;
   }
 
@@ -141,10 +127,42 @@ constructor(private router: Router) { }
     this.isLocationDropdownOpen = false;
     this.isInterviewerDropdownOpen = false;
     this.isStatusDropdownOpen = false;
+    this.dynamicFieldsService.closeAllDropdowns();
   }
 
-    onCancel(): void {
+  // Set active tab
+  setActiveTab(tabId: number): void {
+    this.activeTabId = tabId;
+    this.dynamicFieldsService.setActiveTab(tabId);
+  }
+
+  // Save interview scheduling data
+  saveInterview(): void {
+    const completeData = this.dynamicFieldsService.getCompleteFormData(this.interview);
+    
+    this.loader.show();
+    // API call to save data
+    // this.api.saveFormData('INTERVIEW_SCHEDULING', completeData).subscribe({
+    //   next: (res: any) => {
+    //     this.toastr.success('Interview scheduled successfully');
+    //     this.loader.hide();
+    //     this.router.navigate(['/panel/onboarding/candidates']);
+    //   },
+    //   error: (err: any) => {
+    //     console.error('Error saving interview:', err);
+    //     this.toastr.error('Failed to schedule interview');
+    //     this.loader.hide();
+    //   }
+    // });
+    
+    // For now just show success
+    setTimeout(() => {
+      this.toastr.success('Interview scheduled successfully');
+      this.loader.hide();
+    }, 1000);
+  }
+
+  onCancel(): void {
     this.router.navigate(['/panel']); 
   }
-  }
-
+}

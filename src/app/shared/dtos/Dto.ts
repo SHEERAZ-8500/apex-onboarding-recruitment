@@ -1,3 +1,19 @@
+// InterviewSchedulingDto for InterviewSchedulingComponent
+export class InterviewSchedulingDto {
+  interviewDate: string = '';
+  interviewStartTime: string = '';
+  selectedLocation: string = '';
+  meetingURL: string = '';
+  selectedInterviewer: string = '';
+  selectedStatus: string = '';
+  remarks: string = '';
+  interviewRemarks: string = '';
+  selectedCandidate: string = '';
+
+  constructor(init?: Partial<InterviewSchedulingDto>) {
+    Object.assign(this, init);
+  }
+}
 // Define a class
 export class AllFormsLisitngDto {
   createdDate: string;
@@ -146,6 +162,61 @@ export class ReqFormDto {
   status: boolean = true;
 
   constructor(init?: Partial<ReqFormDto>) {
+    Object.assign(this, init);
+  }
+}
+
+
+// CandidateDto for CandidatesComponent
+export class CandidateDto {
+  id: number | null = null;
+  firstName: string = '';
+  lastName: string = '';
+  requisition: string = '';
+  email: string = '';
+  contact1: string = '';
+  contact2: string = '';
+  applicationDate: Date | null = null;
+  department: string = '';
+  designation: string = '';
+  dob: Date | null = null;
+  expectedDOJ: Date | null = null;
+  gender: string = '';
+  linkedIn: string = '';
+  religion: string = '';
+  country: string = '';
+  city: string = '';
+  category: string = '';
+  onboardingStatus: string = '';
+  candidateStatus: string = '';
+  remarks: string = '';
+
+  // Company Details
+  companyName: string = '';
+  companyFrom: Date | null = null;
+  companyTo: Date | null = null;
+  position: string = '';
+  lastSalary: number | null = null;
+  companyRemarks: string = '';
+
+  // Skills
+  skillName: string = '';
+  skillRating: string = '';
+  skillRemarks: string = '';
+
+  // Qualification
+  qualificationName: string = '';
+  passingYear: string = '';
+  institute: string = '';
+  grade: string = '';
+  qualificationRemarks: string = '';
+
+  // Attachments
+  attachmentId: string = '';
+  fileName: string = '';
+  attachmentRemarks: string = '';
+
+  constructor(init?: Partial<CandidateDto>) {
     Object.assign(this, init);
   }
 }
