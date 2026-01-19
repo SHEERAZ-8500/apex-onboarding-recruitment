@@ -1,5 +1,5 @@
-<div class="candidates-form-container">
-    <div class="candidates-form-card">
+<div class="interview-form-container">
+    <div class="interview-form-card">
         <div class="form-header">
             <h2 class="form-title">Interview Scheduling Form</h2>
             <p class="form-subtitle">Schedule interview for candidates</p>
@@ -59,7 +59,6 @@
                         <label class="input-label">Meeting URL</label>
                         <input type="text" class="form-input" [(ngModel)]="interview.meetingURL" name="meetingURL"
                             placeholder="https://meet.google.com/abc-xyz" />
-                        <small class="input-hint">Optional - for virtual interviews</small>
                     </div>
                     <div class="form-group">
                         <label class="input-label">Interviewer <span class="required">*</span></label>
@@ -100,7 +99,6 @@
 
             <!-- Section 2: Remarks -->
             <div class="form-section remarks-section">
-                <h3 class="section-heading">Remarks</h3>
                 <div class="form-row full-width">
                     <div class="form-group full-width">
                         <label class="input-label">Remarks</label>
