@@ -27,20 +27,20 @@ export class SideNavBarComponent implements OnInit {
   ) { }
 
 
-ngOnInit() {
-  this.themeService.isLightTheme$.subscribe(value => {
-    this.isDarkMode = !value;
-  });
+  ngOnInit() {
+    this.themeService.isLightTheme$.subscribe(value => {
+      this.isDarkMode = !value;
+    });
 
-  this.toggleService.sidebarOpen$.subscribe(open => {
-    this.isOpen = open;
+    this.toggleService.sidebarOpen$.subscribe(open => {
+      this.isOpen = open;
 
-    // 👇 IMPORTANT PART
-    if (!open) {
-      this.collapseAllMenus();
-    }
-  });
-}
+      // 👇 IMPORTANT PART
+      if (!open) {
+        this.collapseAllMenus();
+      }
+    });
+  }
 
 
 
@@ -61,6 +61,7 @@ ngOnInit() {
     this.formsCollapsed = true;
     this.adminCollapsed = true;
     this.requisitionLookupsCollapsed = true;
+    this.setupsCollapsed = true;
   }
 
   logoutUser() {
@@ -79,6 +80,7 @@ ngOnInit() {
   masterdata = true;
   employees = true;
   onboarding = true;
+  setups = true;
 
   // master data tree state
   masterdataCollapsed = true;
@@ -93,7 +95,10 @@ ngOnInit() {
   requisitionLookupsCollapsed = true;
   employeesMasterDataCollapsed = true;
   tableCollapsed = true;
- 
+  setupsCollapsed = true;
+  userSetupsCollapsed = true;
+  configurationCollapsed = true;
+
 
   // toggles (bound to click handlers)
   toggleAssessment() { this.assesment = !this.assesment; }
@@ -118,5 +123,8 @@ ngOnInit() {
   toggleOnboarding() { this.onboardingCollapsed = !this.onboardingCollapsed; }
 
   toggleTable() { this.tableCollapsed = !this.tableCollapsed; }
+  toggleSetups() { this.setupsCollapsed = !this.setupsCollapsed; }
+  toggleUserSetups() { this.userSetupsCollapsed = !this.userSetupsCollapsed; }
+  toggleConfiguration() { this.configurationCollapsed = !this.configurationCollapsed; }
 
 }
