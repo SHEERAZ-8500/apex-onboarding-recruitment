@@ -95,7 +95,7 @@ export class AddNewRowLookupTableComponent implements OnInit {
 
     let payload: any;
 
-    if (this.componentCode === 'tableName') {
+    if (this.componentCode !== 'tableName') {
 
 
       if (!this.code || !this.description) {

@@ -141,6 +141,9 @@ export class ApiService {
     return this.http.post('admin/row-tables', data);
   }
   // forms apis
+  getFormByFormCode(formCode: any) {
+    return this.http.get(`forms/${formCode}`);
+  }
   manageFieldsVisibility(formCode: any, status: any, data: any) {
     return this.http.patch(`admin/forms/${formCode}/fields/${data}/${status}`, {});
   }
