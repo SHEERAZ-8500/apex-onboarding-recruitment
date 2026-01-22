@@ -234,6 +234,7 @@ export class FinalScreeningFormDto {
   payFrequency: string = '';
   amount: number | null = null;
   remarks: string = '';
+  is_active: boolean = true;
 
   constructor(init?: Partial<FinalScreeningFormDto>) {
     Object.assign(this, init);

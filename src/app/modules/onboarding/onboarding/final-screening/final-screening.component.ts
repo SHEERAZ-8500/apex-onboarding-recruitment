@@ -4,6 +4,7 @@ import { FinalScreeningFormDto } from '../../../../shared/dtos/Dto';
 import { ToastrService } from 'ngx-toastr';
 import { LoaderService } from '../../../../shared/services/loader.service';
 import { DynamicFieldsSharingService } from '../../../../shared/services/dynamic-fields-sharing.service';
+import { ApiService } from '../../../../shared/services/apis/api.service';
 
 @Component({
   selector: 'app-final-screening',
@@ -14,9 +15,12 @@ export class FinalScreeningComponent implements OnInit {
 
   finalScreening: FinalScreeningFormDto = new FinalScreeningFormDto();
 
+  // Backend field management - for static fields visibility
+  backendFieldsMap: Record<string, boolean> = {};
+  fieldConfigMap: Record<string, any> = {};
 
   // Dropdown state
-  activeDropdown: string = '';
+  activeDropdown: string = ''
 
   // Dropdown options
   candidateIds: string[] = ['CAN-001', 'CAN-002', 'CAN-003', 'CAN-004'];
@@ -33,12 +37,14 @@ export class FinalScreeningComponent implements OnInit {
 
   constructor(private router: Router, public dynamicFieldsService: DynamicFieldsSharingService,
     private toastr: ToastrService,
-    private loader: LoaderService) { }
+    private loader: LoaderService,private api: ApiService) { }
 
 
   ngOnInit(): void {
+    this.getFormFileds();
+    
     this.loader.show();
-    this.dynamicFieldsService.loadDynamicFields('EMPLOYEE_REQUISITION', 'USER_DEFINED', [])
+    this.dynamicFieldsService.loadDynamicFields('FINAL_DECISION', 'USER_DEFINED', [])
       .then(() => {
         // Get tabs from service
         this.sidebarTabs = this.dynamicFieldsService.sidebarTabs;
@@ -103,6 +109,42 @@ export class FinalScreeningComponent implements OnInit {
     this.router.navigate(['/panel']);
   }
 
+  getFormFileds() {
+    this.api.getFormByFormCode('FINAL_DECISION').subscribe({
+      next: (res: any) => {
+        console.log('Form Fields:', res);
 
+        // safety check
+        if (res?.data?.fields && Array.isArray(res.data.fields)) {
+          res.data.fields.forEach((field: any) => {
+            this.backendFieldsMap[field.fieldCode] = field.active;
+            // Store field config including source
+            if (field.fieldConfig) {
+              this.fieldConfigMap[field.fieldCode] = field.fieldConfig;
+            }
+            if (field.fieldCode === 'pay_element') {
+              this.payElements = field.enumValues || [];
+            }
+            if (field.fieldCode === 'pay_frequency') {
+              this.payFrequencies = field.enumValues || [];
+            }
+            if (field.fieldCode === 'final_status') {
+              this.finalStatuses = field.enumValues || [];
+            }
+            if (field.fieldCode === 'is_active') {
+              this.finalScreening['is_active'] = true;
+            }
+          });
+        }
+      },
+      error: (err: any) => {
+        console.error('Error fetching form fields:', err);
+      }
+    });
+  }
+
+  isFieldActive(fieldCode: string): boolean {
+    return this.backendFieldsMap[fieldCode] !== false;
+  }
 
 }
