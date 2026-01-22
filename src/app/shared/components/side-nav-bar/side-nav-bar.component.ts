@@ -82,6 +82,8 @@ export class SideNavBarComponent implements OnInit {
   onboarding = true;
   setups = true;
 
+
+
   // master data tree state
   masterdataCollapsed = true;
   generalMasterdataCollapsed = true;
@@ -103,8 +105,8 @@ export class SideNavBarComponent implements OnInit {
   // toggles (bound to click handlers)
   toggleAssessment() { this.assesment = !this.assesment; }
 
-  toggleMasterData() { this.masterdataCollapsed = !this.masterdataCollapsed; }
-  toggleEmployees() { this.employeesCollapsed = !this.employeesCollapsed; }
+  toggleMasterData() { if (!this.canToggle()) return; this.masterdataCollapsed = !this.masterdataCollapsed; }
+  toggleEmployees() { if (!this.canToggle()) return; this.employeesCollapsed = !this.employeesCollapsed; }
 
 
   toggleGeneralMaster() { this.generalMasterdataCollapsed = !this.generalMasterdataCollapsed; }
@@ -120,11 +122,15 @@ export class SideNavBarComponent implements OnInit {
   toggleRequisitionLookups() { this.requisitionLookupsCollapsed = !this.requisitionLookupsCollapsed; }
   toggleEmployeesMasterData() { this.employeesMasterDataCollapsed = !this.employeesMasterDataCollapsed; }
 
-  toggleOnboarding() { this.onboardingCollapsed = !this.onboardingCollapsed; }
+  toggleOnboarding() { if (!this.canToggle()) return; this.onboardingCollapsed = !this.onboardingCollapsed; }
 
   toggleTable() { this.tableCollapsed = !this.tableCollapsed; }
-  toggleSetups() { this.setupsCollapsed = !this.setupsCollapsed; }
+  toggleSetups() { if (!this.canToggle()) return; this.setupsCollapsed = !this.setupsCollapsed; }
   toggleUserSetups() { this.userSetupsCollapsed = !this.userSetupsCollapsed; }
   toggleConfiguration() { this.configurationCollapsed = !this.configurationCollapsed; }
+
+  private canToggle(): boolean {
+    return this.isOpen;
+  }
 
 }
