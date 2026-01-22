@@ -2,16 +2,15 @@
 
 
 export class InterviewSchedulingDto {
-  interviewDate: string = '';
-  interviewStartTime: string = '';
-  selectedLocation: string = '';
-  meetingURL: string = '';
-  selectedInterviewer: string = '';
-  selectedStatus: string = '';
+  candidate: string = '';
+  interviewer_user: string = '';
+  interview_date: Date | null = null;
+  start_time: string = '';
+  location: string = '';
+  meeting_url: string = '';
+  interview_status: string = '';
   remarks: string = '';
-  interviewRemarks: string = '';
-  selectedCandidate: string = '';
-
+  is_active: boolean = true;
   constructor(init?: Partial<InterviewSchedulingDto>) {
     Object.assign(this, init);
   }
