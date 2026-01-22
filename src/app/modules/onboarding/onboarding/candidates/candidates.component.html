@@ -16,17 +16,17 @@
                         <label class="input-label">ID <span class="required">*</span></label>
                         <input type="number" class="form-input" [(ngModel)]="candidate.id" name="id" required />
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" *ngIf="isFieldActive('first_name')">
                         <label class="input-label">First Name <span class="required">*</span></label>
-                        <input type="text" class="form-input" [(ngModel)]="candidate.firstName" name="firstName"
+                        <input type="text" class="form-input" [(ngModel)]="candidate.first_name" name="first_name"
                             required />
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" *ngIf="isFieldActive('last_name')">
                         <label class="input-label">Last Name <span class="required">*</span></label>
-                        <input type="text" class="form-input" [(ngModel)]="candidate.lastName" name="lastName"
+                        <input type="text" class="form-input" [(ngModel)]="candidate.last_name" name="last_name"
                             required />
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" *ngIf="isFieldActive('requisition')">
                         <label class="input-label">Requisition <span class="required">*</span></label>
                         <div class="custom-dropdown" (click)="toggleDropdown($event,'requisition')">
                             <div class="dropdown-selected">
@@ -35,9 +35,14 @@
                                     [class.rotate]="activeDropdown==='requisition'"></i>
                             </div>
                             <div class="dropdown-options" *ngIf="activeDropdown==='requisition'">
-                                <div class="dropdown-option" *ngFor="let r of requisitions"
-                                    (click)="selectOption('requisition',r,$event)">
-                                    {{ r }}
+                                <div *ngIf="requsitionDropDownValue.length > 0">
+                                    <div class="dropdown-option" *ngFor="let r of requsitionDropDownValue"
+                                        (click)="selectOption('requisition',r.code,$event)">
+                                        {{ r.name }}
+                                    </div>
+                                </div>
+                                <div *ngIf="requsitionDropDownValue.length === 0" class="dropdown-option text-muted">
+                                    No Requisitions Available
                                 </div>
                             </div>
                         </div>
@@ -49,30 +54,30 @@
                 <div class="form-row">
 
 
-                    <div class="form-group">
+                    <div class="form-group" *ngIf="isFieldActive('email')">
                         <label class="input-label">Email</label>
                         <input type="email" class="form-input" [(ngModel)]="candidate.email" name="email"
                             placeholder="Enter Email" />
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" *ngIf="isFieldActive('contact_number1')">
                         <label class="input-label">Contact Number 1</label>
-                        <input type="text" class="form-input" [(ngModel)]="candidate.contact1" name="contact1"
+                        <input type="text" class="form-input" [(ngModel)]="candidate.contact_number1" name="contact_number1"
                             placeholder="Enter Contact Number" />
                     </div>
                 </div>
 
                 <!-- Row 3: Contact 2, Date of Application, Department -->
                 <div class="form-row">
-                    <div class="form-group">
+                    <div class="form-group" *ngIf="isFieldActive('contact_number2')">
                         <label class="input-label">Contact Number 2</label>
-                        <input type="text" class="form-input" [(ngModel)]="candidate.contact2" name="contact2"
+                        <input type="text" class="form-input" [(ngModel)]="candidate.contact_number2" name="contact_number2"
                             placeholder="Enter Contact Number" />
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" *ngIf="isFieldActive('application_date')">
                         <label class="input-label">Date of Application</label>
-                        <input type="date" class="form-input" [(ngModel)]="candidate.applicationDate"
-                            name="applicationDate" />
+                        <input type="date" class="form-input" [(ngModel)]="candidate.application_date"
+                            name="application_date" />
                     </div>
                     <div class="form-group">
                         <label class="input-label">Department</label>
@@ -83,9 +88,14 @@
                                     [class.rotate]="activeDropdown==='department'"></i>
                             </div>
                             <div class="dropdown-options" *ngIf="activeDropdown==='department'">
-                                <div class="dropdown-option" *ngFor="let d of departments"
-                                    (click)="selectOption('department',d,$event)">
-                                    {{ d }}
+                                <div *ngIf="departmentDropDownValue.length > 0">
+                                    <div class="dropdown-option" *ngFor="let d of departmentDropDownValue"
+                                        (click)="selectOption('department',d.code,$event)">
+                                        {{ d.name }}
+                                    </div>
+                                </div>
+                                <div *ngIf="departmentDropDownValue.length === 0" class="dropdown-option text-muted">
+                                    No Departments Available
                                 </div>
                             </div>
                         </div>
@@ -99,18 +109,23 @@
                                     [class.rotate]="activeDropdown==='designation'"></i>
                             </div>
                             <div class="dropdown-options" *ngIf="activeDropdown==='designation'">
-                                <div class="dropdown-option" *ngFor="let d of designations"
-                                    (click)="selectOption('designation',d,$event)">
-                                    {{ d }}
+                                <div *ngIf="designationDropDownValue.length > 0">
+                                    <div class="dropdown-option" *ngFor="let d of designationDropDownValue"
+                                        (click)="selectOption('designation',d.code,$event)">
+                                        {{ d.name }}
+                                    </div>
+                                </div>
+                                <div *ngIf="designationDropDownValue.length === 0" class="dropdown-option text-muted">
+                                    No Designations Available
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" *ngIf="isFieldActive('expected_doj')">
                         <label class="input-label">Date of Joining</label>
-                        <input type="date" class="form-input" [(ngModel)]="candidate.expectedDOJ" name="expectedDOJ" />
+                        <input type="date" class="form-input" [(ngModel)]="candidate.expected_doj" name="expected_doj" />
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" *ngIf="isFieldActive('gender')">
                         <label class="input-label">Gender</label>
                         <div class="custom-dropdown" (click)="toggleDropdown($event,'gender')">
                             <div class="dropdown-selected">
@@ -119,9 +134,9 @@
                                     [class.rotate]="activeDropdown==='gender'"></i>
                             </div>
                             <div class="dropdown-options" *ngIf="activeDropdown==='gender'">
-                                <div class="dropdown-option" *ngFor="let d of genders"
-                                    (click)="selectOption('gender',d,$event)">
-                                    {{ d }}
+                                <div class="dropdown-option" *ngFor="let g of genderEnumArray"
+                                    (click)="selectOption('gender',g,$event)">
+                                    {{ g }}
                                 </div>
 
                             </div>
@@ -186,34 +201,34 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" *ngIf="isFieldActive('onboarding_status')">
                         <label class="input-label">Onboarding Status</label>
-                        <div class="custom-dropdown" (click)="toggleDropdown($event,'onboardingStatus')">
+                        <div class="custom-dropdown" (click)="toggleDropdown($event,'onboarding_status')">
                             <div class="dropdown-selected">
-                                <span>{{ candidate.onboardingStatus || 'Select Onboarding Status' }}</span>
+                                <span>{{ candidate.onboarding_status || 'Select Onboarding Status' }}</span>
                                 <i class="fa-solid fa-chevron-down dropdown-arrow"
-                                    [class.rotate]="activeDropdown==='onboardingStatus'"></i>
+                                    [class.rotate]="activeDropdown==='onboarding_status'"></i>
                             </div>
-                            <div class="dropdown-options" *ngIf="activeDropdown==='onboardingStatus'">
-                                <div class="dropdown-option" *ngFor="let d of onboardingStatuses"
-                                    (click)="selectOption('onboardingStatus',d,$event)">
-                                    {{ d }}
+                            <div class="dropdown-options" *ngIf="activeDropdown==='onboarding_status'">
+                                <div class="dropdown-option" *ngFor="let os of onboardingStatusEnumArray"
+                                    (click)="selectOption('onboarding_status',os,$event)">
+                                    {{ os }}
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" *ngIf="isFieldActive('status')">
                         <label class="input-label">Candidate Status</label>
-                        <div class="custom-dropdown" (click)="toggleDropdown($event,'candidateStatus')">
+                        <div class="custom-dropdown" (click)="toggleDropdown($event,'status')">
                             <div class="dropdown-selected">
-                                <span>{{ candidate.candidateStatus || 'Select Candidate Status' }}</span>
+                                <span>{{ candidate.status || 'Select Candidate Status' }}</span>
                                 <i class="fa-solid fa-chevron-down dropdown-arrow"
-                                    [class.rotate]="activeDropdown==='candidateStatus'"></i>
+                                    [class.rotate]="activeDropdown==='status'"></i>
                             </div>
-                            <div class="dropdown-options" *ngIf="activeDropdown==='candidateStatus'">
-                                <div class="dropdown-option" *ngFor="let d of candidateStatuses"
-                                    (click)="selectOption('candidateStatus',d,$event)">
-                                    {{ d }}
+                            <div class="dropdown-options" *ngIf="activeDropdown==='status'">
+                                <div class="dropdown-option" *ngFor="let s of candidateEnumArray"
+                                    (click)="selectOption('status',s,$event)">
+                                    {{ s }}
                                 </div>
                             </div>
                         </div>

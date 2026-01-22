@@ -38,7 +38,7 @@ export class FormDto {
   displayName!: string;
   systemDefined!: boolean;
   status!: string;
-   constructor(data?: Partial<FormDto>) {
+  constructor(data?: Partial<FormDto>) {
     if (data) {
       Object.assign(this, data);
     }
@@ -172,25 +172,25 @@ export class ReqFormDto {
 // CandidateDto for CandidatesComponent
 export class CandidateDto {
   id: number | null = null;
-  firstName: string = '';
-  lastName: string = '';
+  first_name: string = '';
+  last_name: string = '';
   requisition: string = '';
   email: string = '';
-  contact1: string = '';
-  contact2: string = '';
-  applicationDate: Date | null = null;
+  contact_number1: string = '';
+  contact_number2: string = '';
+  application_date: Date | null = null;
   department: string = '';
   designation: string = '';
   dob: Date | null = null;
-  expectedDOJ: Date | null = null;
+  expected_doj: Date | null = null;
   gender: string = '';
   linkedIn: string = '';
   religion: string = '';
   country: string = '';
   city: string = '';
   category: string = '';
-  onboardingStatus: string = '';
-  candidateStatus: string = '';
+  onboarding_status: string = '';
+  status: string = '';
   remarks: string = '';
 
   // Company Details
@@ -205,7 +205,7 @@ export class CandidateDto {
   skillName: string = '';
   skillRating: string = '';
   skillRemarks: string = '';
-
+  is_active: boolean = true;
   // Qualification
   qualificationName: string = '';
   passingYear: string = '';
@@ -270,7 +270,7 @@ export class RequisitionBackendFieldsDto {
   constructor(init?: Partial<RequisitionDto>) {
     if (init) {
       Object.assign(this, init);
-    } 
+    }
   }
 }
 
@@ -303,6 +303,7 @@ export class LookupDto {
     if (init) {
       Object.assign(this, init);
     }
-  } }
+  }
+}
 
 
