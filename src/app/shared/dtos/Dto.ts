@@ -1,32 +1,16 @@
 // RequisitionDto for RequisitionComponent
-export class RequisitionDto {
-  requisitionId: number | null = null;
-  requisitionName: string = '';
-  department: string = '';
-  jobTitle: string = '';
-  designation: string = '';
-  noOfEmployees: number | null = null;
-  requiredDate: string = '';
-  jobDescription: string = '';
-  hiringManager: string = '';
-  status: boolean = false;
 
-  constructor(init?: Partial<RequisitionDto>) {
-    Object.assign(this, init);
-  }
-}
-// InterviewSchedulingDto for InterviewSchedulingComponent
+
 export class InterviewSchedulingDto {
-  interviewDate: string = '';
-  interviewStartTime: string = '';
-  selectedLocation: string = '';
-  meetingURL: string = '';
-  selectedInterviewer: string = '';
-  selectedStatus: string = '';
+  candidate: string = '';
+  interviewer_user: string = '';
+  interview_date: Date | null = null;
+  start_time: string = '';
+  location: string = '';
+  meeting_url: string = '';
+  interview_status: string = '';
   remarks: string = '';
-  interviewRemarks: string = '';
-  selectedCandidate: string = '';
-
+  is_active: boolean = true;
   constructor(init?: Partial<InterviewSchedulingDto>) {
     Object.assign(this, init);
   }
@@ -53,7 +37,7 @@ export class FormDto {
   displayName!: string;
   systemDefined!: boolean;
   status!: string;
-   constructor(data?: Partial<FormDto>) {
+  constructor(data?: Partial<FormDto>) {
     if (data) {
       Object.assign(this, data);
     }
@@ -187,25 +171,25 @@ export class ReqFormDto {
 // CandidateDto for CandidatesComponent
 export class CandidateDto {
   id: number | null = null;
-  firstName: string = '';
-  lastName: string = '';
+  first_name: string = '';
+  last_name: string = '';
   requisition: string = '';
   email: string = '';
-  contact1: string = '';
-  contact2: string = '';
-  applicationDate: Date | null = null;
+  contact_number1: string = '';
+  contact_number2: string = '';
+  application_date: Date | null = null;
   department: string = '';
   designation: string = '';
   dob: Date | null = null;
-  expectedDOJ: Date | null = null;
+  expected_doj: Date | null = null;
   gender: string = '';
   linkedIn: string = '';
   religion: string = '';
   country: string = '';
   city: string = '';
   category: string = '';
-  onboardingStatus: string = '';
-  candidateStatus: string = '';
+  onboarding_status: string = '';
+  status: string = '';
   remarks: string = '';
 
   // Company Details
@@ -220,7 +204,7 @@ export class CandidateDto {
   skillName: string = '';
   skillRating: string = '';
   skillRemarks: string = '';
-
+  is_active: boolean = true;
   // Qualification
   qualificationName: string = '';
   passingYear: string = '';
@@ -255,3 +239,70 @@ export class FinalScreeningFormDto {
     Object.assign(this, init);
   }
 }
+
+
+
+
+
+export class FieldConfigDto {
+  source: 'CURRENT_USER' | string = 'CURRENT_USER';
+  editable: boolean = false;
+  selection: 'SINGLE' | 'MULTIPLE' = 'SINGLE';
+}
+
+
+
+export class RequisitionBackendFieldsDto {
+  fieldCode: string = 'hiring_manager';
+  label: string = 'Hiring Manager';
+  fieldType: 'LOOKUP_TABLE' | string = 'LOOKUP_TABLE';
+  systemDefined: boolean = true;
+  createdDate: string = '';
+  lookupTable: string = 'app_user';
+  nullable: boolean = true;
+  displayOrder: number = 7;
+  lifecycleStatus: 'ACTIVE' | string = 'ACTIVE';
+  required: boolean = false;
+  linkedComponent: string = 'app_user';
+  fieldConfig: FieldConfigDto = new FieldConfigDto();
+  active: boolean = true;
+  constructor(init?: Partial<RequisitionDto>) {
+    if (init) {
+      Object.assign(this, init);
+    }
+  }
+}
+
+
+export class RequisitionDto {
+  // requisitionId: number | null = null;
+  requisition_name: string = '';
+  department: string = '';
+  job_title: string = '';
+  designation: string = '';
+  required_count: number | null = null;
+  required_date: string = '';
+  job_description: string = '';
+  hiring_manager: string = '';
+  is_active: boolean = false;
+
+  constructor(init?: Partial<RequisitionDto>) {
+    Object.assign(this, init);
+  }
+}
+
+
+export class LookupDto {
+  code: string = '';
+  description: string = '';
+  name: string = '';
+  publicId: string = '';
+
+  constructor(init?: Partial<LookupDto>) {
+    if (init) {
+      Object.assign(this, init);
+    }
+  }
+}
+
+

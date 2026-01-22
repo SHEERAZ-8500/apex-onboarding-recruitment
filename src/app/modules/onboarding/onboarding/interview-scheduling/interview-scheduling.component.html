@@ -11,11 +11,11 @@
             <div class="form-section interview-details">
                 <h3 class="section-heading">Interview Details</h3>
                 <div class="form-row">
-                    <div class="form-group">
+                    <div class="form-group" *ngIf="isFieldActive('candidate')">
                         <label class="input-label">Candidate ID <span class="required">*</span></label>
-                        <div class="custom-dropdown" (click)="toggleCandidateDropdown($event)">
+                        <div class="custom-dropdown" (click)="toggleCandidateDropdown($event,'candidate')">
                             <div class="dropdown-selected">
-                                <span>{{ interview.selectedCandidate }}</span>
+                                <span>{{ interview.candidate }}</span>
                                 <i class="fa-solid fa-chevron-down dropdown-arrow"
                                     [class.rotate]="isCandidateDropdownOpen"></i>
                             </div>
@@ -24,24 +24,27 @@
                                     (click)="selectCandidate(candidate, $event)">
                                     {{ candidate.name }} ({{ candidate.id }})
                                 </div>
+                                <div *ngIf="candidateOptions.length === 0" class="dropdown-option text-muted">
+                                    No Candidates Available
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" *ngIf="isFieldActive('interview_date')">
                         <label class="input-label">Interview Date <span class="required">*</span></label>
-                        <input type="date" class="form-input" [(ngModel)]="interview.interviewDate" name="interviewDate" required />
+                        <input type="date" class="form-input" [(ngModel)]="interview.interview_date" name="interview_date" required />
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group">
+                    <div class="form-group" *ngIf="isFieldActive('interview_start_time')">
                         <label class="input-label">Interview Start Time <span class="required">*</span></label>
-                        <input type="time" class="form-input" [(ngModel)]="interview.interviewStartTime" name="interviewStartTime" required />
+                        <input type="time" class="form-input" [(ngModel)]="interview.start_time" name="start_time" required />
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" *ngIf="isFieldActive('interview_location')">
                         <label class="input-label">Interview Location <span class="required">*</span></label>
                         <div class="custom-dropdown" (click)="toggleLocationDropdown($event)">
                             <div class="dropdown-selected">
-                                <span>{{ interview.selectedLocation || 'Select Location' }}</span>
+                                <span>{{ interview.location || 'Select Location' }}</span>
                                 <i class="fa-solid fa-chevron-down dropdown-arrow"
                                     [class.rotate]="isLocationDropdownOpen"></i>
                             </div>
@@ -50,21 +53,24 @@
                                     (click)="selectLocation(location, $event)">
                                     {{ location }}
                                 </div>
+                                <div *ngIf="locationOptions.length === 0" class="dropdown-option text-muted">
+                                    No Locations Available
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group">
+                    <div class="form-group" *ngIf="isFieldActive('meeting_url')">
                         <label class="input-label">Meeting URL</label>
-                        <input type="text" class="form-input" [(ngModel)]="interview.meetingURL" name="meetingURL"
+                        <input type="text" class="form-input" [(ngModel)]="interview.meeting_url" name="meeting_url"
                             placeholder="https://meet.google.com/abc-xyz" />
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" *ngIf="isFieldActive('interviewer')">
                         <label class="input-label">Interviewer <span class="required">*</span></label>
                         <div class="custom-dropdown" (click)="toggleInterviewerDropdown($event)">
                             <div class="dropdown-selected">
-                                <span>{{ interview.selectedInterviewer || 'Select Interviewer' }}</span>
+                                <span>{{ selectedInterviewerDisplay || 'Select Interviewer' }}</span>
                                 <i class="fa-solid fa-chevron-down dropdown-arrow"
                                     [class.rotate]="isInterviewerDropdownOpen"></i>
                             </div>
@@ -73,16 +79,19 @@
                                     (click)="selectInterviewer(interviewer, $event)">
                                     {{ interviewer.name }} - {{ interviewer.department }}
                                 </div>
+                                <div *ngIf="interviewerOptions.length === 0" class="dropdown-option text-muted">
+                                    No Interviewers Available
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group">
+                    <div class="form-group" *ngIf="isFieldActive('interview_status')">
                         <label class="input-label">Interview Status <span class="required">*</span></label>
                         <div class="custom-dropdown" (click)="toggleStatusDropdown($event)">
                             <div class="dropdown-selected">
-                                <span>{{ interview.selectedStatus || 'Select Status' }}</span>
+                                <span>{{ interview.interview_status || 'Select Status' }}</span>
                                 <i class="fa-solid fa-chevron-down dropdown-arrow"
                                     [class.rotate]="isStatusDropdownOpen"></i>
                             </div>
@@ -90,6 +99,9 @@
                                 <div class="dropdown-option" *ngFor="let status of statusOptions"
                                     (click)="selectStatus(status, $event)">
                                     {{ status }}
+                                </div>
+                                <div *ngIf="statusOptions.length === 0" class="dropdown-option text-muted">
+                                    No Interview Status Available
                                 </div>
                             </div>
                         </div>
@@ -99,18 +111,11 @@
 
             <!-- Section 2: Remarks -->
             <div class="form-section remarks-section">
-                <div class="form-row full-width">
+                <div class="form-row full-width" *ngIf="isFieldActive('remarks')">
                     <div class="form-group full-width">
                         <label class="input-label">Remarks</label>
                         <textarea class="form-textarea" [(ngModel)]="interview.remarks" name="remarks" rows="3"
                             placeholder="General remarks about the interview..."></textarea>
-                    </div>
-                </div>
-                <div class="form-row full-width">
-                    <div class="form-group full-width">
-                        <label class="input-label">Interview Remarks</label>
-                        <textarea class="form-textarea" [(ngModel)]="interview.interviewRemarks" name="interviewRemarks" rows="3"
-                            placeholder="Detailed feedback after interview..."></textarea>
                     </div>
                 </div>
             </div>

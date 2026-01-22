@@ -3,7 +3,8 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { DynamicFieldsSharingService } from '../../../../shared/services/dynamic-fields-sharing.service';
 import { LoaderService } from '../../../../shared/services/loader.service';
-import { InterviewSchedulingDto } from '../../../../shared/dtos/Dto';
+import { InterviewSchedulingDto, LookupDto } from '../../../../shared/dtos/Dto';
+import { ApiService } from '../../../../shared/services/apis/api.service';
 
 @Component({
   selector: 'app-interview-scheduling',
@@ -20,40 +21,24 @@ export class InterviewSchedulingComponent implements OnInit {
   isInterviewerDropdownOpen: boolean = false;
   isStatusDropdownOpen: boolean = false;
 
-    // Dropdown Options
-  candidateOptions: any[] = [
-    { id: 'CAND001', name: 'John Doe' },
-    { id: 'CAND002', name: 'Jane Smith' },
-    { id: 'CAND003', name: 'Robert Johnson' },
-    { id: 'CAND004', name: 'Emily Davis' },
-    { id: 'CAND005', name: 'Michael Wilson' }
-  ];
+  // Backend field management - for static fields visibility
+  backendFieldsMap: Record<string, boolean> = {};
+  fieldConfigMap: Record<string, any> = {};
 
-  locationOptions: string[] = [
-    'Office - Floor 5',
-    'Office - Conference Room A',
-    'Office - Conference Room B',
-    'Virtual - Google Meet',
-    'Virtual - Zoom',
-    'Client Office'
-  ];
+  // Display values for dropdowns
+  selectedInterviewerDisplay: string = '';
+
+  // Dropdown Options
+  candidateOptions: any[] = [];
+
+  locationOptions: string[] = [];
 
   interviewerOptions: any[] = [
-    { id: 'INT001', name: 'Sarah Williams', department: 'HR' },
-    { id: 'INT002', name: 'David Brown', department: 'Technical' },
-    { id: 'INT003', name: 'Lisa Taylor', department: 'Management' },
-    { id: 'INT004', name: 'Kevin Miller', department: 'Technical' },
-    { id: 'INT005', name: 'Amanda Clark', department: 'HR' }
+    { id: 'CURRENT_USER', name: 'Current User', department: 'Admin' },
+
   ];
 
-  statusOptions: string[] = [
-    'Scheduled',
-    'Completed',
-    'Cancelled',
-    'Rescheduled',
-    'No Show',
-    'In Progress'
-  ];
+  statusOptions: string[] = [];
 
   // ...existing code for dropdown options...
 
@@ -65,13 +50,16 @@ export class InterviewSchedulingComponent implements OnInit {
     private router: Router,
     public dynamicFieldsService: DynamicFieldsSharingService,
     private toastr: ToastrService,
-    private loader: LoaderService
+    private loader: LoaderService,
+    private api: ApiService
   ) { }
 
   ngOnInit(): void {
+    this.getFormFileds();
+
     // Load dynamic fields and tabs
     this.loader.show();
-    this.dynamicFieldsService.loadDynamicFields('EMPLOYEE_REQUISITION', 'USER_DEFINED', [])
+    this.dynamicFieldsService.loadDynamicFields('INTERVIEW', 'USER_DEFINED', [])
       .then(() => {
         // Get tabs from service
         this.sidebarTabs = this.dynamicFieldsService.sidebarTabs;
@@ -83,16 +71,19 @@ export class InterviewSchedulingComponent implements OnInit {
         this.toastr.error('Failed to load dynamic fields');
         this.loader.hide();
       });
-  } 
+  }
 
   // Dropdown Handlers
-  toggleCandidateDropdown(event: Event): void {
+  toggleCandidateDropdown(event: Event,field:string): void {
     event.stopPropagation();
     this.isCandidateDropdownOpen = !this.isCandidateDropdownOpen;
     // Close other dropdowns
     this.isLocationDropdownOpen = false;
     this.isInterviewerDropdownOpen = false;
     this.isStatusDropdownOpen = false;
+    if (field === 'candidate') {
+      this.fetchLookupOptions('candidate');
+    }
   }
 
   toggleLocationDropdown(event: Event): void {
@@ -125,34 +116,35 @@ export class InterviewSchedulingComponent implements OnInit {
   // Selection Handlers
   selectCandidate(candidate: any, event: Event): void {
     event.stopPropagation();
-    this.interview.selectedCandidate = `${candidate.name} (${candidate.id})`;
+    this.interview.candidate = `${candidate.name} (${candidate.id})`;
     this.isCandidateDropdownOpen = false;
   }
 
   selectLocation(location: string, event: Event): void {
     event.stopPropagation();
-    this.interview.selectedLocation = location;
+    this.interview.location = location;
     this.isLocationDropdownOpen = false;
-    
+
     // Auto-set meeting URL if virtual location selected
     if (location.includes('Virtual')) {
       if (location.includes('Google Meet')) {
-        this.interview.meetingURL = 'https://meet.google.com/';
+        this.interview.meeting_url = 'https://meet.google.com/';
       } else if (location.includes('Zoom')) {
-        this.interview.meetingURL = 'https://zoom.us/j/';
+        this.interview.meeting_url = 'https://zoom.us/j/';
       }
     }
   }
 
   selectInterviewer(interviewer: any, event: Event): void {
     event.stopPropagation();
-    this.interview.selectedInterviewer = interviewer.name;
+    (this.interview as any).interviewer = interviewer.name;
+    this.selectedInterviewerDisplay = interviewer.name;
     this.isInterviewerDropdownOpen = false;
   }
 
   selectStatus(status: string, event: Event): void {
     event.stopPropagation();
-    this.interview.selectedStatus = status;
+    this.interview.interview_status = status;
     this.isStatusDropdownOpen = false;
   }
 
@@ -173,23 +165,29 @@ export class InterviewSchedulingComponent implements OnInit {
 
   // Save interview scheduling data
   saveInterview(): void {
-    const completeData = this.dynamicFieldsService.getCompleteFormData(this.interview);
     
+    // Remove interviewer if its source is 'current user'
+    if (this.fieldConfigMap['interviewer_user']?.source === 'CURRENT_USER') {
+      delete (this.interview as any).interviewer_user;
+    }
+
+    const completeData = this.dynamicFieldsService.getCompleteFormData(this.interview);
+
     this.loader.show();
     // API call to save data
-    // this.api.saveFormData('INTERVIEW_SCHEDULING', completeData).subscribe({
-    //   next: (res: any) => {
-    //     this.toastr.success('Interview scheduled successfully');
-    //     this.loader.hide();
-    //     this.router.navigate(['/panel/onboarding/candidates']);
-    //   },
-    //   error: (err: any) => {
-    //     console.error('Error saving interview:', err);
-    //     this.toastr.error('Failed to schedule interview');
-    //     this.loader.hide();
-    //   }
-    // });
-    
+    this.api.saveFormData('INTERVIEW', completeData).subscribe({
+      next: (res: any) => {
+        this.toastr.success('Interview scheduled successfully');
+        this.loader.hide();
+        this.router.navigate(['/panel/onboarding/candidates']);
+      },
+      error: (err: any) => {
+        console.error('Error saving interview:', err);
+        this.toastr.error('Failed to schedule interview');
+        this.loader.hide();
+      }
+    });
+
     // For now just show success
     setTimeout(() => {
       this.toastr.success('Interview scheduled successfully');
@@ -198,6 +196,55 @@ export class InterviewSchedulingComponent implements OnInit {
   }
 
   onCancel(): void {
-    this.router.navigate(['/panel']); 
+    this.router.navigate(['/panel']);
+  }
+
+  getFormFileds() {
+    this.api.getFormByFormCode('INTERVIEW').subscribe({
+      next: (res: any) => {
+        console.log('Form Fields:', res);
+
+        // safety check
+        if (res?.data?.fields && Array.isArray(res.data.fields)) {
+          res.data.fields.forEach((field: any) => {
+            this.backendFieldsMap[field.fieldCode] = field.active;            // Store field config including source
+            if (field.fieldConfig) {
+              this.fieldConfigMap[field.fieldCode] = field.fieldConfig;
+            }
+            if (field.fieldCode === 'location') {
+              this.locationOptions = field.enumValues || [];
+            }
+            if (field.fieldCode === 'interview_status') {
+              this.statusOptions = field.enumValues || [];
+            }
+            if (field.fieldCode === 'is_active') {
+              this.interview['is_active'] = true;
+            }
+          });
+        }
+      },
+      error: (err: any) => {
+        console.error('Error fetching form fields:', err);
+      }
+    });
+  }
+
+  isFieldActive(fieldCode: string): boolean {
+    return this.backendFieldsMap[fieldCode] !== false;
+  }
+  fetchLookupOptions(fieldCode: string): void {
+    this.api.getLokupTableByCode(fieldCode).subscribe({
+      next: (res: any) => {
+        let data: LookupDto[] = res?.data || [];
+        if (fieldCode === 'candidate') {
+          this.candidateOptions = data;
+        }
+
+
+      },
+      error: (err: any) => {
+        console.error(`Error fetching lookup options for ${fieldCode}:`, err);
+      }
+    });
   }
 }
