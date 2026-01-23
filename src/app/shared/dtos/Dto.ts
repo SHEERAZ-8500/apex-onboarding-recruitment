@@ -170,7 +170,7 @@ export class ReqFormDto {
 
 // CandidateDto for CandidatesComponent
 export class CandidateDto {
-  id: number | null = null;
+  code: number | null = null;
   first_name: string = '';
   last_name: string = '';
   requisition: string = '';
@@ -178,12 +178,11 @@ export class CandidateDto {
   contact_number1: string = '';
   contact_number2: string = '';
   application_date: Date | null = null;
-  department: string = '';
+  // department: string = '';
   designation: string = '';
-  dob: Date | null = null;
   expected_doj: Date | null = null;
   gender: string = '';
-  linkedIn: string = '';
+  linkedin_url: string = '';
   religion: string = '';
   country: string = '';
   city: string = '';
@@ -191,31 +190,7 @@ export class CandidateDto {
   onboarding_status: string = '';
   status: string = '';
   remarks: string = '';
-
-  // Company Details
-  companyName: string = '';
-  companyFrom: Date | null = null;
-  companyTo: Date | null = null;
-  position: string = '';
-  lastSalary: number | null = null;
-  companyRemarks: string = '';
-
-  // Skills
-  skillName: string = '';
-  skillRating: string = '';
-  skillRemarks: string = '';
   is_active: boolean = true;
-  // Qualification
-  qualificationName: string = '';
-  passingYear: string = '';
-  institute: string = '';
-  grade: string = '';
-  qualificationRemarks: string = '';
-
-  // Attachments
-  attachmentId: string = '';
-  fileName: string = '';
-  attachmentRemarks: string = '';
 
   constructor(init?: Partial<CandidateDto>) {
     Object.assign(this, init);
@@ -307,3 +282,16 @@ export class LookupDto {
 }
 
 
+export class LookupDtoWhenTypeForm {
+  code: string = ''
+  publicId: string = ''
+
+  summary: string = ''
+
+
+  constructor(init?: Partial<LookupDtoWhenTypeForm>) {
+    if (init) {
+      Object.assign(this, init);
+    }
+  }
+}

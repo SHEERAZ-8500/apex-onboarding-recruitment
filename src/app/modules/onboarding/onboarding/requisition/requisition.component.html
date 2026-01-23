@@ -44,12 +44,12 @@
 
         <div class="form-group" *ngIf="isFieldActive('job_title')">
           <label class="input-label">Job Title <span class="required">*</span></label>
-          <div class="custom-dropdown" (click)="toggleDropdown($event,'jobTitle')">
+          <div class="custom-dropdown" (click)="toggleDropdown($event,'job_title')">
             <div class="dropdown-selected">
               <span>{{ jobTitleDropDownValue || 'Select Job Title' }}</span>
-              <i class="fa-solid fa-chevron-down dropdown-arrow" [class.rotate]="activeDropdown==='jobTitle'"></i>
+              <i class="fa-solid fa-chevron-down dropdown-arrow" [class.rotate]="activeDropdown==='job_title'"></i>
             </div>
-            <div class="dropdown-options" *ngIf="activeDropdown==='jobTitle'">
+            <div class="dropdown-options" *ngIf="activeDropdown==='job_title'">
               <div *ngIf="jobTitles.length > 0">
                 <div class="dropdown-option" *ngFor="let j of jobTitles" (click)="selectOption('job_title',j,$event)">
                   {{ j.name }}

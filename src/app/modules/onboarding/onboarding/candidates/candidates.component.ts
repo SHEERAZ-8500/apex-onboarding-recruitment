@@ -1,7 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DynamicFieldsSharingService } from '../../../../shared/services/dynamic-fields-sharing.service';
-import { CandidateDto, LookupDto } from '../../../../shared/dtos/Dto';
+import { CandidateDto, LookupDto, LookupDtoWhenTypeForm } from '../../../../shared/dtos/Dto';
 import { ToastrService } from 'ngx-toastr';
 import { LoaderService } from '../../../../shared/services/loader.service';
 import { ApiService } from '../../../../shared/services/apis/api.service';
@@ -27,7 +27,6 @@ export class CandidatesComponent implements OnInit {
   departments: string[] = ['IT', 'HR', 'Finance', 'Marketing'];
   designations: string[] = ['Manager', 'Developer', 'Analyst', 'Intern'];
   hiringManagers: string[] = ['John Doe', 'Jane Smith', 'Alice Johnson'];
-  skillRatings: string[] = ['Beginner', 'Intermediate', 'Advanced', 'Expert'];
   // genders: string[] = ['Male', 'Female', 'Other'];
   countries: string[] = ['USA', 'Pakistan', 'India', 'UK'];
   cities: string[] = ['New York', 'Lahore', 'Mumbai', 'London'];
@@ -37,10 +36,12 @@ export class CandidatesComponent implements OnInit {
   genderEnumArray = []
   candidateEnumArray = []
   onboardingStatusEnumArray = []
-  requsitionDropDownValue: LookupDto[] = [];
+  requsitionDropDownValue: LookupDtoWhenTypeForm[] = [];
   departmentDropDownValue: LookupDto[] = [];
   designationDropDownValue: LookupDto[] = [];
-
+  requisitionDisplayValue: string = '';
+  religionEnumArray = []
+  selectedDesignationDisplay: string = '';
   // Sidebar Tabs Data
   sidebarTabs: any[] = [];
   activeTabId: number = 1;
@@ -81,7 +82,7 @@ export class CandidatesComponent implements OnInit {
       this.activeDropdown = field; // Open selected
     }
     if (field === 'requisition') {
-      this.fetchLookupOptions('requisition');
+      this.fetchLookupOptionsWhenLokupTypeForm('job_requisition');
     }
     if (field === 'department') {
       this.fetchLookupOptions('department');
@@ -94,9 +95,19 @@ export class CandidatesComponent implements OnInit {
   // Select option from dropdown
   selectOption(field: string, value: any, event: Event): void {
     event.stopPropagation();
-    (this.candidate as any)[field] = value;
-    this.activeDropdown = ''; // Close dropdown
 
+    if (field === 'requisition' && value.code) {
+      // For requisition, store code and display summary
+      this.candidate.requisition = value.code;
+      this.requisitionDisplayValue = value.summary;
+    } else if (field === 'designation') {
+      this.candidate.designation = value.code;
+      this.selectedDesignationDisplay = value.name;
+    } else {
+      (this.candidate as any)[field] = value;
+    }
+
+    this.activeDropdown = ''; // Close dropdown
   }
 
   // Close dropdowns when clicking outside
@@ -114,28 +125,33 @@ export class CandidatesComponent implements OnInit {
 
   // Save candidate data
   saveCandidate(): void {
+
+    delete (this.candidate as any).designation;
+    delete (this.candidate as any).category;
+    delete (this.candidate as any).remarks;
+
+
+
     const completeData = this.dynamicFieldsService.getCompleteFormData(this.candidate);
 
     this.loader.show();
+
     // API call to save data
-    // this.api.saveFormData('CANDIDATE_FORM', completeData).subscribe({
-    //   next: (res: any) => {
-    //     this.toastr.success('Candidate data saved successfully');
-    //     this.loader.hide();
-    //     this.router.navigate(['/panel/onboarding/candidates']);
-    //   },
-    //   error: (err: any) => {
-    //     console.error('Error saving candidate data:', err);
-    //     this.toastr.error('Failed to save candidate data');
-    //     this.loader.hide();
-    //   }
-    // });
+    this.api.saveFormData('CANDIDATE', completeData).subscribe({
+      next: (res: any) => {
+        this.toastr.success('Candidate data saved successfully');
+        this.loader.hide();
+        this.router.navigate(['/panel/onboarding/candidates']);
+      },
+      error: (err: any) => {
+        console.error('Error saving candidate data:', err);
+        this.toastr.error('Failed to save candidate data');
+        this.loader.hide();
+      }
+    });
 
     // For now just show success
-    setTimeout(() => {
-      this.toastr.success('Candidate data saved successfully');
-      this.loader.hide();
-    }, 1000);
+
   }
 
   onCancel(): void {
@@ -159,6 +175,9 @@ export class CandidatesComponent implements OnInit {
             if (field.fieldCode === 'onboarding_status') {
               this.onboardingStatusEnumArray = field.enumValues || [];
             }
+            if (field.fieldCode === 'religion') {
+              this.religionEnumArray = field.enumValues || [];
+            }
           });
         }
       },
@@ -175,15 +194,29 @@ export class CandidatesComponent implements OnInit {
     this.api.getLokupTableByCode(fieldCode).subscribe({
       next: (res: any) => {
         let data: LookupDto[] = res?.data || [];
-        if (fieldCode === 'requisition') {
-          this.requsitionDropDownValue = data;
-        }
+
         if (fieldCode === 'department') {
           this.departmentDropDownValue = data;
         }
         if (fieldCode === 'designation') {
           this.designationDropDownValue = data;
         }
+
+      },
+      error: (err: any) => {
+        console.error(`Error fetching lookup options for ${fieldCode}:`, err);
+      }
+    });
+  }
+  fetchLookupOptionsWhenLokupTypeForm(fieldCode: string): void {
+    this.api.getLokupTableByCodeWithFormType(fieldCode).subscribe({
+      next: (res: any) => {
+
+        let data = res?.data || [];
+        if (fieldCode === 'job_requisition') {
+          this.requsitionDropDownValue = data;
+        }
+
 
       },
       error: (err: any) => {

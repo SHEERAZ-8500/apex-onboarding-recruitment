@@ -15,14 +15,14 @@
                         <label class="input-label">Candidate ID <span class="required">*</span></label>
                         <div class="custom-dropdown" (click)="toggleCandidateDropdown($event,'candidate')">
                             <div class="dropdown-selected">
-                                <span>{{ interview.candidate }}</span>
+                                <span>{{ selectedCandidate || 'Select Candidate' }}</span>
                                 <i class="fa-solid fa-chevron-down dropdown-arrow"
                                     [class.rotate]="isCandidateDropdownOpen"></i>
                             </div>
                             <div class="dropdown-options" *ngIf="isCandidateDropdownOpen">
                                 <div class="dropdown-option" *ngFor="let candidate of candidateOptions"
                                     (click)="selectCandidate(candidate, $event)">
-                                    {{ candidate.name }} ({{ candidate.id }})
+                                    {{ candidate.summary }}
                                 </div>
                                 <div *ngIf="candidateOptions.length === 0" class="dropdown-option text-muted">
                                     No Candidates Available
