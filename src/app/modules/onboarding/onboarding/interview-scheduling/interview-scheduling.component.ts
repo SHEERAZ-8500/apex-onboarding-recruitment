@@ -118,7 +118,7 @@ export class InterviewSchedulingComponent implements OnInit {
   selectCandidate(candidate: any, event: Event): void {
     event.stopPropagation();
     this.selectedCandidate = candidate.summary || candidate.name;
-    this.interview.candidate = candidate.code;
+    this.interview.candidate = candidate.publicId;
     this.isCandidateDropdownOpen = false;
   }
 
@@ -186,7 +186,8 @@ export class InterviewSchedulingComponent implements OnInit {
       next: (res: any) => {
         this.toastr.success('Interview scheduled successfully');
         this.loader.hide();
-        this.router.navigate(['/panel/onboarding/candidates']);
+        this.resetForm();
+        // this.router.navigate(['/panel/onboarding/candidates']);
       },
       error: (err: any) => {
         console.error('Error saving interview:', err);
@@ -195,15 +196,24 @@ export class InterviewSchedulingComponent implements OnInit {
       }
     });
 
-    // For now just show success
-    setTimeout(() => {
-      this.toastr.success('Interview scheduled successfully');
-      this.loader.hide();
-    }, 1000);
+
   }
 
   onCancel(): void {
     this.router.navigate(['/panel']);
+  }
+
+  resetForm(): void {
+    // Reset interview object
+    this.interview = new InterviewSchedulingDto();
+    this.interview.is_active = true;
+    
+    // Reset dropdown display values
+    this.selectedCandidate = '';
+    this.selectedInterviewerDisplay = '';
+    
+    // Reset dynamic fields
+    this.dynamicFieldsService.resetDynamicFields();
   }
 
   getFormFileds() {
