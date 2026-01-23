@@ -11,10 +11,10 @@
                 <h3 class="section-heading">Candidate Information</h3>
 
                 <div class="form-row">
-                    <div class="form-group" *ngIf="isFieldActive('id')">
+                    <!-- <div class="form-group" *ngIf="isFieldActive('id')">
                         <label class="input-label">ID <span class="required">*</span></label>
                         <input type="number" class="form-input" [(ngModel)]="finalScreening.id" name="id" required />
-                    </div>
+                    </div> -->
                     <div class="form-group" *ngIf="isFieldActive('candidate_id')">
                         <label class="input-label">Candidate ID <span class="required">*</span></label>
                         <div class="custom-dropdown" (click)="toggleDropdown($event,'candidateId')">
@@ -37,59 +37,47 @@
 
         <!-- Section 2: Basic Information -->
         <div class="form-section basic-info">
-            <form class="section-form">
+            <div class="section-form">
                 <h3 class="section-heading">Basic Information</h3>
 
-                <div class="form-row">
-                    <div class="form-group" *ngIf="isFieldActive('first_name')">
-                        <label class="input-label">First Name <span class="required">*</span></label>
-                        <input type="text" class="form-input"  name="firstName"
-                            required />
-                    </div>
-                    <div class="form-group" *ngIf="isFieldActive('last_name')">
-                        <label class="input-label">Last Name <span class="required">*</span></label>
-                        <input type="text" class="form-input"  name="lastName"
-                            required />
-                    </div>
-                </div>
+                <section class="table-main-div ">
+        <div class="rounded-2xl text-gray-200 overflow-x-auto  pt-4">
+            <table class="min-w-full text-sm border-separate border-spacing-y-2 ">
+                <thead>
+                    <tr class="text-gray-400 text-left text-xs uppercase tracking-wider">
+                        <th class="px-3 py-2">First Name</th>
+                        <th class="px-3 py-2">Last Name</th>
+                        <th class="px-3 py-2">Requisition</th>
+                        <th class="px-3 py-2">Email</th>
+                        <th class="px-3 py-2">Contract No 1</th>
+                        <th class="px-3 py-2">Contract No 2</th>
+                    </tr>
+                </thead>
 
-                <div class="form-row">
-                    <div class="form-group" *ngIf="isFieldActive('requisition')">
-                        <label class="input-label">Requisition <span class="required">*</span></label>
-                        <div class="custom-dropdown" (click)="toggleDropdown($event,'requisition')">
-                            <div class="dropdown-selected">
-                                <span>Select Requisition </span>
-                                <i class="fa-solid fa-chevron-down dropdown-arrow"
-                                    [class.rotate]="activeDropdown==='requisition'"></i>
-                            </div>
-                            <div class="dropdown-options" *ngIf="activeDropdown==='requisition'">
-                                <div class="dropdown-option" *ngFor="let r of requisitions"
-                                    (click)="selectOption('requisition',r,$event)">
-                                    {{ r }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group" *ngIf="isFieldActive('email')">
-                        <label class="input-label">Email</label>
-                        <input type="email" class="form-input"  name="email"
-                            placeholder="Enter Email" />
-                    </div>
-                </div>
+                <tbody>
+                    <tr 
+                        class="bg-[#1e293b] hover:bg-[#27354a] rounded-lg">
+                        <td class="px-3 py-3 font-medium">1</td>
+                        <td class="px-3 py-3 font-medium">2</td>
+                        <td class="px-3 py-3 font-medium">3</td>
+                        <td class="px-3 py-3 text-gray-400">4</td>
+                        <!-- <td class="px-3 py-3 text-gray-400">{{ user.phoneNumber }}</td> -->
+                        <td class="px-3 py-3 text-gray-400">5</td>
+                        <td class="px-3 py-3 text-gray-400">6</td>
 
-                <div class="form-row">
-                    <div class="form-group" *ngIf="isFieldActive('contact_1')">
-                        <label class="input-label">Contact Number 1</label>
-                        <input type="text" class="form-input"name="contact1"
-                            placeholder="Enter Contact Number" />
-                    </div>
-                    <div class="form-group" *ngIf="isFieldActive('contact_2')">
-                        <label class="input-label">Contact Number 2</label>
-                        <input type="text" class="form-input"  name="contact2"
-                            placeholder="Enter Contact Number" />
-                    </div>
-                </div>
-            </form>
+                     
+
+
+                     
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+      
+    </section>
+            </div>
         </div>
 
         <!-- Section 3: Interview Details -->
@@ -97,65 +85,43 @@
             <form class="section-form">
                 <h3 class="section-heading">Interview Details</h3>
 
-                <div class="form-row">
-                    <div class="form-group" *ngIf="isFieldActive('interview_id')">
-                        <label class="input-label">Interview ID</label>
-                        <input type="text" class="form-input" name="interviewId" />
-                    </div>
-                    <div class="form-group" *ngIf="isFieldActive('interview_date')">
-                        <label class="input-label">Interview Date</label>
-                        <input type="date" class="form-input"
-                            name="interviewDate" />
-                    </div>
-                    <div class="form-group" *ngIf="isFieldActive('interview_time')">
-                        <label class="input-label">Interview Time</label>
-                        <input type="time" class="form-input" 
-                            name="interviewTime" />
-                    </div>
-                </div>
+                 <section class="table-main-div ">
+        <div class="rounded-2xl text-gray-200 overflow-x-auto  pt-4">
+            <table class="min-w-full text-sm border-separate border-spacing-y-2 ">
+                <thead>
+                    <tr class="text-gray-400 text-left text-xs uppercase tracking-wider">
+                        <th class="px-3 py-2">Interview ID</th>
+                        <th class="px-3 py-2">Interview Date</th>
+                        <th class="px-3 py-2">Interview Time</th>
+                        <th class="px-3 py-2">Status</th>
+                        <th class="px-3 py-2">Interviewer Name</th>
+                        <th class="px-3 py-2">Remarks</th>
+                    </tr>
+                </thead>
 
-                <div class="form-row">
-                    <div class="form-group" *ngIf="isFieldActive('interviewer_status')">
-                        <label class="input-label">Interviewer Status</label>
-                        <div class="custom-dropdown" (click)="toggleDropdown($event,'interviewerStatus')">
-                            <div class="dropdown-selected">
-                                <span>Select Status</span>
-                                <i class="fa-solid fa-chevron-down dropdown-arrow"
-                                    [class.rotate]="activeDropdown==='interviewerStatus'"></i>
-                            </div>
-                            <div class="dropdown-options" *ngIf="activeDropdown==='interviewerStatus'">
-                                <div class="dropdown-option" *ngFor="let status of interviewerStatuses"
-                                    (click)="selectOption('interviewerStatus',status,$event)">
-                                    {{ status }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group" *ngIf="isFieldActive('interviewer_name')">
-                        <label class="input-label">Interviewer Name</label>
-                        <div class="custom-dropdown" (click)="toggleDropdown($event,'interviewerName')">
-                            <div class="dropdown-selected">
-                                <span>Select Interviewer</span>
-                                <i class="fa-solid fa-chevron-down dropdown-arrow"
-                                    [class.rotate]="activeDropdown==='interviewerName'"></i>
-                            </div>
-                            <div class="dropdown-options" *ngIf="activeDropdown==='interviewerName'">
-                                <div class="dropdown-option" *ngFor="let name of interviewerNames"
-                                    (click)="selectOption('interviewerName',name,$event)">
-                                    {{ name }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <tbody>
+                    <tr 
+                        class="bg-[#1e293b] hover:bg-[#27354a] rounded-lg">
+                        <td class="px-3 py-3 font-medium">1</td>
+                        <td class="px-3 py-3 font-medium">2</td>
+                        <td class="px-3 py-3 font-medium">3</td>
+                        <td class="px-3 py-3 text-gray-400">4</td>
+                        <!-- <td class="px-3 py-3 text-gray-400">{{ user.phoneNumber }}</td> -->
+                        <td class="px-3 py-3 text-gray-400">5</td>
+                        <td class="px-3 py-3 text-gray-400">6</td>
 
-                <div class="form-row full-width" *ngIf="isFieldActive('interviewer_remarks')">
-                    <div class="form-group">
-                        <label class="input-label">Interviewer Remarks</label>
-                        <textarea class="form-input"
-                            name="interviewerRemarks" rows="3" placeholder="Enter remarks"></textarea>
-                    </div>
-                </div>
+                     
+
+
+                     
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+      
+    </section>
             </form>
         </div>
 

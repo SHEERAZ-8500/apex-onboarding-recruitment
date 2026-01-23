@@ -13,15 +13,16 @@
           <input type="number" class="form-input" [(ngModel)]="requisition.requisitionId" name="requisitionId"
             placeholder="Enter Requisition Id" required />
         </div> -->
-        <div class="form-group" *ngIf="isFieldActive('requisition_name')">
-          <label class="input-label">Requisition Name <span class="required">*</span></label>
-          <input type="text" class="form-input" [(ngModel)]="requisition.requisition_name" name="requisitionName"
-            placeholder="Enter Requisition Name" required />
-        </div>
+      
       </div>
 
       <!-- Row 2: Department & Job Title -->
       <div class="form-row">
+          <div class="form-group" *ngIf="isFieldActive('requisition_name')">
+          <label class="input-label">Requisition Name <span class="required">*</span></label>
+          <input type="text" class="form-input" [(ngModel)]="requisition.requisition_name" name="requisitionName"
+            placeholder="Enter Requisition Name" required />
+        </div>
         <div class="form-group" *ngIf="isFieldActive('department')">
           <label class="input-label">Department <span class="required">*</span></label>
           <div class="custom-dropdown" (click)="toggleDropdown($event,'department')">
@@ -61,11 +62,7 @@
             </div>
           </div>
         </div>
-      </div>
-
-      <!-- Row 3: Designation & No of Employees -->
-      <div class="form-row">
-        <div class="form-group" *ngIf="isFieldActive('designation')">
+         <div class="form-group" *ngIf="isFieldActive('designation')">
           <label class="input-label">Designation <span class="required">*</span></label>
           <div class="custom-dropdown" (click)="toggleDropdown($event,'designation')">
             <div class="dropdown-selected">
@@ -87,21 +84,17 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- Row 3: Designation & No of Employees -->
+      <div class="form-row">
 
         <div class="form-group" *ngIf="isFieldActive('required_count')">
           <label class="input-label">No Of Employees Required</label>
           <input type="number" class="form-input" [(ngModel)]="requisition.required_count" name="noOfEmployees"
             placeholder="e.g., 2" min="0" />
         </div>
-      </div>
-
-      <!-- Row 4: Required Date & Job Description -->
-      <div class="form-row">
-        <div class="form-group" *ngIf="isFieldActive('required_date')">
-          <label class="input-label">Required Date <span class="required">*</span></label>
-          <input type="date" class="form-input" [(ngModel)]="requisition.required_date" name="requiredDate" required />
-        </div>
-        <div class="form-group" *ngIf="isFieldActive('hiring_manager')">
+         <div class="form-group" *ngIf="isFieldActive('hiring_manager')">
           <label class="input-label">Hiring Manager <span class="required">*</span></label>
           <div class="custom-dropdown" (click)="toggleDropdown($event,'hiringManager')">
             <div class="dropdown-selected">
@@ -114,6 +107,22 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- Row 4: Required Date & Job Description -->
+      <div class="form-row">
+        <div class="form-group" *ngIf="isFieldActive('required_date')">
+          <label class="input-label">Required Date <span class="required">*</span></label>
+          <input type="date" class="form-input" [(ngModel)]="requisition.required_date" name="requiredDate" required />
+        </div>
+         <div class="form-row" *ngIf="isFieldActive('is_active')">
+        <div class="form-group checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" class="checkbox-input" [(ngModel)]="requisition.is_active" name="status" />
+            <span class="checkbox-text">Active</span>
+          </label>
+        </div>
+      </div>
 
       </div>
 
@@ -127,14 +136,7 @@
         </div>
       </div>
 
-      <div class="form-row" *ngIf="isFieldActive('is_active')">
-        <div class="form-group checkbox-group">
-          <label class="checkbox-label">
-            <input type="checkbox" class="checkbox-input" [(ngModel)]="requisition.is_active" name="status" />
-            <span class="checkbox-text">Active</span>
-          </label>
-        </div>
-      </div>
+    
 
       <!-- Dynamic Fields Section -->
       <div class="dynamic-fields-section"

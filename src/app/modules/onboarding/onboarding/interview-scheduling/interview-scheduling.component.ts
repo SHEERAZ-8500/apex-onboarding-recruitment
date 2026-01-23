@@ -168,6 +168,18 @@ export class InterviewSchedulingComponent implements OnInit {
   // Save interview scheduling data
   saveInterview(): void {
 
+
+      if (
+    !this.interview.candidate ||
+    !this.interview.interview_date ||
+    !this.interview.start_time ||
+    !this.interview.location ||
+    !this.interview.interview_status 
+  
+  ) {
+    this.toastr.warning('Please fill all required fields');
+    return;
+  }
     // Remove interviewer if its source is 'current user'
     if (this.fieldConfigMap['interviewer_user']?.source === 'CURRENT_USER') {
       delete (this.interview as any).interviewer_user;

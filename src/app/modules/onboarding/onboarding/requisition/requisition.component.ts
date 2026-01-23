@@ -113,6 +113,18 @@ export class RequisitionComponent implements OnInit {
 
   // Save requisition data
   saveRequisition(): void {
+
+     if (
+    !this.requisition.requisition_name ||
+    !this.requisition.department ||
+    !this.requisition.job_title ||
+    !this.requisition.designation ||
+    !this.requisition.hiring_manager ||
+    !this.requisition.required_date
+  ) {
+    this.toastr.warning('Please fill all required fields');
+    return;
+  }
     // Remove hiring_manager if its source is 'current user'
     if (this.fieldConfigMap['hiring_manager']?.source === 'CURRENT_USER') {
       delete (this.requisition as any).hiring_manager;
