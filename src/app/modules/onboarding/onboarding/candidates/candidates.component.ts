@@ -131,7 +131,8 @@ export class CandidatesComponent implements OnInit {
     !this.candidate.code ||
     !this.candidate.first_name ||
     !this.candidate.last_name ||
-    !this.candidate.requisition
+    !this.candidate.requisition 
+    
   ) {
     this.toastr.warning('Please fill all required fields');
     return;
