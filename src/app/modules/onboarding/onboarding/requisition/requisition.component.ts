@@ -26,6 +26,7 @@ export class RequisitionComponent implements OnInit {
   backendFieldsMap: Record<string, boolean> = {};
   fieldConfigMap: Record<string, any> = {};
   lookupFields = ['job_title', 'designation', 'department']
+  loadedLookups: Record<string, boolean> = {};
   // Sidebar Tabs Data
   sidebarTabs: any[] = [];
   activeTabId: number = 1;
@@ -63,11 +64,6 @@ export class RequisitionComponent implements OnInit {
     this.getFormFileds();
 
 
-    this.lookupFields.forEach(field => {
-      this.fetchLookupOptions(field);
-    });
-
-
 
   }
 
@@ -75,6 +71,13 @@ export class RequisitionComponent implements OnInit {
   // Dropdown toggle
   toggleDropdown(event: Event, dropdownId: string) {
     event.stopPropagation();
+    
+    // Fetch lookup options on first click
+    if (this.lookupFields.includes(dropdownId) && !this.loadedLookups[dropdownId]) {
+      this.fetchLookupOptions(dropdownId);
+      this.loadedLookups[dropdownId] = true;
+    }
+    
     this.activeDropdown = this.activeDropdown === dropdownId ? '' : dropdownId;
   }
 
@@ -198,6 +201,8 @@ export class RequisitionComponent implements OnInit {
     this.jobTitleDropDownValue = '';
     this.designationDropDownValue = '';
     this.hiringManagerDropDownValue = '';
+    // Reset loaded lookups to allow fresh fetch on next form
+    this.loadedLookups = {};
     // Reset dynamic fields
     this.dynamicFieldsService.resetDynamicFields();
   }

@@ -11,7 +11,7 @@ export class DynamicFieldsSharingService {
   dynamicFieldsData: { [key: string]: any } = {};
   rowTableFields: DynamicFieldDto[] = [];
   rowTableData: { [fieldCode: string]: { [columnCode: string]: any } } = {};
-  
+
   // Sidebar Tabs
   sidebarTabs: any[] = [];
   activeTabId: number = 1;
@@ -161,13 +161,21 @@ export class DynamicFieldsSharingService {
    * @param event The event object
    */
   toggleRowColumnDropdown(column: any, event: Event): void {
+
     event.stopPropagation();
     column.isDropdownOpen = !column.isDropdownOpen;
 
     // Load options on first open if not already loaded
     if (column.isDropdownOpen && !column.optionsLoaded) {
       if (column.fieldType === 'LOOKUP_TABLE' && column.linkedComponent) {
-        this.loadRowColumnLookupOptions(column);
+        if (column.lookupSource === 'FORM') {
+          this.loadRowColumnLookupOptionsWithFormType(column);
+        } if (column.lookupSource) {
+
+        } if (column.lookupSource === 'LOOKUP_TABLE') {
+          this.loadRowColumnLookupOptions(column);
+
+        }
       }
     }
   }
@@ -213,6 +221,19 @@ export class DynamicFieldsSharingService {
    */
   loadRowColumnLookupOptions(column: any): void {
     this.api.getLokupTableByCode(column.linkedComponent).subscribe({
+      next: (res: any) => {
+        column.options = res.data || [];
+        column.optionsLoaded = true;
+      },
+      error: (err) => {
+        console.error('Error loading row column lookup options:', err);
+        column.options = [];
+        column.optionsLoaded = true;
+      }
+    });
+  }
+  loadRowColumnLookupOptionsWithFormType(column: any): void {
+    this.api.getLokupTableByCodeWithFormType(column.linkedComponent).subscribe({
       next: (res: any) => {
         column.options = res.data || [];
         column.optionsLoaded = true;

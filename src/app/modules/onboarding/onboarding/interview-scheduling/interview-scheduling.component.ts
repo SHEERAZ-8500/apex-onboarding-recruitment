@@ -27,7 +27,7 @@ export class InterviewSchedulingComponent implements OnInit {
 
   // Display values for dropdowns
   selectedInterviewerDisplay: string = '';
-
+  selectedCandidate: string = ''
   // Dropdown Options
   candidateOptions: any[] = [];
 
@@ -74,7 +74,7 @@ export class InterviewSchedulingComponent implements OnInit {
   }
 
   // Dropdown Handlers
-  toggleCandidateDropdown(event: Event,field:string): void {
+  toggleCandidateDropdown(event: Event, field: string): void {
     event.stopPropagation();
     this.isCandidateDropdownOpen = !this.isCandidateDropdownOpen;
     // Close other dropdowns
@@ -82,7 +82,8 @@ export class InterviewSchedulingComponent implements OnInit {
     this.isInterviewerDropdownOpen = false;
     this.isStatusDropdownOpen = false;
     if (field === 'candidate') {
-      this.fetchLookupOptions('candidate');
+      this.fetchLookupOptionsWhenLokupTypeForm('candidate')
+
     }
   }
 
@@ -116,7 +117,8 @@ export class InterviewSchedulingComponent implements OnInit {
   // Selection Handlers
   selectCandidate(candidate: any, event: Event): void {
     event.stopPropagation();
-    this.interview.candidate = `${candidate.name} (${candidate.id})`;
+    this.selectedCandidate = candidate.summary || candidate.name;
+    this.interview.candidate = candidate.code;
     this.isCandidateDropdownOpen = false;
   }
 
@@ -137,7 +139,7 @@ export class InterviewSchedulingComponent implements OnInit {
 
   selectInterviewer(interviewer: any, event: Event): void {
     event.stopPropagation();
-    (this.interview as any).interviewer = interviewer.name;
+    (this.interview as any).interviewer_user = interviewer.name;
     this.selectedInterviewerDisplay = interviewer.name;
     this.isInterviewerDropdownOpen = false;
   }
@@ -165,10 +167,15 @@ export class InterviewSchedulingComponent implements OnInit {
 
   // Save interview scheduling data
   saveInterview(): void {
-    
+
     // Remove interviewer if its source is 'current user'
     if (this.fieldConfigMap['interviewer_user']?.source === 'CURRENT_USER') {
       delete (this.interview as any).interviewer_user;
+    }
+
+    // Format start_time to HH:mm:ss if it exists and is in HH:mm format
+    if (this.interview.start_time && this.interview.start_time.length === 5) {
+      this.interview.start_time = this.interview.start_time + ':00';
     }
 
     const completeData = this.dynamicFieldsService.getCompleteFormData(this.interview);
@@ -236,6 +243,21 @@ export class InterviewSchedulingComponent implements OnInit {
     this.api.getLokupTableByCode(fieldCode).subscribe({
       next: (res: any) => {
         let data: LookupDto[] = res?.data || [];
+        if (fieldCode === 'candidate') {
+          this.candidateOptions = data;
+        }
+
+
+      },
+      error: (err: any) => {
+        console.error(`Error fetching lookup options for ${fieldCode}:`, err);
+      }
+    });
+  }
+  fetchLookupOptionsWhenLokupTypeForm(fieldCode: string): void {
+    this.api.getLokupTableByCodeWithFormType(fieldCode).subscribe({
+      next: (res: any) => {
+        let data = res?.data || [];
         if (fieldCode === 'candidate') {
           this.candidateOptions = data;
         }

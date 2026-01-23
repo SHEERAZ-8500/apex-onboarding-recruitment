@@ -106,7 +106,9 @@ export class ApiService {
   getLokupTableByCode(code: any) {
     return this.http.get(`admin/lookups/tables/${code}/values`);
   }
-
+  getLokupTableByCodeWithFormType(code: any) {
+    return this.http.get(`forms/${code}/submissions`);
+  }
   // tables
 
   createNewColumnInIndependentTable(rowComponentCode: string, data: any) {
