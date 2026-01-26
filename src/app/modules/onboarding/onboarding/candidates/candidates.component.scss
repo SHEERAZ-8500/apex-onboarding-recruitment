@@ -527,3 +527,19 @@
         }
     }
 }
+
+/* Dynamic Fields Section Checkbox Styling */
+.dynamic-fields-section {
+    .form-check {
+        .form-check-input {
+            accent-color: var(--purple-1) !important; 
+            
+            &:checked {
+                background-color: var(--purple-1);
+                border-color: var(--purple-1);
+            }
+            
+          
+        }
+    }
+}

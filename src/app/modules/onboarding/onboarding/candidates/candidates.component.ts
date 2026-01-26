@@ -126,6 +126,19 @@ export class CandidatesComponent implements OnInit {
   // Save candidate data
   saveCandidate(): void {
 
+    
+  if (
+    !this.candidate.code ||
+    !this.candidate.first_name ||
+    !this.candidate.last_name ||
+    !this.candidate.requisition 
+    
+  ) {
+    this.toastr.warning('Please fill all required fields');
+    return;
+  }
+
+
     delete (this.candidate as any).designation;
     delete (this.candidate as any).category;
     delete (this.candidate as any).remarks;

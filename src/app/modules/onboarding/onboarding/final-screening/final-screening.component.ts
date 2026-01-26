@@ -91,6 +91,17 @@ export class FinalScreeningComponent implements OnInit {
   // Save candidate data
   saveFinalScreening(): void {
 
+// condtion please fill all required fields
+    if (
+    !this.finalScreening.candidateID ||
+    !this.finalScreening.status ||
+    !this.finalScreening.payElement ||
+    !this.finalScreening.payFrequency ||
+    !this.finalScreening.amount
+  ) {
+    this.toastr.warning('Please fill all required fields');
+    return;
+  }
     
     const completeData = this.dynamicFieldsService.getCompleteFormData(this.finalScreening);
     
