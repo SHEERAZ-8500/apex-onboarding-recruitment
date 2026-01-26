@@ -62,8 +62,8 @@
 
                     <div class="form-group" *ngIf="isFieldActive('contact_number1')">
                         <label class="input-label">Contact Number 1</label>
-                        <input type="text" class="form-input" [(ngModel)]="candidate.contact_number1" name="contact_number1"
-                            placeholder="Enter Contact Number" />
+                        <input type="text" class="form-input" [(ngModel)]="candidate.contact_number1"
+                            name="contact_number1" placeholder="Enter Contact Number" />
                     </div>
                 </div>
 
@@ -71,8 +71,8 @@
                 <div class="form-row">
                     <div class="form-group" *ngIf="isFieldActive('contact_number2')">
                         <label class="input-label">Contact Number 2</label>
-                        <input type="text" class="form-input" [(ngModel)]="candidate.contact_number2" name="contact_number2"
-                            placeholder="Enter Contact Number" />
+                        <input type="text" class="form-input" [(ngModel)]="candidate.contact_number2"
+                            name="contact_number2" placeholder="Enter Contact Number" />
                     </div>
                     <div class="form-group" *ngIf="isFieldActive('application_date')">
                         <label class="input-label">Date of Application</label>
@@ -123,7 +123,8 @@
                     </div>
                     <div class="form-group" *ngIf="isFieldActive('expected_doj')">
                         <label class="input-label">Date of Joining</label>
-                        <input type="date" class="form-input" [(ngModel)]="candidate.expected_doj" name="expected_doj" />
+                        <input type="date" class="form-input" [(ngModel)]="candidate.expected_doj"
+                            name="expected_doj" />
                     </div>
                     <div class="form-group" *ngIf="isFieldActive('gender')">
                         <label class="input-label">Gender</label>
@@ -254,8 +255,7 @@
                 <div class="form-row full-width">
                     <div class="form-group full-width">
                         <label class="input-label">Remarks</label>
-                        <textarea class="form-input" [(ngModel)]="candidate.remarks" name="remarks"
-                            rows="2"></textarea>
+                        <textarea class="form-input" [(ngModel)]="candidate.remarks" name="remarks" rows="2"></textarea>
                     </div>
                 </div>
 
@@ -263,7 +263,8 @@
         </div>
 
         <!-- Dynamic Fields Section -->
-        <div class="form-section dynamic-fields" *ngIf="dynamicFieldsService.dynamicFields.length > 0 && (!sidebarTabs.length || activeTabId === 1)">
+        <div class="form-section dynamic-fields"
+            *ngIf="dynamicFieldsService.dynamicFields.length > 0 && (!sidebarTabs.length || activeTabId === 1)">
             <form class="section-form">
                 <h3 class="section-heading">Additional Information</h3>
                 <div class="form-row">
@@ -282,6 +283,12 @@
 
                             <!-- Number Input -->
                             <input *ngIf="field.fieldType === 'NUMBER'" type="number" class="form-input"
+                                [placeholder]="'Enter ' + field.label"
+                                [(ngModel)]="dynamicFieldsService.dynamicFieldsData[field.fieldCode]"
+                                [name]="field.fieldCode">
+                            <!-- DECIMAL Input -->
+
+                            <input *ngIf="field.fieldType === 'DECIMAL'" type="number" step="any" class="form-input"
                                 [placeholder]="'Enter ' + field.label"
                                 [(ngModel)]="dynamicFieldsService.dynamicFieldsData[field.fieldCode]"
                                 [name]="field.fieldCode">
@@ -372,9 +379,7 @@
         <!-- Horizontal Tabs for ROW fields -->
         <div class="horizontal-tabs" *ngIf="sidebarTabs.length > 0">
             <div class="tabs-container">
-                <button *ngFor="let tab of sidebarTabs" 
-                    class="tab-button"
-                    [class.active]="activeTabId === tab.id" 
+                <button *ngFor="let tab of sidebarTabs" class="tab-button" [class.active]="activeTabId === tab.id"
                     (click)="setActiveTab(tab.id)">
                     {{ tab.name }}
                 </button>
@@ -410,7 +415,11 @@
                             <input *ngIf="column.fieldType === 'NUMBER'" type="number" class="form-input"
                                 [placeholder]="'Enter ' + (column.label || column.name)"
                                 [(ngModel)]="column.selectedValue" [name]="column.fieldCode">
+                            <!-- DECIMAL Input -->
 
+                            <input *ngIf="column.fieldType === 'DECIMAL'" type="number" step="any" class="form-input"
+                                [placeholder]="'Enter ' + (column.label || column.name)"
+                                [(ngModel)]="column.selectedValue" [name]="column.fieldCode">
                             <!-- Date Input -->
                             <input *ngIf="column.fieldType === 'DATE'" type="date" class="form-input"
                                 [(ngModel)]="column.selectedValue" [name]="column.fieldCode">

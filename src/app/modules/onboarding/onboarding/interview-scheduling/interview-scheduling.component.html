@@ -32,13 +32,15 @@
                     </div>
                     <div class="form-group" *ngIf="isFieldActive('interview_date')">
                         <label class="input-label">Interview Date <span class="required">*</span></label>
-                        <input type="date" class="form-input" [(ngModel)]="interview.interview_date" name="interview_date" required />
+                        <input type="date" class="form-input" [(ngModel)]="interview.interview_date"
+                            name="interview_date" required />
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group" *ngIf="isFieldActive('interview_start_time')">
                         <label class="input-label">Interview Start Time <span class="required">*</span></label>
-                        <input type="time" class="form-input" [(ngModel)]="interview.start_time" name="start_time" required />
+                        <input type="time" class="form-input" [(ngModel)]="interview.start_time" name="start_time"
+                            required />
                     </div>
                     <div class="form-group" *ngIf="isFieldActive('interview_location')">
                         <label class="input-label">Interview Location <span class="required">*</span></label>
@@ -121,7 +123,8 @@
             </div>
 
             <!-- Dynamic Fields Section -->
-            <div class="dynamic-fields-section" *ngIf="dynamicFieldsService.dynamicFields.length > 0 && (!sidebarTabs.length || activeTabId === 1)">
+            <div class="dynamic-fields-section"
+                *ngIf="dynamicFieldsService.dynamicFields.length > 0 && (!sidebarTabs.length || activeTabId === 1)">
                 <h3 class="section-heading">Additional Information</h3>
                 <div class="form-row">
                     <ng-container *ngFor="let field of dynamicFieldsService.dynamicFields">
@@ -139,6 +142,12 @@
 
                             <!-- Number Input -->
                             <input *ngIf="field.fieldType === 'NUMBER'" type="number" class="form-input"
+                                [placeholder]="'Enter ' + field.label"
+                                [(ngModel)]="dynamicFieldsService.dynamicFieldsData[field.fieldCode]"
+                                [name]="field.fieldCode">
+                            <!-- DECIMAL Input -->
+
+                            <input *ngIf="field.fieldType === 'DECIMAL'" type="number" step="any" class="form-input"
                                 [placeholder]="'Enter ' + field.label"
                                 [(ngModel)]="dynamicFieldsService.dynamicFieldsData[field.fieldCode]"
                                 [name]="field.fieldCode">
@@ -226,111 +235,115 @@
                     </ng-container>
                 </div>
             </div>
-        <!-- Horizontal Tabs for ROW fields -->
-        <div class="horizontal-tabs" *ngIf="sidebarTabs.length > 0">
-            <div class="tabs-container">
-                <button *ngFor="let tab of sidebarTabs" 
-                    class="tab-button"
-                    [class.active]="activeTabId === tab.id" 
-                    (click)="setActiveTab(tab.id)">
-                    {{ tab.name }}
-                </button>
+            <!-- Horizontal Tabs for ROW fields -->
+            <div class="horizontal-tabs" *ngIf="sidebarTabs.length > 0">
+                <div class="tabs-container">
+                    <button *ngFor="let tab of sidebarTabs" class="tab-button" [class.active]="activeTabId === tab.id"
+                        (click)="setActiveTab(tab.id)">
+                        {{ tab.name }}
+                    </button>
+                </div>
             </div>
-        </div>
             <!-- ROW TABLE TABS Content -->
-        <div *ngIf="sidebarTabs[activeTabId - 1]?.rowTableField" class="form-section tab-content-section">
-            <form class="section-form">
-                <h3 class="section-heading">{{ sidebarTabs[activeTabId - 1]?.name }}</h3>
-                <div class="alert alert-warning"
-                    *ngIf="!sidebarTabs[activeTabId - 1]?.rowTableField?.rowColumns || sidebarTabs[activeTabId - 1]?.rowTableField?.rowColumns.length === 0">
-                    <i class="fa fa-exclamation-triangle"></i> No row columns found for this table.
-                </div>
-                <div class="form-row"
-                    *ngIf="sidebarTabs[activeTabId - 1]?.rowTableField?.rowColumns && sidebarTabs[activeTabId - 1]?.rowTableField?.rowColumns.length > 0">
-                    <ng-container *ngFor="let column of sidebarTabs[activeTabId - 1]?.rowTableField?.rowColumns">
-                        <div class="form-group">
-                            <label class="input-label">
-                                {{ column.label || column.name }}
-                                <span class="required" *ngIf="column.required">*</span>
-                            </label>
-                            <!-- String Input -->
-                            <input *ngIf="column.fieldType === 'STRING'" type="text" class="form-input"
-                                [placeholder]="'Enter ' + (column.label || column.name)"
-                                [(ngModel)]="column.selectedValue" [name]="column.fieldCode"
-                                [attr.maxlength]="column.maxLength">
-                            <!-- Number Input -->
-                            <input *ngIf="column.fieldType === 'NUMBER'" type="number" class="form-input"
-                                [placeholder]="'Enter ' + (column.label || column.name)"
-                                [(ngModel)]="column.selectedValue" [name]="column.fieldCode">
-                            <!-- Date Input -->
-                            <input *ngIf="column.fieldType === 'DATE'" type="date" class="form-input"
-                                [(ngModel)]="column.selectedValue" [name]="column.fieldCode">
-                            <!-- Email Input -->
-                            <input *ngIf="column.fieldType === 'EMAIL'" type="email" class="form-input"
-                                [placeholder]="'Enter ' + (column.label || column.name)"
-                                [(ngModel)]="column.selectedValue" [name]="column.fieldCode">
-                            <!-- Phone Input -->
-                            <input *ngIf="column.fieldType === 'PHONE'" type="tel" class="form-input"
-                                [placeholder]="'Enter ' + (column.label || column.name)"
-                                [(ngModel)]="column.selectedValue" [name]="column.fieldCode">
-                            <!-- URL Input -->
-                            <input *ngIf="column.fieldType === 'URL'" type="url" class="form-input"
-                                [placeholder]="'Enter ' + (column.label || column.name)"
-                                [(ngModel)]="column.selectedValue" [name]="column.fieldCode">
-                            <!-- Textarea -->
-                            <textarea *ngIf="column.fieldType === 'TEXTAREA'" class="form-input" rows="3"
-                                [placeholder]="'Enter ' + (column.label || column.name)"
-                                [(ngModel)]="column.selectedValue" [name]="column.fieldCode"
-                                [attr.maxlength]="column.maxLength"></textarea>
-                            <!-- Boolean Checkbox -->
-                            <div *ngIf="column.fieldType === 'BOOLEAN'" class="checkbox-label">
-                                <input class="checkbox-input" type="checkbox" [(ngModel)]="column.selectedValue"
-                                    [name]="column.fieldCode" [id]="'row_' + column.fieldCode">
-                                <span class="checkbox-text">{{ column.label }}</span>
+            <div *ngIf="sidebarTabs[activeTabId - 1]?.rowTableField" class="form-section tab-content-section">
+                <form class="section-form">
+                    <h3 class="section-heading">{{ sidebarTabs[activeTabId - 1]?.name }}</h3>
+                    <div class="alert alert-warning"
+                        *ngIf="!sidebarTabs[activeTabId - 1]?.rowTableField?.rowColumns || sidebarTabs[activeTabId - 1]?.rowTableField?.rowColumns.length === 0">
+                        <i class="fa fa-exclamation-triangle"></i> No row columns found for this table.
+                    </div>
+                    <div class="form-row"
+                        *ngIf="sidebarTabs[activeTabId - 1]?.rowTableField?.rowColumns && sidebarTabs[activeTabId - 1]?.rowTableField?.rowColumns.length > 0">
+                        <ng-container *ngFor="let column of sidebarTabs[activeTabId - 1]?.rowTableField?.rowColumns">
+                            <div class="form-group">
+                                <label class="input-label">
+                                    {{ column.label || column.name }}
+                                    <span class="required" *ngIf="column.required">*</span>
+                                </label>
+                                <!-- String Input -->
+                                <input *ngIf="column.fieldType === 'STRING'" type="text" class="form-input"
+                                    [placeholder]="'Enter ' + (column.label || column.name)"
+                                    [(ngModel)]="column.selectedValue" [name]="column.fieldCode"
+                                    [attr.maxlength]="column.maxLength">
+                                <!-- Number Input -->
+                                <input *ngIf="column.fieldType === 'NUMBER'" type="number" class="form-input"
+                                    [placeholder]="'Enter ' + (column.label || column.name)"
+                                    [(ngModel)]="column.selectedValue" [name]="column.fieldCode">
+                                <!-- DECIMAL Input -->
+
+                                <input *ngIf="column.fieldType === 'DECIMAL'" type="number" step="any"
+                                    class="form-input" [placeholder]="'Enter ' + (column.label || column.name)"
+                                    [(ngModel)]="column.selectedValue" [name]="column.fieldCode">
+                                <!-- Date Input -->
+                                <input *ngIf="column.fieldType === 'DATE'" type="date" class="form-input"
+                                    [(ngModel)]="column.selectedValue" [name]="column.fieldCode">
+                                <!-- Email Input -->
+                                <input *ngIf="column.fieldType === 'EMAIL'" type="email" class="form-input"
+                                    [placeholder]="'Enter ' + (column.label || column.name)"
+                                    [(ngModel)]="column.selectedValue" [name]="column.fieldCode">
+                                <!-- Phone Input -->
+                                <input *ngIf="column.fieldType === 'PHONE'" type="tel" class="form-input"
+                                    [placeholder]="'Enter ' + (column.label || column.name)"
+                                    [(ngModel)]="column.selectedValue" [name]="column.fieldCode">
+                                <!-- URL Input -->
+                                <input *ngIf="column.fieldType === 'URL'" type="url" class="form-input"
+                                    [placeholder]="'Enter ' + (column.label || column.name)"
+                                    [(ngModel)]="column.selectedValue" [name]="column.fieldCode">
+                                <!-- Textarea -->
+                                <textarea *ngIf="column.fieldType === 'TEXTAREA'" class="form-input" rows="3"
+                                    [placeholder]="'Enter ' + (column.label || column.name)"
+                                    [(ngModel)]="column.selectedValue" [name]="column.fieldCode"
+                                    [attr.maxlength]="column.maxLength"></textarea>
+                                <!-- Boolean Checkbox -->
+                                <div *ngIf="column.fieldType === 'BOOLEAN'" class="checkbox-label">
+                                    <input class="checkbox-input" type="checkbox" [(ngModel)]="column.selectedValue"
+                                        [name]="column.fieldCode" [id]="'row_' + column.fieldCode">
+                                    <span class="checkbox-text">{{ column.label }}</span>
+                                </div>
+                                <!-- Lookup Table Dropdown -->
+                                <div *ngIf="column.fieldType === 'LOOKUP_TABLE'" class="custom-dropdown">
+                                    <div class="dropdown-selected"
+                                        (click)="dynamicFieldsService.toggleRowColumnDropdown(column, $event)">
+                                        <span>{{ dynamicFieldsService.getRowColumnDisplayText(column) }}</span>
+                                        <i class="fa-solid fa-chevron-down dropdown-arrow"
+                                            [class.rotate]="column.isDropdownOpen"></i>
+                                    </div>
+                                    <div class="dropdown-options" *ngIf="column.isDropdownOpen">
+                                        <div class="dropdown-option" *ngFor="let option of column.options"
+                                            (click)="dynamicFieldsService.selectRowColumnOption(column, option, $event)">
+                                            {{ option.displayText || option.name || option }}
+                                        </div>
+                                        <div class="dropdown-option text-muted"
+                                            *ngIf="!column.options || column.options.length === 0">
+                                            No options available
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Lookup Enum Dropdown -->
+                                <div *ngIf="column.fieldType === 'LOOKUP_ENUM'" class="custom-dropdown">
+                                    <div class="dropdown-selected"
+                                        (click)="dynamicFieldsService.toggleRowColumnDropdown(column, $event)">
+                                        <span>{{ column.selectedValue || 'Select ' + (column.label || column.name)
+                                            }}</span>
+                                        <i class="fa-solid fa-chevron-down dropdown-arrow"
+                                            [class.rotate]="column.isDropdownOpen"></i>
+                                    </div>
+                                    <div class="dropdown-options" *ngIf="column.isDropdownOpen">
+                                        <div class="dropdown-option" *ngFor="let enumValue of column.enumValues"
+                                            (click)="dynamicFieldsService.selectRowColumnOption(column, enumValue, $event)">
+                                            {{ enumValue }}
+                                        </div>
+                                        <div class="dropdown-option text-muted"
+                                            *ngIf="!column.enumValues || column.enumValues.length === 0">
+                                            No options available
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <!-- Lookup Table Dropdown -->
-                            <div *ngIf="column.fieldType === 'LOOKUP_TABLE'" class="custom-dropdown">
-                                <div class="dropdown-selected"
-                                    (click)="dynamicFieldsService.toggleRowColumnDropdown(column, $event)">
-                                    <span>{{ dynamicFieldsService.getRowColumnDisplayText(column) }}</span>
-                                    <i class="fa-solid fa-chevron-down dropdown-arrow"
-                                        [class.rotate]="column.isDropdownOpen"></i>
-                                </div>
-                                <div class="dropdown-options" *ngIf="column.isDropdownOpen">
-                                    <div class="dropdown-option" *ngFor="let option of column.options"
-                                        (click)="dynamicFieldsService.selectRowColumnOption(column, option, $event)">
-                                        {{ option.displayText || option.name || option }}
-                                    </div>
-                                    <div class="dropdown-option text-muted"
-                                        *ngIf="!column.options || column.options.length === 0">
-                                        No options available
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Lookup Enum Dropdown -->
-                            <div *ngIf="column.fieldType === 'LOOKUP_ENUM'" class="custom-dropdown">
-                                <div class="dropdown-selected"
-                                    (click)="dynamicFieldsService.toggleRowColumnDropdown(column, $event)">
-                                    <span>{{ column.selectedValue || 'Select ' + (column.label || column.name) }}</span>
-                                    <i class="fa-solid fa-chevron-down dropdown-arrow"
-                                        [class.rotate]="column.isDropdownOpen"></i>
-                                </div>
-                                <div class="dropdown-options" *ngIf="column.isDropdownOpen">
-                                    <div class="dropdown-option" *ngFor="let enumValue of column.enumValues"
-                                        (click)="dynamicFieldsService.selectRowColumnOption(column, enumValue, $event)">
-                                        {{ enumValue }}
-                                    </div>
-                                    <div class="dropdown-option text-muted"
-                                        *ngIf="!column.enumValues || column.enumValues.length === 0">
-                                        No options available
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </ng-container>
-                </div>
-            </form>
-        </div>
+                        </ng-container>
+                    </div>
+                </form>
+            </div>
 
             <!-- Action Buttons -->
             <div class="form-actions">
@@ -344,5 +357,5 @@
                 </button>
             </div>
         </form>
-        </div>
     </div>
+</div>

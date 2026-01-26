@@ -31,7 +31,8 @@
             </div>
             <div class="dropdown-options" *ngIf="activeDropdown==='department'">
               <div *ngIf="departments.length > 0">
-                <div class="dropdown-option" *ngFor="let d of departments" (click)="selectOption('department',d,$event)">
+                <div class="dropdown-option" *ngFor="let d of departments"
+                  (click)="selectOption('department',d,$event)">
                   {{ d.name }}
                 </div>
               </div>
@@ -158,6 +159,11 @@
               <input *ngIf="field.fieldType === 'NUMBER'" type="number" class="form-input"
                 [placeholder]="'Enter ' + field.label"
                 [(ngModel)]="dynamicFieldsService.dynamicFieldsData[field.fieldCode]" [name]="field.fieldCode">
+              <!-- DECIMAL Input -->
+
+              <input *ngIf="field.fieldType === 'DECIMAL'" type="number" step="any" class="form-input"
+                [placeholder]="'Enter ' + field.label"
+                [(ngModel)]="dynamicFieldsService.dynamicFieldsData[field.fieldCode]" [name]="field.fieldCode">
 
               <!-- Date Input -->
               <input *ngIf="field.fieldType === 'DATE'" type="date" class="form-input"
@@ -268,6 +274,11 @@
 
                 <!-- Number Input -->
                 <input *ngIf="column.fieldType === 'NUMBER'" type="number" class="form-input"
+                  [placeholder]="'Enter ' + (column.label || column.name)" [(ngModel)]="column.selectedValue"
+                  [name]="column.fieldCode">
+                <!-- DECIMAL Input -->
+
+                <input *ngIf="column.fieldType === 'DECIMAL'" type="number" step="any" class="form-input"
                   [placeholder]="'Enter ' + (column.label || column.name)" [(ngModel)]="column.selectedValue"
                   [name]="column.fieldCode">
 
