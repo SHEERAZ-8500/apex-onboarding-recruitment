@@ -164,6 +164,7 @@ export class CandidateScreeningComponent implements OnInit {
       next: (res: any) => {
         this.toastr.success('Candidate screening saved successfully');
         this.loader.hide();
+        this.resetForm();
       }
       , error: (err: any) => {
         this.loader.hide();
@@ -171,6 +172,16 @@ export class CandidateScreeningComponent implements OnInit {
       }
     });
 
+  }
+
+  resetForm(): void {
+    this.candidateScreening = new CandidateScreeningDto();
+    this.selectedCandidateInfo = { firstName: '', lastName: '' };
+    this.selectedCandidateId = '';
+    this.selectedPaymentElement = '';
+    this.initializeSalaryRow();
+    this.dynamicFieldsService.dynamicFieldsData = {};
+    this.activeDropdown = '';
   }
 
   onCancel(): void {
