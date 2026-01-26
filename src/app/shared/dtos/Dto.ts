@@ -295,3 +295,46 @@ export class LookupDtoWhenTypeForm {
     }
   }
 }
+
+// Candidate Screening DTO
+export class CandidateScreeningSalaryRowDto {
+  payElement: string = '';
+  amount: number = 0;
+  payFrequency: string = 'MONTHLY';
+  currency: string = 'PKR';
+  effectiveDate: string = '';
+  remarks: string = '';
+
+  constructor(init?: Partial<CandidateScreeningSalaryRowDto>) {
+    Object.assign(this, init);
+  }
+}
+
+export class CandidateScreeningDto {
+  status: string = 'SELECTED';
+  dateOfJoining: string = '';
+  remarks: string = '';
+  salaryRows: CandidateScreeningSalaryRowDto[] = [];
+
+  constructor(init?: Partial<CandidateScreeningDto>) {
+    Object.assign(this, init);
+  }
+}
+
+
+export class CandidateLisitngDto {
+
+  publicId: string = "";
+  code: string = ""
+  firstName: string = "";
+  lastName: string = "";
+  email: string = "";
+  constructor(init?: Partial<CandidateLisitngDto>) {
+    if (init) {
+      Object.assign(this, init);
+    }
+  }
+
+}
+
+

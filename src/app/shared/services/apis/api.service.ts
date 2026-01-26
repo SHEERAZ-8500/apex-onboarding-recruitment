@@ -210,4 +210,11 @@ export class ApiService {
   createTable(tableSchema: any) {
     return this.http.post(`v1/md/tables`, tableSchema);
   }
+
+  getAllCandidates() {
+    return this.http.get(`recruitment/candidates?status=INTERVIEWED&page=0&size=1000`);
+  }
+  saveCandidateScreening(candidatePublicId: string, data: any) {
+    return this.http.post(`recruitment/candidates/${candidatePublicId}/decision`, data);
+  }
 }

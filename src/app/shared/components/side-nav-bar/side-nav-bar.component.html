@@ -229,6 +229,8 @@
             <div #generalMasterdata="ngbCollapse" [(ngbCollapse)]="generalMasterdataCollapsed"
               class="collapseStyling inner" [class.open]="!generalMasterdataCollapsed">
               <div class="collapseDiv">
+                <a routerLink="general-master-data/candidate-screening" routerLinkActive="active"
+                  ><span>Candidate Screening</span></a>
                 <a routerLink="general-master-data/view-all-skills" routerLinkActive="active"
                   hidden><span>Skills</span></a>
                 <a routerLink="general-master-data/view-all-id-type" routerLinkActive="active" hidden><span>ID
@@ -270,7 +272,7 @@
           </div>
 
           <!-- Organizational Master Data (level-2 toggle) -->
-          <div class="nav-item-with-toggle level-2" >
+          <div class="nav-item-with-toggle level-2">
             <a class="level-link" (click)="toggleOrganizationalMaster()"
               [attr.aria-expanded]="!organizationalMasterdataCollapsed" aria-controls="organizationalMasterdataExample">
               <i class="fas fa-angle-double-right"></i>

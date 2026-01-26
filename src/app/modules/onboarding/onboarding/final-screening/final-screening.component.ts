@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FinalScreeningFormDto } from '../../../../shared/dtos/Dto';
+import { CandidateLisitngDto, FinalScreeningFormDto } from '../../../../shared/dtos/Dto';
 import { ToastrService } from 'ngx-toastr';
 import { LoaderService } from '../../../../shared/services/loader.service';
 import { DynamicFieldsSharingService } from '../../../../shared/services/dynamic-fields-sharing.service';
@@ -23,6 +23,11 @@ export class FinalScreeningComponent implements OnInit {
   activeDropdown: string = ''
 
   // Dropdown options
+  candidateLisitng: CandidateLisitngDto[] = [];
+  selectedCandidateInfo = {
+    firstName: '',
+    lastName: '',
+  }
   candidateIds: string[] = ['CAN-001', 'CAN-002', 'CAN-003', 'CAN-004'];
   requisitions: string[] = ['REQ-2024-001', 'REQ-2024-002', 'REQ-2024-003'];
   interviewerStatuses: string[] = ['Scheduled', 'Completed', 'Rescheduled', 'Cancelled'];
@@ -37,12 +42,12 @@ export class FinalScreeningComponent implements OnInit {
 
   constructor(private router: Router, public dynamicFieldsService: DynamicFieldsSharingService,
     private toastr: ToastrService,
-    private loader: LoaderService,private api: ApiService) { }
+    private loader: LoaderService, private api: ApiService) { }
 
 
   ngOnInit(): void {
     this.getFormFileds();
-    
+
     this.loader.show();
     this.dynamicFieldsService.loadDynamicFields('FINAL_DECISION', 'USER_DEFINED', [])
       .then(() => {
@@ -61,6 +66,11 @@ export class FinalScreeningComponent implements OnInit {
   // Toggle Dropdown open/close
   toggleDropdown(event: Event, field: string): void {
     event.stopPropagation();
+    if (field === 'candidateId') {
+      if (this.candidateLisitng.length === 0) {
+        this.allCandidate()
+      }
+    }
     if (this.activeDropdown === field) {
       this.activeDropdown = '';
     } else {
@@ -71,6 +81,11 @@ export class FinalScreeningComponent implements OnInit {
   // Select option from dropdown
   selectOption(field: string, value: any, event: Event): void {
     event.stopPropagation();
+    if (field === 'candidateId') {
+
+      this.selectedCandidateInfo.firstName = value.firstName;
+      this.selectedCandidateInfo.lastName = value.lastName;
+    }
     (this.finalScreening as any)[field] = value;
     this.activeDropdown = '';
   }
@@ -79,7 +94,7 @@ export class FinalScreeningComponent implements OnInit {
   @HostListener('document:click', ['$event'])
   closeDropdowns(event: Event): void {
     this.activeDropdown = '';
-      this.dynamicFieldsService.closeAllDropdowns();
+    this.dynamicFieldsService.closeAllDropdowns();
   }
 
   // Set active tab
@@ -91,23 +106,23 @@ export class FinalScreeningComponent implements OnInit {
   // Save candidate data
   saveFinalScreening(): void {
 
-// condtion please fill all required fields
+    // condtion please fill all required fields
     if (
-    !this.finalScreening.candidateID ||
-    !this.finalScreening.status ||
-    !this.finalScreening.payElement ||
-    !this.finalScreening.payFrequency ||
-    !this.finalScreening.amount
-  ) {
-    this.toastr.warning('Please fill all required fields');
-    return;
-  }
-    
+      !this.finalScreening.candidateID ||
+      !this.finalScreening.status ||
+      !this.finalScreening.payElement ||
+      !this.finalScreening.payFrequency ||
+      !this.finalScreening.amount
+    ) {
+      this.toastr.warning('Please fill all required fields');
+      return;
+    }
+
     const completeData = this.dynamicFieldsService.getCompleteFormData(this.finalScreening);
-    
+
     this.loader.show();
-  
-    
+
+
     // For now just show success
     setTimeout(() => {
       this.toastr.success('Candidate data saved successfully');
@@ -157,5 +172,15 @@ export class FinalScreeningComponent implements OnInit {
   isFieldActive(fieldCode: string): boolean {
     return this.backendFieldsMap[fieldCode] !== false;
   }
-
+  allCandidate() {
+    this.api.getAllCandidates().subscribe({
+      next: (res: any) => {
+        console.log('All Candidates:', res);
+        this.candidateLisitng = res.data || [];
+      },
+      error: (err: any) => {
+        console.error('Error fetching candidates:', err);
+      }
+    });
+  }
 }
