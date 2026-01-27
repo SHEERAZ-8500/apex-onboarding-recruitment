@@ -334,7 +334,21 @@ export class CandidateLisitngDto {
       Object.assign(this, init);
     }
   }
+  
 
 }
 
+export class PayElementDto {
+  code: string = '';
+  type: string = '';
+  elementType: string = '';
+  amount: number | null = null;
+  percentage: number | null = null;
+  description: string = '';
+  status: boolean = false; // Checkbox
+  fixed: boolean = false;  // Checkbox
 
+  constructor(init?: Partial<PayElementDto>) {
+    Object.assign(this, init);
+  }
+}

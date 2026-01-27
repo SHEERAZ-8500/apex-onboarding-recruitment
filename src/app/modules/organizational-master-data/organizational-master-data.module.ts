@@ -10,6 +10,7 @@ import { TasksComponent } from './tasks/tasks.component';
 import { LeavesComponent } from './leaves/leaves.component';
 import { PayElementComponent } from './pay-element/pay-element.component';
 import { TimeTypeComponent } from './time-type/time-type.component';
+import { NgbAccordionItem } from "@ng-bootstrap/ng-bootstrap";
 
 
 const routes: Routes = [
@@ -128,8 +129,9 @@ const routes: Routes = [
     TimeTypeComponent
   ],
   imports: [
-        RouterModule.forChild(routes),
-        SahringModule,
-  ]
+    RouterModule.forChild(routes),
+    SahringModule,
+    NgbAccordionItem
+]
 })
 export class OrganizationalMasterDataModule { }

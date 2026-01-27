@@ -1,344 +1,232 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-
+import { Component, HostListener, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { DynamicFieldsSharingService } from '../../../../app/shared/services/dynamic-fields-sharing.service';
+import {  PayElementDto} from '../../../shared/dtos/Dto';
+import { ToastrService } from 'ngx-toastr';
+import { LoaderService } from '../../../../app/shared/services/loader.service';
+import { ApiService } from '../../../../app/shared/services/apis/api.service';
 
 @Component({
-  selector: 'app-pay-element',
+  selector: 'app-pay-element-form',
   templateUrl: './pay-element.component.html',
-  styleUrls: ['./pay-element.component.scss'],
+  styleUrls: ['./pay-element.component.scss']
 })
-export class PayElementComponent {
-    title = 'view';
-  formTitle=""
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+export class PayElementComponent implements OnInit {
+  // Form fields as DTO
+  payElement: PayElementDto = new PayElementDto();
+
+  // Dropdown state
+  activeDropdown: string = '';
+
+  // Dropdown options
+
+  backendFieldsMap: Record<string, boolean> = {};
+  fieldConfigMap: Record<string, any> = {};
+  lookupFields = ['type', 'element_type']
+  loadedLookups: Record<string, boolean> = {};
+  // Sidebar Tabs Data
+  sidebarTabs: any[] = [];
+  activeTabId: number = 1;
+  typeDropDownValue: string = '';
+  elementTypeDropDownValue: string = '';
+
+
+
+type = [
+  { name: 'Form' },
+  { name: 'Layout' },
+  { name: 'UI' }
+];
+
+elementTypes = [
+  { name: 'Input' },
+  { name: 'Button' },
+  { name: 'Checkbox' },
+  { name: 'Dropdown' }
+];
+  constructor(
+    private router: Router,
+    public dynamicFieldsService: DynamicFieldsSharingService,
+    private toastr: ToastrService,
+    private loader: LoaderService,
+    private api: ApiService
+  ) { }
+
   ngOnInit(): void {
+    // Load dynamic fields and tabs
+    // this.loader.show();
+    this.dynamicFieldsService.loadDynamicFields('PAY_ELEMENT', 'USER_DEFINED', [])
+      .then(() => {
+        // Get tabs from service
+        this.sidebarTabs = this.dynamicFieldsService.sidebarTabs;
+        this.activeTabId = this.dynamicFieldsService.activeTabId;
+        console.log('sidebarTabs:', this.sidebarTabs);
+        if (this.sidebarTabs.length > 1) {
+          console.log('rowTableField:', this.sidebarTabs[1]?.rowTableField);
+        }
+        this.loader.hide();
+      })
+      .catch((err) => {
+        console.error('Error loading dynamic fields:', err);
+        this.toastr.error('Failed to load dynamic fields');
+        this.loader.hide();
+      });
+    this.getFormFileds();
 
-        this.updatePagination();
 
-    this.activatedRoute.data.subscribe(data => {
-      this.title = data['title'];
-      if (this.title === 'view') {
-        
-        // set view mode loigc
-      //  this.fetchSkills()
+
+  }
+
+
+  // Dropdown toggle
+  toggleDropdown(event: Event, dropdownId: string) {
+    event.stopPropagation();
+    
+    // Fetch lookup options on first click
+    if (this.lookupFields.includes(dropdownId) && !this.loadedLookups[dropdownId]) {
+      this.fetchLookupOptions(dropdownId);
+      this.loadedLookups[dropdownId] = true;
+    }
+    
+    this.activeDropdown = this.activeDropdown === dropdownId ? '' : dropdownId;
+  }
+
+  selectOption(field: string, value: any, event: Event) {
+  event.stopPropagation();
+
+  if (field === 'type') {
+    this.typeDropDownValue = value.name;
+    this.payElement.type = value.name;
+  }
+
+  if (field === 'element_type') {
+    this.elementTypeDropDownValue = value.name;
+    this.payElement.elementType = value.name;
+  }
+
+  this.activeDropdown = '';
+}
+
+
+
+
+
+
+  @HostListener('document:click', ['$event'])
+  closeDropdowns(event: Event) {
+    this.activeDropdown = '';
+    this.dynamicFieldsService.closeAllDropdowns();
+  }
+
+  // Set active tab
+  setActiveTab(tabId: number): void {
+    this.activeTabId = tabId;
+    this.dynamicFieldsService.setActiveTab(tabId);
+  }
+
+  // Save requisition data
+  saveRequisition(): void {
+
+     if (
+    !this.payElement.code ||
+    !this.payElement.type ||
+    !this.payElement.elementType ||
+    !this.payElement.amount ||
+    !this.payElement.percentage
+  ) {
+    this.toastr.warning('Please fill all required fields');
+    return;
+  }
+    // Remove hiring_manager if its source is 'current user'
+    if (this.fieldConfigMap['hiring_manager']?.source === 'CURRENT_USER') {
+      delete (this.payElement as any).hiring_manager;
+    }
+    
+    const completeData = this.dynamicFieldsService.getCompleteFormData(this.payElement);
+    // console.log('Saving Requisition Data:', completeData);
+    this.loader.show();
+    // API call to save data
+    this.api.saveFormData('PAY_ELEMENT', completeData).subscribe({
+      next: (res: any) => {
+        this.toastr.success('Pay Element saved successfully');
+        this.loader.hide();
+        // Reset form after successful save
+        this.resetForm();
+        this.router.navigate(['/panel/onboarding/requisition']);
+      },
+      error: (err: any) => {
+        console.error('Error saving pay element:', err);
+        this.toastr.error('Failed to save pay element');
+        this.loader.hide();
       }
-      if  (this.title === 'edit'){
-        this.formTitle="Edit Pay Element"
-
-      }
-       if  (this.title === 'create'){
-                this.formTitle="Create New Pay Element"
+    });
 
 
+  }
+
+  onCancel(): void {
+    this.router.navigate(['/panel']);
+  }
+
+  getFormFileds() {
+    this.api.getFormByFormCode('PAY-ELEMENT').subscribe({
+      next: (res: any) => {
+        console.log('Form Fields:', res);
+
+        // safety check
+        if (res?.data?.fields && Array.isArray(res.data.fields)) {
+          res.data.fields.forEach((field: any) => {
+            this.backendFieldsMap[field.fieldCode] = field.active;
+            // Store field config including source
+            if (field.fieldConfig) {
+              this.fieldConfigMap[field.fieldCode] = field.fieldConfig;
+            }
+          });
+        }
+      },
+      error: (err: any) => {
+        console.error('Error fetching form fields:', err);
       }
     });
   }
 
-  // ✅ Dropdown Options
-  dropdownOptions = {
-    types: [
-      'Allowance',
-      'Bonus',
-      'Commission',
-      'Deduction',
-      'Incentive',
-      'Overtime',
-      'Reimbursement',
-      'Salary',
-      'Tax',
-      'Other'
-    ],
-    
-    elementTypes: [
-      'Basic Pay',
-      'House Rent Allowance',
-      'Dearness Allowance',
-      'Conveyance Allowance',
-      'Medical Allowance',
-      'Special Allowance',
-      'Bonus',
-      'Provident Fund',
-      'Professional Tax',
-      'Income Tax'
-    ],
-    
-    statusOptions: [
-      'Active',
-      'InActive'
-    ],
-    
-    baseElements: [
-      'Basic Salary',
-      'Gross Salary',
-      'Net Salary',
-      'Not Applicable',
-      'Custom Base'
-    ]
-  };
 
-  // ✅ Pay Elements Data
-  payElements = [
-    {
-      code: 'PE001',
-      description: 'Basic Salary',
-      amount: 25000.00,
-      baseElement: 'Not Applicable',
-      percentage: 0,
-      elementType: 'Basic Pay',
-      type: 'Salary',
-      fixed: true,
-      status: 'Active'
-    },
-    {
-      code: 'PE002',
-      description: 'House Rent Allowance',
-      amount: 10000.00,
-      baseElement: 'Basic Salary',
-      percentage: 40,
-      elementType: 'House Rent Allowance',
-      type: 'Allowance',
-      fixed: false,
-      status: 'Active'
-    },
-    {
-      code: 'PE003',
-      description: 'Medical Allowance',
-      amount: 5000.00,
-      baseElement: 'Not Applicable',
-      percentage: 0,
-      elementType: 'Medical Allowance',
-      type: 'Allowance',
-      fixed: true,
-      status: 'Active'
-    },
-    {
-      code: 'PE004',
-      description: 'Provident Fund Deduction',
-      amount: 3000.00,
-      baseElement: 'Basic Salary',
-      percentage: 12,
-      elementType: 'Provident Fund',
-      type: 'Deduction',
-      fixed: false,
-      status: 'Active'
-    },
-    {
-      code: 'PE005',
-      description: 'Performance Bonus',
-      amount: 15000.00,
-      baseElement: 'Gross Salary',
-      percentage: 20,
-      elementType: 'Bonus',
-      type: 'Bonus',
-      fixed: false,
-      status: 'Active'
-    },
-    {
-      code: 'PE006',
-      description: 'Income Tax Deduction',
-      amount: 8000.00,
-      baseElement: 'Gross Salary',
-      percentage: 10,
-      elementType: 'Income Tax',
-      type: 'Tax',
-      fixed: false,
-      status: 'Active'
-    },
-    {
-      code: 'PE007',
-      description: 'Travel Reimbursement',
-      amount: 3000.00,
-      baseElement: 'Not Applicable',
-      percentage: 0,
-      elementType: 'Conveyance Allowance',
-      type: 'Reimbursement',
-      fixed: false,
-      status: 'InActive'
-    }
-  ];
+  isFieldActive(fieldCode: string): boolean {
 
-  // ✅ Form Fields
-  payElementCode = '';
-  payElementDescription = '';
-  type = '';
-  amount: number | null = null;
-  elementType = '';
-  status = '';
-  baseElement = '';
-  percentage: number | null = null;
-  fixed: boolean = false;
-
-  // ✅ State Variables
-  showForm = false;
-  isEdit = false;
-  editIndex: number | null = null;
-  searchText = '';
-
-  // ✅ Pagination
-  currentPage = 1;
-  itemsPerPage = 5;
-     paginatedPayElementsList: any[] = [];
-
-
-  get currentPageStart() {
-    return (this.currentPage - 1) * this.itemsPerPage;
+    return this.backendFieldsMap[fieldCode] !== false;
   }
 
-  get totalPages() {
-    return Math.ceil(this.filteredPayElements().length / this.itemsPerPage);
+  fetchLookupOptions(fieldCode: string): void {
+    // this.api.getLokupTableByCode(fieldCode).subscribe({
+    //   next: (res: any) => {
+    //     let data: LookupDto[] = res?.data || [];
+    //     if (fieldCode === 'department') {
+    //       this.departments = data;
+    //     }
+    //      if (fieldCode === 'job_title') {
+    //       this.jobTitles = data;
+    //     }
+    //      if (fieldCode === 'designation') {
+    //       this.designations = data;
+    //     }
+
+    //   },
+    //   error: (err: any) => {
+    //     console.error(`Error fetching lookup options for ${fieldCode}:`, err);
+    //   }
+    // });
   }
 
-   get totalPagesArray() {
-    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
-  }
+  resetForm(): void {
+    // Reset pay element object
+    this.payElement = new PayElementDto();
+    // Reset dropdown display values
+    this.typeDropDownValue = '';
+    this.elementTypeDropDownValue = '';
 
-  // ✅ Helper Methods
-  calculateAmountFromPercentage(): void {
-    // This method could calculate amount based on percentage and base element
-    // In a real application, you would fetch the base amount from the selected base element
-    if (this.percentage && this.percentage > 0 && this.baseElement) {
-      // Example calculation - in real app, fetch base amount from database
-      const baseAmount = 25000; // Default base amount
-      this.amount = (baseAmount * this.percentage) / 100;
-    }
-  }
-
-  // ✅ Form Validation
-  isFormValid(): boolean {
-    return !!(
-      this.payElementCode &&
-      this.payElementDescription &&
-      this.type &&
-      this.amount !== null && this.amount >= 0 &&
-      this.elementType &&
-      this.status
-    );
-    // Note: baseElement and percentage are optional
-    // fixed has a default value (false)
-  }
-
-  // ✅ Pagination Data
- 
-  changePage(page: number) {
-    if (page < 1 || page > this.totalPages) return;
-    this.currentPage = page;
-        this.updatePagination();
-
-  }
-
-      updatePagination() {
-    const start = (this.currentPage - 1) * this.itemsPerPage;
-    const end = start + this.itemsPerPage;
-    const filtered = this.filteredPayElements();
-    this.paginatedPayElementsList = filtered.slice(start, end);
-  }
-
-
-
-  onItemsPerChange(event: any) {
-    this.currentPage = 1;
-    this.updatePagination();
-  }
-
-  // ✅ Add New
-  onNew() {
-    this.resetForm();
-    this.showForm = true;
-            this.router.navigate(['/panel/organizational-master-data/create-new-pay-element']);
-
-  }
-
-  createPayElement() {
-    if (!this.isFormValid()) return;
-
-    this.payElements.push({
-      code: this.payElementCode,
-      description: this.payElementDescription,
-      amount: this.amount || 0,
-      baseElement: this.baseElement || 'Not Applicable',
-      percentage: this.percentage || 0,
-      elementType: this.elementType,
-      type: this.type,
-      fixed: this.fixed,
-      status: this.status
-    });
-
-    this.hideForm();
-  }
-
-  // ✅ Edit
-  editPayElement() {
-                this.router.navigate(['/panel/organizational-master-data/edit-pay-element']);
-
-  }
-
-  updatePayElement() {
-    if (this.editIndex === null || !this.isFormValid()) return;
-
-    this.payElements[this.editIndex] = {
-      code: this.payElementCode,
-      description: this.payElementDescription,
-      amount: this.amount || 0,
-      baseElement: this.baseElement || 'Not Applicable',
-      percentage: this.percentage || 0,
-      elementType: this.elementType,
-      type: this.type,
-      fixed: this.fixed,
-      status: this.status
-    };
-
-    this.hideForm();
-  }
-
-  // ✅ Delete
-  deletePayElement(index: number) {
-    if (confirm('Are you sure you want to delete this pay element?')) {
-      this.payElements.splice(index, 1);
- if (this.currentPage > this.totalPages && this.totalPages > 0) {
-      this.currentPage = this.totalPages;
-    }
-    this.updatePagination();
-  }
-  }
-
-  // ✅ Form Control
-  cancelForm() {
-    this.hideForm();
-                this.router.navigate(['/panel/organizational-master-data/view-all-pay-element']);
-
-  }
-
-  resetForm() {
-    this.payElementCode = '';
-    this.payElementDescription = '';
-    this.type = '';
-    this.amount = null;
-    this.elementType = '';
-    this.status = '';
-    this.baseElement = '';
-    this.percentage = null;
-    this.fixed = false;
-    this.isEdit = false;
-    this.editIndex = null;
-  }
-
-  hideForm() {
-    this.resetForm();
-    this.showForm = false;
-  }
-
-  // ✅ Search Filter
-  filteredPayElements() {
-    if (!this.searchText.trim()) return this.payElements;
-
-    const searchLower = this.searchText.toLowerCase();
-    return this.payElements.filter(payElement =>
-      payElement.code.toLowerCase().includes(searchLower) ||
-      payElement.description.toLowerCase().includes(searchLower) ||
-      payElement.type.toLowerCase().includes(searchLower) ||
-      payElement.elementType.toLowerCase().includes(searchLower) ||
-      payElement.status.toLowerCase().includes(searchLower) ||
-      payElement.baseElement.toLowerCase().includes(searchLower)
-    );
+    // Reset loaded lookups to allow fresh fetch on next form
+    this.loadedLookups = {};
+    // Reset dynamic fields
+    this.dynamicFieldsService.resetDynamicFields();
   }
 }
