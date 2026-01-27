@@ -204,11 +204,11 @@ export class FinalScreeningFormDto {
   status: string = '';
   DOJ: string = '';
   finalDeciosionRemarks: string = '';
-  payElement: string = '';
-  effectiveDate: string = '';
-  payFrequency: string = '';
-  amount: number | null = null;
-  remarks: string = '';
+  // payElement: string = '';
+  // effectiveDate: string = '';
+  // payFrequency: string = '';
+  // amount: number | null = null;
+  // remarks: string = '';
   is_active: boolean = true;
 
   constructor(init?: Partial<FinalScreeningFormDto>) {

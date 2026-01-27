@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { CandidateLisitngDto, FinalScreeningFormDto } from '../../../../shared/dtos/Dto';
+import { CandidateLisitngDto, FinalScreeningFormDto, LookupDto } from '../../../../shared/dtos/Dto';
 import { ToastrService } from 'ngx-toastr';
 import { LoaderService } from '../../../../shared/services/loader.service';
 import { DynamicFieldsSharingService } from '../../../../shared/services/dynamic-fields-sharing.service';
@@ -33,7 +33,7 @@ export class FinalScreeningComponent implements OnInit {
   interviewerStatuses: string[] = ['Scheduled', 'Completed', 'Rescheduled', 'Cancelled'];
   interviewerNames: string[] = ['John Doe', 'Jane Smith', 'Robert Johnson', 'Emily Davis'];
   finalStatuses: string[] = ['Selected', 'Rejected', 'On Hold', 'Pending'];
-  payElements: string[] = ['Basic Salary', 'HRA', 'Allowance', 'Bonus', 'Provident Fund'];
+  payElements: LookupDto[] = [];
   payFrequencies: string[] = ['Monthly', 'Bi-Monthly', 'Weekly', 'Yearly'];
 
   // Sidebar Tabs Data
@@ -66,9 +66,14 @@ export class FinalScreeningComponent implements OnInit {
   // Toggle Dropdown open/close
   toggleDropdown(event: Event, field: string): void {
     event.stopPropagation();
+    
     if (field === 'candidateId') {
       if (this.candidateLisitng.length === 0) {
         this.allCandidate()
+      }
+    }if (field === 'payElement') {
+      if (this.payElements.length === 0) {
+        this.fetchLookupOptions('PAY_ELEMENT');
       }
     }
     if (this.activeDropdown === field) {
@@ -109,10 +114,10 @@ export class FinalScreeningComponent implements OnInit {
     // condtion please fill all required fields
     if (
       !this.finalScreening.candidateID ||
-      !this.finalScreening.status ||
-      !this.finalScreening.payElement ||
-      !this.finalScreening.payFrequency ||
-      !this.finalScreening.amount
+      !this.finalScreening.status
+      // !this.finalScreening.payElement ||
+      // !this.finalScreening.payFrequency ||
+      // !this.finalScreening.amount
     ) {
       this.toastr.warning('Please fill all required fields');
       return;
@@ -183,4 +188,20 @@ export class FinalScreeningComponent implements OnInit {
       }
     });
   }
+    fetchLookupOptions(fieldCode: string): void {
+      this.api.getLokupTableByCode(fieldCode).subscribe({
+        next: (res: any) => {
+          let data: LookupDto[] = res?.data || [];
+  
+          if (fieldCode === 'PAY_ELEMENT') {
+            this.payElements = data;
+          }
+          
+  
+        },
+        error: (err: any) => {
+          console.error(`Error fetching lookup options for ${fieldCode}:`, err);
+        }
+      });
+    }
 }
