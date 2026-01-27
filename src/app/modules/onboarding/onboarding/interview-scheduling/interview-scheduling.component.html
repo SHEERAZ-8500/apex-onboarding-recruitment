@@ -1,4 +1,4 @@
-<div class="interview-form-container">
+<div class="interview-form-container" *ngIf='title === "create" || title === "edit"'>
     <div class="interview-form-card">
         <div class="form-header">
             <h2 class="form-title">Interview Scheduling Form</h2>
@@ -358,4 +358,93 @@
             </div>
         </form>
     </div>
+</div>
+
+<div *ngIf='title === "view"'>
+
+
+  <section class="container-fluid p-0">
+    <div class="d-flex justify-content-between mb-3">
+      <!-- <div class="page-title ">
+        <i class="fa-solid fa-house"></i>
+        <span style="font-weight: 700; color: #566f9e;">-</span>
+        <span>View All Requisitions List</span>
+      </div> -->
+
+      <!-- Items Per Page + Search -->
+      <div class="top-controls d-flex align-items-center">
+
+        <!-- Items Per Page -->
+        <!-- <div class="items-per-page">
+          <label>Items per page:</label>
+          <select class="form-select" [(ngModel)]="itemsPerPage" (change)="onItemsPerChange($event)">
+            <option [ngValue]="5">5</option>
+            <option [ngValue]="8">8</option>
+            <option [ngValue]="10">10</option>
+            <option [ngValue]="20">20</option>
+          </select>
+        </div> -->
+        <!-- Search -->
+        <!-- Search -->
+        <!-- <div class="search-wrapper ms-auto">
+          <input type="text" class="form-control" placeholder="Search..." (ngModelChange)="updatePagination()" />
+          <i class="fa fa-search search-icon"></i>
+        </div> -->
+      </div>
+
+      <div>
+        <button routerLink="/panel/onboarding/create-new-candidates" class="creat-btn">Create Candidate</button>
+      </div>
+    </div>
+    <section class="table-main-div ">
+      <div class="rounded-2xl text-gray-200   pt-4">
+        <table class="min-w-full text-sm border-separate border-spacing-y-2 ">
+          <thead>
+            <tr class="text-gray-400 text-left text-xs uppercase tracking-wider">
+
+              <th class="px-3 py-2">Requisitioname</th>
+              <th class="px-3 py-2">Department</th>
+              <th class="px-3 py-2">Job Title</th>
+              <th class="px-3 py-2">Designation</th>
+              <th class="px-3 py-2">Hiring Manager</th>
+              <th class="px-3 py-2">Actions</th>
+
+
+
+
+
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let c of paginatedInterviewsList; let i = index"
+              class="bg-[#1e293b] hover:bg-[#27354a] rounded-lg">
+              <td class="px-3 py-3 font-medium">{{ c.displayName }}</td>
+              <td class="px-3 py-3 font-medium">{{ c.displayName }}</td>
+              <td class="px-3 py-3 font-medium">{{ c.displayName }}</td>
+              <td class="px-3 py-3 font-medium">{{ c.displayName }}</td>
+              <td class="px-3 py-3 font-medium">{{ c.displayName }}</td>
+              <td class="px-3 py-3 font-medium">{{ c.displayName }}</td>
+              <td class="px-3 py-3 font-medium">
+                <i class="fa fa-edit" style="cursor:pointer; margin-right: 10px;"></i>
+                <i class="fa fa-trash" style="cursor:pointer; color: red;"></i>
+              </td>
+
+
+
+
+
+
+
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+      <app-pagination [currentPage]="currentPage" [totalPages]="totalPages" [totalPagesArray]="totalPagesArray"
+        (pageChange)="changePage($event)">
+      </app-pagination>
+    </section>
+  </section>
 </div>

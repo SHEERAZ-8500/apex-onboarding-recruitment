@@ -1,5 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { DynamicFieldsSharingService } from '../../../../shared/services/dynamic-fields-sharing.service';
 import { LoaderService } from '../../../../shared/services/loader.service';
@@ -12,8 +12,13 @@ import { ApiService } from '../../../../shared/services/apis/api.service';
   styleUrls: ['./interview-scheduling.component.scss']
 })
 export class InterviewSchedulingComponent implements OnInit {
+
+  title = 'view';
+  formTitle = "";
   // Form Fields as DTO
   interview: InterviewSchedulingDto = new InterviewSchedulingDto();
+
+
 
   // Dropdown States
   isCandidateDropdownOpen: boolean = false;
@@ -51,7 +56,8 @@ export class InterviewSchedulingComponent implements OnInit {
     public dynamicFieldsService: DynamicFieldsSharingService,
     private toastr: ToastrService,
     private loader: LoaderService,
-    private api: ApiService
+    private api: ApiService,
+    private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
@@ -59,19 +65,168 @@ export class InterviewSchedulingComponent implements OnInit {
 
     // Load dynamic fields and tabs
     this.loader.show();
-    this.dynamicFieldsService.loadDynamicFields('INTERVIEW', 'USER_DEFINED', [])
-      .then(() => {
-        // Get tabs from service
-        this.sidebarTabs = this.dynamicFieldsService.sidebarTabs;
-        this.activeTabId = this.dynamicFieldsService.activeTabId;
-        this.loader.hide();
-      })
-      .catch((err) => {
-        console.error('Error loading dynamic fields:', err);
-        this.toastr.error('Failed to load dynamic fields');
-        this.loader.hide();
-      });
+
+
+    this.updatePagination();
+
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title'];
+      if (this.title === 'view') {
+
+        this.getInterviewsData();
+
+        // set view mode loigc
+        //  this.fetchSkills()
+      }
+      if (this.title === 'edit') {
+        this.formTitle = "Edit Skill"
+        this.dynamicFieldsService.loadDynamicFields('INTERVIEW', 'USER_DEFINED', [])
+          .then(() => {
+            // Get tabs from service
+            this.sidebarTabs = this.dynamicFieldsService.sidebarTabs;
+            this.activeTabId = this.dynamicFieldsService.activeTabId;
+            this.loader.hide();
+          })
+          .catch((err) => {
+            console.error('Error loading dynamic fields:', err);
+            this.toastr.error('Failed to load dynamic fields');
+            this.loader.hide();
+          });
+
+
+        this.getFormFileds();
+
+      }
+      if (this.title === 'create') {
+        this.formTitle = "Create New Skill"
+        this.dynamicFieldsService.loadDynamicFields('INTERVIEW', 'USER_DEFINED', [])
+          .then(() => {
+            // Get tabs from service
+            this.sidebarTabs = this.dynamicFieldsService.sidebarTabs;
+            this.activeTabId = this.dynamicFieldsService.activeTabId;
+            this.loader.hide();
+          })
+          .catch((err) => {
+            console.error('Error loading dynamic fields:', err);
+            this.toastr.error('Failed to load dynamic fields');
+            this.loader.hide();
+          });
+
+
+        this.getFormFileds();
+
+
+      }
+    });
+
   }
+
+
+  // ✅ Pagination
+  currentPage = 1;
+  itemsPerPage = 8;
+  paginatedInterviewsList: any[] = [];
+
+
+  get currentPageStart() {
+    return (this.currentPage - 1) * this.itemsPerPage;
+  }
+
+  get totalPages() {
+    return Math.ceil(this.itemsPerPage);
+  }
+
+  get totalPagesArray() {
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  }
+
+
+  changePage(page: number) {
+    if (page < 1 || page > this.totalPages) return;
+    this.currentPage = page;
+    this.updatePagination();
+
+  }
+
+
+
+  updatePagination() {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    // const filtered = this.filteredRequisitions();
+    // this.paginatedRequisitionsList = filtered.slice(start, end);
+  }
+
+
+
+  onItemsPerChange(event: any) {
+    this.currentPage = 1;
+    this.updatePagination();
+  }
+
+
+  // filteredRequisitions() {
+  //   if (!this.searchText.trim()) return this.requisition;
+
+  //   return this.requisition.filter(this.requisition =>
+  //     this.requisition.requisition_name.toLowerCase().includes(this.searchText.toLowerCase()) ||
+  //     this.requisition.department.toLowerCase().includes(this.searchText.toLowerCase())
+  //   );
+  // }
+
+  hideForm() {
+    this.resetForm();
+
+  }
+
+  cancelForm() {
+    // this.hideForm();
+    this.router.navigate(['/panel/onboarding/view-all-interview-scheduling']);
+  }
+
+  // deleteSkill(index: number) {
+  //   this.requisition.splice(index, 1);
+
+  //   if (this.currentPage > this.totalPages && this.totalPages > 0) {
+  //     this.currentPage = this.totalPages;
+  //   }
+  //   this.updatePagination();
+  // }
+
+  editSkill() {
+    this.router.navigate(['/panel/onboarding/edit-interview-scheduling']);
+
+
+  }
+
+  // // updateSkill() {
+  // //   if (this.editIndex === null) return;
+
+  // //   this.requisition[this.editIndex] = {
+  // //     code: this.requisition.,
+  // //     name: this.skillName,
+  // //   };
+
+  //   this.hideForm();
+  // }
+
+  onNew() {
+    this.resetForm();
+    // this.showForm = true;
+    this.router.navigate(['/panel/onboarding/create-new-interview-scheduling']);
+  }
+
+  // createSkill() {
+  //   if (!this.skillCode || !this.skillName) return;
+
+  //   this.skills.push({
+  //     code: this.skillCode,
+  //     name: this.skillName,
+  //   });
+
+  //   this.hideForm();
+  // }
+
 
   // Dropdown Handlers
   toggleCandidateDropdown(event: Event, field: string): void {
@@ -169,17 +324,17 @@ export class InterviewSchedulingComponent implements OnInit {
   saveInterview(): void {
 
 
-      if (
-    !this.interview.candidate ||
-    !this.interview.interview_date ||
-    !this.interview.start_time ||
-    !this.interview.location ||
-    !this.interview.interview_status 
-  
-  ) {
-    this.toastr.warning('Please fill all required fields');
-    return;
-  }
+    if (
+      !this.interview.candidate ||
+      !this.interview.interview_date ||
+      !this.interview.start_time ||
+      !this.interview.location ||
+      !this.interview.interview_status
+
+    ) {
+      this.toastr.warning('Please fill all required fields');
+      return;
+    }
     // Remove interviewer if its source is 'current user'
     if (this.fieldConfigMap['interviewer_user']?.source === 'CURRENT_USER') {
       delete (this.interview as any).interviewer_user;
@@ -219,11 +374,11 @@ export class InterviewSchedulingComponent implements OnInit {
     // Reset interview object
     this.interview = new InterviewSchedulingDto();
     this.interview.is_active = true;
-    
+
     // Reset dropdown display values
     this.selectedCandidate = '';
     this.selectedInterviewerDisplay = '';
-    
+
     // Reset dynamic fields
     this.dynamicFieldsService.resetDynamicFields();
   }
@@ -288,6 +443,20 @@ export class InterviewSchedulingComponent implements OnInit {
       },
       error: (err: any) => {
         console.error(`Error fetching lookup options for ${fieldCode}:`, err);
+      }
+    });
+  }
+
+  getInterviewsData() {
+    this.api.getLokupTableByCodeWithFormType('INTERVIEW').subscribe({
+      next: (res: any) => {
+        this.loader.hide();
+
+      },
+      error: (err: any) => {
+        console.error('Error fetching Interviews data:', err);
+        this.loader.hide();
+
       }
     });
   }

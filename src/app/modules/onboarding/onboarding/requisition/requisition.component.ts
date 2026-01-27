@@ -1,5 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DynamicFieldsSharingService } from '../../../../shared/services/dynamic-fields-sharing.service';
 import { LookupDto, RequisitionDto } from '../../../../shared/dtos/Dto';
 import { ToastrService } from 'ngx-toastr';
@@ -12,9 +12,14 @@ import { ApiService } from '../../../../shared/services/apis/api.service';
   styleUrls: ['./requisition.component.scss']
 })
 export class RequisitionComponent implements OnInit {
+
+  title = 'view';
+  formTitle = "";
+
   // Form fields as DTO
   requisition: RequisitionDto = new RequisitionDto();
 
+  
   // Dropdown state
   activeDropdown: string = '';
 
@@ -39,45 +44,188 @@ export class RequisitionComponent implements OnInit {
     public dynamicFieldsService: DynamicFieldsSharingService,
     private toastr: ToastrService,
     private loader: LoaderService,
-    private api: ApiService
+    private api: ApiService,
+    private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
     // Load dynamic fields and tabs
     // this.loader.show();
-    this.dynamicFieldsService.loadDynamicFields('JOB_REQUISITION', 'USER_DEFINED', [])
-      .then(() => {
-        // Get tabs from service
-        this.sidebarTabs = this.dynamicFieldsService.sidebarTabs;
-        this.activeTabId = this.dynamicFieldsService.activeTabId;
-        console.log('sidebarTabs:', this.sidebarTabs);
-        if (this.sidebarTabs.length > 1) {
-          console.log('rowTableField:', this.sidebarTabs[1]?.rowTableField);
-        }
-        this.loader.hide();
-      })
-      .catch((err) => {
-        console.error('Error loading dynamic fields:', err);
-        this.toastr.error('Failed to load dynamic fields');
-        this.loader.hide();
-      });
-    this.getFormFileds();
 
+
+    this.updatePagination();
+
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title'];
+      if (this.title === 'view') {
+        this.getRequisitionData();
+
+        // set view mode loigc
+        //  this.fetchSkills()
+      }
+      if (this.title === 'edit') {
+        this.formTitle = "Edit Skill"
+        this.dynamicFieldsService.loadDynamicFields('JOB_REQUISITION', 'USER_DEFINED', [])
+          .then(() => {
+            // Get tabs from service
+            this.sidebarTabs = this.dynamicFieldsService.sidebarTabs;
+            this.activeTabId = this.dynamicFieldsService.activeTabId;
+            console.log('sidebarTabs:', this.sidebarTabs);
+            if (this.sidebarTabs.length > 1) {
+              console.log('rowTableField:', this.sidebarTabs[1]?.rowTableField);
+            }
+            this.loader.hide();
+          })
+          .catch((err) => {
+            console.error('Error loading dynamic fields:', err);
+            this.toastr.error('Failed to load dynamic fields');
+            this.loader.hide();
+          });
+        this.getFormFileds();
+
+      }
+      if (this.title === 'create') {
+        this.formTitle = "Create New Skill"
+        this.dynamicFieldsService.loadDynamicFields('JOB_REQUISITION', 'USER_DEFINED', [])
+          .then(() => {
+            // Get tabs from service
+            this.sidebarTabs = this.dynamicFieldsService.sidebarTabs;
+            this.activeTabId = this.dynamicFieldsService.activeTabId;
+            console.log('sidebarTabs:', this.sidebarTabs);
+            if (this.sidebarTabs.length > 1) {
+              console.log('rowTableField:', this.sidebarTabs[1]?.rowTableField);
+            }
+            this.loader.hide();
+          })
+          .catch((err) => {
+            console.error('Error loading dynamic fields:', err);
+            this.toastr.error('Failed to load dynamic fields');
+            this.loader.hide();
+          });
+        this.getFormFileds();
+
+
+      }
+    });
 
 
   }
+  // ✅ Pagination
+  currentPage = 1;
+  itemsPerPage = 8;
+  paginatedRequisitionsList: any[] = [];
+
+
+  get currentPageStart() {
+    return (this.currentPage - 1) * this.itemsPerPage;
+  }
+
+  get totalPages() {
+    return Math.ceil(this.itemsPerPage);
+  }
+
+  get totalPagesArray() {
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  }
+
+
+  changePage(page: number) {
+    if (page < 1 || page > this.totalPages) return;
+    this.currentPage = page;
+    this.updatePagination();
+
+  }
+
+
+
+  updatePagination() {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    // const filtered = this.filteredRequisitions();
+    // this.paginatedRequisitionsList = filtered.slice(start, end);
+  }
+
+
+
+  onItemsPerChange(event: any) {
+    this.currentPage = 1;
+    this.updatePagination();
+  }
+
+
+  // filteredRequisitions() {
+  //   if (!this.searchText.trim()) return this.requisition;
+
+  //   return this.requisition.filter(this.requisition =>
+  //     this.requisition.requisition_name.toLowerCase().includes(this.searchText.toLowerCase()) ||
+  //     this.requisition.department.toLowerCase().includes(this.searchText.toLowerCase())
+  //   );
+  // }
+
+  hideForm() {
+    this.resetForm();
+
+  }
+
+  cancelForm() {
+    // this.hideForm();
+    this.router.navigate(['/panel/onboarding/view-all-requisitions']);
+  }
+
+  // deleteSkill(index: number) {
+  //   this.requisition.splice(index, 1);
+
+  //   if (this.currentPage > this.totalPages && this.totalPages > 0) {
+  //     this.currentPage = this.totalPages;
+  //   }
+  //   this.updatePagination();
+  // }
+
+  editSkill() {
+    this.router.navigate(['/panel/onboarding/edit-requisition']);
+
+
+  }
+
+  // // updateSkill() {
+  // //   if (this.editIndex === null) return;
+
+  // //   this.requisition[this.editIndex] = {
+  // //     code: this.requisition.,
+  // //     name: this.skillName,
+  // //   };
+
+  //   this.hideForm();
+  // }
+
+  onNew() {
+    this.resetForm();
+    // this.showForm = true;
+    this.router.navigate(['/panel/onboarding/create-new-requisition']);
+  }
+
+  // createSkill() {
+  //   if (!this.skillCode || !this.skillName) return;
+
+  //   this.skills.push({
+  //     code: this.skillCode,
+  //     name: this.skillName,
+  //   });
+
+  //   this.hideForm();
+  // }
 
 
   // Dropdown toggle
   toggleDropdown(event: Event, dropdownId: string) {
     event.stopPropagation();
-    
+
     // Fetch lookup options on first click
     if (this.lookupFields.includes(dropdownId) && !this.loadedLookups[dropdownId]) {
       this.fetchLookupOptions(dropdownId);
       this.loadedLookups[dropdownId] = true;
     }
-    
+
     this.activeDropdown = this.activeDropdown === dropdownId ? '' : dropdownId;
   }
 
@@ -92,7 +240,7 @@ export class RequisitionComponent implements OnInit {
     this.activeDropdown = '';
   }
   selectHiringManager(field: string, value: string, event: Event) {
-    
+
     if (field === 'hiring_manager') this.hiringManagerDropDownValue = value;
 
     (this.requisition as any)[field] = value;
@@ -114,22 +262,22 @@ export class RequisitionComponent implements OnInit {
   // Save requisition data
   saveRequisition(): void {
 
-     if (
-    !this.requisition.requisition_name ||
-    !this.requisition.department ||
-    !this.requisition.job_title ||
-    !this.requisition.designation ||
-    !this.requisition.hiring_manager ||
-    !this.requisition.required_date
-  ) {
-    this.toastr.warning('Please fill all required fields');
-    return;
-  }
+    if (
+      !this.requisition.requisition_name ||
+      !this.requisition.department ||
+      !this.requisition.job_title ||
+      !this.requisition.designation ||
+      !this.requisition.hiring_manager ||
+      !this.requisition.required_date
+    ) {
+      this.toastr.warning('Please fill all required fields');
+      return;
+    }
     // Remove hiring_manager if its source is 'current user'
     if (this.fieldConfigMap['hiring_manager']?.source === 'CURRENT_USER') {
       delete (this.requisition as any).hiring_manager;
     }
-    
+
     const completeData = this.dynamicFieldsService.getCompleteFormData(this.requisition);
     // console.log('Saving Requisition Data:', completeData);
     this.loader.show();
@@ -191,10 +339,10 @@ export class RequisitionComponent implements OnInit {
         if (fieldCode === 'department') {
           this.departments = data;
         }
-         if (fieldCode === 'job_title') {
+        if (fieldCode === 'job_title') {
           this.jobTitles = data;
         }
-         if (fieldCode === 'designation') {
+        if (fieldCode === 'designation') {
           this.designations = data;
         }
 
@@ -217,5 +365,20 @@ export class RequisitionComponent implements OnInit {
     this.loadedLookups = {};
     // Reset dynamic fields
     this.dynamicFieldsService.resetDynamicFields();
+  }
+
+  getRequisitionData() {
+    this.api.getLokupTableByCodeWithFormType('JOB_REQUISITION').subscribe({
+      next: (res: any) => {
+                this.loader.hide();
+
+
+      },
+      error: (err: any) => {
+        console.error('Error fetching requisition data:', err);
+                this.loader.hide();
+
+      }
+    });
   }
 }

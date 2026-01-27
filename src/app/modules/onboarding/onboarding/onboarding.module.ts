@@ -10,16 +10,41 @@ import { FinalScreeningComponent } from './final-screening/final-screening.compo
 
 const routes: Routes = [
   {
-    path: 'requisition',
-    component: RequisitionComponent
+    path: 'view-all-requisition',
+    component: RequisitionComponent, data: { title: 'view' }
   },
   {
-    path: 'candidates',
-    component: CandidatesComponent
+    path: 'create-new-requisition',
+    component: RequisitionComponent, data: { title: 'create' }
   },
   {
-    path: 'interview-scheduling',
-    component: InterviewSchedulingComponent
+    path: 'edit-requisition',
+    component: RequisitionComponent, data: { title: 'edit' }
+  },
+
+  {
+    path: 'view-all-candidates',
+    component: CandidatesComponent, data: { title: 'view' }
+  },
+   {
+    path: 'create-new-candidates',
+    component: CandidatesComponent, data: { title: 'create' }
+  },
+   {
+    path: 'edit-candidates',
+    component: CandidatesComponent, data: { title: 'edit' }
+  },
+  {
+    path: 'create-new-interview-scheduling',
+    component: InterviewSchedulingComponent, data: { title: 'create' }
+  },
+  {
+    path: 'edit-interview-scheduling',
+    component: InterviewSchedulingComponent, data: { title: 'edit' }
+  },
+  {
+    path: 'view-all-interview-scheduling',
+    component: InterviewSchedulingComponent, data: { title: 'view' }
   },
   {
     path: 'final-screening',
