@@ -96,9 +96,9 @@ export class HrCandidateShortListingComponent {
     });
   }
 
-  shortlistCandidateBySingle(candidate: any) {
+  shortlistCandidateBySingle(publicId: any) {
     const data = {
-      publicIds: [candidate.publicId]
+      publicIds: [publicId]
     };
     this.loader.show();
     this.apiService.canididateShortlist(data).subscribe((res: any) => {

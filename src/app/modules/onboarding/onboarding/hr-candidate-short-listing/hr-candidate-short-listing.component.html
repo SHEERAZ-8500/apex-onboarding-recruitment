@@ -9,9 +9,9 @@
             <button routerLink="/panel/forms/create-new-form" class="creat-btn">Create Form</button>
         </div> -->
     </div>
-    
 
-    
+
+
     <section class="table-main-div ">
         <div class="rounded-2xl text-gray-200   pt-4">
             <table class="min-w-full text-sm border-separate border-spacing-y-2 ">
@@ -25,7 +25,8 @@
                         <th class="px-3 py-2">Status</th>
 
                         <th class="px-3 py-2 d-flex align-items-center justify-content-start">Actions
-                            <input type="checkbox" name="" id="" class="select-all" [(ngModel)]="selectAll" (change)="openModal(content)">
+                            <input type="checkbox" name="" id="" class="select-all" [(ngModel)]="selectAll"
+                                (change)="openModal(content)">
                         </th>
 
                     </tr>
@@ -43,7 +44,8 @@
                             {{ c.status }}
                         </td>
                         <td class="px-3 py-3 text-gray-400">
-                            <input type="checkbox" class="select-all" [(ngModel)]="c.selected" (change)="shortlistCandidateBySingle(c.publicId)">
+                            <input type="checkbox" class="select-all" [(ngModel)]="c.selected"
+                                (change)="shortlistCandidateBySingle(c.publicId)">
                         </td>
 
                     </tr>
@@ -65,13 +67,15 @@
 <ng-template #content let-modal>
     <div class="modal-header">
         <h4 class="modal-title">Confirmation</h4>
-        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click'); selectAll = false"></button>
+        <button type="button" class="btn-close" aria-label="Close"
+            (click)="modal.dismiss('Cross click'); selectAll = false"></button>
     </div>
     <div class="modal-body">
         <p>Accept All Selected Candidates?</p>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="modal.close('Close click') ; selectAll = false">Close</button>
+        <button type="button" class="btn btn-secondary"
+            (click)="modal.close('Close click') ; selectAll = false">Close</button>
         <!-- modal.close('Save click') -->
         <button type="button" class="btn btn-primary" (click)="shortlistCandidateByMultiple()">Select All</button>
     </div>
