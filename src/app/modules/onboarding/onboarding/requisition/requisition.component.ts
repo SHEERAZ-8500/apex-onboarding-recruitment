@@ -267,7 +267,7 @@ export class RequisitionComponent implements OnInit {
       !this.requisition.department ||
       !this.requisition.job_title ||
       !this.requisition.designation ||
-      !this.requisition.hiring_manager ||
+      // !this.requisition.hiring_manager ||
       !this.requisition.required_date
     ) {
       this.toastr.warning('Please fill all required fields');

@@ -61,7 +61,6 @@ export class InterviewSchedulingComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getFormFileds();
 
     // Load dynamic fields and tabs
     this.loader.show();

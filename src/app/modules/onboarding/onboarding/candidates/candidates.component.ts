@@ -63,7 +63,7 @@ export class CandidatesComponent implements OnInit {
 
     // Load dynamic fields and tabs
     this.loader.show();
-   
+
 
     this.updatePagination();
 
@@ -77,38 +77,38 @@ export class CandidatesComponent implements OnInit {
       }
       if (this.title === 'edit') {
         this.formTitle = "Edit Skill"
-         this.dynamicFieldsService.loadDynamicFields('CANDIDATE', 'USER_DEFINED', [])
-      .then(() => {
-        // Get tabs from service
-        this.sidebarTabs = this.dynamicFieldsService.sidebarTabs;
-        this.activeTabId = this.dynamicFieldsService.activeTabId;
-        this.loader.hide();
-      })
-      .catch((err) => {
-        console.error('Error loading dynamic fields:', err);
-        this.toastr.error('Failed to load dynamic fields');
-        this.loader.hide();
-      });
+        this.dynamicFieldsService.loadDynamicFields('CANDIDATE', 'USER_DEFINED', [])
+          .then(() => {
+            // Get tabs from service
+            this.sidebarTabs = this.dynamicFieldsService.sidebarTabs;
+            this.activeTabId = this.dynamicFieldsService.activeTabId;
+            this.loader.hide();
+          })
+          .catch((err) => {
+            console.error('Error loading dynamic fields:', err);
+            this.toastr.error('Failed to load dynamic fields');
+            this.loader.hide();
+          });
 
-       this.getFormFileds();
+        this.getFormFileds();
 
       }
       if (this.title === 'create') {
         this.formTitle = "Create New Skill"
-         this.dynamicFieldsService.loadDynamicFields('CANDIDATE', 'USER_DEFINED', [])
-      .then(() => {
-        // Get tabs from service
-        this.sidebarTabs = this.dynamicFieldsService.sidebarTabs;
-        this.activeTabId = this.dynamicFieldsService.activeTabId;
-        this.loader.hide();
-      })
-      .catch((err) => {
-        console.error('Error loading dynamic fields:', err);
-        this.toastr.error('Failed to load dynamic fields');
-        this.loader.hide();
-      });
+        this.dynamicFieldsService.loadDynamicFields('CANDIDATE', 'USER_DEFINED', [])
+          .then(() => {
+            // Get tabs from service
+            this.sidebarTabs = this.dynamicFieldsService.sidebarTabs;
+            this.activeTabId = this.dynamicFieldsService.activeTabId;
+            this.loader.hide();
+          })
+          .catch((err) => {
+            console.error('Error loading dynamic fields:', err);
+            this.toastr.error('Failed to load dynamic fields');
+            this.loader.hide();
+          });
 
-       this.getFormFileds();
+        this.getFormFileds();
 
 
       }
@@ -122,7 +122,7 @@ export class CandidatesComponent implements OnInit {
   paginatedCandidatesList: any[] = [];
 
 
-    get currentPageStart() {
+  get currentPageStart() {
     return (this.currentPage - 1) * this.itemsPerPage;
   }
 
@@ -170,7 +170,7 @@ export class CandidatesComponent implements OnInit {
 
   hideForm() {
     this.resetForm();
-   
+
   }
 
   cancelForm() {
@@ -275,24 +275,25 @@ export class CandidatesComponent implements OnInit {
   // Save candidate data
   saveCandidate(): void {
 
-    
-  if (
-    !this.candidate.code ||
-    !this.candidate.first_name ||
-    !this.candidate.last_name ||
-    !this.candidate.requisition 
-    
-  ) {
-    this.toastr.warning('Please fill all required fields');
-    return;
-  }
+
+    if (
+      !this.candidate.code ||
+      !this.candidate.first_name ||
+      !this.candidate.last_name ||
+      !this.candidate.requisition
+
+    ) {
+      this.toastr.warning('Please fill all required fields');
+      return;
+    }
 
 
     delete (this.candidate as any).designation;
     delete (this.candidate as any).category;
     delete (this.candidate as any).remarks;
 
-
+    this.candidate.onboarding_status = 'IN_PROGRESS';
+    this.candidate.status = 'APPLIED';
 
     const completeData = this.dynamicFieldsService.getCompleteFormData(this.candidate);
 
@@ -389,33 +390,33 @@ export class CandidatesComponent implements OnInit {
 
 
 
-  
-    resetForm(): void {
-      // Reset candidate object
-      this.candidate = new CandidateDto();
-      // Reset dropdown display values
-      this.genderEnumArray = [];
-      this.candidateEnumArray = [];
-      this.onboardingStatusEnumArray = [];
-      this.requsitionDropDownValue = [];
-      this.departmentDropDownValue = [];
-      this.designationDropDownValue = [];
-      this.requisitionDisplayValue = '';
-      // Reset loaded lookups to allow fresh fetch on next form
-      // Reset dynamic fields
-      this.dynamicFieldsService.resetDynamicFields();
-    }
 
-    getCandidateData() {
+  resetForm(): void {
+    // Reset candidate object
+    this.candidate = new CandidateDto();
+    // Reset dropdown display values
+    this.genderEnumArray = [];
+    this.candidateEnumArray = [];
+    this.onboardingStatusEnumArray = [];
+    this.requsitionDropDownValue = [];
+    this.departmentDropDownValue = [];
+    this.designationDropDownValue = [];
+    this.requisitionDisplayValue = '';
+    // Reset loaded lookups to allow fresh fetch on next form
+    // Reset dynamic fields
+    this.dynamicFieldsService.resetDynamicFields();
+  }
+
+  getCandidateData() {
     this.api.getLokupTableByCodeWithFormType('JOB_REQUISITION').subscribe({
       next: (res: any) => {
-                this.loader.hide();
+        this.loader.hide();
 
 
       },
       error: (err: any) => {
         console.error('Error fetching requisition data:', err);
-                this.loader.hide();
+        this.loader.hide();
 
       }
     });

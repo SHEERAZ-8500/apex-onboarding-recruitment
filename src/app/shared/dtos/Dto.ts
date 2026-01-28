@@ -187,8 +187,8 @@ export class CandidateDto {
   country: string = '';
   city: string = '';
   category: string = '';
-  onboarding_status: string = '';
-  status: string = '';
+  onboarding_status: string = 'IN_PROGRESS';
+  status: string = 'APPLIED';
   remarks: string = '';
   is_active: boolean = true;
 
@@ -350,5 +350,35 @@ export class PayElementDto {
 
   constructor(init?: Partial<PayElementDto>) {
     Object.assign(this, init);
+  }
+}
+
+
+
+export class HrCandidateShortListingDto {
+  code!: string;
+  email!: string;
+  firstName!: string;
+  lastName!: string;
+  publicId!: string;
+  selected?: boolean;
+  status!: 'APPLIED' | 'SHORTLISTED' | 'INTERVIEW_SCHEDULED' | 'INTERVIEWED' | 'SELECTED' | 'REJECTED' | 'CONVERTED';
+
+  constructor(data?: Partial<HrCandidateShortListingDto>) {
+    if (data) {
+      Object.assign(this, data);
+    }
+  }
+}
+
+
+export class InterviewFeedback {
+  result!: string;
+  remarks!: string;
+
+  constructor(data?: Partial<InterviewFeedback>) {
+    if (data) {
+      Object.assign(this, data);
+    }
   }
 }

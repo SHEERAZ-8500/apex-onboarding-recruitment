@@ -211,10 +211,16 @@ export class ApiService {
     return this.http.post(`v1/md/tables`, tableSchema);
   }
 
-  getAllCandidates() {
-    return this.http.get(`recruitment/candidates?status=INTERVIEWED&page=0&size=100`);
+  getAllCandidates(status = 'INTERVIEWED', page = 0, size = 10) {
+    return this.http.get(`recruitment/candidates?status=${status}&page=${page}&size=${size}`);
   }
   saveCandidateScreening(candidatePublicId: string, data: any) {
     return this.http.post(`recruitment/candidates/${candidatePublicId}/decision`, data);
+  }
+  canididateShortlist( data: any) {
+    return this.http.post(`recruitment/candidates/shortlist`, data);
+  }
+    interviewFeedback(interviewPublicId: string, data: any) {
+    return this.http.post(`recruitment/interviews/${interviewPublicId}/feedback`, data);
   }
 }
