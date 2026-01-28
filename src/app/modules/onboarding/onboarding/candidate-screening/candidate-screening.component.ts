@@ -128,7 +128,7 @@ export class CandidateScreeningComponent implements OnInit {
   selectSalaryRowOption(index: number, field: string, value: any, event: Event): void {
     event.stopPropagation();
     
-    (this.candidateScreening.salaryRows[index] as any)[field] = value.name;
+    (this.candidateScreening.salaryRows[index] as any)[field] = value;
     this.activeDropdown = '';
     this.selectedPaymentElement = value.code;
   }
