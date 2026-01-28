@@ -229,9 +229,8 @@
             <div #generalMasterdata="ngbCollapse" [(ngbCollapse)]="generalMasterdataCollapsed"
               class="collapseStyling inner" [class.open]="!generalMasterdataCollapsed">
               <div class="collapseDiv">
-                <a routerLink="general-master-data/candidate-screening" routerLinkActive="active"
-                  ><span>Candidate Screening</span></a>
-                                  <a routerLink="organizational-master-data/view-all-pay-element" ><span>Pay Element</span></a>
+
+                <a routerLink="organizational-master-data/view-all-pay-element"><span>Pay Element</span></a>
 
                 <a routerLink="general-master-data/view-all-skills" routerLinkActive="active"
                   hidden><span>Skills</span></a>
@@ -356,9 +355,12 @@
           <a routerLink="/panel/onboarding/view-all-interview-scheduling">
             <span>Interview Scheduling</span>
           </a>
-          <a routerLink="/panel/onboarding/final-screening">
-            <span>Final Screening</span>
+          <!-- <a routerLink="/panel/onboarding/final-screening">
+            <span>Final Screening</span> 
           </a>
+            -->
+          <a routerLink="/panel/onboarding/candidate-screening" routerLinkActive="active"><span>Candidate
+              Screening</span></a>
         </div>
       </div>
     </div>

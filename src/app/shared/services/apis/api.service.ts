@@ -212,7 +212,7 @@ export class ApiService {
   }
 
   getAllCandidates() {
-    return this.http.get(`recruitment/candidates?status=INTERVIEWED&page=0&size=1000`);
+    return this.http.get(`recruitment/candidates?status=INTERVIEWED&page=0&size=100`);
   }
   saveCandidateScreening(candidatePublicId: string, data: any) {
     return this.http.post(`recruitment/candidates/${candidatePublicId}/decision`, data);

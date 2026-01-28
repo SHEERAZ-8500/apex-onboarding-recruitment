@@ -17,7 +17,6 @@ import { JobTitleComponent } from './job-title/job-title.component';
 import { PostAssignmentComponent } from './post-assignment/post-assignment.component';
 import { KpiQuestionsComponent } from './kpi-questions/kpi-questions.component';
 import { EmployeesGradeComponent } from './employees-grade/employees-grade.component';
-import { CandidateScreeningComponent } from './candidate-screening/candidate-screening.component';
 
 
 export const routes: Routes = [
@@ -216,10 +215,6 @@ export const routes: Routes = [
   {
     path: 'edit-employees-grade',
     component: EmployeesGradeComponent, data: { title: 'edit' }
-  },
-  {
-    path: 'candidate-screening',
-    component: CandidateScreeningComponent
   }
 ];
 @NgModule({
@@ -240,7 +235,7 @@ export const routes: Routes = [
     PostAssignmentComponent,
     KpiQuestionsComponent,
     EmployeesGradeComponent,
-    CandidateScreeningComponent
+    
   ],
   imports: [
     RouterModule.forChild(routes),

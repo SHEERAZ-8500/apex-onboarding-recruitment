@@ -1,10 +1,10 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { CandidateLisitngDto, CandidateScreeningDto, CandidateScreeningSalaryRowDto, LookupDto } from '../../../shared/dtos/Dto';
+import { CandidateLisitngDto, CandidateScreeningDto, CandidateScreeningSalaryRowDto, LookupDto } from '../../../../shared/dtos/Dto';
 import { ToastrService } from 'ngx-toastr';
-import { LoaderService } from '../../../shared/services/loader.service';
-import { DynamicFieldsSharingService } from '../../../shared/services/dynamic-fields-sharing.service';
-import { ApiService } from '../../../shared/services/apis/api.service';
+import { LoaderService } from '../../../../shared/services/loader.service';
+import { DynamicFieldsSharingService } from '../../../../shared/services/dynamic-fields-sharing.service';
+import { ApiService } from '../../../../shared/services/apis/api.service';
 
 @Component({
   selector: 'app-candidate-screening',

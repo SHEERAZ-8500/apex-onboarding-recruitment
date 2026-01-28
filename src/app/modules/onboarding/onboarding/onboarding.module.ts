@@ -5,6 +5,7 @@ import { RequisitionComponent } from './requisition/requisition.component';
 import { CandidatesComponent } from './candidates/candidates.component';
 import { InterviewSchedulingComponent } from './interview-scheduling/interview-scheduling.component';
 import { FinalScreeningComponent } from './final-screening/final-screening.component';
+import { CandidateScreeningComponent } from './candidate-screening/candidate-screening.component';
 
 
 
@@ -50,6 +51,11 @@ const routes: Routes = [
     path: 'final-screening',
     component: FinalScreeningComponent
   }
+  ,
+  {
+    path: 'candidate-screening',
+    component: CandidateScreeningComponent
+  }
 ];
 
 
@@ -59,6 +65,7 @@ const routes: Routes = [
     CandidatesComponent,
     InterviewSchedulingComponent,
     FinalScreeningComponent
+    ,CandidateScreeningComponent
   ],
   imports: [
      RouterModule.forChild(routes),
