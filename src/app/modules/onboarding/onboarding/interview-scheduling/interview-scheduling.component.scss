@@ -253,7 +253,8 @@
     transition: all 0.2s ease;
 
     &:hover {
-        background-color: rgba(112, 71, 238, 0.2);
+        background-color:var(--light-purple);
+        color: white;
     }
 
     &:not(:last-child) {

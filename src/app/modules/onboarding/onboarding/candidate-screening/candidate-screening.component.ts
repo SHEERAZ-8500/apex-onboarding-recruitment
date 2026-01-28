@@ -178,6 +178,7 @@ export class CandidateScreeningComponent implements OnInit {
         this.toastr.success('Candidate screening saved successfully');
         this.loader.hide();
         this.resetForm();
+        this.router.navigate(['/panel/onboarding/hr-candidate-short-listing']);
       }
       , error: (err: any) => {
         this.loader.hide();

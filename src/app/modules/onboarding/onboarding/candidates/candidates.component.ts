@@ -318,7 +318,7 @@ export class CandidatesComponent implements OnInit {
   }
 
   onCancel(): void {
-    this.router.navigate(['/panel']);
+    this.router.navigate(['/panel/onboarding/view-all-candidates']);
   }
   getFormFileds() {
     this.api.getFormByFormCode('CANDIDATE').subscribe({

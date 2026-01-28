@@ -3,7 +3,7 @@
         <div class="page-title ">
             <i class="fa-solid fa-house"></i>
             <span style="font-weight: 700; color: #566f9e;">-</span>
-            <span>View All Candidate List</span>
+            <span>View All Candidates List</span>
         </div>
         <!-- <div>
             <button routerLink="/panel/forms/create-new-form" class="creat-btn">Create Form</button>
@@ -67,15 +67,15 @@
 <ng-template #content let-modal>
     <div class="modal-header">
         <h4 class="modal-title">Confirmation</h4>
-        <button type="button" class="btn-close" aria-label="Close"
-            (click)="modal.dismiss('Cross click'); selectAll = false"></button>
+        <!-- <button type="button" class="btn-close" aria-label="Close"
+            (click)="modal.dismiss('Cross click'); selectAll = false"></button> -->
     </div>
     <div class="modal-body">
         <p>Accept All Selected Candidates?</p>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary"
-            (click)="modal.close('Close click') ; selectAll = false">Close</button>
+            (click)="modal.close('Close click') ; selectAll = false">Cancel</button>
         <!-- modal.close('Save click') -->
         <button type="button" class="btn btn-primary" (click)="shortlistCandidateByMultiple()">Select All</button>
     </div>

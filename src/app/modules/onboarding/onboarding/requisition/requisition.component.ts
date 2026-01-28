@@ -288,7 +288,7 @@ export class RequisitionComponent implements OnInit {
         this.loader.hide();
         // Reset form after successful save
         this.resetForm();
-        this.router.navigate(['/panel/onboarding/requisition']);
+        this.router.navigate(['/panel/onboarding/view-all-requisition']);
       },
       error: (err: any) => {
         console.error('Error saving requisition:', err);
@@ -301,7 +301,7 @@ export class RequisitionComponent implements OnInit {
   }
 
   onCancel(): void {
-    this.router.navigate(['/panel']);
+    this.router.navigate(['/panel/onboarding/view-all-requisition']);
   }
 
   getFormFileds() {

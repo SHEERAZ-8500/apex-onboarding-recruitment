@@ -353,7 +353,7 @@ export class InterviewSchedulingComponent implements OnInit {
         this.toastr.success('Interview scheduled successfully');
         this.loader.hide();
         this.resetForm();
-        // this.router.navigate(['/panel/onboarding/candidates']);
+        this.router.navigate(['/panel/onboarding/view-all-interview-scheduling']);
       },
       error: (err: any) => {
         console.error('Error saving interview:', err);
@@ -366,7 +366,7 @@ export class InterviewSchedulingComponent implements OnInit {
   }
 
   onCancel(): void {
-    this.router.navigate(['/panel']);
+    this.router.navigate(['/panel/onboarding/view-all-interview-scheduling']);
   }
 
   resetForm(): void {
