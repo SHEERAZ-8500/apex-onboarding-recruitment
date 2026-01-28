@@ -22,7 +22,7 @@
                             <div class="dropdown-options" *ngIf="isCandidateDropdownOpen">
                                 <div class="dropdown-option" *ngFor="let candidate of candidateOptions"
                                     (click)="selectCandidate(candidate, $event)">
-                                    {{ candidate.summary }}
+                                    {{ candidate.firstName }} {{ candidate.lastName }}
                                 </div>
                                 <div *ngIf="candidateOptions.length === 0" class="dropdown-option text-muted">
                                     No Candidates Available

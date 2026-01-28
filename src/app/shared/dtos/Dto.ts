@@ -8,7 +8,7 @@ export class InterviewSchedulingDto {
   start_time: string = '';
   location: string = '';
   meeting_url: string = '';
-  interview_status: string = '';
+  interview_status: string = 'SCHEDULED';
   remarks: string = '';
   is_active: boolean = true;
   constructor(init?: Partial<InterviewSchedulingDto>) {
@@ -334,7 +334,7 @@ export class CandidateLisitngDto {
       Object.assign(this, init);
     }
   }
-  
+
 
 }
 
@@ -375,10 +375,30 @@ export class HrCandidateShortListingDto {
 export class InterviewFeedback {
   result!: string;
   remarks!: string;
+  // interviewerPublicId!: string;
 
   constructor(data?: Partial<InterviewFeedback>) {
     if (data) {
       Object.assign(this, data);
     }
+  }
+}
+
+
+
+export class InterviewDto {
+  publicId!: string;
+  code!: string;
+  candidatePublicId!: string;
+  interviewerUserPublicId!: string;
+  interviewDate!: string;     // e.g. '2026-01-28'
+  startTime!: string;         // e.g. '02:50:00'
+  interviewStatus!: string;   // e.g. 'SCHEDULED'
+  location!: string;          // e.g. 'ONSITE'
+  meetingUrl!: string;
+  remarks!: string;
+
+  constructor(init?: Partial<InterviewDto>) {
+    Object.assign(this, init);
   }
 }

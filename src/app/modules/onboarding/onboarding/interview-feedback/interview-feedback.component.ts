@@ -1,5 +1,5 @@
 import { Component, HostListener } from '@angular/core';
-import { CandidateLisitngDto, InterviewFeedback } from '../../../../shared/dtos/Dto';
+import { CandidateLisitngDto, InterviewDto, InterviewFeedback } from '../../../../shared/dtos/Dto';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { LoaderService } from '../../../../shared/services/loader.service';
@@ -14,7 +14,9 @@ export class InterviewFeedbackComponent {
 
   interviewFeedback: InterviewFeedback = new InterviewFeedback();
   candidateLisitng: CandidateLisitngDto[] = [];
-
+  interviewListing: InterviewDto[] = [];
+  selectedInterviewId: string = '';
+  interviewerPublicId: string = '';
   // Dropdown state
   activeDropdown: string = '';
   selectedCandidateId: string = '';
@@ -27,6 +29,7 @@ export class InterviewFeedbackComponent {
   resultOptions: string[] = [
     'SELECTED',
     'REJECTED',
+
 
   ];
 
@@ -43,7 +46,7 @@ export class InterviewFeedbackComponent {
 
   loadCandidates(): void {
     this.loader.show();
-    this.api.getAllCandidates('INTERVIEWED').subscribe({
+    this.api.getAllCandidates('INTERVIEW_SCHEDULED').subscribe({
       next: (res: any) => {
         this.candidateLisitng = res.data || [];
         this.loader.hide();
@@ -73,8 +76,12 @@ export class InterviewFeedbackComponent {
       this.selectedCandidateInfo.firstName = value.firstName;
       this.selectedCandidateInfo.lastName = value.lastName;
       this.selectedCandidateId = value.publicId;
+      this.selectedCanidateInterview();
     } else if (field === 'result') {
       this.interviewFeedback.result = value;
+    } else if (field === 'selectedInterview' && value) {
+      this.selectedInterviewId = value.code;
+      this.interviewerPublicId = value.publicId;
     }
 
     this.activeDropdown = '';
@@ -90,6 +97,11 @@ export class InterviewFeedbackComponent {
       this.toastr.warning('Please select a candidate');
       return;
     }
+    if (!this.selectedInterviewId) {
+      this.toastr.warning('Please select an interview');
+      return;
+    }
+
 
     if (!this.interviewFeedback.result) {
       this.toastr.warning('Please select a result');
@@ -102,7 +114,7 @@ export class InterviewFeedbackComponent {
     };
 
     this.loader.show();
-    this.api.interviewFeedback(this.selectedCandidateId, feedbackData).subscribe({
+    this.api.interviewFeedback(this.interviewerPublicId, feedbackData).subscribe({
       next: (res: any) => {
         this.toastr.success('Interview feedback submitted successfully');
         this.loader.hide();
@@ -120,10 +132,24 @@ export class InterviewFeedbackComponent {
     this.selectedCandidateInfo = { firstName: '', lastName: '' };
     this.selectedCandidateId = '';
     this.activeDropdown = '';
+    this.selectedInterviewId = '';
+    this.interviewerPublicId = '';
   }
 
   onCancel(): void {
     this.router.navigate(['/panel']);
   }
-
+  selectedCanidateInterview() {
+    this.api.getSelectedCandidatesInterview([this.selectedCandidateId]).subscribe({
+      next: (res: any) => {
+        this.interviewListing = res.data || [];
+        this.loader.hide();
+      },
+      error: (err: any) => {
+        console.error('Error fetching interviews:', err);
+        this.toastr.error('Failed to load interviews');
+        this.loader.hide();
+      }
+    });
+  }
 }

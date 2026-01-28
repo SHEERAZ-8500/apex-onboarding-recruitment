@@ -223,4 +223,7 @@ export class ApiService {
     interviewFeedback(interviewPublicId: string, data: any) {
     return this.http.post(`recruitment/interviews/${interviewPublicId}/feedback`, data);
   }
+  getSelectedCandidatesInterview(publicIds: string[]) {
+    return this.http.get(`recruitment/candidates/${publicIds}/interviews?status=SCHEDULED&page=0&size=90`);
+  }
 }

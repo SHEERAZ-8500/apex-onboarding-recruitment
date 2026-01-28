@@ -59,18 +59,18 @@ export class CandidateScreeningComponent implements OnInit {
     this.initializeSalaryRow();
     this.getFormFields();
 
-    // this.loader.show();
-    // this.dynamicFieldsService.loadDynamicFields('CANDIDATE_SCREENING', 'USER_DEFINED', [])
-    //   .then(() => {
-    //     this.sidebarTabs = this.dynamicFieldsService.sidebarTabs;
-    //     this.activeTabId = this.dynamicFieldsService.activeTabId;
-    //     this.loader.hide();
-    //   })
-    //   .catch((err) => {
-    //     console.error('Error loading dynamic fields:', err);
-    //     this.toastr.error('Failed to load dynamic fields');
-    //     this.loader.hide();
-    //   });
+    this.loader.show();
+    this.dynamicFieldsService.loadDynamicFields('FINAL_DECISION', 'USER_DEFINED', [])
+      .then(() => {
+        this.sidebarTabs = this.dynamicFieldsService.sidebarTabs;
+        this.activeTabId = this.dynamicFieldsService.activeTabId;
+        this.loader.hide();
+      })
+      .catch((err) => {
+        console.error('Error loading dynamic fields:', err);
+        this.toastr.error('Failed to load dynamic fields');
+        this.loader.hide();
+      });
   }
 
   initializeSalaryRow(): void {
@@ -127,7 +127,7 @@ export class CandidateScreeningComponent implements OnInit {
 
   selectSalaryRowOption(index: number, field: string, value: any, event: Event): void {
     event.stopPropagation();
-    
+
     (this.candidateScreening.salaryRows[index] as any)[field] = value.name;
     this.activeDropdown = '';
     this.selectedPaymentElement = value.code;
@@ -150,17 +150,24 @@ export class CandidateScreeningComponent implements OnInit {
       return;
     }
 
-    // Validate salary rows
-    for (let row of this.candidateScreening.salaryRows) {
-      if (!row.payElement || !row.amount || !row.payFrequency || !row.currency || !row.effectiveDate) {
-        this.toastr.warning('Please fill all required salary row fields');
-        return;
-      }
-    }
+    // // Validate salary rows
+    // for (let row of this.candidateScreening.salaryRows) {
+    //   if (!row.payElement || !row.amount || !row.payFrequency || !row.currency || !row.effectiveDate) {
+    //     this.toastr.warning('Please fill all required salary row fields');
+    //     return;
+    //   }
+    // }
     this.candidateScreening.salaryRows[0].payElement = this.selectedPaymentElement;
     const completeData = this.dynamicFieldsService.getCompleteFormData(this.candidateScreening);
+
+    let payload = {
+      data: {
+        ...completeData.data,
+        salaryRows: completeData.rows.salary_details || []
+      }
+    };
     this.loader.show();
-    this.api.saveCandidateScreening(this.selectedCandidateId, completeData).subscribe({
+    this.api.saveCandidateScreening(this.selectedCandidateId, payload).subscribe({
       next: (res: any) => {
         this.toastr.success('Candidate screening saved successfully');
         this.loader.hide();
@@ -189,35 +196,35 @@ export class CandidateScreeningComponent implements OnInit {
   }
 
   getFormFields(): void {
-    // this.api.getFormByFormCode('CANDIDATE_SCREENING').subscribe({
-    //   next: (res: any) => {
-    //     console.log('Form Fields:', res);
+    this.api.getFormByFormCode('FINAL_DECISION').subscribe({
+      next: (res: any) => {
+        console.log('Form Fields:', res);
 
-    //     if (res?.data?.fields && Array.isArray(res.data.fields)) {
-    //       res.data.fields.forEach((field: any) => {
-    //         this.backendFieldsMap[field.fieldCode] = field.active;
-    //         if (field.fieldConfig) {
-    //           this.fieldConfigMap[field.fieldCode] = field.fieldConfig;
-    //         }
-    //         if (field.fieldCode === 'status') {
-    //           this.statuses = field.enumValues || this.statuses;
-    //         }
-    //         if (field.fieldCode === 'pay_frequency') {
-    //           this.payFrequencies = field.enumValues || this.payFrequencies;
-    //         }
-    //         if (field.fieldCode === 'pay_element') {
-    //           this.payElements = field.enumValues || this.payElements;
-    //         }
-    //         if (field.fieldCode === 'currency') {
-    //           this.currencies = field.enumValues || this.currencies;
-    //         }
-    //       });
-    //     }
-    //   },
-    //   error: (err: any) => {
-    //     console.error('Error fetching form fields:', err);
-    //   }
-    // });
+        if (res?.data?.fields && Array.isArray(res.data.fields)) {
+          res.data.fields.forEach((field: any) => {
+            this.backendFieldsMap[field.fieldCode] = field.active;
+            if (field.fieldConfig) {
+              this.fieldConfigMap[field.fieldCode] = field.fieldConfig;
+            }
+            if (field.fieldCode === 'status') {
+              this.statuses = field.enumValues || this.statuses;
+            }
+            if (field.fieldCode === 'pay_frequency') {
+              this.payFrequencies = field.enumValues || this.payFrequencies;
+            }
+            if (field.fieldCode === 'pay_element') {
+              this.payElements = field.enumValues || this.payElements;
+            }
+            if (field.fieldCode === 'currency') {
+              this.currencies = field.enumValues || this.currencies;
+            }
+          });
+        }
+      },
+      error: (err: any) => {
+        console.error('Error fetching form fields:', err);
+      }
+    });
   }
 
   isFieldActive(fieldCode: string): boolean {

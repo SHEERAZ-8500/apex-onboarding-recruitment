@@ -172,7 +172,7 @@ export class DynamicFieldsSharingService {
           this.loadRowColumnLookupOptionsWithFormType(column);
         } if (column.lookupSource) {
 
-        } if (column.lookupSource === 'LOOKUP_TABLE') {
+        } if (column.lookupSource === 'LOOKUP_TABLE' || column.fieldType === 'LOOKUP_TABLE') {
           this.loadRowColumnLookupOptions(column);
 
         }

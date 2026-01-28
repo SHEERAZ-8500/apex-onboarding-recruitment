@@ -36,6 +36,29 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="input-label">Select Interview <span class="required">*</span></label>
+                        <div class="custom-dropdown" (click)="toggleDropdown($event,'selectedInterview')">
+                            <div class="dropdown-selected">
+                                <span>
+                                    {{ selectedInterviewId || 'Select Interview' }}
+                                </span>
+
+                                <i class="fa-solid fa-chevron-down dropdown-arrow"
+                                    [class.rotate]="activeDropdown==='selectedInterview'"></i>
+                            </div>
+                            <div class="dropdown-options" *ngIf="activeDropdown==='selectedInterview'">
+                                <div class="dropdown-option" *ngFor="let interview of interviewListing"
+                                    (click)="selectOption('selectedInterview',interview,$event)">
+                                    {{ interview.code}}
+                                </div>
+                                <div class="dropdown-option text-muted"
+                                    *ngIf="!interviewListing || interviewListing.length === 0">
+                                    No interviews available
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>

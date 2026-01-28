@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { DynamicFieldsSharingService } from '../../../../shared/services/dynamic-fields-sharing.service';
 import { LoaderService } from '../../../../shared/services/loader.service';
-import { InterviewSchedulingDto, LookupDto } from '../../../../shared/dtos/Dto';
+import { HrCandidateShortListingDto, InterviewSchedulingDto, LookupDto } from '../../../../shared/dtos/Dto';
 import { ApiService } from '../../../../shared/services/apis/api.service';
 
 @Component({
@@ -34,7 +34,7 @@ export class InterviewSchedulingComponent implements OnInit {
   selectedInterviewerDisplay: string = '';
   selectedCandidate: string = ''
   // Dropdown Options
-  candidateOptions: any[] = [];
+  candidateOptions: HrCandidateShortListingDto[] = [];
 
   locationOptions: string[] = [];
 
@@ -236,7 +236,7 @@ export class InterviewSchedulingComponent implements OnInit {
     this.isInterviewerDropdownOpen = false;
     this.isStatusDropdownOpen = false;
     if (field === 'candidate') {
-      this.fetchLookupOptionsWhenLokupTypeForm('candidate')
+      this.shortListedCandidates()
 
     }
   }
@@ -271,7 +271,7 @@ export class InterviewSchedulingComponent implements OnInit {
   // Selection Handlers
   selectCandidate(candidate: any, event: Event): void {
     event.stopPropagation();
-    this.selectedCandidate = candidate.summary || candidate.name;
+    this.selectedCandidate = `${candidate.firstName} ${candidate.lastName}`;
     this.interview.candidate = candidate.publicId;
     this.isCandidateDropdownOpen = false;
   }
@@ -343,7 +343,7 @@ export class InterviewSchedulingComponent implements OnInit {
     if (this.interview.start_time && this.interview.start_time.length === 5) {
       this.interview.start_time = this.interview.start_time + ':00';
     }
-
+    this.interview.interview_status = 'SCHEDULED'
     const completeData = this.dynamicFieldsService.getCompleteFormData(this.interview);
 
     this.loader.show();
@@ -419,9 +419,9 @@ export class InterviewSchedulingComponent implements OnInit {
     this.api.getLokupTableByCode(fieldCode).subscribe({
       next: (res: any) => {
         let data: LookupDto[] = res?.data || [];
-        if (fieldCode === 'candidate') {
-          this.candidateOptions = data;
-        }
+        // if (fieldCode === 'candidate') {
+        //   this.candidateOptions = data;
+        // }
 
 
       },
@@ -456,6 +456,21 @@ export class InterviewSchedulingComponent implements OnInit {
         console.error('Error fetching Interviews data:', err);
         this.loader.hide();
 
+      }
+    });
+  }
+
+  shortListedCandidates() {
+    if (this.candidateOptions.length > 0) {
+      return
+    }
+    this.api.getAllCandidates('SHORTLISTED').subscribe({
+      next: (res: any) => {
+        this.loader.hide();
+        this.candidateOptions = res.data;
+      },
+      error: (err: any) => {
+        console.error('Error fetching shortlisted candidates data:', err);
       }
     });
   }
