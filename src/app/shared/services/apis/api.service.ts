@@ -103,6 +103,9 @@ export class ApiService {
   getAllLookupEnums() {
     return this.http.get(`admin/lookups/enums`);
   }
+  getLookupEnumByCode(code: any) {
+    return this.http.get(`admin/lookups/enums/${code}`);
+  }
   getLokupTableByCode(code: any) {
     return this.http.get(`admin/lookups/tables/${code}/values`);
   }

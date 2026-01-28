@@ -139,6 +139,10 @@
                                             (click)="selectSalaryRowOption(i,'payFrequency',freq,$event)">
                                             {{ freq }}
                                         </div>
+                                        <div *ngIf=" payFrequencies.length === 0" class="dropdown-option text-muted">
+                                            No frequencies available
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -155,6 +159,9 @@
                                         <div class="dropdown-option" *ngFor="let curr of currencies"
                                             (click)="selectSalaryRowOption(i,'currency',curr,$event)">
                                             {{ curr }}
+                                        </div>
+                                        <div *ngIf=" currencies.length === 0" class="dropdown-option text-muted">
+                                            No currencies available
                                         </div>
                                     </div>
                                 </div>

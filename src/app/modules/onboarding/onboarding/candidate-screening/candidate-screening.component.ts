@@ -39,8 +39,8 @@ export class CandidateScreeningComponent implements OnInit {
     'CONVERTED'
   ];
 
-  payFrequencies: string[] = ['MONTHLY', 'BI_MONTHLY', 'WEEKLY', 'YEARLY'];
-  currencies: string[] = ['PKR', 'USD', 'EUR', 'GBP'];
+  payFrequencies: string[] = [];
+  currencies: string[] = [];
   payElements: LookupDto[] = [];
 
   // Sidebar Tabs Data
@@ -101,6 +101,14 @@ export class CandidateScreeningComponent implements OnInit {
     }
     if (field === 'payElement_0') {
       this.fetchLookupOptions('pay_element');
+    }
+    if (field === 'currency_0') {
+
+      this.getEnumOptions('currency');
+    } else if (field == 'payFrequency_0') {
+
+      this.getEnumOptions('pay_frequency');
+
     }
     if (this.activeDropdown === field) {
       this.activeDropdown = '';
@@ -252,6 +260,28 @@ export class CandidateScreeningComponent implements OnInit {
       },
       error: (err: any) => {
         console.error(`Error fetching lookup options for ${fieldCode}:`, err);
+      }
+    });
+  }
+  getEnumOptions(fieldCode: string): void {
+    
+    if (this.currencies.length > 0 && fieldCode === 'currency') {
+      return
+    }
+    if (this.payFrequencies.length > 0 && fieldCode === 'pay_frequency') {
+      return
+    }
+    this.api.getLookupEnumByCode(fieldCode).subscribe({
+      next: (res: any) => {
+        let data: string[] = res?.data?.values || [];
+        if (fieldCode === 'currency') {
+          this.currencies = data;
+        } if (fieldCode === 'pay_frequency') {
+          this.payFrequencies = data;
+        }
+      },
+      error: (err: any) => {
+        console.error(`Error fetching enum options for ${fieldCode}:`, err);
       }
     });
   }
