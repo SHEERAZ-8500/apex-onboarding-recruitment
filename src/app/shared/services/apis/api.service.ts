@@ -229,4 +229,7 @@ export class ApiService {
   getSelectedCandidatesInterview(publicIds: string[]) {
     return this.http.get(`recruitment/candidates/${publicIds}/interviews?status=SCHEDULED&page=0&size=90`);
   }
+  getAlljobsRequisiton(page = 0, size = 10){
+    return this.http.get(`recruitment/job-requisitions?page=${page}&size=${size}`);
+  }
 }

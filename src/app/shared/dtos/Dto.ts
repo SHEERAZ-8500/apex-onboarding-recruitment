@@ -402,3 +402,31 @@ export class InterviewDto {
     Object.assign(this, init);
   }
 }
+
+
+
+export class JobRequisitionTableListingDto {
+  publicId!: string;
+  code!: string;
+
+  requisitionName!: string;
+
+  departmentPublicId!: string;
+  departmentName!: string;
+
+  designationPublicId!: string;
+  designationName!: string;
+
+  jobTitlePublicId!: string;
+  jobTitleName!: string;
+
+  requiredCount!: number;
+  requiredDate!: string; // ISO date string (YYYY-MM-DD)
+
+  createdDate!: string; // ISO datetime string
+  isActive!: boolean;
+
+  constructor(init?: Partial<JobRequisitionTableListingDto>) {
+    Object.assign(this, init);
+  }
+}

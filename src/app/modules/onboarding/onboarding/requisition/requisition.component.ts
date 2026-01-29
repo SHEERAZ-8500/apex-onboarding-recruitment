@@ -1,7 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DynamicFieldsSharingService } from '../../../../shared/services/dynamic-fields-sharing.service';
-import { LookupDto, RequisitionDto } from '../../../../shared/dtos/Dto';
+import { JobRequisitionTableListingDto, LookupDto, RequisitionDto } from '../../../../shared/dtos/Dto';
 import { ToastrService } from 'ngx-toastr';
 import { LoaderService } from '../../../../shared/services/loader.service';
 import { ApiService } from '../../../../shared/services/apis/api.service';
@@ -18,8 +18,11 @@ export class RequisitionComponent implements OnInit {
 
   // Form fields as DTO
   requisition: RequisitionDto = new RequisitionDto();
+  currentPage = 0; // Backend uses 0-based indexing
+  itemsPerPage = 5;
+  totalItems = 0;
+  totalPages = 0;
 
-  
   // Dropdown state
   activeDropdown: string = '';
 
@@ -32,6 +35,7 @@ export class RequisitionComponent implements OnInit {
   fieldConfigMap: Record<string, any> = {};
   lookupFields = ['job_title', 'designation', 'department']
   loadedLookups: Record<string, boolean> = {};
+  jobRequisitionsArray: JobRequisitionTableListingDto[] = [];
   // Sidebar Tabs Data
   sidebarTabs: any[] = [];
   activeTabId: number = 1;
@@ -53,7 +57,6 @@ export class RequisitionComponent implements OnInit {
     // this.loader.show();
 
 
-    this.updatePagination();
 
     this.activatedRoute.data.subscribe(data => {
       this.title = data['title'];
@@ -110,19 +113,9 @@ export class RequisitionComponent implements OnInit {
 
 
   }
-  // ✅ Pagination
-  currentPage = 1;
-  itemsPerPage = 8;
-  paginatedRequisitionsList: any[] = [];
 
 
-  get currentPageStart() {
-    return (this.currentPage - 1) * this.itemsPerPage;
-  }
 
-  get totalPages() {
-    return Math.ceil(this.itemsPerPage);
-  }
 
   get totalPagesArray() {
     return Array.from({ length: this.totalPages }, (_, i) => i + 1);
@@ -130,27 +123,20 @@ export class RequisitionComponent implements OnInit {
 
 
   changePage(page: number) {
-    if (page < 1 || page > this.totalPages) return;
-    this.currentPage = page;
-    this.updatePagination();
+   const apiPage = page - 1;
+    if (apiPage < 0 || apiPage >= this.totalPages) return;
+    this.currentPage = apiPage;
+    this.getRequisitionData();
 
   }
 
 
 
-  updatePagination() {
-    const start = (this.currentPage - 1) * this.itemsPerPage;
-    const end = start + this.itemsPerPage;
-    // const filtered = this.filteredRequisitions();
-    // this.paginatedRequisitionsList = filtered.slice(start, end);
-  }
+ 
 
 
 
-  onItemsPerChange(event: any) {
-    this.currentPage = 1;
-    this.updatePagination();
-  }
+
 
 
   // filteredRequisitions() {
@@ -368,15 +354,22 @@ export class RequisitionComponent implements OnInit {
   }
 
   getRequisitionData() {
-    this.api.getLokupTableByCodeWithFormType('JOB_REQUISITION').subscribe({
+    this.loader.show();
+    this.api.getAlljobsRequisiton(this.currentPage, this.itemsPerPage).subscribe({
       next: (res: any) => {
-                this.loader.hide();
+        this.loader.hide();
 
-
+        this.jobRequisitionsArray = res.data || [];
+        if (res.paginator) {
+          this.currentPage = res.paginator.currentPage;
+          this.totalItems = res.paginator.totalItems;
+          this.totalPages = res.paginator.totalPages;
+          // console.log('Pagination:', res.paginator);
+        }
       },
       error: (err: any) => {
         console.error('Error fetching requisition data:', err);
-                this.loader.hide();
+        this.loader.hide();
 
       }
     });

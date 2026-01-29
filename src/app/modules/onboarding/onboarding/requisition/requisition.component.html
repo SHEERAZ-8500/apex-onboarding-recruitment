@@ -414,8 +414,8 @@
               <th class="px-3 py-2">Department</th>
               <th class="px-3 py-2">Job Title</th>
               <th class="px-3 py-2">Designation</th>
-              <th class="px-3 py-2">Hiring Manager</th>
-              <th class="px-3 py-2">Actions</th>
+              <!-- <th class="px-3 py-2">Hiring Manager</th> -->
+              <!-- <th class="px-3 py-2">Actions</th> -->
 
 
 
@@ -425,18 +425,18 @@
           </thead>
 
           <tbody>
-            <tr *ngFor="let c of paginatedRequisitionsList; let i = index"
+            <tr *ngFor="let c of jobRequisitionsArray; let i = index"
               class="bg-[#1e293b] hover:bg-[#27354a] rounded-lg">
-              <td class="px-3 py-3 font-medium">{{ c.displayName }}</td>
-              <td class="px-3 py-3 font-medium">{{ c.displayName }}</td>
-              <td class="px-3 py-3 font-medium">{{ c.displayName }}</td>
-              <td class="px-3 py-3 font-medium">{{ c.displayName }}</td>
-              <td class="px-3 py-3 font-medium">{{ c.displayName }}</td>
-              <td class="px-3 py-3 font-medium">{{ c.displayName }}</td>
-              <td class="px-3 py-3 font-medium">
+              <td class="px-3 py-3 font-medium">{{ c.requisitionName }}</td>
+              <td class="px-3 py-3 font-medium">{{ c.departmentName }}</td>
+              <td class="px-3 py-3 font-medium">{{ c.jobTitleName }}</td>
+              <td class="px-3 py-3 font-medium">{{ c.designationName }}</td>
+              <!-- <td class="px-3 py-3 font-medium">{{ c.hiringManager }}</td>
+              <td class="px-3 py-3 font-medium">{{ c.actions }}</td> -->
+              <!-- <td class="px-3 py-3 font-medium">
                 <i class="fa fa-edit" style="cursor:pointer; margin-right: 10px;"></i>
                 <i class="fa fa-trash" style="cursor:pointer; color: red;"></i>
-              </td>
+              </td> -->
 
 
 
@@ -450,9 +450,9 @@
 
       </div>
 
-      <!-- <app-pagination [currentPage]="currentPage" [totalPages]="totalPages" [totalPagesArray]="totalPagesArray"
+      <app-pagination [currentPage]="currentPage + 1" [totalPages]="totalPages" [totalPagesArray]="totalPagesArray"
         (pageChange)="changePage($event)">
-      </app-pagination> -->
+      </app-pagination>
     </section>
   </section>
 </div>

@@ -29,7 +29,7 @@ export class HrCandidateShortListingComponent {
     private toaster: ToastrService,
     private modalService: NgbModal
   ) {
-    this.allCandidates();
+    // this.allCandidates();
   }
 
   openModal(content: any) {
