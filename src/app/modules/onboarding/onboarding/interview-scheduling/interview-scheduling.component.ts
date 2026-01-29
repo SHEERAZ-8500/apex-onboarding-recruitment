@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { DynamicFieldsSharingService } from '../../../../shared/services/dynamic-fields-sharing.service';
 import { LoaderService } from '../../../../shared/services/loader.service';
-import { HrCandidateShortListingDto, InterviewSchedulingDto, LookupDto } from '../../../../shared/dtos/Dto';
+import { HrCandidateShortListingDto, InterviewSchedulingDto, LookupDto,InterviewsTableListingDto } from '../../../../shared/dtos/Dto';
 import { ApiService } from '../../../../shared/services/apis/api.service';
 
 @Component({
@@ -18,6 +18,11 @@ export class InterviewSchedulingComponent implements OnInit {
   // Form Fields as DTO
   interview: InterviewSchedulingDto = new InterviewSchedulingDto();
 
+
+ currentPage = 0; // Backend uses 0-based indexing
+  itemsPerPage = 5;
+  totalItems = 0;
+  totalPages = 0;
 
 
   // Dropdown States
@@ -37,6 +42,8 @@ export class InterviewSchedulingComponent implements OnInit {
   candidateOptions: HrCandidateShortListingDto[] = [];
 
   locationOptions: string[] = [];
+
+  interviewTableListArray: InterviewsTableListingDto[] = [];
 
   interviewerOptions: any[] = [
     { id: 'CURRENT_USER', name: 'Current User', department: 'Admin' },
@@ -66,7 +73,6 @@ export class InterviewSchedulingComponent implements OnInit {
     this.loader.show();
 
 
-    this.updatePagination();
 
     this.activatedRoute.data.subscribe(data => {
       this.title = data['title'];
@@ -122,18 +128,6 @@ export class InterviewSchedulingComponent implements OnInit {
 
 
   // ✅ Pagination
-  currentPage = 1;
-  itemsPerPage = 8;
-  paginatedInterviewsList: any[] = [];
-
-
-  get currentPageStart() {
-    return (this.currentPage - 1) * this.itemsPerPage;
-  }
-
-  get totalPages() {
-    return Math.ceil(this.itemsPerPage);
-  }
 
   get totalPagesArray() {
     return Array.from({ length: this.totalPages }, (_, i) => i + 1);
@@ -141,26 +135,11 @@ export class InterviewSchedulingComponent implements OnInit {
 
 
   changePage(page: number) {
-    if (page < 1 || page > this.totalPages) return;
-    this.currentPage = page;
-    this.updatePagination();
+   const apiPage = page - 1;
+    if (apiPage < 0 || apiPage >= this.totalPages) return;
+    this.currentPage = apiPage;
+    this.getInterviewsData();
 
-  }
-
-
-
-  updatePagination() {
-    const start = (this.currentPage - 1) * this.itemsPerPage;
-    const end = start + this.itemsPerPage;
-    // const filtered = this.filteredRequisitions();
-    // this.paginatedRequisitionsList = filtered.slice(start, end);
-  }
-
-
-
-  onItemsPerChange(event: any) {
-    this.currentPage = 1;
-    this.updatePagination();
   }
 
 
@@ -447,14 +426,25 @@ export class InterviewSchedulingComponent implements OnInit {
   }
 
   getInterviewsData() {
-    this.api.getLokupTableByCodeWithFormType('INTERVIEW').subscribe({
+    this.loader.show();
+    this.api.getAllInterviewTables(this.currentPage, this.itemsPerPage).subscribe({
       next: (res: any) => {
         this.loader.hide();
+        this.interviewTableListArray = res.data || [];
+        if (res.paginator) {
+          this.currentPage = res.paginator.currentPage;
+          this.totalItems = res.paginator.totalItems;
+          this.totalPages = res.paginator.totalPages;
+          // console.log('Pagination:', res.paginator);
+        }
+
+
 
       },
       error: (err: any) => {
         console.error('Error fetching Interviews data:', err);
         this.loader.hide();
+        
 
       }
     });

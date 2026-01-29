@@ -736,6 +736,11 @@ table tbody tr td {
   border-radius: 8px;
   background-color: var(--second-primary-color);
 }
+table thead th,
+table tbody td {
+  text-align: center;
+  vertical-align: middle;
+}
 
 .checkbox-style {
   appearance: none;

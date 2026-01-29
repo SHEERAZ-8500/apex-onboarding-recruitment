@@ -232,4 +232,10 @@ export class ApiService {
   getAlljobsRequisiton(page = 0, size = 10){
     return this.http.get(`recruitment/job-requisitions?page=${page}&size=${size}`);
   }
+  getAllCandidatesTables(page = 0, size = 20) {
+    return this.http.get(`recruitment/candidates/records?page=${page}&size=${size}`);
+  }
+  getAllInterviewTables(page = 0, size = 20) {
+    return this.http.get(`recruitment/interviews/records?page=${page}&size=${size}`);
+}
 }

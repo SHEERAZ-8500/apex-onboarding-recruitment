@@ -402,12 +402,13 @@
           <thead>
             <tr class="text-gray-400 text-left text-xs uppercase tracking-wider">
 
-              <th class="px-3 py-2">Requisitioname</th>
+              <th class="px-3 py-2">Candidate Name</th>
+              <th class="px-3 py-2">Interview Date</th>
+              <th class="px-3 py-2">Time</th>
+              <th class="px-3 py-2">Location</th>
               <th class="px-3 py-2">Department</th>
-              <th class="px-3 py-2">Job Title</th>
-              <th class="px-3 py-2">Designation</th>
-              <th class="px-3 py-2">Hiring Manager</th>
-              <th class="px-3 py-2">Actions</th>
+                <th class="px-3 py-2">Job Title</th>
+              <!-- <th class="px-3 py-2">Actions</th> -->
 
 
 
@@ -417,18 +418,18 @@
           </thead>
 
           <tbody>
-            <tr *ngFor="let c of paginatedInterviewsList; let i = index"
+            <tr *ngFor="let c of interviewTableListArray; let i = index"
               class="bg-[#1e293b] hover:bg-[#27354a] rounded-lg">
-              <td class="px-3 py-3 font-medium">{{ c.displayName }}</td>
-              <td class="px-3 py-3 font-medium">{{ c.displayName }}</td>
-              <td class="px-3 py-3 font-medium">{{ c.displayName }}</td>
-              <td class="px-3 py-3 font-medium">{{ c.displayName }}</td>
-              <td class="px-3 py-3 font-medium">{{ c.displayName }}</td>
-              <td class="px-3 py-3 font-medium">{{ c.displayName }}</td>
-              <td class="px-3 py-3 font-medium">
+              <td class="px-3 py-3 font-medium">{{ c.candidateFirstName }} {{ c.candidateLastName }}</td>
+              <td class="px-3 py-3 font-medium">{{ c.interviewDate|| '—' }}</td>
+              <td class="px-3 py-3 font-medium">{{ c.startTime || '—'}}</td>
+              <td class="px-3 py-3 font-medium">{{ c.interviewLocation || '—'}}</td>
+              <td class="px-3 py-3 font-medium">{{ c.departmentName || '—'}}</td>
+              <td class="px-3 py-3 font-medium">{{ c.jobTitleName || '—' }}</td>
+              <!-- <td class="px-3 py-3 font-medium">
                 <i class="fa fa-edit" style="cursor:pointer; margin-right: 10px;"></i>
                 <i class="fa fa-trash" style="cursor:pointer; color: red;"></i>
-              </td>
+              </td> -->
 
 
 
@@ -442,9 +443,9 @@
 
       </div>
 
-      <!-- <app-pagination [currentPage]="currentPage" [totalPages]="totalPages" [totalPagesArray]="totalPagesArray"
+      <app-pagination [currentPage]="currentPage+1" [totalPages]="totalPages" [totalPagesArray]="totalPagesArray"
         (pageChange)="changePage($event)">
-      </app-pagination> -->
+      </app-pagination>
     </section>
   </section>
 </div>

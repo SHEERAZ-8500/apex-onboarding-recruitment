@@ -427,10 +427,10 @@
           <tbody>
             <tr *ngFor="let c of jobRequisitionsArray; let i = index"
               class="bg-[#1e293b] hover:bg-[#27354a] rounded-lg">
-              <td class="px-3 py-3 font-medium">{{ c.requisitionName }}</td>
-              <td class="px-3 py-3 font-medium">{{ c.departmentName }}</td>
-              <td class="px-3 py-3 font-medium">{{ c.jobTitleName }}</td>
-              <td class="px-3 py-3 font-medium">{{ c.designationName }}</td>
+              <td class="px-3 py-3 font-medium">{{ c.requisitionName || '—'}}</td>
+              <td class="px-3 py-3 font-medium">{{ c.departmentName|| '—' }}</td>
+              <td class="px-3 py-3 font-medium">{{ c.jobTitleName|| '—' }}</td>
+              <td class="px-3 py-3 font-medium">{{ c.designationName|| '—' }}</td>
               <!-- <td class="px-3 py-3 font-medium">{{ c.hiringManager }}</td>
               <td class="px-3 py-3 font-medium">{{ c.actions }}</td> -->
               <!-- <td class="px-3 py-3 font-medium">

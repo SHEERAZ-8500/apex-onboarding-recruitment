@@ -68,7 +68,13 @@ td {
 table thead tr th {
   color: var(--gray-color-1);
   border-bottom: 1px solid #d8d3d3b1;
+  
 
+}
+table thead th,
+table tbody td {
+  text-align: center;
+  vertical-align: middle;
 }
 
 table tbody tr td {

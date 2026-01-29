@@ -430,3 +430,75 @@ export class JobRequisitionTableListingDto {
     Object.assign(this, init);
   }
 }
+
+
+export class CandidateTableListingDto {
+   publicId!: string;
+  code!: string;
+
+  firstName!: string;
+  lastName!: string;
+  email!: string;
+
+  status!: string;
+  onboardingStatus!: string;
+  isActive!: boolean;
+
+  applicationDate!: string;
+  expectedDoj!: string;
+
+  requisitionPublicId!: string;
+  requisitionCode!: string;
+  requisitionName!: string;
+
+  departmentPublicId!: string;
+  departmentName!: string;
+
+  jobTitlePublicId!: string;
+  jobTitleName!: string;
+
+  designationPublicId!: string;
+  designationName!: string;
+
+  createdDate!: string;
+  constructor(init?: Partial<CandidateTableListingDto>) {
+    Object.assign(this, init);
+  }
+}
+
+
+export class InterviewsTableListingDto {
+  publicId!: string;
+  code!: string;
+
+  candidatePublicId!: string;
+  candidateCode!: string;
+  candidateFirstName!: string;
+  candidateLastName!: string;
+  candidateEmail!: string;
+
+  interviewStatus!: string;
+  interviewLocation!: string;
+  interviewDate!: string;
+  startTime!: string;
+
+  interviewerUserPublicId!: string;
+
+  requisitionPublicId!: string;
+  requisitionCode!: string;
+  requisitionName!: string;
+
+  departmentPublicId!: string;
+  departmentName!: string;
+
+  jobTitlePublicId!: string;
+  jobTitleName!: string;
+
+  designationPublicId!: string;
+  designationName!: string;
+
+  isActive!: boolean;
+  constructor(init?: Partial<InterviewsTableListingDto>) {
+    Object.assign(this, init);
+  }
+}

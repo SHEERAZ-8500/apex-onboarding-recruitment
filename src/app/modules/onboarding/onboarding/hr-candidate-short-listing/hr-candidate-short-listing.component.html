@@ -18,8 +18,7 @@
                 <thead>
                     <tr class="text-gray-400 text-left text-xs uppercase tracking-wider">
 
-                        <th class="px-3 py-2">First Name</th>
-                        <th class="px-3 py-2">Last Name</th>
+                        <th class="px-3 py-2">Candidate Name</th>
                         <th class="px-3 py-2">Email</th>
 
                         <th class="px-3 py-2">Status</th>
@@ -35,8 +34,7 @@
                 <tbody>
                     <tr *ngFor="let c of paginatedFormList; let i = index"
                         class="bg-[#1e293b] hover:bg-[#27354a] rounded-lg">
-                        <td class="px-3 py-3 font-medium">{{ c.firstName }}</td>
-                        <td class="px-3 py-3 font-medium">{{ c.lastName }}</td>
+                        <td class="px-3 py-3 font-medium">{{ c.firstName }} {{ c.lastName }}</td>
                         <td class="px-3 py-3 font-medium">{{ c.email }}</td>
 
 

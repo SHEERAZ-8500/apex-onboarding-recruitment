@@ -341,6 +341,11 @@
     }
 }
 
+table thead th,
+table tbody td {
+  text-align: center;
+  vertical-align: middle;
+}
 
 
 /* Date and Time Input Styling */
