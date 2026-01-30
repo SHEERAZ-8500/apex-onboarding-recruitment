@@ -66,13 +66,13 @@ export class ApiService {
   }
 
   // create new form
-    createNewForm(data: any) {
-      return this.http.post('admin/forms', data);
-    }
+  createNewForm(data: any) {
+    return this.http.post('admin/forms', data);
+  }
 
-    activateForm(formCode: string, status: boolean  ) {
-  return this.http.patch(`admin/forms/${formCode}/activation?active=${status}`, {});
-}
+  activateForm(formCode: string, status: boolean) {
+    return this.http.patch(`admin/forms/${formCode}/activation?active=${status}`, {});
+  }
 
 
   // roles
@@ -123,11 +123,11 @@ export class ApiService {
     return this.http.patch(`admin/lookups/tables/${lookupName}/columns`, data)
   }
 
-// enmus
-  addNewEnum(enumComponentCode:string,data: any) {
+  // enmus
+  addNewEnum(enumComponentCode: string, data: any) {
     return this.http.patch(`admin/lookups/enums/${enumComponentCode}/values`, data);
   }
-    createLookUpTable(data: any) {
+  createLookUpTable(data: any) {
     return this.http.post('admin/lookups/tables', data);
   }
   createRowInLookUpTable(componentCode: any, data: any) {
@@ -220,16 +220,16 @@ export class ApiService {
   saveCandidateScreening(candidatePublicId: string, data: any) {
     return this.http.post(`recruitment/candidates/${candidatePublicId}/decision`, data);
   }
-  canididateShortlist( data: any) {
+  canididateShortlist(data: any) {
     return this.http.post(`recruitment/candidates/shortlist`, data);
   }
-    interviewFeedback(interviewPublicId: string, data: any) {
+  interviewFeedback(interviewPublicId: string, data: any) {
     return this.http.post(`recruitment/interviews/${interviewPublicId}/feedback`, data);
   }
   getSelectedCandidatesInterview(publicIds: string[]) {
     return this.http.get(`recruitment/candidates/${publicIds}/interviews?status=SCHEDULED&page=0&size=90`);
   }
-  getAlljobsRequisiton(page = 0, size = 10){
+  getAlljobsRequisiton(page = 0, size = 10) {
     return this.http.get(`recruitment/job-requisitions?page=${page}&size=${size}`);
   }
   getAllCandidatesTables(page = 0, size = 20) {
@@ -237,5 +237,17 @@ export class ApiService {
   }
   getAllInterviewTables(page = 0, size = 20) {
     return this.http.get(`recruitment/interviews/records?page=${page}&size=${size}`);
-}
+  }
+  getAllLookupValuesInTable(lookupName: string, page = 0, size = 50) {
+    return this.http.get(`admin/lookups/tables/${lookupName}/values?page=${page}&size=${size}`);
+  }
+  getAllEnumValuesInTable(enumComponentCode: string, page = 0, size = 50) {
+    return this.http.get(`admin/lookups/enums/${enumComponentCode}?page=${page}&size=${size}`);
+  }
+  getAllTabsValuesInTable(rowComponentCode: string, page = 0, size = 50) {
+    return this.http.get(
+      `admin/row-tables/${rowComponentCode}?filter=ACTIVE&page=${page}&size=${size}`
+    );
+  }
+
 }

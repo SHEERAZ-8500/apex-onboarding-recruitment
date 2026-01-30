@@ -36,7 +36,10 @@
                                 <ul class="dropdown-menu" ngbDropdownMenu>
                                     <li><a class="dropdown-item"
                                             [routerLink]="['/panel/requisition-lookups/add-new-enum-value']"
-                                            [queryParams]="{enum: c.enumComponentCode}">Add New Enum</a></li>
+                                            [queryParams]="{enum: c.enumComponentCode}">Add New Value</a></li>
+                                              <li><a class="dropdown-item"
+                                            [routerLink]="['/panel/table/view-all-enums-values-in-table']"
+                                            [queryParams]="{enum: c.enumComponentCode}">View All Values</a></li>
 
                                     <!-- <li><a class="dropdown-item" href="#">Something else here</a></li> -->
                                 </ul>

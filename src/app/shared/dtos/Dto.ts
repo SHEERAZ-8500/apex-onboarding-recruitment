@@ -502,3 +502,48 @@ export class InterviewsTableListingDto {
     Object.assign(this, init);
   }
 }
+
+
+export class ViewLookupValuesInTableDto {
+
+  publicId!: string;
+  code!: string;
+  name!: string;
+  description!: string;
+
+  constructor(init?: Partial<ViewLookupValuesInTableDto>) {
+    Object.assign(this, init);
+  }
+}
+
+export class ViewEnumValuesInTableDto {
+  enumComponentCode!: string;
+  displayName!: string;
+  description!: string;
+  systemDefined!: boolean;
+  active!: boolean;
+  enumClass!: string;
+  values!: string[];
+  valueCount!: number;
+  createdDate!: string;
+  constructor(init?: Partial<ViewEnumValuesInTableDto>) {
+    Object.assign(this, init);
+  }
+}
+
+export class ViewTTabsValuesInTableDto {
+  fieldCode!: string;
+  label!: string;
+  fieldType!: string;
+  required!: boolean;
+  active!: boolean;
+  displayOrder!: number;
+  maxLength?: number;
+  precision?: number;
+  scale?: number;
+
+  constructor(init?: Partial<ViewTTabsValuesInTableDto>) {
+    Object.assign(this, init);
+  }
+}
+

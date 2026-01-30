@@ -5,9 +5,11 @@
             <span style="font-weight: 700; color: #566f9e;">-</span>
             <span>View All Candidates List</span>
         </div>
-        <!-- <div>
-            <button routerLink="/panel/forms/create-new-form" class="creat-btn">Create Form</button>
-        </div> -->
+        <div>
+            <button (click)="openModal(content)"  class="creat-btn">
+                Select All
+            </button>
+        </div>
     </div>
 
 
@@ -22,11 +24,16 @@
                         <th class="px-3 py-2">Email</th>
 
                         <th class="px-3 py-2">Status</th>
+                        <th class="px-3 py-2">Actions</th>
 
-                        <th class="px-3 py-2 d-flex align-items-center justify-content-start">Actions
-                            <input type="checkbox" name="" id="" class="select-all" [(ngModel)]="selectAll"
-                                (change)="openModal(content)">
+                        <th class="px-3 py-2">
+                            <div class="approval-header">
+                                Approved
+
+                            </div>
                         </th>
+
+
 
                     </tr>
                 </thead>
@@ -38,18 +45,33 @@
                         <td class="px-3 py-3 font-medium">{{ c.email }}</td>
 
 
+
                         <td class="px-3 py-3">
                             {{ c.status }}
                         </td>
-                        <td class="px-3 py-3 text-gray-400">
-                            <input type="checkbox" class="select-all" [(ngModel)]="c.selected"
-                                (change)="shortlistCandidateBySingle(c.publicId)">
+                        <td class="px-3 py-3 font-medium">
+                            <i class="fa fa-edit" style="cursor:pointer; margin-right: 10px;"></i>
+                            <i class="fa fa-trash" style="cursor:pointer; "></i>
+                        </td>
+                        <td class="px-3 py-3">
+                            <div class="approval-toggle">
+                                <label class="switch">
+                                    <input type="checkbox" [(ngModel)]="c.selected"
+                                        (change)="shortlistCandidateBySingle(c.publicId)">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
                         </td>
 
                     </tr>
                     <tr *ngIf="candidateList.length === 0">
                         <td colspan="5" class="text-center py-4 text-gray-500">No candidates found.</td>
+
                     </tr>
+
+
+
+
                 </tbody>
             </table>
 

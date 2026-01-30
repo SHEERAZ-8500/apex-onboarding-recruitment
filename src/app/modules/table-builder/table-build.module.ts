@@ -12,6 +12,9 @@ import { ViewAllLookupEnumsComponent } from './view-all-lookup-enums/view-all-lo
 import { ViewAllIndependentTableComponent } from './view-all-independent-table/view-all-independent-table.component';
 import { CreateNewIndependentTableComponent } from './create-new-independent-table/create-new-independent-table.component';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { ViewAllLookupValuesInTableComponent } from './view-all-lookup-values-in-table/view-all-lookup-values-in-table.component';
+import { ViewAllEnumsValuesInTableComponent } from './view-all-enums-values-in-table/view-all-enums-values-in-table.component';
+import { ViewAllTabsValuesInTableComponent } from './view-all-tabs-values-in-table/view-all-tabs-values-in-table.component';
 
 
 const routes: Routes = [
@@ -60,6 +63,18 @@ const routes: Routes = [
     path: 'create-new-independent-table',
     component: CreateNewIndependentTableComponent
   },
+   {
+    path: 'view-all-lookup-values-in-table',
+    component: ViewAllLookupValuesInTableComponent
+  },
+   {
+    path: 'view-all-enums-values-in-table',
+    component: ViewAllEnumsValuesInTableComponent
+  },
+    {
+    path: 'view-all-tabs-values-in-table',
+    component: ViewAllTabsValuesInTableComponent
+  },
 
 
 ];
@@ -73,7 +88,10 @@ const routes: Routes = [
     ViewAllLookupTablesComponent,
     ViewAllLookupEnumsComponent,
     ViewAllIndependentTableComponent,
-     CreateNewIndependentTableComponent
+     CreateNewIndependentTableComponent,
+     ViewAllLookupValuesInTableComponent,
+     ViewAllEnumsValuesInTableComponent,
+     ViewAllTabsValuesInTableComponent
   ],
   imports: [
     RouterModule.forChild(routes),
