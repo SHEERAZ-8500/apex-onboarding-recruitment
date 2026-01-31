@@ -6,7 +6,7 @@
             <span>View All Candidates List</span>
         </div>
         <div>
-            <button (click)="openModal(content)"  class="creat-btn">
+            <button (click)="openModal(content)"  class="creat-btn" [disabled]="candidateList.length === 0 " [ngClass]="{'disabled-button': candidateList.length === 0 }">
                 Select All
             </button>
         </div>
