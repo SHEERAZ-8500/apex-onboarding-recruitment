@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { LoaderService } from '../../../shared/services/loader.service';
 import { ApiService } from '../../../shared/services/apis/api.service';
-import { ViewLookupValuesInTableDto} from '../../../shared/dtos/Dto';
+import { ViewLookupValuesInTableDto } from '../../../shared/dtos/Dto';
 
 
 @Component({
@@ -15,53 +15,53 @@ export class ViewAllLookupValuesInTableComponent {
 
 
 
-   constructor(
-      private router: Router,
-      private toastr: ToastrService,
-      private loader: LoaderService,
-      private api: ApiService,
-      private activatedRoute: ActivatedRoute
-    ) { }
+  constructor(
+    private router: Router,
+    private toastr: ToastrService,
+    private loader: LoaderService,
+    private api: ApiService,
+    private activatedRoute: ActivatedRoute
+  ) { }
 
-lookupName!: string;
-     currentPage = 0; // Backend uses 0-based indexing
+  lookupName!: string;
+  currentPage = 0; // Backend uses 0-based indexing
   itemsPerPage = 5;
   totalItems = 0;
   totalPages = 0;
-    paginatedLookupValues: ViewLookupValuesInTableDto[] = [];
+  paginatedLookupValues: ViewLookupValuesInTableDto[] = [];
 
 
 
 
-    ngOnInit() {
-  this.activatedRoute.queryParams.subscribe(params => {
-    this.lookupName = params['lookupName'];
+  ngOnInit() {
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.lookupName = params['lookupName'];
 
-    if (this.lookupName) {
-      this.getLookupData();
-    }
-  });
-}
+      if (this.lookupName) {
+        this.getLookupData();
+      }
+    });
+  }
 
 
 
-      get totalPagesArray() {
+  get totalPagesArray() {
     return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
 
 
- changePage(page: number) {
-  const apiPage = page - 1;
-  if (apiPage < 0 || apiPage >= this.totalPages) return;
+  changePage(page: number) {
+    const apiPage = page - 1;
+    if (apiPage < 0 || apiPage >= this.totalPages) return;
 
-  this.currentPage = apiPage;
-  this.getLookupData();
-}
+    this.currentPage = apiPage;
+    this.getLookupData();
+  }
 
 
   getLookupData() {
     this.loader.show();
-    this.api.getAllLookupValuesInTable(this.lookupName,this.currentPage, this.itemsPerPage).subscribe({
+    this.api.getAllLookupValuesInTable(this.lookupName, this.currentPage, this.itemsPerPage).subscribe({
       next: (res: any) => {
         this.loader.hide();
 

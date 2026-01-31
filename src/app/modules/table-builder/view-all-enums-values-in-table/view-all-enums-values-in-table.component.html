@@ -48,7 +48,7 @@
         </div>
 
         <!-- ✅ Pagination -->
-        <app-pagination [currentPage]="currentPage" [totalPages]="totalPages" [totalPagesArray]="totalPagesArray"
+        <app-pagination [currentPage]="currentPage + 1" [totalPages]="totalPages" [totalPagesArray]="totalPagesArray"
             (pageChange)="changePage($event)">
         </app-pagination>
     </section>
