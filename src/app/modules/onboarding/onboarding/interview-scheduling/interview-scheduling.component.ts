@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { DynamicFieldsSharingService } from '../../../../shared/services/dynamic-fields-sharing.service';
 import { LoaderService } from '../../../../shared/services/loader.service';
-import { HrCandidateShortListingDto, InterviewSchedulingDto, LookupDto,InterviewsTableListingDto } from '../../../../shared/dtos/Dto';
+import { HrCandidateShortListingDto, InterviewSchedulingDto, LookupDto, InterviewsTableListingDto } from '../../../../shared/dtos/Dto';
 import { ApiService } from '../../../../shared/services/apis/api.service';
 
 @Component({
@@ -19,11 +19,11 @@ export class InterviewSchedulingComponent implements OnInit {
   interview: InterviewSchedulingDto = new InterviewSchedulingDto();
 
 
- currentPage = 0; // Backend uses 0-based indexing
+  currentPage = 0; // Backend uses 0-based indexing
   itemsPerPage = 5;
   totalItems = 0;
   totalPages = 0;
-
+  editInterviewPublicId: string = '';
 
   // Dropdown States
   isCandidateDropdownOpen: boolean = false;
@@ -70,7 +70,7 @@ export class InterviewSchedulingComponent implements OnInit {
   ngOnInit(): void {
 
     // Load dynamic fields and tabs
-    this.loader.show();
+    // this.loader.show();
 
 
 
@@ -84,6 +84,7 @@ export class InterviewSchedulingComponent implements OnInit {
         //  this.fetchSkills()
       }
       if (this.title === 'edit') {
+        this.loader.show();
         this.formTitle = "Edit Skill"
         this.dynamicFieldsService.loadDynamicFields('INTERVIEW', 'USER_DEFINED', [])
           .then(() => {
@@ -97,9 +98,20 @@ export class InterviewSchedulingComponent implements OnInit {
             this.toastr.error('Failed to load dynamic fields');
             this.loader.hide();
           });
+        this.activatedRoute.queryParams.subscribe(params => {
+          const id = params['id'];
+          const currentPage = params['currentPage'];
+          this.currentPage = currentPage;
+          this.editInterviewPublicId = id;
 
+          this.getInterviewsData();
+
+
+          // console.log(id);
+        })
 
         this.getFormFileds();
+
 
       }
       if (this.title === 'create') {
@@ -135,7 +147,7 @@ export class InterviewSchedulingComponent implements OnInit {
 
 
   changePage(page: number) {
-   const apiPage = page - 1;
+    const apiPage = page - 1;
     if (apiPage < 0 || apiPage >= this.totalPages) return;
     this.currentPage = apiPage;
     this.getInterviewsData();
@@ -325,21 +337,37 @@ export class InterviewSchedulingComponent implements OnInit {
     this.interview.interview_status = 'SCHEDULED'
     const completeData = this.dynamicFieldsService.getCompleteFormData(this.interview);
 
-    this.loader.show();
-    // API call to save data
-    this.api.saveFormData('INTERVIEW', completeData).subscribe({
-      next: (res: any) => {
-        this.toastr.success('Interview scheduled successfully');
-        this.loader.hide();
-        this.resetForm();
-        this.router.navigate(['/panel/onboarding/view-all-interview-scheduling']);
-      },
-      error: (err: any) => {
-        console.error('Error saving interview:', err);
-        this.toastr.error('Failed to schedule interview');
-        this.loader.hide();
-      }
-    });
+    if (this.title === 'create') {
+      this.loader.show();
+      // API call to save data
+      this.api.saveFormData('INTERVIEW', completeData).subscribe({
+        next: (res: any) => {
+          this.toastr.success('Interview scheduled successfully');
+          this.loader.hide();
+          this.resetForm();
+          this.router.navigate(['/panel/onboarding/view-all-interview-scheduling']);
+        },
+        error: (err: any) => {
+          console.error('Error saving interview:', err);
+          this.toastr.error('Failed to schedule interview');
+          this.loader.hide();
+        }
+      });
+    }else{
+       this.api.updateFormData('INTERVIEW', this.interviewTableListArray[0].code, completeData).subscribe({
+        next: (res: any) => {
+          this.toastr.success('Interview updated successfully');
+          this.loader.hide();
+          this.resetForm();
+          this.router.navigate(['/panel/onboarding/view-all-interview-scheduling']);
+        },
+        error: (err: any) => {
+          console.error('Error updating interview:', err);
+          this.toastr.error('Failed to update interview');
+          this.loader.hide();
+        }
+      });
+    }
 
 
   }
@@ -427,10 +455,31 @@ export class InterviewSchedulingComponent implements OnInit {
 
   getInterviewsData() {
     this.loader.show();
-    this.api.getAllInterviewTables(this.currentPage, this.itemsPerPage).subscribe({
+    this.api.getAllInterviewTables(this.currentPage, this.itemsPerPage, this.editInterviewPublicId).subscribe({
       next: (res: any) => {
         this.loader.hide();
         this.interviewTableListArray = res.data || [];
+        if (this.title === 'edit') {
+          if (this.interviewTableListArray) {
+
+            let data = this.interviewTableListArray.find(interview => interview.candidatePublicId === this.editInterviewPublicId) as any;
+            this.selectedCandidate = data.candidateFirstName + ' ' + data.candidateLastName;
+            this.interview.candidate = data.candidatePublicId;
+            this.interview.interview_date = data.interviewDate;
+            this.interview.start_time = data.startTime;
+            this.interview.location = data.interviewLocation;
+            this.interview.interviewer_user = data.interviewerUserPublicId;
+            this.selectedInterviewerDisplay = 'Current User';
+            this.interview.interview_status = data.interviewStatus;
+            this.interview.is_active = data.isActive;
+            this.interview.meeting_url = data.meetingUrl;
+            if (data.remarks === 'none') {
+              data.remarks = '';
+            }
+            this.interview.remarks = data.remarks;
+          }
+
+        }
         if (res.paginator) {
           this.currentPage = res.paginator.currentPage;
           this.totalItems = res.paginator.totalItems;
@@ -444,7 +493,7 @@ export class InterviewSchedulingComponent implements OnInit {
       error: (err: any) => {
         console.error('Error fetching Interviews data:', err);
         this.loader.hide();
-        
+
 
       }
     });
@@ -461,6 +510,29 @@ export class InterviewSchedulingComponent implements OnInit {
       },
       error: (err: any) => {
         console.error('Error fetching shortlisted candidates data:', err);
+      }
+    });
+  }
+    deleteInterview(value: any) {
+    let status = ''
+    if (value.isActive) {
+      status = 'deactivate'
+    }
+    else {
+      status = 'activate'
+    }
+    this.loader.show();
+    this.api.deletValueInFromTbale('interview', value.code, status).subscribe({
+      next: (res: any) => {
+        this.toastr.success('Interview deleted successfully');
+        this.getInterviewsData();
+        this.loader.hide();
+      }
+      ,
+      error: (err: any) => {
+        // console.error('Error deleting interview:', err);
+        this.toastr.error('Failed to delete interview');
+        this.loader.hide();
       }
     });
   }

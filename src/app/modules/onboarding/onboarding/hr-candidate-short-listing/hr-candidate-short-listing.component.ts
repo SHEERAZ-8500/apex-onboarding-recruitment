@@ -135,4 +135,27 @@ export class HrCandidateShortListingComponent {
 
     });
   }
+  deleteRequisition(value: any) {
+    let status = ''
+    if (value.isActive) {
+      status = 'deactivate'
+    }
+    else {
+      status = 'activate'
+    }
+    this.loader.show();
+    this.apiService.deletValueInFromTbale('job-requisition', value.code, status).subscribe({
+      next: (res: any) => {
+        this.toaster.success('Requisition deleted successfully');
+        this.allCandidates();
+        this.loader.hide();
+      }
+      ,
+      error: (err: any) => {
+        console.error('Error deleting requisition:', err);
+        this.toaster.error('Failed to delete requisition');
+        this.loader.hide();
+      }
+    });
+  }
 }

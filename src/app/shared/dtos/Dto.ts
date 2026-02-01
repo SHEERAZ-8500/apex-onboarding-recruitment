@@ -173,7 +173,7 @@ export class CandidateDto {
   code: number | null = null;
   first_name: string = '';
   last_name: string = '';
-  requisition: string = '';
+  requisition_code: string = '';
   email: string = '';
   contact_number1: string = '';
   contact_number2: string = '';
@@ -186,7 +186,7 @@ export class CandidateDto {
   religion: string = '';
   country: string = '';
   city: string = '';
-  category: string = '';
+  // category: string = '';
   onboarding_status: string = 'IN_PROGRESS';
   status: string = 'APPLIED';
   remarks: string = '';
@@ -433,32 +433,43 @@ export class JobRequisitionTableListingDto {
 
 
 export class CandidateTableListingDto {
-  publicId!: string;
+  application_date!: string;
+  city!: string;
   code!: string;
+  contact_number1!: string;
+  contact_number2!: string;
+  country!: string;
+  created_date!: string;
 
-  firstName!: string;
-  lastName!: string;
+  department_name!: string;
+  department_public_id!: string;
+  designation_name!: string;
+  designation_public_id!: string;
+
   email!: string;
+  expected_doj!: string;
+  first_name!: string;
+  last_name!: string;
+  gender!: '';
+  is_active!: boolean;
 
-  status!: string;
-  onboardingStatus!: string;
-  isActive!: boolean;
+  job_title_name!: string;
+  job_title_public_id!: string; 
 
-  applicationDate!: string;
-  expectedDoj!: string;
+  linkedin_url!: string;
+  onboarding_status!: '';
+  public_id!: string;
+  religion!: '';
 
-  requisitionPublicId!: string;
-  requisitionCode!: string;
-  requisitionName!: string;
+  requisition_code!: string;
+  requisition_name!: string;
+  requisition_public_id!: string;
+  status!: '';
 
-  departmentPublicId!: string;
-  departmentName!: string;
-
-  jobTitlePublicId!: string;
-  jobTitleName!: string;
-
-  designationPublicId!: string;
-  designationName!: string;
+  candidate_attachment!: [];
+  candidate_experience!: [];
+  candidate_qualification!: [];
+  candidate_skills!: [];
 
   createdDate!: string;
   constructor(init?: Partial<CandidateTableListingDto>) {

@@ -259,7 +259,7 @@ export class RequisitionComponent implements OnInit {
 
   // Save requisition data
   saveRequisition(): void {
-  
+
     if (
       !this.requisition.requisition_name ||
       !this.requisition.department ||
@@ -423,6 +423,29 @@ export class RequisitionComponent implements OnInit {
         console.error('Error fetching requisition data:', err);
         this.loader.hide();
 
+      }
+    });
+  }
+  deleteRequisition(value: any) {
+    let status = ''
+    if (value.isActive) {
+      status = 'deactivate'
+    }
+    else {
+      status = 'activate'
+    }
+    this.loader.show();
+    this.api.deletValueInFromTbale('job-requisition', value.code, status).subscribe({
+      next: (res: any) => {
+        this.toastr.success('Requisition deleted successfully');
+        this.getRequisitionData();
+        this.loader.hide();
+      }
+      ,
+      error: (err: any) => {
+        console.error('Error deleting requisition:', err);
+        this.toastr.error('Failed to delete requisition');
+        this.loader.hide();
       }
     });
   }

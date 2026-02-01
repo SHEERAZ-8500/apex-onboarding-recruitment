@@ -233,13 +233,13 @@ export class ApiService {
     return this.http.get(`recruitment/candidates/${publicIds}/interviews?status=SCHEDULED&page=0&size=90`);
   }
   getAlljobsRequisiton(page = 0, size = 10) {
-    return this.http.get(`recruitment/job-requisitions?page=${page}&size=${size}`);
+    return this.http.get(`recruitment/job-requisitions?isActive=true&page=${page}&size=${size}`);
   }
-  getAllCandidatesTables(page = 0, size = 20) {
-    return this.http.get(`recruitment/candidates/records?page=${page}&size=${size}`);
+  getAllCandidatesTables(page = 0, size = 20,candidatePublicId = '') {
+    return this.http.get(`recruitment/candidates/records?isActive=true&page=${page}&size=${size}&candidatePublicId=${candidatePublicId}`);
   }
-  getAllInterviewTables(page = 0, size = 20) {
-    return this.http.get(`recruitment/interviews/records?page=${page}&size=${size}`);
+  getAllInterviewTables(page = 0, size = 20,candidatePublicId = '') {
+    return this.http.get(`recruitment/interviews/records?isActive=true&page=${page}&size=${size}&candidatePublicId=${candidatePublicId}`);
   }
   getAllLookupValuesInTable(lookupName: string, page = 0, size = 50) {
     return this.http.get(`admin/lookups/tables/${lookupName}/values?page=${page}&size=${size}`);
@@ -254,5 +254,8 @@ export class ApiService {
   }
   editLookupTableRow(lookupName: string, publicId: string, data: any) {
     return this.http.patch(`admin/lookups/tables/${lookupName}/values/${publicId}`, data);
+  }
+  deletValueInFromTbale(formCode: string, code: string,status:string) {
+    return this.http.patch(`forms/${formCode}/${code}/${status}`,{});
   }
 }

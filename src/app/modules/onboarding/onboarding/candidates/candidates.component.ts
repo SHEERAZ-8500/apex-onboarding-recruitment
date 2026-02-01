@@ -52,6 +52,7 @@ export class CandidatesComponent implements OnInit {
   selectedDesignationDisplay: string = '';
   // Sidebar Tabs Data
   sidebarTabs: any[] = [];
+  editCandidatePublicId: string = '';
   activeTabId: number = 1;
   candidateTableListArray: CandidateTableListingDto[] = [];
 
@@ -65,7 +66,6 @@ export class CandidatesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getFormFileds();
 
     // Load dynamic fields and tabs
     this.loader.show();
@@ -87,6 +87,10 @@ export class CandidatesComponent implements OnInit {
             // Get tabs from service
             this.sidebarTabs = this.dynamicFieldsService.sidebarTabs;
             this.activeTabId = this.dynamicFieldsService.activeTabId;
+
+            // Now load candidate data after dynamic fields are ready
+            this.getCandidateData();
+
             this.loader.hide();
           })
           .catch((err) => {
@@ -94,6 +98,17 @@ export class CandidatesComponent implements OnInit {
             this.toastr.error('Failed to load dynamic fields');
             this.loader.hide();
           });
+        this.activatedRoute.queryParams.subscribe(params => {
+          const id = params['id'];
+          const currentPage = params['currentPage'];
+          this.currentPage = currentPage;
+          this.editCandidatePublicId = id;
+
+          // Removed getCandidateData from here as it's now called after dynamic fields load
+
+
+          // console.log(id);
+        })
 
         this.getFormFileds();
 
@@ -225,7 +240,7 @@ export class CandidatesComponent implements OnInit {
 
     if (field === 'requisition' && value.code) {
       // For requisition, store code and display summary
-      this.candidate.requisition = value.code;
+      this.candidate.requisition_code = value.code;
       this.requisitionDisplayValue = value.summary;
     } else if (field === 'designation') {
       this.candidate.designation = value.code;
@@ -258,7 +273,7 @@ export class CandidatesComponent implements OnInit {
       !this.candidate.code ||
       !this.candidate.first_name ||
       !this.candidate.last_name ||
-      !this.candidate.requisition
+      !this.candidate.requisition_code
 
     ) {
       this.toastr.warning('Please fill all required fields');
@@ -269,27 +284,60 @@ export class CandidatesComponent implements OnInit {
     delete (this.candidate as any).designation;
     delete (this.candidate as any).category;
     delete (this.candidate as any).remarks;
+    if (this.title === 'edit') {
+      delete (this.candidate as any).candidate_attachment;
+      delete (this.candidate as any).candidate_experience;
+      delete (this.candidate as any).candidate_qualification;
+      delete (this.candidate as any).candidate_skills;
+      delete (this.candidate as any).public_id;
+      delete (this.candidate as any).requisition_public_id;
+      delete (this.candidate as any).requisition_code;
+      delete (this.candidate as any).requisition_name;
+      delete (this.candidate as any).department_public_id;
+      delete (this.candidate as any).department_name;
+      delete (this.candidate as any).job_title_public_id;
+      delete (this.candidate as any).job_title_name;
+      delete (this.candidate as any).designation_public_id;
+      delete (this.candidate as any).designation_name;
+      delete (this.candidate as any).created_date;
+
+
+    }
+
 
     this.candidate.onboarding_status = 'IN_PROGRESS';
     this.candidate.status = 'APPLIED';
 
     const completeData = this.dynamicFieldsService.getCompleteFormData(this.candidate);
 
-    this.loader.show();
+    if (this.title === 'create') {
+      this.loader.show();
 
-    // API call to save data
-    this.api.saveFormData('CANDIDATE', completeData).subscribe({
-      next: (res: any) => {
-        this.toastr.success('Candidate data saved successfully');
-        this.loader.hide();
-        this.router.navigate(['/panel/onboarding/view-all-candidates']);
-      },
-      error: (err: any) => {
-        console.error('Error saving candidate data:', err);
-        this.toastr.error('Failed to save candidate data');
-        this.loader.hide();
-      }
-    });
+      // API call to save data
+      this.api.saveFormData('CANDIDATE', completeData).subscribe({
+        next: (res: any) => {
+          this.toastr.success('Candidate data saved successfully');
+          this.loader.hide();
+          this.router.navigate(['/panel/onboarding/view-all-candidates']);
+        },
+        error: (err: any) => {
+          console.error('Error saving candidate data:', err);
+          this.toastr.error('Failed to save candidate data');
+          this.loader.hide();
+        }
+      });
+    } else {
+      this.api.updateFormData('CANDIDATE', this.candidate.code, completeData).subscribe({
+        next: (res: any) => {
+          this.toastr.success('Candidate data updated successfully');
+          this.router.navigate(['/panel/onboarding/view-all-candidates']);
+        }
+        , error: (err: any) => {
+          console.error('Error updating candidate data:', err);
+          this.toastr.error('Failed to update candidate data');
+        }
+      });
+    }
 
     // For now just show success
 
@@ -386,12 +434,23 @@ export class CandidatesComponent implements OnInit {
   }
 
   getCandidateData() {
-    this
-    this.api.getAllCandidatesTables(this.currentPage, this.itemsPerPage).subscribe({
+
+    this.api.getAllCandidatesTables(this.currentPage, this.itemsPerPage,this.editCandidatePublicId).subscribe({
       next: (res: any) => {
         this.loader.hide();
 
         this.candidateTableListArray = res.data || [];
+        if (this.title === 'edit') {
+          
+          this.candidate = this.candidateTableListArray.find(c => c.public_id === this.editCandidatePublicId) as any;
+          let data = this.candidateTableListArray.find(c => c.public_id === this.editCandidatePublicId) as any
+          this.requisitionDisplayValue = data.requisition_name || ''
+          this.selectedDesignationDisplay = data.designation_name || ''
+
+          // Populate dynamic fields data from backend
+          let dynamicData = [data.candidate_attachment, data.candidate_experience, data.candidate_qualification, data.candidate_skills];
+          this.populateDynamicFieldsFromBackend(data, dynamicData);
+        }
         if (res.paginator) {
           this.currentPage = res.paginator.currentPage;
           this.totalItems = res.paginator.totalItems;
@@ -408,4 +467,73 @@ export class CandidatesComponent implements OnInit {
       }
     });
   }
+
+  populateDynamicFieldsFromBackend(data: any, dynamicRowData: any[]) {
+
+
+    // Populate single dynamic fields (non-ROW fields)
+    this.dynamicFieldsService.dynamicFields.forEach(field => {
+      if (data[field.fieldCode]) {
+        this.dynamicFieldsService.dynamicFieldsData[field.fieldCode] = data[field.fieldCode];
+      }
+    });
+
+    // Create a mapping of field codes to their backend data
+    const fieldDataMap: any = {
+      'candidate_attachment': data.candidate_attachment,
+      'candidate_experience': data.candidate_experience,
+      'candidate_qualification': data.candidate_qualification,
+      'candidate_skills': data.candidate_skills
+    };
+
+    // Populate ROW table fields with backend data by matching field codes
+    this.dynamicFieldsService.rowTableFields.forEach((field) => {
+
+      // Get the data for this specific field by fieldCode
+      let rowDataArray = fieldDataMap[field.fieldCode];
+
+      if (rowDataArray) {
+
+        // Handle if it's already an array or convert to array
+        if (!Array.isArray(rowDataArray)) {
+          rowDataArray = [rowDataArray];
+        }
+
+        // If backend sends array of rows, populate the first row
+        if (rowDataArray.length > 0 && field.rowColumns) {
+          const rowData = rowDataArray[0]; // Get first row
+
+          if (rowData && typeof rowData === 'object') {
+            field.rowColumns.forEach((column: any) => {
+              if (rowData[column.fieldCode] !== undefined && rowData[column.fieldCode] !== null) {
+                column.selectedValue = rowData[column.fieldCode];
+                console.log(`Set ${field.fieldCode}.${column.fieldCode} = ${rowData[column.fieldCode]}`);
+              }
+            });
+          }
+        }
+      } else {
+      }
+    });
+  }
+  deleteCandidate(value: any) {
+    let status = ''
+    
+    if (value.is_active) {
+      status = 'deactivate'
+    } else {
+      status = 'activate'
+    }
+    this.api.deletValueInFromTbale('CANDIDATE', value.code, status).subscribe({
+      next: (res: any) => {
+        this.toastr.success('Candidate deleted successfully');
+        this.getCandidateData(); // Refresh the list after deletion
+      },
+      error: (err: any) => {
+        console.error('Error deleting candidate:', err);
+        this.toastr.error('Failed to delete candidate');
+      }
+    });
+  }
+
 }

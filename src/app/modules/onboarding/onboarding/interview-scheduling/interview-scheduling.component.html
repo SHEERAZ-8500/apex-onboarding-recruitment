@@ -1,8 +1,8 @@
 <div class="interview-form-container" *ngIf='title === "create" || title === "edit"'>
     <div class="interview-form-card">
         <div class="form-header">
-            <h2 class="form-title">Interview Scheduling Form</h2>
-            <p class="form-subtitle">Schedule interview for candidates</p>
+            <h2 class="form-title">{{title === 'create' ? 'Create Interview Scheduling' : 'Edit Interview Scheduling'}} </h2>
+            <p class="form-subtitle">{{title === 'create' ? 'Schedule interview for candidates' : 'Modify interview scheduling details'}}</p>
         </div>
 
         <form class="section-form">
@@ -353,7 +353,7 @@
 
                 <button type="submit" class="btn btn-submit" (click)="saveInterview()">
                     <i class="fa-solid fa-calendar-check"></i>
-                    Schedule Interview
+                    {{title === 'create' ? 'Schedule Interview' : 'Update Interview'}}
                 </button>
             </div>
         </form>
@@ -427,8 +427,10 @@
               <td class="px-3 py-3 font-medium">{{ c.departmentName || '—'}}</td>
               <td class="px-3 py-3 font-medium">{{ c.jobTitleName || '—' }}</td>
               <td class="px-3 py-3 font-medium">
-                <i class="fa fa-edit" style="cursor:pointer; margin-right: 10px;"></i>
-                <i class="fa fa-trash" style="cursor:pointer; "></i>
+                <i class="fa fa-edit" style="cursor:pointer; margin-right: 10px;"
+                  [routerLink]="['/panel/onboarding/edit-interview-scheduling']"
+                  [queryParams]="{id: c.candidatePublicId ,currentPage:currentPage}"></i>
+                <i class="fa fa-trash" style="cursor:pointer; " (click)="deleteInterview(c)"></i>
               </td>
 
 
