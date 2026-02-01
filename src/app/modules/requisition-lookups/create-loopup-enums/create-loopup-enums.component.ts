@@ -20,7 +20,9 @@ export class CreateLoopupEnumsComponent implements OnInit {
   currentPath: string | undefined;
   isAddMode: boolean = false;
   selectedEnum: string = '';
-
+  editCaseValues: string[] = [];
+  selectEditEnum: string = '';
+  enumCode: string = '';
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -37,6 +39,7 @@ export class CreateLoopupEnumsComponent implements OnInit {
     // Get query parameter
     this.activatedRoute.queryParams.subscribe(params => {
       this.selectedEnum = params['enum'] || '';
+      this.enumCode = params['enumCode'] || '';
       console.log('Selected Enum:', this.selectedEnum);
     });
 
@@ -46,7 +49,17 @@ export class CreateLoopupEnumsComponent implements OnInit {
         ? `Add a new value to ${this.selectedEnum.replace(/_/g, ' ')}`
         : 'Add a new value to existing enumeration';
       this.isAddMode = true;
-    } else {
+    } else if (this.currentPath === 'edit-new-enum-value') {
+      this.pageTitle = 'Edit Enum Value';
+      this.pageSubtitle = this.selectedEnum
+        ? `Edit values of ${this.selectedEnum.replace(/_/g, ' ')}`
+        : 'Edit values of existing enumeration';
+      this.isAddMode = true;
+      this.editCaseValues = this.activatedRoute.snapshot.queryParams['allEnums'] || [];
+      this.selectEditEnum = this.selectedEnum;
+    }
+
+    else {
       this.pageTitle = 'Create Lookup Enum';
       this.pageSubtitle = 'Define a new lookup enumeration with values';
       this.isAddMode = false;
@@ -109,12 +122,7 @@ export class CreateLoopupEnumsComponent implements OnInit {
       }
     });
 
-    // Temporary - remove when API is ready
-    setTimeout(() => {
-      this.loader.hide();
-      this.toastr.success('Lookup enum created successfully');
-      this.resetForm();
-    }, 1000);
+
   }
 
   // Submit Values Only (Add Mode)
@@ -125,35 +133,61 @@ export class CreateLoopupEnumsComponent implements OnInit {
       return;
     }
 
-    // Filter out empty values
-    const filteredValues = this.values.filter(v => v.trim() !== '');
 
-    if (filteredValues.length === 0) {
-      this.toastr.error('Please add at least one enum value');
-      return;
+    if (this.currentPath === 'add-new-enum-value') {
+      const filteredValues = this.values.filter(v => v.trim() !== '');
+
+      if (filteredValues.length === 0) {
+        this.toastr.error('Please add at least one enum value');
+        return;
+      }
+      const payload = {
+
+        add: filteredValues
+      };
+      this.apiService.addNewEnum(this.selectedEnum, payload).subscribe((response) => {
+        this.loader.hide();
+        this.toastr.success('Enum values added successfully');
+        this.resetForm();
+        this.location.back();
+      }, error => {
+        this.loader.hide();
+        this.toastr.error(error?.error?.message || 'Failed to add enum values');
+      });
+    } else {
+      if (this.selectEditEnum.trim() === '') {
+        this.toastr.error('Enum value cannot be empty');
+        return;
+      }
+      this.editCaseValues.forEach((value, index) => {
+        if (value === this.selectedEnum) {
+          this.editCaseValues[index] = this.selectEditEnum;
+        }
+      });
+
+      const payload = {
+
+        replace: this.editCaseValues
+      };
+      this.apiService.addNewEnum(this.enumCode, payload).subscribe((response) => {
+        this.loader.hide();
+        this.toastr.success('Enum value updated successfully');
+        this.resetForm();
+        this.location.back();
+      }, error => {
+        this.loader.hide();
+        this.toastr.error(error?.error?.message || 'Failed to update enum value');
+      });
     }
 
-    const payload = {
 
-      add: filteredValues
-    };
-
-    console.log('Add Values Payload:', payload);
 
     this.loader.show();
 
     // Uncomment when API is ready
-    this.apiService.addNewEnum(this.selectedEnum, payload).subscribe((response) => {
-      this.loader.hide();
-      this.toastr.success('Enum values added successfully');
-      this.resetForm();
-      this.location.back();
-    }, error => {
-      this.loader.hide();
-      this.toastr.error(error?.error?.message || 'Failed to add enum values');
-    });
 
-  
+
+
   }
 
   // Cancel

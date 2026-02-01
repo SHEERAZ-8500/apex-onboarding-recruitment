@@ -57,18 +57,18 @@
         </form>
 
         <!-- Add Values Only Form -->
-        <form class="enum-form" *ngIf="currentPath === 'add-new-enum-value'">
+        <form class="enum-form" *ngIf="currentPath === 'add-new-enum-value' || currentPath === 'edit-new-enum-value'">
             <!-- Enum Values Section -->
             <div class="values-section">
                 <div class="values-header">
                     <label class="input-label">Enum Values <span class="required">*</span></label>
-                    <button type="button" class="btn-add-value" (click)="addValue()">
+                    <button type="button" class="btn-add-value" (click)="addValue()" *ngIf = "currentPath !== 'edit-new-enum-value'">
                         <i class="fa-solid fa-plus"></i>
                         Add More Value
                     </button>
                 </div>
 
-                <div class="values-list">
+                <div class="values-list" *ngIf = "currentPath !== 'edit-new-enum-value'">
                     <div class="value-item" *ngFor="let value of values; let i = index; trackBy: trackByIndex">
                         <input type="text" class="form-input value-input" [(ngModel)]="values[i]"
                             [name]="'value_' + i" placeholder="Enter enum value" required />
@@ -76,6 +76,13 @@
                             *ngIf="values.length > 1">
                             <i class="fa-solid fa-trash"></i>
                         </button>
+                    </div>
+                </div>
+                <div class="values-list" *ngIf = "currentPath === 'edit-new-enum-value'">
+                    <div class="value-item" >
+                        <input type="text" class="form-input value-input" [(ngModel)]="selectEditEnum"
+                            [name]="'value' " placeholder="Enter enum value" required />
+                       
                     </div>
                 </div>
             </div>
@@ -88,7 +95,7 @@
                 </button>
                 <button type="submit" class="btn btn-submit" (click)="onSubmitValues()">
                     <i class="fa-solid fa-check"></i>
-                    Add Values
+                    {{ currentPath === 'add-new-enum-value' ? 'Add Values' : 'Update Values' }}
                 </button>
             </div>
         </form>

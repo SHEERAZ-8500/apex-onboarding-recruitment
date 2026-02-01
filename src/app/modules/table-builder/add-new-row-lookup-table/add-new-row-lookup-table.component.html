@@ -2,10 +2,10 @@
     <div class="row-form-card">
         <div class="form-header">
             <h2 class="form-title"> {{componentTitle}}</h2>
-            <p class="form-subtitle">Add a new entry to the lookup table</p>
+            <p class="form-subtitle">{{componentTitle === 'Add New Row to Lookup Table' ? 'Add a new entry to the lookup table' : 'Edit an existing entry in the lookup table'}}</p>
         </div>
 
-        <form class="row-form"  *ngIf="componentTitle === 'Add New Row to Lookup Table'">
+        <form class="row-form"  *ngIf="componentTitle === 'Add New Row to Lookup Table' || componentTitle === 'Edit Value in Lookup Table'">
             <!-- Row 1: Code & Name -->
             <div class="form-row">
                 <div class="form-group">
@@ -48,7 +48,7 @@
                 </button>
                 <button type="submit" class="btn btn-submit" (click)="onSubmit()">
                     <i class="fa-solid fa-check"></i>
-                    Add Row
+                    {{ componentTitle === 'Add New Row to Lookup Table' ? 'Add Row' : 'Save Changes' }}
                 </button>
             </div>
         </form>

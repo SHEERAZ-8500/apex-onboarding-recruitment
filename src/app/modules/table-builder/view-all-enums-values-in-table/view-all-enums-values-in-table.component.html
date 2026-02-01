@@ -37,8 +37,10 @@
                         </td>
 
                         <td class="px-3 py-3 font-medium">
-                            <i class="fa fa-edit" style="cursor:pointer; margin-right: 10px;"></i>
-                            <i class="fa fa-trash" style="cursor:pointer;"></i>
+                            <i class="fa fa-edit" style="cursor:pointer; margin-right: 10px;"
+                                [routerLink]="['/panel/requisition-lookups/edit-new-enum-value']"
+                                [queryParams]="{enumCode:enumComponentCode , enum: value,allEnums: enumValues}"></i>
+                            <i class="fa fa-trash" style="cursor:pointer;" (click)="onDeleteEnumValue(value)"></i>
                         </td>
                     </tr>
                 </tbody>

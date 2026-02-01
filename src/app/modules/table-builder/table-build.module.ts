@@ -34,16 +34,20 @@ const routes: Routes = [
     path: 'add-new-row-lookup-table',
     component: AddNewRowLookupTableComponent
   },
-   {
+  {
     path: 'add-new-column-lookup-table',
     component: AddNewRowLookupTableComponent
   },
   {
     path: 'create-new-row-in-table',
     component: CreateNewRowInTableComponent
+  },
+  {
+    path: 'edit-new-row-in-table',
+    component: AddNewRowLookupTableComponent
   }
   ,
-    {
+  {
     path: 'create-new-column-in-table',
     component: CreateNewRowInTableComponent
   },
@@ -63,15 +67,15 @@ const routes: Routes = [
     path: 'create-new-independent-table',
     component: CreateNewIndependentTableComponent
   },
-   {
+  {
     path: 'view-all-lookup-values-in-table',
     component: ViewAllLookupValuesInTableComponent
   },
-   {
+  {
     path: 'view-all-enums-values-in-table',
     component: ViewAllEnumsValuesInTableComponent
   },
-    {
+  {
     path: 'view-all-tabs-values-in-table',
     component: ViewAllTabsValuesInTableComponent
   },
@@ -88,10 +92,10 @@ const routes: Routes = [
     ViewAllLookupTablesComponent,
     ViewAllLookupEnumsComponent,
     ViewAllIndependentTableComponent,
-     CreateNewIndependentTableComponent,
-     ViewAllLookupValuesInTableComponent,
-     ViewAllEnumsValuesInTableComponent,
-     ViewAllTabsValuesInTableComponent
+    CreateNewIndependentTableComponent,
+    ViewAllLookupValuesInTableComponent,
+    ViewAllEnumsValuesInTableComponent,
+    ViewAllTabsValuesInTableComponent
   ],
   imports: [
     RouterModule.forChild(routes),

@@ -28,6 +28,10 @@ const routes: Routes = [
   {
     path: 'add-new-enum-value',
     component: CreateLoopupEnumsComponent
+  },
+  {
+    path: 'edit-new-enum-value',
+    component: CreateLoopupEnumsComponent
   }
 ];
 @NgModule({

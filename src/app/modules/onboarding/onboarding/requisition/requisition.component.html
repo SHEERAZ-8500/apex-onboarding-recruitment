@@ -1,8 +1,8 @@
 <div class="req-form-container" *ngIf='title === "create" || title === "edit"'>
   <div class="req-form-card">
     <div class="form-header">
-      <h2 class="form-title">Create New Requisition</h2>
-      <p class="form-subtitle">Define a new requisition request</p>
+      <h2 class="form-title">{{formTitle}} </h2>
+      <p class="form-subtitle">{{title === 'create' ? 'Define a new requisition request' : 'Edit requisition details'}} </p>
     </div>
 
     <form class="req-form">
@@ -359,7 +359,7 @@
         <button type="button" class="btn btn-cancel" (click)="onCancel()">
           Cancel
         </button>
-        <button type="submit" class="btn btn-submit" (click)="saveRequisition()">Create Requisition</button>
+        <button type="submit" class="btn btn-submit" (click)="saveRequisition()">{{title === 'create' ? 'Create Requisition' : (title === 'edit' ? 'Update Requisition' : '')}} </button>
       </div>
     </form>
   </div>
@@ -434,7 +434,9 @@
               <!-- <td class="px-3 py-3 font-medium">{{ c.hiringManager }}</td>
               <td class="px-3 py-3 font-medium">{{ c.actions }}</td> -->
               <td class="px-3 py-3 font-medium">
-                <i class="fa fa-edit" style="cursor:pointer; margin-right: 10px;"></i>
+                <i class="fa fa-edit" style="cursor:pointer; margin-right: 10px;"
+                  [routerLink]="['/panel/onboarding/edit-requisition']"
+                  [queryParams]="{id: c.publicId ,currentPage:currentPage}"></i>
                 <i class="fa fa-trash" style="cursor:pointer;"></i>
               </td>
 

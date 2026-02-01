@@ -44,7 +44,7 @@ export class AddNewRowLookupTableComponent implements OnInit {
   name: string = '';
   description: string = '';
   isActive: boolean = true;
-
+  editMode: boolean = false;
   // Form Fields lookupName
   fieldCode: string = '';
   fieldType: string = '';
@@ -53,7 +53,7 @@ export class AddNewRowLookupTableComponent implements OnInit {
   scale: number | null = null;
   nullable: boolean = true;
   displayOrder: number | null = null;
-
+  publicId: string = '';
   // Dropdown state
   isFieldTypeDropdownOpen: boolean = false;
   selectedFieldType: string = '';
@@ -73,6 +73,19 @@ export class AddNewRowLookupTableComponent implements OnInit {
 
     // Get componentCode from URL query params
     this.route.queryParams.subscribe(params => {
+
+      if (params['mode'] === 'edit') {
+        this.editMode = true;
+        this.componentTitle = "Edit Value in Lookup Table";
+        this.componentCode = params['lookupName'] || '';
+        this.code = params['code'] || '';
+        this.name = params['name'] || '';
+        this.description = params['description'] || '';
+        this.isActive = params['isActive'] === 'true' || params['isActive'] === true ? true : false;
+        this.publicId = params['publicId'] || '';
+        return
+
+      }
       if (params['tableName']) {
         this.componentCode = params['tableName'] || '';
         this.componentTitle = "Add New Row to Lookup Table";
@@ -81,19 +94,41 @@ export class AddNewRowLookupTableComponent implements OnInit {
         this.componentCode = params['lookupName'] || '';
         this.componentTitle = "Add New Column to Lookup Table";
 
-      } 
+      }
 
-      
+
     });
   }
 
 
   // Submit Form
   onSubmit(): void {
-    
 
-
+    // edit case
     let payload: any;
+
+    if (this.editMode) {
+      payload = {
+        code: this.code,
+        name: this.name,
+        description: this.description,
+        isActive: this.isActive
+      };
+      this.apiService.editLookupTableRow(this.componentCode, this.publicId, payload).subscribe({
+        next: (response: any) => {
+          this.loader.hide();
+          this.toastr.success('Row updated successfully');
+          this.resetForm();
+          this.location.back();
+        }
+        , error: (error: any) => {
+          this.loader.hide();
+          this.toastr.error(error?.error?.message || 'Failed to update row');
+        }
+      });
+      return
+    }
+
 
     if (this.componentCode !== 'tableName') {
 

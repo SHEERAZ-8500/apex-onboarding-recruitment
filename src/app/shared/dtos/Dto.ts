@@ -433,7 +433,7 @@ export class JobRequisitionTableListingDto {
 
 
 export class CandidateTableListingDto {
-   publicId!: string;
+  publicId!: string;
   code!: string;
 
   firstName!: string;
@@ -510,7 +510,7 @@ export class ViewLookupValuesInTableDto {
   code!: string;
   name!: string;
   description!: string;
-
+  isActive!: boolean;
   constructor(init?: Partial<ViewLookupValuesInTableDto>) {
     Object.assign(this, init);
   }

@@ -22,7 +22,7 @@ export class RequisitionComponent implements OnInit {
   itemsPerPage = 5;
   totalItems = 0;
   totalPages = 0;
-
+  editJobRequisitionCode = '';
   // Dropdown state
   activeDropdown: string = '';
 
@@ -43,6 +43,7 @@ export class RequisitionComponent implements OnInit {
   jobTitleDropDownValue: string = '';
   designationDropDownValue: string = '';
   hiringManagerDropDownValue: string = '';
+  editRequisitionPublicId: string = '';
   constructor(
     private router: Router,
     public dynamicFieldsService: DynamicFieldsSharingService,
@@ -67,7 +68,18 @@ export class RequisitionComponent implements OnInit {
         //  this.fetchSkills()
       }
       if (this.title === 'edit') {
-        this.formTitle = "Edit Skill"
+        this.formTitle = "Edit Requisition"
+        this.activatedRoute.queryParams.subscribe(params => {
+          const id = params['id'];
+          const currentPage = params['currentPage'];
+          this.currentPage = currentPage;
+          this.editRequisitionPublicId = id;
+          this.getRequisitionData();
+
+
+
+          // console.log(id);
+        })
         this.dynamicFieldsService.loadDynamicFields('JOB_REQUISITION', 'USER_DEFINED', [])
           .then(() => {
             // Get tabs from service
@@ -88,7 +100,7 @@ export class RequisitionComponent implements OnInit {
 
       }
       if (this.title === 'create') {
-        this.formTitle = "Create New Skill"
+        this.formTitle = "Create New Requisition"
         this.dynamicFieldsService.loadDynamicFields('JOB_REQUISITION', 'USER_DEFINED', [])
           .then(() => {
             // Get tabs from service
@@ -123,7 +135,7 @@ export class RequisitionComponent implements OnInit {
 
 
   changePage(page: number) {
-   const apiPage = page - 1;
+    const apiPage = page - 1;
     if (apiPage < 0 || apiPage >= this.totalPages) return;
     this.currentPage = apiPage;
     this.getRequisitionData();
@@ -132,7 +144,7 @@ export class RequisitionComponent implements OnInit {
 
 
 
- 
+
 
 
 
@@ -247,7 +259,7 @@ export class RequisitionComponent implements OnInit {
 
   // Save requisition data
   saveRequisition(): void {
-
+  
     if (
       !this.requisition.requisition_name ||
       !this.requisition.department ||
@@ -266,22 +278,43 @@ export class RequisitionComponent implements OnInit {
 
     const completeData = this.dynamicFieldsService.getCompleteFormData(this.requisition);
     // console.log('Saving Requisition Data:', completeData);
-    this.loader.show();
     // API call to save data
-    this.api.saveFormData('JOB_REQUISITION', completeData).subscribe({
-      next: (res: any) => {
-        this.toastr.success('Requisition saved successfully');
-        this.loader.hide();
-        // Reset form after successful save
-        this.resetForm();
-        this.router.navigate(['/panel/onboarding/view-all-requisition']);
-      },
-      error: (err: any) => {
-        console.error('Error saving requisition:', err);
-        this.toastr.error('Failed to save requisition');
-        this.loader.hide();
-      }
-    });
+    if (this.title === 'create') {
+      this.loader.show();
+
+      this.api.saveFormData('JOB_REQUISITION', completeData).subscribe({
+        next: (res: any) => {
+          this.toastr.success('Requisition saved successfully');
+          this.loader.hide();
+          // Reset form after successful save
+          this.resetForm();
+          this.router.navigate(['/panel/onboarding/view-all-requisition']);
+        },
+        error: (err: any) => {
+          console.error('Error saving requisition:', err);
+          this.toastr.error('Failed to save requisition');
+          this.loader.hide();
+        }
+      });
+    } else {
+      // Edit mode - update existing requisition
+      this.api.updateFormData('JOB_REQUISITION', this.editJobRequisitionCode, completeData).subscribe({
+        next: (res: any) => {
+          this.toastr.success('Requisition updated successfully');
+          this.loader.hide();
+          // Reset form after successful update
+          this.resetForm();
+          this.router.navigate(['/panel/onboarding/view-all-requisition']);
+        }
+        ,
+        error: (err: any) => {
+          console.error('Error updating requisition:', err);
+          this.toastr.error('Failed to update requisition');
+          this.loader.hide();
+        }
+      });
+
+    }
 
 
   }
@@ -360,6 +393,25 @@ export class RequisitionComponent implements OnInit {
         this.loader.hide();
 
         this.jobRequisitionsArray = res.data || [];
+        if (this.title === 'edit') {
+
+          let data = this.jobRequisitionsArray.find(jr => jr.publicId === this.editRequisitionPublicId) as any;
+          this.editJobRequisitionCode = data.code
+          this.requisition.requisition_name = data.requisitionName;
+          this.requisition.department = data.departmentPublicId;
+          this.departMentDropDownValue = data.departmentName;
+          this.requisition.job_title = data.jobTitlePublicId;
+          this.jobTitleDropDownValue = data.jobTitleName;
+          this.requisition.designation = data.designationPublicId;
+          this.designationDropDownValue = data.designationName;
+          this.requisition.hiring_manager = data.hiringManager;
+          this.hiringManagerDropDownValue = data.hiringManager;
+          this.requisition.required_date = data.requiredDate;
+          this.requisition.required_count = data.requiredCount || null;
+          this.requisition.job_description = data.jobDescription || '';
+          this.requisition.is_active = data.isActive;
+          // Populate other fields as necessary
+        }
         if (res.paginator) {
           this.currentPage = res.paginator.currentPage;
           this.totalItems = res.paginator.totalItems;

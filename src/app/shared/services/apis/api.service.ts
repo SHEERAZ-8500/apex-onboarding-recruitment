@@ -155,6 +155,9 @@ export class ApiService {
   saveFormData(formCode: any, data: any) {
     return this.http.post(`forms/${formCode}`, data);
   }
+  updateFormData(formCode: any, code: any, data: any) {
+    return this.http.patch(`forms/${formCode}/${code}`, data);
+  }
   getUserAllForms() {
     return this.http.get(`forms`);
   }
@@ -249,5 +252,7 @@ export class ApiService {
       `admin/row-tables/${rowComponentCode}?filter=ACTIVE&page=${page}&size=${size}`
     );
   }
-
+  editLookupTableRow(lookupName: string, publicId: string, data: any) {
+    return this.http.patch(`admin/lookups/tables/${lookupName}/values/${publicId}`, data);
+  }
 }
